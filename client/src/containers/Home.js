@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import UserForm from "../components/Forms/User";
+import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+
+import UserForm from "../components/Forms/User";
+import { onAddUser } from "../Store/actions/index";
 
 class Home extends Component {
 	onSubmit = values => {
-		console.log(values);
+		const { addUser } = this.props;
+
+		addUser(values);
 	};
 
 	render() {
@@ -20,4 +25,13 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+const mapDispatchToProps = dispatch => {
+	return {
+		addUser: val => dispatch(onAddUser(val))
+	};
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(Home);
