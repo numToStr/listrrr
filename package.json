@@ -1,0 +1,24 @@
+{
+	"name": "listerr",
+	"version": "1.0.0",
+	"description": "A todo app based on MERN stack",
+	"main": "server.js",
+	"engines": {
+		"node": "^8.11.3",
+		"npm": "^6.2.0"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"keywords": [
+		"react",
+		"redux",
+		"node",
+		"express",
+		"mongoDB",
+		"mongoose"
+	],
+	"author": "Vikas Raj",
+	"license": "MIT"
+}
