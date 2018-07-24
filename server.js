@@ -7,6 +7,7 @@ const { MONGO_URI } = require("./server/config/keys/index");
 
 /* Routes imports */
 const user = require("./server/routes/user");
+const todo = require("./server/routes/todo");
 
 /* Express Middlewares */
 require("./server/middlewares/express")(app);
@@ -35,3 +36,4 @@ app.listen(PORT, () => {
 
 /* Registering Routes */
 app.use("/api/user", user);
+app.use("/api/todo", todo);
