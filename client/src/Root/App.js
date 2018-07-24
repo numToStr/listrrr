@@ -7,6 +7,8 @@ import {
 } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
+import Router from "./Router";
+
 const THEME = createMuiTheme({
 	overrides: {
 		MuiButton: {
@@ -52,7 +54,7 @@ const App = props => {
 		<BrowserRouter>
 			<MuiThemeProvider theme={THEME}>
 				<CssBaseline />
-				<p>Hello</p>
+				<Router />
 			</MuiThemeProvider>
 		</BrowserRouter>
 	);
