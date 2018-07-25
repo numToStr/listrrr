@@ -26,7 +26,8 @@ const userCreate = (req, res) => {
 						});
 				});
 			} else {
-				const token = jwt.sign({ ...user }, "shhhhh");
+				const { _id, email } = user;
+				const token = jwt.sign({ _id, email }, "shhhhh");
 
 				res.cookie("LISTERRTOKEN", token, {
 					sameSite: true,
@@ -41,4 +42,22 @@ const userCreate = (req, res) => {
 		});
 };
 
-module.exports = { userCreate };
+const authenticate = (req, res, next) => {
+	const u = req._user;
+	User.findById(u._id)
+		.select("_id email")
+		.then(user => {
+			if (user) {
+				return res.status(200).send({
+					user,
+					message: "Authentication Successful"
+				});
+			} else {
+				return res.status(401).send({
+					error: "Unauthorized Access! Please login."
+				});
+			}
+		});
+};
+
+module.exports = { userCreate, authenticate };

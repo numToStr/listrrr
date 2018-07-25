@@ -20,3 +20,17 @@ export const onAddUser = data => {
 			});
 	};
 };
+
+export const authAutoSignIn = () => {
+	return dispatch => {
+		dispatch(userStart());
+		axios
+			.get("/api/user/authenticate")
+			.then(({ data: { user } }) => {
+				dispatch(userSuccess(user));
+			})
+			.catch(error => {
+				dispatch(userFail(error));
+			});
+	};
+};

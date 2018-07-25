@@ -8,7 +8,15 @@ import Private from "./config/PrivateRoute";
 import Home from "../../containers/Home";
 import Todos from "../../containers/Todos";
 
+import { authAutoSignIn } from "../../Store/actions/index";
+
 class Router extends Component {
+	componentDidMount() {
+		const { autoSignIn } = this.props;
+
+		autoSignIn();
+	}
+
 	render() {
 		const {
 			props: { isAuth }
@@ -23,8 +31,17 @@ class Router extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => ({
+	autoSignIn: () => dispatch(authAutoSignIn())
+});
+
 const mapStateToProps = state => ({
 	isAuth: state.user.user ? true : false
 });
 
-export default withRouter(connect(mapStateToProps)(Router));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Router)
+);

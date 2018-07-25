@@ -1,2 +1,2 @@
-export { onAddUser } from "./user";
+export { onAddUser, authAutoSignIn } from "./user";
 export { onAddTodo } from "./todo";
