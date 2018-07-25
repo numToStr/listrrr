@@ -34,10 +34,14 @@ class Todos extends Component {
 
 	onTodo = values => {
 		const {
-			addTodo,
-			user: { _id: author }
-		} = this.props;
+			props: {
+				addTodo,
+				user: { _id: author }
+			},
+			handleClose
+		} = this;
 		addTodo({ ...values, author });
+		handleClose();
 	};
 
 	handleOpen = () => {
