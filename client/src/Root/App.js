@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
-import Router from "./Router";
+import Router from "./Routes/Router";
 
 const THEME = createMuiTheme({
 	overrides: {
