@@ -7,7 +7,7 @@ import TodoForm from "../components/Forms/Todo";
 import Header from "../components/Header";
 import TodoList from "../components/Todos/Todos";
 
-import { onAddTodo, onLoadTodos } from "../Store/actions/index";
+import { onAddTodo, onLoadTodos, onDeleteTodo } from "../Store/actions/index";
 
 const styles = theme => ({
 	addButton: {
@@ -52,7 +52,8 @@ class Todos extends Component {
 	};
 
 	onDeleteTodo = id => () => {
-		console.log(id);
+		const { deleteTodo } = this.props;
+		deleteTodo(id);
 	};
 
 	render() {
@@ -98,7 +99,8 @@ class Todos extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		addTodo: d => dispatch(onAddTodo(d)),
-		loadTodos: () => dispatch(onLoadTodos())
+		loadTodos: () => dispatch(onLoadTodos()),
+		deleteTodo: id => dispatch(onDeleteTodo(id))
 	};
 };
 

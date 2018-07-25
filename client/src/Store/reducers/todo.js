@@ -1,4 +1,9 @@
-import { TODO_START, TODO_SUCCESS, TODO_FAIL } from "../actions/actionTypes";
+import {
+	TODO_START,
+	TODO_SUCCESS,
+	TODO_FAIL,
+	TODO_DELETE
+} from "../actions/actionTypes";
 
 const initState = {
 	todos: [],
@@ -27,6 +32,19 @@ const todoFail = (state, { error }) => ({
 	error
 });
 
+const todoDelete = (state, { _id }) => {
+	const _todos = state.todos.filter(todo => {
+		return todo._id !== _id;
+	});
+
+	return {
+		...state,
+		todos: _todos,
+		loading: false,
+		error: null
+	};
+};
+
 const reducer = (state = initState, action) => {
 	switch (action.type) {
 		case TODO_START:
@@ -35,6 +53,8 @@ const reducer = (state = initState, action) => {
 			return todoSuccess(state, action);
 		case TODO_FAIL:
 			return todoFail(state, action);
+		case TODO_DELETE:
+			return todoDelete(state, action);
 		default:
 			return state;
 	}
