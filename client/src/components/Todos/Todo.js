@@ -17,8 +17,20 @@ import {
 
 class Todo extends Component {
 	state = {
-		anchorEl: null
+		anchorEl: null,
+		todoCheck: false
 	};
+
+	componentDidMount() {
+		const {
+			todo: { checked }
+		} = this.props;
+		this.setState(prevState => {
+			return {
+				todoCheck: checked
+			};
+		});
+	}
 
 	openMenu = event => {
 		this.setState({ anchorEl: event.currentTarget });
@@ -27,14 +39,28 @@ class Todo extends Component {
 		this.setState({ anchorEl: null });
 	};
 
+	onTodoCheck = () => {
+		const {
+			onCheck,
+			todo: { _id }
+		} = this.props;
+
+		this.setState(prevState => {
+			onCheck(_id, !prevState.todoCheck);
+			return {
+				todoCheck: !prevState.todoCheck
+			};
+		});
+	};
+
 	render() {
 		const {
 			openMenu,
 			closeMenu,
+			onTodoCheck,
 			state: { anchorEl },
 			props: {
-				todo: { _id, title, description },
-				onCheck,
+				todo: { _id, title, description, checked },
 				onDelete
 			}
 		} = this;
@@ -44,7 +70,8 @@ class Todo extends Component {
 				<ListItem dense>
 					<Checkbox
 						color="primary"
-						onChange={onCheck(_id)}
+						checked={checked}
+						onChange={onTodoCheck}
 						disableRipple
 					/>
 					<ListItemText primary={title} secondary={description} />

@@ -7,7 +7,12 @@ import TodoForm from "../components/Forms/Todo";
 import Header from "../components/Header";
 import TodoList from "../components/Todos/Todos";
 
-import { onAddTodo, onLoadTodos, onDeleteTodo } from "../Store/actions/index";
+import {
+	onAddTodo,
+	onLoadTodos,
+	onDeleteTodo,
+	onUpdateTodo
+} from "../Store/actions/index";
 
 const styles = theme => ({
 	addButton: {
@@ -47,8 +52,9 @@ class Todos extends Component {
 		});
 	};
 
-	onCheckTodo = id => () => {
-		console.log(id);
+	onCheckTodo = (id, checked) => {
+		const { updateTodo } = this.props;
+		updateTodo(id, { checked });
 	};
 
 	onDeleteTodo = id => () => {
@@ -100,7 +106,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		addTodo: d => dispatch(onAddTodo(d)),
 		loadTodos: () => dispatch(onLoadTodos()),
-		deleteTodo: id => dispatch(onDeleteTodo(id))
+		deleteTodo: id => dispatch(onDeleteTodo(id)),
+		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data))
 	};
 };
 

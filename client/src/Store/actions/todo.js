@@ -2,7 +2,8 @@ import {
 	TODO_START,
 	TODO_SUCCESS,
 	TODO_FAIL,
-	TODO_DELETE
+	TODO_DELETE,
+	TODO_UPDATE
 } from "./actionTypes";
 import axios from "axios";
 
@@ -13,6 +14,8 @@ const todoSuccess = todos => ({ type: TODO_SUCCESS, todos });
 const todoFail = error => ({ type: TODO_FAIL, error });
 
 const todoDelete = _id => ({ type: TODO_DELETE, _id });
+
+const todoUpdate = (_id, todo) => ({ type: TODO_UPDATE, _id, todo });
 
 const _todos = [];
 export const onAddTodo = data => {
@@ -37,6 +40,20 @@ export const onDeleteTodo = todoId => {
 			.delete(`/api/todo/${todoId}`)
 			.then(data => {
 				dispatch(todoDelete(todoId));
+			})
+			.catch(error => {
+				dispatch(todoFail(error));
+			});
+	};
+};
+
+export const onUpdateTodo = (todoId, data) => {
+	return dispatch => {
+		dispatch(todoStart());
+		axios
+			.patch(`/api/todo/${todoId}`, data)
+			.then(({ data: { todo } }) => {
+				dispatch(todoUpdate(todoId, todo));
 			})
 			.catch(error => {
 				dispatch(todoFail(error));

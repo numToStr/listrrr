@@ -2,7 +2,8 @@ import {
 	TODO_START,
 	TODO_SUCCESS,
 	TODO_FAIL,
-	TODO_DELETE
+	TODO_DELETE,
+	TODO_UPDATE
 } from "../actions/actionTypes";
 
 const initState = {
@@ -45,6 +46,19 @@ const todoDelete = (state, { _id }) => {
 	};
 };
 
+const todoUpdate = (state, { _id, todo }) => {
+	const _todos = state.todos.map(td => {
+		return td._id === _id ? todo : td;
+	});
+
+	return {
+		...state,
+		todos: _todos,
+		loading: false,
+		error: null
+	};
+};
+
 const reducer = (state = initState, action) => {
 	switch (action.type) {
 		case TODO_START:
@@ -55,6 +69,8 @@ const reducer = (state = initState, action) => {
 			return todoFail(state, action);
 		case TODO_DELETE:
 			return todoDelete(state, action);
+		case TODO_UPDATE:
+			return todoUpdate(state, action);
 		default:
 			return state;
 	}
