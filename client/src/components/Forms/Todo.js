@@ -6,7 +6,8 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
-	DialogActions
+	DialogActions,
+	FormControl
 } from "@material-ui/core";
 import { DateTimePicker } from "material-ui-pickers";
 
@@ -30,7 +31,11 @@ class Todo extends Component {
 	};
 
 	datePicker = ({ input, meta: { error, touched }, ...field }) => {
-		return <DateTimePicker fullWidth {...input} {...field} />;
+		return (
+			<FormControl margin="normal">
+				<DateTimePicker fullWidth {...input} {...field} />
+			</FormControl>
+		);
 	};
 
 	render() {
