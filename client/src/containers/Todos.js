@@ -5,8 +5,9 @@ import { Add } from "@material-ui/icons";
 
 import TodoForm from "../components/Forms/Todo";
 import Header from "../components/Header";
+import TodoList from "../components/Todos/Todos";
 
-import { onAddTodo } from "../Store/actions/index";
+import { onAddTodo, onLoadTodos } from "../Store/actions/index";
 
 const styles = theme => ({
 	addButton: {
@@ -20,6 +21,11 @@ class Todos extends Component {
 	state = {
 		openTodoDialog: false
 	};
+
+	componentDidMount() {
+		const { loadTodos } = this.props;
+		loadTodos();
+	}
 
 	onTodo = values => {
 		const {
@@ -41,18 +47,33 @@ class Todos extends Component {
 		});
 	};
 
+	onCheckTodo = id => () => {
+		console.log(id);
+	};
+
+	onDeleteTodo = id => () => {
+		console.log(id);
+	};
+
 	render() {
 		const {
 			onTodo,
 			handleOpen,
 			handleClose,
+			onCheckTodo,
+			onDeleteTodo,
 			state: { openTodoDialog },
-			props: { classes }
+			props: { classes, todos }
 		} = this;
 
 		return (
 			<Fragment>
 				<Header />
+				<TodoList
+					todoList={todos}
+					onCheck={onCheckTodo}
+					onDelete={onDeleteTodo}
+				/>
 				<Button
 					mini
 					variant="fab"
@@ -76,13 +97,15 @@ class Todos extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addTodo: d => dispatch(onAddTodo(d))
+		addTodo: d => dispatch(onAddTodo(d)),
+		loadTodos: () => dispatch(onLoadTodos())
 	};
 };
 
 const mapStateToProps = state => {
 	return {
-		user: state.user.user
+		user: state.user.user,
+		todos: state.todo.todos
 	};
 };
 

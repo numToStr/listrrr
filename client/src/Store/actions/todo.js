@@ -22,3 +22,17 @@ export const onAddTodo = data => {
 			});
 	};
 };
+
+export const onLoadTodos = () => {
+	return dispatch => {
+		dispatch(todoStart());
+		axios
+			.get("/api/todo")
+			.then(({ data: { todos } }) => {
+				dispatch(todoSuccess(todos));
+			})
+			.catch(error => {
+				dispatch(todoFail(error));
+			});
+	};
+};

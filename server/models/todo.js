@@ -14,6 +14,10 @@ const ToDo = mongoose.Schema({
 		type: Date,
 		default: new Date().toUTCString()
 	},
+	checked: {
+		type: Boolean,
+		default: false
+	},
 	author: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: "User"
