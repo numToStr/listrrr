@@ -89,7 +89,10 @@ class Todo extends Component {
 
 Todo = reduxForm({
 	form: "Todo",
-	validate
+	validate,
+	initialValues: {
+		reminder: new Date()
+	}
 })(Todo);
 
 export default Todo;
