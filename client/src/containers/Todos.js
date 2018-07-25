@@ -3,6 +3,7 @@ import { Button, withStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
 import TodoForm from "../components/Forms/Todo";
+import Header from "../components/Header";
 
 const styles = theme => ({
 	addButton: {
@@ -44,6 +45,7 @@ class Todos extends Component {
 
 		return (
 			<Fragment>
+				<Header />
 				<Button
 					mini
 					variant="fab"
