@@ -21,7 +21,7 @@ const todoStart = (state, action) => ({
 const todoSuccess = (state, { todos }) => {
 	return {
 		...state,
-		todos,
+		todos: [...state.todos, ...todos],
 		loading: false,
 		error: null
 	};
