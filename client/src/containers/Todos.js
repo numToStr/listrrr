@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import { Button, withStyles } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
 import TodoForm from "../components/Forms/Todo";
 import Header from "../components/Header";
+
+import { onAddTodo } from "../Store/actions/index";
 
 const styles = theme => ({
 	addButton: {
@@ -19,7 +22,11 @@ class Todos extends Component {
 	};
 
 	onTodo = values => {
-		console.log(values);
+		const {
+			addTodo,
+			user: { _id: author }
+		} = this.props;
+		addTodo({ ...values, author });
 	};
 
 	handleOpen = () => {
@@ -67,4 +74,19 @@ class Todos extends Component {
 	}
 }
 
-export default withStyles(styles)(Todos);
+const mapDispatchToProps = dispatch => {
+	return {
+		addTodo: d => dispatch(onAddTodo(d))
+	};
+};
+
+const mapStateToProps = state => {
+	return {
+		user: state.user.user
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withStyles(styles)(Todos));
