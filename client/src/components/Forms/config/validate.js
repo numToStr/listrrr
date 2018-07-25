@@ -22,6 +22,23 @@ const validate = values => {
 		errors.email = "Invalid email address";
 	}
 
+	// todo title validation
+	if (!values.title) {
+		errors.title = "Required";
+	}
+
+	// todo description validation
+	if (!values.description) {
+		errors.description = "Required";
+	} else if (values.description.length < 6) {
+		errors.description = "Must be 6 characters or more";
+	}
+
+	// todo reminder validation
+	if (!values.reminder) {
+		errors.reminder = "Required";
+	}
+
 	return errors;
 };
 
