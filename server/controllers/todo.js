@@ -2,9 +2,9 @@ const ToDo = require("../models/todo");
 
 const getAllTodo = (req, res) => {
 	const { userId: author } = req.params;
-	console.log(author);
 
 	ToDo.find({ author })
+		.sort({ reminder: -1 })
 		.populate("author", "_id email")
 		.select("_id title description author checked reminder")
 		.then(todos => {
