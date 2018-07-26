@@ -42,6 +42,7 @@ class Todos extends Component {
 			},
 			handleClose
 		} = this;
+
 		addTodo({ ...values, author });
 		handleClose();
 	};
@@ -77,9 +78,13 @@ class Todos extends Component {
 	};
 
 	onEditTodo = values => {
-		// const { updateTodo } = this.props;
-		// updateTodo(id);
-		console.log(values);
+		const {
+			handleClose,
+			props: { updateTodo }
+		} = this;
+
+		updateTodo(values._id, values);
+		handleClose();
 	};
 
 	render() {
@@ -118,7 +123,9 @@ class Todos extends Component {
 					title={formTitle}
 					open={openTodoDialog}
 					handleClose={handleClose}
-					onSubmit={currentTodo ? onEditTodo : onAddTodo}
+					onSubmit={
+						formTitle === "Edit Todo" ? onEditTodo : onAddTodo
+					}
 					initialValues={currentTodo}
 				/>
 			</Fragment>
