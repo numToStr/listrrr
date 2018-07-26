@@ -114,7 +114,6 @@ class Todos extends Component {
 					onEdit={handleOpen}
 				/>
 				<Button
-					mini
 					variant="fab"
 					color="primary"
 					classes={{
