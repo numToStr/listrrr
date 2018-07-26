@@ -3,7 +3,7 @@ const ToDo = require("../models/todo");
 const getAllTodo = (req, res) => {
 	ToDo.find()
 		.populate("author", "_id email")
-		.select("_id title description author checked")
+		.select("_id title description author checked reminder")
 		.then(todos => {
 			res.status(200).send({ todos });
 		})
@@ -44,7 +44,8 @@ const updateTodo = (req, res) => {
 	}
 
 	ToDo.findByIdAndUpdate(_id, update, { new: true })
-		.select("_id title description reminder checked")
+		.populate("author", "_id email")
+		.select("_id title description author reminder checked")
 		.then(todo => {
 			if (todo) {
 				res.status(200).send({
