@@ -16,7 +16,7 @@ import {
 
 const styles = theme => ({
 	addButton: {
-		position: "absolute",
+		position: "fixed",
 		right: "1rem",
 		bottom: "1rem"
 	}
