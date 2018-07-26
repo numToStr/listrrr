@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 import Public from "./config/PublicRoute";
 import Private from "./config/PrivateRoute";
 
-import Home from "../../containers/Home";
-import Todos from "../../containers/Todos";
+import { Home, Todos } from "./config/AsyncRoutes";
 
 import { authAutoSignIn } from "../../Store/actions/index";
 
