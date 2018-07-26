@@ -3,7 +3,8 @@ import {
 	TODO_SUCCESS,
 	TODO_FAIL,
 	TODO_DELETE,
-	TODO_UPDATE
+	TODO_UPDATE,
+	USER_LOGOUT
 } from "../actions/actionTypes";
 
 const initState = {
@@ -60,6 +61,11 @@ const todoUpdate = (state, { _id, todo }) => {
 	};
 };
 
+const clearTodo = (state, action) => ({
+	...state,
+	todos: []
+});
+
 const reducer = (state = initState, action) => {
 	switch (action.type) {
 		case TODO_START:
@@ -72,6 +78,8 @@ const reducer = (state = initState, action) => {
 			return todoDelete(state, action);
 		case TODO_UPDATE:
 			return todoUpdate(state, action);
+		case USER_LOGOUT:
+			return clearTodo(state, action);
 		default:
 			return state;
 	}
