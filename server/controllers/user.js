@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
+const { TOKEN_KEY } = require("../config/keys/index");
+
 const userCreate = (req, res) => {
 	const { email } = req.body;
 
@@ -13,7 +15,7 @@ const userCreate = (req, res) => {
 		.then(user => {
 			if (!user) {
 				U.save().then(({ _id, email }) => {
-					const token = jwt.sign({ _id, email }, "shhhhh");
+					const token = jwt.sign({ _id, email }, TOKEN_KEY);
 
 					res.cookie("LISTERRTOKEN", token, {
 						sameSite: true,
@@ -27,7 +29,7 @@ const userCreate = (req, res) => {
 				});
 			} else {
 				const { _id, email } = user;
-				const token = jwt.sign({ _id, email }, "shhhhh");
+				const token = jwt.sign({ _id, email }, TOKEN_KEY);
 
 				res.cookie("LISTERRTOKEN", token, {
 					sameSite: true,
