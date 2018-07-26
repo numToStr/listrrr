@@ -13,14 +13,6 @@ const todo = require("./server/routes/todo");
 /* Express Middlewares */
 require("./server/middlewares/express")(app);
 
-/* Serving build files if production */
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.resolve(__dirname, "client/build")));
-	app.get("*", (req, res) =>
-		res.sendFile(path.resolve(__dirname, "client/build", "index.html"))
-	);
-}
-
 /**
  * First create a folder name db in C:\mongodb\data\
  *
@@ -46,3 +38,11 @@ app.listen(PORT, () => {
 /* Registering Routes */
 app.use("/api/user", user);
 app.use("/api/todo", todo);
+
+/* Serving build files if production */
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.resolve(__dirname, "client/build")));
+	app.get("*", (req, res) =>
+		res.sendFile(path.resolve(__dirname, "client/build", "index.html"))
+	);
+}

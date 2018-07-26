@@ -15,7 +15,7 @@ const authRoutes = (req, res, next) => {
 			});
 		}
 	} else {
-		return res.status(401).send();
+		return res.status(200).send();
 	}
 };
 
