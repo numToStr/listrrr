@@ -21,7 +21,8 @@ const todoStart = (state, action) => ({
 const todoSuccess = (state, { todos }) => {
 	return {
 		...state,
-		todos: [...state.todos, ...todos],
+		/* not using spread will not triggering render() [idk why] */
+		todos: [...todos],
 		loading: false,
 		error: null
 	};

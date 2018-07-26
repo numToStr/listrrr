@@ -17,7 +17,7 @@ const todoDelete = _id => ({ type: TODO_DELETE, _id });
 
 const todoUpdate = (_id, todo) => ({ type: TODO_UPDATE, _id, todo });
 
-const _todos = [];
+let _todos = [];
 export const onAddTodo = data => {
 	return dispatch => {
 		dispatch(todoStart());
@@ -67,7 +67,8 @@ export const onLoadTodos = () => {
 		axios
 			.get("/api/todo")
 			.then(({ data: { todos } }) => {
-				dispatch(todoSuccess(todos));
+				_todos = todos;
+				dispatch(todoSuccess(_todos));
 			})
 			.catch(error => {
 				dispatch(todoFail(error));
