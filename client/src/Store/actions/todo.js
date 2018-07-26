@@ -24,7 +24,7 @@ export const onAddTodo = data => {
 		axios
 			.post("/api/todo", data)
 			.then(({ data: { todo } }) => {
-				_todos.push(todo);
+				_todos.unshift(todo);
 				dispatch(todoSuccess(_todos));
 			})
 			.catch(error => {
