@@ -6,7 +6,7 @@ import {
 	IconButton,
 	withStyles
 } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
+import { /* Search */ PowerSettingsNew } from "@material-ui/icons";
 
 const styles = theme => ({
 	title: {
@@ -14,16 +14,18 @@ const styles = theme => ({
 	}
 });
 
-const Header = props => {
-	const { classes } = props;
+const Header = ({ classes, onLogout }) => {
 	return (
 		<AppBar position="static" color="inherit">
 			<Toolbar>
 				<Typography variant="body1" className={classes.title}>
 					Date
 				</Typography>
-				<IconButton>
+				{/* <IconButton>
 					<Search />
+				</IconButton> */}
+				<IconButton onClick={onLogout}>
+					<PowerSettingsNew />
 				</IconButton>
 			</Toolbar>
 		</AppBar>

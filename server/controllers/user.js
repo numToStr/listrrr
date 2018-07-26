@@ -60,4 +60,14 @@ const authenticate = (req, res, next) => {
 		});
 };
 
-module.exports = { userCreate, authenticate };
+const userLogout = (req, res, next) => {
+	res.clearCookie("LISTERRTOKEN", {
+		sameSite: true,
+		httpOnly: true,
+		expires: ""
+	})
+		.status(200)
+		.send();
+};
+
+module.exports = { userCreate, authenticate, userLogout };

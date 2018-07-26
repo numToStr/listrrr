@@ -11,7 +11,8 @@ import {
 	onAddTodo,
 	onLoadTodos,
 	onDeleteTodo,
-	onUpdateTodo
+	onUpdateTodo,
+	onLogout
 } from "../Store/actions/index";
 
 const styles = theme => ({
@@ -100,12 +101,12 @@ class Todos extends Component {
 			onDeleteTodo,
 			onEditTodo,
 			state: { openTodoDialog, formTitle, currentTodo },
-			props: { classes, todos }
+			props: { classes, todos, logout }
 		} = this;
 
 		return (
 			<Fragment>
-				<Header />
+				<Header onLogout={logout} />
 				<TodoList
 					todoList={todos}
 					onCheck={onCheckTodo}
@@ -142,7 +143,8 @@ const mapDispatchToProps = dispatch => {
 		addTodo: d => dispatch(onAddTodo(d)),
 		loadTodos: id => dispatch(onLoadTodos(id)),
 		deleteTodo: id => dispatch(onDeleteTodo(id)),
-		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data))
+		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data)),
+		logout: () => dispatch(onLogout())
 	};
 };
 
