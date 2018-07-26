@@ -61,11 +61,11 @@ export const onUpdateTodo = (todoId, data) => {
 	};
 };
 
-export const onLoadTodos = () => {
+export const onLoadTodos = userId => {
 	return dispatch => {
 		dispatch(todoStart());
 		axios
-			.get("/api/todo")
+			.get(`/api/todo/${userId}`)
 			.then(({ data: { todos } }) => {
 				_todos = todos;
 				dispatch(todoSuccess(_todos));

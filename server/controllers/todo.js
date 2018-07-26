@@ -1,7 +1,10 @@
 const ToDo = require("../models/todo");
 
 const getAllTodo = (req, res) => {
-	ToDo.find()
+	const { userId: author } = req.params;
+	console.log(author);
+
+	ToDo.find({ author })
 		.populate("author", "_id email")
 		.select("_id title description author checked reminder")
 		.then(todos => {

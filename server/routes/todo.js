@@ -8,7 +8,7 @@ const {
 	deleteTodo
 } = require("../controllers/todo");
 
-router.get("/", getAllTodo);
+router.get("/:userId", getAllTodo);
 
 router.post("/", createTodo);
 

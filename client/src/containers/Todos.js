@@ -30,8 +30,12 @@ class Todos extends Component {
 	};
 
 	componentDidMount() {
-		const { loadTodos } = this.props;
-		loadTodos();
+		const {
+			loadTodos,
+			user: { _id }
+		} = this.props;
+
+		loadTodos(_id);
 	}
 
 	onAddTodo = values => {
@@ -136,7 +140,7 @@ class Todos extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		addTodo: d => dispatch(onAddTodo(d)),
-		loadTodos: () => dispatch(onLoadTodos()),
+		loadTodos: id => dispatch(onLoadTodos(id)),
 		deleteTodo: id => dispatch(onDeleteTodo(id)),
 		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data))
 	};
