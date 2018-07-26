@@ -12,7 +12,9 @@ import {
 import {
 	MoreVert as MenuIcon,
 	Edit as EditIcon,
-	Delete as DeleteIcon
+	Delete as DeleteIcon,
+	RadioButtonUnchecked,
+	CheckCircleRounded
 } from "@material-ui/icons";
 
 class Todo extends Component {
@@ -68,11 +70,13 @@ class Todo extends Component {
 
 		return (
 			<Fragment>
-				<ListItem dense>
+				<ListItem>
 					<Checkbox
 						color="primary"
 						checked={checked}
 						onChange={onTodoCheck}
+						icon={<RadioButtonUnchecked />}
+						checkedIcon={<CheckCircleRounded />}
 						disableRipple
 					/>
 					<ListItemText primary={title} secondary={description} />

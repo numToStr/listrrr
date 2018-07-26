@@ -1,5 +1,5 @@
 import React from "react";
-import { List } from "@material-ui/core";
+import { List, ListSubheader } from "@material-ui/core";
 
 import Todo from "./Todo";
 
@@ -14,7 +14,16 @@ const Todos = ({ onDelete, onCheck, onEdit, todoList }) => {
 		/>
 	));
 
-	return <List>{lists}</List>;
+	return (
+		<List
+			component="nav"
+			subheader={
+				<ListSubheader component="div">Your Todos</ListSubheader>
+			}
+		>
+			{lists}
+		</List>
+	);
 };
 
 export default Todos;
