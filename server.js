@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -11,6 +12,14 @@ const todo = require("./server/routes/todo");
 
 /* Express Middlewares */
 require("./server/middlewares/express")(app);
+
+/* Serving build files if production */
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.resolve(__dirname, "client/build")));
+	app.get("*", (req, res) =>
+		res.sendfile(path.resolve(__dirname, "client/build", "index.html"))
+	);
+}
 
 /**
  * First create a folder name db in C:\mongodb\data\
