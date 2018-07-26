@@ -24,7 +24,9 @@ const styles = theme => ({
 
 class Todos extends Component {
 	state = {
-		openTodoDialog: false
+		formTitle: "",
+		openTodoDialog: false,
+		currentTodo: null
 	};
 
 	componentDidMount() {
@@ -32,7 +34,7 @@ class Todos extends Component {
 		loadTodos();
 	}
 
-	onTodo = values => {
+	onAddTodo = values => {
 		const {
 			props: {
 				addTodo,
@@ -44,9 +46,17 @@ class Todos extends Component {
 		handleClose();
 	};
 
-	handleOpen = () => {
+	handleOpen = _id => () => {
+		const { todos } = this.props;
+
+		const _current = todos.filter(todo => todo._id === _id)[0] || {
+			reminder: new Date()
+		};
+
 		this.setState({
-			openTodoDialog: true
+			formTitle: _id ? "Edit Todo" : "Add Todo",
+			openTodoDialog: true,
+			currentTodo: _current
 		});
 	};
 
@@ -66,14 +76,21 @@ class Todos extends Component {
 		deleteTodo(id);
 	};
 
+	onEditTodo = values => {
+		// const { updateTodo } = this.props;
+		// updateTodo(id);
+		console.log(values);
+	};
+
 	render() {
 		const {
-			onTodo,
+			onAddTodo,
 			handleOpen,
 			handleClose,
 			onCheckTodo,
 			onDeleteTodo,
-			state: { openTodoDialog },
+			onEditTodo,
+			state: { openTodoDialog, formTitle, currentTodo },
 			props: { classes, todos }
 		} = this;
 
@@ -84,6 +101,7 @@ class Todos extends Component {
 					todoList={todos}
 					onCheck={onCheckTodo}
 					onDelete={onDeleteTodo}
+					onEdit={handleOpen}
 				/>
 				<Button
 					mini
@@ -92,14 +110,16 @@ class Todos extends Component {
 					classes={{
 						root: classes.addButton
 					}}
-					onClick={handleOpen}
+					onClick={handleOpen(null)}
 				>
 					<Add />
 				</Button>
 				<TodoForm
+					title={formTitle}
 					open={openTodoDialog}
 					handleClose={handleClose}
-					onSubmit={onTodo}
+					onSubmit={currentTodo ? onEditTodo : onAddTodo}
+					initialValues={currentTodo}
 				/>
 			</Fragment>
 		);

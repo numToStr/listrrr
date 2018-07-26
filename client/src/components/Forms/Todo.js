@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Field, reduxForm } from "redux-form";
+import { Form, Field, reduxForm, reset } from "redux-form";
 import {
 	TextField,
 	Button,
@@ -32,8 +32,8 @@ class Todo extends Component {
 
 	datePicker = ({ input, meta: { error, touched }, ...field }) => {
 		return (
-			<FormControl margin="normal">
-				<DateTimePicker fullWidth {...input} {...field} />
+			<FormControl margin="normal" fullWidth>
+				<DateTimePicker {...input} {...field} />
 			</FormControl>
 		);
 	};
@@ -42,12 +42,12 @@ class Todo extends Component {
 		const {
 			inputField,
 			datePicker,
-			props: { handleSubmit, pristine, open, handleClose }
+			props: { handleSubmit, pristine, open, handleClose, title }
 		} = this;
 
 		return (
 			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Add Todo</DialogTitle>
+				<DialogTitle>{title}</DialogTitle>
 				<Form onSubmit={handleSubmit} noValidate>
 					<DialogContent
 						style={{
@@ -72,7 +72,6 @@ class Todo extends Component {
 							name="reminder"
 							label="Reminder"
 							autoSubmit={false}
-							disablePast
 							component={datePicker}
 						/>
 					</DialogContent>
@@ -95,9 +94,10 @@ class Todo extends Component {
 Todo = reduxForm({
 	form: "Todo",
 	validate,
-	initialValues: {
-		reminder: new Date()
-	}
+	onSubmitSuccess: (result, dispatch) => {
+		dispatch(reset("Todo"));
+	},
+	enableReinitialize: true
 })(Todo);
 
 export default Todo;

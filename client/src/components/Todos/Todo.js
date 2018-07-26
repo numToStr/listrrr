@@ -61,7 +61,8 @@ class Todo extends Component {
 			state: { anchorEl },
 			props: {
 				todo: { _id, title, description, checked },
-				onDelete
+				onDelete,
+				onEdit
 			}
 		} = this;
 
@@ -87,7 +88,7 @@ class Todo extends Component {
 					open={Boolean(anchorEl)}
 					onClose={closeMenu}
 				>
-					<MenuItem>
+					<MenuItem onClick={onEdit(_id)}>
 						{/* <ListItemIcon> */}
 						<EditIcon />
 						{/* </ListItemIcon> */}
