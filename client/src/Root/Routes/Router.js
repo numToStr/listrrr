@@ -8,18 +8,32 @@ import Private from "./config/PrivateRoute";
 import { Home, Todos } from "./config/AsyncRoutes";
 
 import { authAutoSignIn } from "../../Store/actions/index";
+import Loader from "../../components/Loader";
 
 class Router extends Component {
+	state = {
+		stay: true
+	};
+
 	componentDidMount() {
 		const { autoSignIn } = this.props;
 
-		autoSignIn();
+		autoSignIn(() => {
+			this.setState({
+				stay: false
+			});
+		});
 	}
 
 	render() {
 		const {
+			state: { stay },
 			props: { isAuth }
 		} = this;
+
+		if (stay) {
+			return <Loader />;
+		}
 
 		return (
 			<Switch>
@@ -31,7 +45,7 @@ class Router extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	autoSignIn: () => dispatch(authAutoSignIn())
+	autoSignIn: cb => dispatch(authAutoSignIn(cb))
 });
 
 const mapStateToProps = state => ({

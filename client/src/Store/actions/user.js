@@ -28,16 +28,22 @@ export const onAddUser = data => {
 	};
 };
 
-export const authAutoSignIn = () => {
+export const authAutoSignIn = cb => {
 	return dispatch => {
 		dispatch(userStart());
 		axios
 			.get("/api/user/authenticate")
 			.then(({ data: { user } }) => {
 				dispatch(userSuccess(user));
+				if (cb) {
+					cb();
+				}
 			})
 			.catch(error => {
 				dispatch(userFail(error));
+				if (cb) {
+					cb();
+				}
 			});
 	};
 };
