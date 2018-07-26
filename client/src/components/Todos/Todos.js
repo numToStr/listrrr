@@ -16,6 +16,9 @@ const Todos = ({ onDelete, onCheck, onEdit, todoList }) => {
 
 	return (
 		<List
+			style={{
+				paddingBottom: "5rem"
+			}}
 			component="nav"
 			subheader={
 				<ListSubheader component="div">Your Todos</ListSubheader>
