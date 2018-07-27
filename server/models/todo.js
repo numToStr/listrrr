@@ -21,6 +21,10 @@ const ToDo = mongoose.Schema({
 	author: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: "User"
+	},
+	created: {
+		type: Date,
+		default: new Date().toUTCString()
 	}
 });
 

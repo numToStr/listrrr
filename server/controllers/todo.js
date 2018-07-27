@@ -6,7 +6,7 @@ const getAllTodo = (req, res) => {
 	ToDo.find({ author })
 		.sort({ reminder: -1 })
 		.populate("author", "_id email")
-		.select("_id title description author checked reminder")
+		.select("_id title description author checked reminder created")
 		.then(todos => {
 			res.status(200).send({ todos });
 		})
@@ -48,7 +48,7 @@ const updateTodo = (req, res) => {
 
 	ToDo.findByIdAndUpdate(_id, update, { new: true })
 		.populate("author", "_id email")
-		.select("_id title description author reminder checked")
+		.select("_id title description author reminder checked created")
 		.then(todo => {
 			if (todo) {
 				res.status(200).send({
