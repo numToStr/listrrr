@@ -9,6 +9,12 @@ import {
 	DialogActions,
 	FormControl
 } from "@material-ui/core";
+import {
+	AccessTimeRounded as TimeIcon,
+	DateRangeRounded as DateIcon,
+	KeyboardArrowLeftRounded as LeftArrow,
+	KeyboardArrowRightRounded as RightArrow
+} from "@material-ui/icons";
 import { DateTimePicker } from "material-ui-pickers";
 
 import validate from "./config/validate";
@@ -33,7 +39,14 @@ class Todo extends Component {
 	datePicker = ({ input, meta: { error, touched }, ...field }) => {
 		return (
 			<FormControl margin="normal" fullWidth>
-				<DateTimePicker {...input} {...field} />
+				<DateTimePicker
+					dateRangeIcon={<DateIcon />}
+					timeIcon={<TimeIcon />}
+					leftArrowIcon={<LeftArrow />}
+					rightArrowIcon={<RightArrow />}
+					{...input}
+					{...field}
+				/>
 			</FormControl>
 		);
 	};
