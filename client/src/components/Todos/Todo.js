@@ -6,36 +6,53 @@ import {
 	ListItemSecondaryAction,
 	IconButton,
 	Menu,
-	MenuItem
-	// ListItemIcon
+	MenuItem,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogContentText
 } from "@material-ui/core";
 import {
 	MoreVert as MenuIcon,
-	Edit as EditIcon,
-	Delete as DeleteIcon,
+	EditTwoTone as EditIcon,
+	DeleteTwoTone as DeleteIcon,
 	RadioButtonUnchecked,
-	CheckCircleRounded
+	CheckCircleRounded,
+	AlarmOnTwoTone as AlarmIcon
 } from "@material-ui/icons";
+
+import { format } from "date-fns";
 
 class Todo extends Component {
 	state = {
-		anchorEl: null
+		anchorEl: null,
+		reminderDialog: false
 	};
 
 	openMenu = event => {
 		this.setState({ anchorEl: event.currentTarget });
 	};
+
 	closeMenu = () => {
 		this.setState({ anchorEl: null });
+	};
+
+	openReminder = () => {
+		this.setState({ reminderDialog: true });
+	};
+	closeReminder = () => {
+		this.setState({ reminderDialog: false });
 	};
 
 	render() {
 		const {
 			openMenu,
 			closeMenu,
-			state: { anchorEl },
+			openReminder,
+			closeReminder,
+			state: { anchorEl, reminderDialog },
 			props: {
-				todo: { _id, title, description, checked },
+				todo: { _id, title, description, checked, reminder },
 				onDelete,
 				onEdit,
 				onCheck
@@ -66,19 +83,27 @@ class Todo extends Component {
 					open={Boolean(anchorEl)}
 					onClose={closeMenu}
 				>
+					<MenuItem onClick={openReminder}>
+						<AlarmIcon />
+					</MenuItem>
 					<MenuItem onClick={onEdit(_id)}>
-						{/* <ListItemIcon> */}
 						<EditIcon />
-						{/* </ListItemIcon> */}
-						{/* <ListItemText inset primary="Edit" /> */}
 					</MenuItem>
 					<MenuItem onClick={onDelete(_id)}>
-						{/* <ListItemIcon> */}
 						<DeleteIcon style={{ color: "red" }} />
-						{/* </ListItemIcon> */}
-						{/* <ListItemText inset primary="Delete" /> */}
 					</MenuItem>
 				</Menu>
+				<Dialog open={reminderDialog} onClose={closeReminder}>
+					<DialogTitle>Reminder</DialogTitle>
+					<DialogContent>
+						<DialogContentText variant="subheading">
+							{format(
+								new Date(reminder),
+								"ddd MMM D YYYY h:mm a"
+							)}
+						</DialogContentText>
+					</DialogContent>
+				</Dialog>
 			</Fragment>
 		);
 	}
