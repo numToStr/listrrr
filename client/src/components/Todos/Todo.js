@@ -29,24 +29,16 @@ class Todo extends Component {
 		this.setState({ anchorEl: null });
 	};
 
-	onTodoCheck = () => {
-		const {
-			onCheck,
-			todo: { _id, checked }
-		} = this.props;
-		onCheck(_id, !checked);
-	};
-
 	render() {
 		const {
 			openMenu,
 			closeMenu,
-			onTodoCheck,
 			state: { anchorEl },
 			props: {
 				todo: { _id, title, description, checked },
 				onDelete,
-				onEdit
+				onEdit,
+				onCheck
 			}
 		} = this;
 
@@ -56,7 +48,7 @@ class Todo extends Component {
 					<Checkbox
 						color="primary"
 						checked={checked}
-						onChange={onTodoCheck}
+						onChange={onCheck(_id, !checked)}
 						icon={<RadioButtonUnchecked />}
 						checkedIcon={<CheckCircleRounded />}
 						disableRipple

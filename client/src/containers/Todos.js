@@ -72,7 +72,7 @@ class Todos extends Component {
 		});
 	};
 
-	onCheckTodo = (id, checked) => {
+	onCheckTodo = (id, checked) => () => {
 		const { updateTodo } = this.props;
 		updateTodo(id, { checked });
 	};
