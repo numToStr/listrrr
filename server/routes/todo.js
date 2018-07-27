@@ -8,12 +8,14 @@ const {
 	deleteTodo
 } = require("../controllers/todo");
 
-router.get("/:userId", getAllTodo);
+const isAuthenticate = require("../middlewares/authRoutes");
 
-router.post("/", createTodo);
+router.get("/", isAuthenticate, getAllTodo);
 
-router.patch("/:todoId", updateTodo);
+router.post("/", isAuthenticate, createTodo);
 
-router.delete("/:todoId", deleteTodo);
+router.patch("/:todoId", isAuthenticate, updateTodo);
+
+router.delete("/:todoId", isAuthenticate, deleteTodo);
 
 module.exports = router;

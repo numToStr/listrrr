@@ -1,7 +1,7 @@
 const ToDo = require("../models/todo");
 
 const getAllTodo = (req, res) => {
-	const { userId: author } = req.params;
+	const { _id: author } = req._user;
 
 	ToDo.find({ author })
 		.sort({ reminder: -1 })
