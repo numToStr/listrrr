@@ -19,20 +19,8 @@ import {
 
 class Todo extends Component {
 	state = {
-		anchorEl: null,
-		todoCheck: false
+		anchorEl: null
 	};
-
-	componentDidMount() {
-		const {
-			todo: { checked }
-		} = this.props;
-		this.setState(prevState => {
-			return {
-				todoCheck: checked
-			};
-		});
-	}
 
 	openMenu = event => {
 		this.setState({ anchorEl: event.currentTarget });
@@ -44,15 +32,9 @@ class Todo extends Component {
 	onTodoCheck = () => {
 		const {
 			onCheck,
-			todo: { _id }
+			todo: { _id, checked }
 		} = this.props;
-
-		this.setState(prevState => {
-			onCheck(_id, !prevState.todoCheck);
-			return {
-				todoCheck: !prevState.todoCheck
-			};
-		});
+		onCheck(_id, !checked);
 	};
 
 	render() {
