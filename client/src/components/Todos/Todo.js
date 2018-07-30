@@ -22,12 +22,21 @@ import {
 } from "@material-ui/icons";
 
 import { format } from "date-fns";
+import { differenceInMilliseconds } from "date-fns/esm/fp";
 
 class Todo extends Component {
 	state = {
 		anchorEl: null,
 		reminderDialog: false
 	};
+
+	componentDidMount() {
+		this.setReminder();
+	}
+
+	componentWillReceiveProps(prevProps) {
+		console.log(prevProps);
+	}
 
 	openMenu = event => {
 		this.setState({ anchorEl: event.currentTarget });
@@ -40,8 +49,27 @@ class Todo extends Component {
 	openReminder = () => {
 		this.setState({ reminderDialog: true });
 	};
+
 	closeReminder = () => {
 		this.setState({ reminderDialog: false });
+	};
+
+	setReminder = () => {
+		const {
+			todo: { title, reminder }
+		} = this.props;
+
+		const _time = differenceInMilliseconds(new Date(), new Date(reminder));
+
+		console.log(_time);
+
+		if (_time > 0) {
+			this._timeout = setTimeout(() => {
+				alert(`Reminder for ${title}`);
+			}, _time);
+		} else {
+			clearTimeout(this._timeout);
+		}
 	};
 
 	render() {
