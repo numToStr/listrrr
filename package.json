@@ -28,11 +28,11 @@
 		"cookie-parser": "^1.4.3",
 		"express": "^4.16.3",
 		"jsonwebtoken": "^8.3.0",
-		"mongoose": "^5.2.5",
+		"mongoose": "^5.2.6",
 		"redux-thunk": "^2.3.0"
 	},
 	"devDependencies": {
-		"concurrently": "^3.6.0",
+		"concurrently": "^3.6.1",
 		"nodemon": "^1.18.3"
 	}
 }
