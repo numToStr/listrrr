@@ -1,19 +1,22 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Button, withStyles } from "@material-ui/core";
+import { Button, withStyles, Typography } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-
-import TodoForm from "../components/Forms/Todo";
-import Header from "../components/Header";
-import TodoList from "../components/Todos/Todos";
+import { asyncComponent } from "react-async-component";
 
 import {
 	onAddTodo,
 	onLoadTodos,
 	onDeleteTodo,
-	onUpdateTodo,
-	onLogout
+	onUpdateTodo
 } from "../Store/actions/index";
+
+const TodoList = asyncComponent({
+	resolve: () => import("../components/Todos/Todos")
+});
+const TodoForm = asyncComponent({
+	resolve: () => import("../components/Forms/Todo")
+});
 
 const styles = theme => ({
 	addButton: {
@@ -98,18 +101,43 @@ class Todos extends Component {
 			onDeleteTodo,
 			onEditTodo,
 			state: { openTodoDialog, formTitle, currentTodo },
-			props: { classes, todos, logout }
+			props: { classes, todos }
 		} = this;
 
-		return (
+		let _todos = (
 			<Fragment>
-				<Header onLogout={logout} />
+				<Typography
+					style={{ paddingTop: "5rem" }}
+					gutterBottom
+					align="center"
+					variant="subheading"
+				>
+					Oopss... You don't have todos
+				</Typography>
+				<Typography
+					align="center"
+					variant="caption"
+					color="textSecondary"
+				>
+					You can create a todo by clicking the + button
+				</Typography>
+			</Fragment>
+		);
+
+		if (todos.length) {
+			_todos = (
 				<TodoList
 					todoList={todos}
 					onCheck={onCheckTodo}
 					onDelete={onDeleteTodo}
 					onEdit={handleOpen}
 				/>
+			);
+		}
+
+		return (
+			<Fragment>
+				{_todos}
 				<Button
 					variant="fab"
 					color="primary"
@@ -120,15 +148,17 @@ class Todos extends Component {
 				>
 					<Add />
 				</Button>
-				<TodoForm
-					title={formTitle}
-					open={openTodoDialog}
-					handleClose={handleClose}
-					onSubmit={
-						formTitle === "Edit Todo" ? onEditTodo : onAddTodo
-					}
-					initialValues={currentTodo}
-				/>
+				{openTodoDialog && (
+					<TodoForm
+						title={formTitle}
+						open={openTodoDialog}
+						handleClose={handleClose}
+						onSubmit={
+							formTitle === "Edit Todo" ? onEditTodo : onAddTodo
+						}
+						initialValues={currentTodo}
+					/>
+				)}
 			</Fragment>
 		);
 	}
@@ -139,8 +169,7 @@ const mapDispatchToProps = dispatch => {
 		addTodo: d => dispatch(onAddTodo(d)),
 		loadTodos: () => dispatch(onLoadTodos()),
 		deleteTodo: id => dispatch(onDeleteTodo(id)),
-		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data)),
-		logout: () => dispatch(onLogout())
+		updateTodo: (id, data) => dispatch(onUpdateTodo(id, data))
 	};
 };
 

@@ -9,7 +9,7 @@ export const Home = asyncComponent({
 });
 
 export const Todos = asyncComponent({
-	resolve: () => import("../../../containers/Todos"),
+	resolve: () => import("../../../views/Todos"),
 	LoadingComponent: () => <Loader />, // Optional
 	ErrorComponent: ({ error }) => <div>{error.message}</div> // Optional
 });
