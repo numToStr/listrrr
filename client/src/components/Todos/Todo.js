@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, PureComponent } from "react";
 import {
 	ListItem,
 	Checkbox,
@@ -24,19 +24,15 @@ import {
 import { format } from "date-fns";
 import { differenceInMilliseconds } from "date-fns/esm/fp";
 
-class Todo extends Component {
+class Todo extends PureComponent {
 	state = {
 		anchorEl: null,
 		reminderDialog: false
 	};
 
-	componentDidMount() {
-		this.setReminder();
-	}
-
-	componentWillReceiveProps(prevProps) {
-		console.log(prevProps);
-	}
+	// componentDidMount() {
+	// 	this.setReminder();
+	// }
 
 	openMenu = event => {
 		this.setState({ anchorEl: event.currentTarget });
@@ -60,8 +56,6 @@ class Todo extends Component {
 		} = this.props;
 
 		const _time = differenceInMilliseconds(new Date(), new Date(reminder));
-
-		console.log(_time);
 
 		if (_time > 0) {
 			this._timeout = setTimeout(() => {
