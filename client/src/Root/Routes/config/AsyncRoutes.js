@@ -3,7 +3,7 @@ import { asyncComponent } from "react-async-component";
 import Loader from "../../../components/Loader";
 
 export const Home = asyncComponent({
-	resolve: () => import("../../../containers/Home"),
+	resolve: () => import("../../../views/Home"),
 	LoadingComponent: () => <Loader />, // Optional
 	ErrorComponent: ({ error }) => <div>{error.message}</div> // Optional
 });
