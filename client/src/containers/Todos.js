@@ -77,7 +77,7 @@ class Todos extends Component {
 		updateTodo(id, { checked });
 	};
 
-	onDeleteTodo = id => () => {
+	onDeleteTodo = id => {
 		const { deleteTodo } = this.props;
 		deleteTodo(id);
 	};
