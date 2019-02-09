@@ -8,29 +8,10 @@ const initState = {
     user: null
 };
 
-const onAuthSuccess = (
-    state,
-    { user, accessToken, accessTokenExp, refreshToken }
-) => {
+const onAuthSuccess = (state, { user }) => {
     return {
         ...state,
-        user,
-        accessToken,
-        accessTokenExp,
-        refreshToken
-    };
-};
-
-const onAuthenticateSuccess = (
-    state,
-    { user, accessToken, accessTokenExp, refreshToken }
-) => {
-    return {
-        ...state,
-        user,
-        accessToken,
-        accessTokenExp,
-        refreshToken
+        user
     };
 };
 
@@ -41,7 +22,7 @@ const reducer = (state = initState, { type, data }) => {
         case SIGNUP_SUCCESS:
             return onAuthSuccess(state, data);
         case AUTHENTICATE_SUCCESS:
-            return onAuthenticateSuccess(state, data);
+            return onAuthSuccess(state, data);
         default:
             return state;
     }

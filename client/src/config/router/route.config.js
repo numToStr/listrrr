@@ -1,4 +1,5 @@
 import Home from "../../app/login/index.login";
+import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import LiveQuiz from "../../app/livequiz/index.livequiz";
 import Show from "../../app/show/index.show";
@@ -15,6 +16,11 @@ export const routes = [
         path: "/",
         component: Home,
         exact: true,
+        private: false
+    },
+    {
+        path: "/signup",
+        component: Signup,
         private: false
     },
     {

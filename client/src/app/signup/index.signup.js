@@ -2,32 +2,32 @@ import React from "react";
 import { connect } from "react-redux";
 
 import FormLayout from "../../components/form/form.layout";
-import LoginForm from "./login.form";
-import { login } from "../../store/actions/index.action";
+import SignupForm from "./signup.form";
+import { signup } from "../../store/actions/index.action";
 
-const initialValues = { username: "", password: "" };
+const initialValues = { username: "", email: "", password: "" };
 
-const Login = ({ $login, _loading }) => {
+const Signup = ({ $signup, _loading }) => {
     return (
         <FormLayout>
-            <LoginForm
+            <SignupForm
                 loading={_loading}
                 initialValues={initialValues}
-                onSubmit={$login}
+                onSubmit={$signup}
             />
         </FormLayout>
     );
 };
 
 const mapStateToProps = ({ http: { request } }) => ({
-    _loading: request.login
+    _loading: request.signup
 });
 
 const mapDispatchToProps = dispatchEvent => ({
-    $login: val => dispatchEvent(login(val))
+    $signup: val => dispatchEvent(signup(val))
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login);
+)(Signup);
