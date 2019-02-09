@@ -36,3 +36,5 @@ services:
         volumes:
             - ./server:/usr/src/app
         restart: always
+        depends_on:
+            - database
