@@ -5,12 +5,15 @@ const schema = new Schema(
     {
         title: {
             type: String,
+            trim: true,
+            minlength: 5,
             required: true
         },
         description: {
             type: String,
-            required: true,
-            minlength: 6
+            trim: true,
+            minlength: 6,
+            required: true
         },
         completed: {
             type: Boolean,
@@ -22,8 +25,8 @@ const schema = new Schema(
         }
     },
     {
-        minimize: true,
-        timestamps: true
+        timestamps: true,
+        minimize: true
     }
 );
 
