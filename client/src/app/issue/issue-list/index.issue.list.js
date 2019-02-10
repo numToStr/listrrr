@@ -18,7 +18,7 @@ const _Link = props => <Link to="/d/issues/add" {...props} />;
 const IssueList = ({ classes }) => {
     return (
         <Fragment>
-            <Grid container justify="space-between">
+            <Grid container justify="space-between" alignItems="center">
                 <Grid item>
                     <Typography variant="h5">Issues</Typography>
                 </Grid>
