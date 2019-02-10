@@ -1,7 +1,7 @@
 import Home from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
-import LiveQuiz from "../../app/livequiz/index.livequiz";
+import Issue from "../../app/issue/index.issue";
 import Show from "../../app/show/index.show";
 import Hello from "../../app/hello/index.hello";
 
@@ -29,8 +29,8 @@ export const routes = [
         private: true,
         routes: [
             {
-                path: "/d/livequiz",
-                component: LiveQuiz,
+                path: "/d/issues",
+                component: Issue,
                 private: true
             },
             {

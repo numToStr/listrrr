@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
-import LiveQuizIcon from "@material-ui/icons/QuestionAnswerTwoTone";
+import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 import ShowIcon from "@material-ui/icons/PanoramaFishEyeTwoTone";
 import HelloIcon from "@material-ui/icons/PetsTwoTone";
 
@@ -18,9 +18,9 @@ const items = [
         path: "/d"
     },
     {
-        text: "Live Quiz",
-        icon: LiveQuizIcon,
-        path: "/d/livequiz"
+        text: "Issues",
+        icon: IssuesIcon,
+        path: "/d/issues"
     },
     {
         text: "Show",
