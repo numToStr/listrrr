@@ -5,7 +5,13 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
+import IssueAddForm from "./issue.add.form";
+
+const initialValues = { title: "", description: "" };
+
 const IssueAdd = ({ history: { goBack } }) => {
+    const onSubmit = values => console.log(values);
+
     return (
         <Fragment>
             <Grid container justify="space-between">
@@ -18,6 +24,7 @@ const IssueAdd = ({ history: { goBack } }) => {
                     <Typography variant="h5">Add Issue</Typography>
                 </Grid>
             </Grid>
+            <IssueAddForm onSubmit={onSubmit} initialValues={initialValues} />
         </Fragment>
     );
 };
