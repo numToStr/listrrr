@@ -10,7 +10,7 @@ import Hello from "../../app/hello/index.hello";
 
 export const redirects = {
     default: "/",
-    authFailure: "/",
+    authFailure: "/signup",
     authSuccess: "/d"
 };
 

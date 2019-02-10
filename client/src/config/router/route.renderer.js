@@ -12,8 +12,8 @@ const WhichRoute = ({ private: pvt, path, component, ...props }) => {
         <PrivateRoute
             path={path}
             component={component}
-            {...props}
             failureRedirect={redirects.authFailure}
+            {...props}
         />
     ) : (
         <PublicRoute

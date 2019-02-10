@@ -8,6 +8,7 @@ const PrivateRoute = ({
     path,
     component: Component,
     routes,
+    failureRedirect,
     ...props
 }) => {
     return (
@@ -20,7 +21,7 @@ const PrivateRoute = ({
                 ) : (
                     <Redirect
                         to={{
-                            pathname: "/",
+                            pathname: failureRedirect,
                             state: {
                                 from: props.location
                             }
