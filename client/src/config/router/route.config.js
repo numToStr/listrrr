@@ -2,6 +2,9 @@ import Home from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Issue from "../../app/issue/index.issue";
+import IssueAdd from "../../app/issue/issue-add/index.issue.add";
+import IssueList from "../../app/issue/issue-list/index.issue.list";
+
 import Show from "../../app/show/index.show";
 import Hello from "../../app/hello/index.hello";
 
@@ -31,7 +34,19 @@ export const routes = [
             {
                 path: "/d/issues",
                 component: Issue,
-                private: true
+                private: true,
+                routes: [
+                    {
+                        path: "/d/issues/list",
+                        component: IssueList,
+                        private: true
+                    },
+                    {
+                        path: "/d/issues/add",
+                        component: IssueAdd,
+                        private: true
+                    }
+                ]
             },
             {
                 path: "/d/show",

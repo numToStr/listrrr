@@ -20,7 +20,7 @@ const items = [
     {
         text: "Issues",
         icon: IssuesIcon,
-        path: "/d/issues"
+        path: "/d/issues/list"
     },
     {
         text: "Show",

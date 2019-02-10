@@ -1,8 +1,13 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
+import React, { Fragment } from "react";
 
-const LiveQuiz = () => {
-    return <Typography variant="h5">Welcome to Issues</Typography>;
+import RoutesRenderer from "../../config/router/route.renderer";
+
+const LiveQuiz = ({ routes }) => {
+    return (
+        <Fragment>
+            <RoutesRenderer config={routes} default="/d/issues/list" />
+        </Fragment>
+    );
 };
 
 export default LiveQuiz;
