@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import Link from "react-router-dom/Link";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,7 +17,9 @@ const styles = ({ spacing }) => ({
     }
 });
 
-const IssueAdd = ({ classes, history: { goBack } }) => {
+const _Link = props => <Link to="/d/issues/list" {...props} />;
+
+const IssueAdd = ({ classes }) => {
     const onSubmit = values => console.log(values);
 
     return (
@@ -28,7 +31,7 @@ const IssueAdd = ({ classes, history: { goBack } }) => {
                 className={classes.headerMargin}
             >
                 <Grid item>
-                    <IconButton color="primary" onClick={goBack}>
+                    <IconButton color="primary" component={_Link}>
                         <BackIcon />
                     </IconButton>
                 </Grid>
