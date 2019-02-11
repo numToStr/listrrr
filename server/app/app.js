@@ -3,9 +3,9 @@ const router = require("express").Router();
 const isAuth = require("../middlewares/request.authenticator");
 
 const auth = require("./auth/auth.routes");
-const todo = require("./todo/todo.routes");
+const issue = require("./issue/issue.routes");
 
 router.use("/auth", auth);
-router.use("/todo", isAuth, todo);
+router.use("/issue", isAuth, issue);
 
 module.exports = router;

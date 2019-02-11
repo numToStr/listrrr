@@ -1,14 +1,14 @@
-const TodoDAL = require("./todo.dal");
+const IssueDAL = require("./issue.dal");
 
-// For creating todo
-const createTodo = async (req, res, next) => {
+// For creating issue
+const createIssue = async (req, res, next) => {
     try {
         const {
             $user: { $id },
             body: { title, description }
         } = req;
 
-        const todo = await new TodoDAL().createTodo({
+        const todo = await new IssueDAL().createIssue({
             title,
             description,
             author: $id
@@ -23,54 +23,55 @@ const createTodo = async (req, res, next) => {
     }
 };
 
-// For getting todos
-const getTodos = async (req, res, next) => {
+// For getting issues
+const getIssues = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const todos = await new TodoDAL({ author: $id }).getAllTodo();
+        const issues = await new IssueDAL({ author: $id }).getAllIssue();
 
         res.status(200).json({
             message: "Successful",
-            todos
+            issues
         });
     } catch (error) {
         next(error);
     }
 };
 
-// For updating todos
-const updateTodo = async (req, res, next) => {
+// For updating issues
+const updateIssue = async (req, res, next) => {
     try {
         const {
             $user: { $id },
-            params: { todoId },
+            params: { issueId },
             // body: title | desciption | completed
             body
         } = req;
 
-        const todo = await new TodoDAL({ _id: todoId, author: $id }).updateTodo(
-            body
-        );
+        const issue = await new IssueDAL({
+            _id: issueId,
+            author: $id
+        }).updateIssue(body);
 
         res.status(200).json({
             message: "To-Do successfully updated",
-            todo
+            issue
         });
     } catch (error) {
         next(error);
     }
 };
 
-// For deleting todos
-const deleteTodo = async (req, res, next) => {
+// For deleting issues
+const deleteIssue = async (req, res, next) => {
     try {
         const {
             $user: { $id },
-            params: { todoId }
+            params: { issueId }
         } = req;
 
-        await new TodoDAL({ _id: todoId, author: $id }).deleteTodo();
+        await new IssueDAL({ _id: issueId, author: $id }).deleteIssue();
 
         res.status(200).json({
             message: "To-Do successfully deleted"
@@ -81,8 +82,8 @@ const deleteTodo = async (req, res, next) => {
 };
 
 module.exports = {
-    createTodo,
-    getTodos,
-    updateTodo,
-    deleteTodo
+    createIssue,
+    getIssues,
+    updateIssue,
+    deleteIssue
 };
