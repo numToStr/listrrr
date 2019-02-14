@@ -2,6 +2,7 @@ import Index from "../../app/index/index.app";
 import Login from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
+import Home from "../../app/home/index.home";
 import Issue from "../../app/issue/index.issue";
 import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueList from "../../app/issue/issue-list/index.issue.list";
@@ -39,7 +40,7 @@ export const routes = [
         routes: [
             {
                 path: "/d/home",
-                component: () => "Dashboard Home",
+                component: Home,
                 private: true
             },
             {
