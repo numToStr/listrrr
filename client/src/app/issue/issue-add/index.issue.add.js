@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import Link from "react-router-dom/Link";
+import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
 import IssueAddForm from "./issue.add.form";
+import { issueAdd } from "../../../store/actions/issue.action";
 
 const initialValues = { title: "", description: "" };
 
@@ -19,8 +21,8 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/issues/list" {...props} />;
 
-const IssueAdd = ({ classes }) => {
-    const onSubmit = values => console.log(values);
+const IssueAdd = ({ classes, $issueAdd }) => {
+    const onSubmit = values => $issueAdd(values);
 
     return (
         <Fragment>
@@ -45,4 +47,11 @@ const IssueAdd = ({ classes }) => {
     );
 };
 
-export default withStyles(styles)(IssueAdd);
+const mapDispatchToProps = dispatchEvent => ({
+    $issueAdd: val => dispatchEvent(issueAdd(val))
+});
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(withStyles(styles)(IssueAdd));

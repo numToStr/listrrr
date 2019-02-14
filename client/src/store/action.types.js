@@ -8,3 +8,6 @@ export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+
+export const ISSUE_ADD = "ISSUE_ADD";
+export const ISSUE_ADD_SUCCESS = "ISSUE_ADD_SUCCESS";
