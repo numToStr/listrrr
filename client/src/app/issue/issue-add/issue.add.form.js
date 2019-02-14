@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Field } from "formik";
+import Grid from "@material-ui/core/Grid";
 
 import InputField from "../../../components/form/form.textField";
 import LoadingButton from "../../../components/form/form.loadingButton";
@@ -30,12 +31,15 @@ const SignupForm = ({ onSubmit, initialValues, loading }) => {
                             rowsMax={10}
                             component={InputField}
                         />
-                        <LoadingButton
-                            loading={loading}
-                            disabled={!dirty || loading}
-                        >
-                            Signup
-                        </LoadingButton>
+                        <Grid container justify="flex-end">
+                            <LoadingButton
+                                loading={loading}
+                                disabled={!dirty || loading}
+                                fullWidth={false}
+                            >
+                                Submit
+                            </LoadingButton>
+                        </Grid>
                     </form>
                 );
             }}

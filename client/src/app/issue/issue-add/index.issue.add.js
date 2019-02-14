@@ -24,19 +24,20 @@ const IssueAdd = ({ classes }) => {
 
     return (
         <Fragment>
-            <Grid
-                container
-                justify="space-between"
-                alignItems="center"
-                className={classes.headerMargin}
-            >
-                <Grid item>
-                    <IconButton color="primary" component={_Link}>
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item xs={12}>
+                    <IconButton
+                        color="primary"
+                        component={_Link}
+                        className={classes.headerMargin}
+                    >
                         <BackIcon />
                     </IconButton>
                 </Grid>
-                <Grid item>
-                    <Typography variant="h5">Add Issue</Typography>
+                <Grid item xs={12}>
+                    <Typography variant="h5" gutterBottom>
+                        New Issue
+                    </Typography>
                 </Grid>
             </Grid>
             <IssueAddForm onSubmit={onSubmit} initialValues={initialValues} />

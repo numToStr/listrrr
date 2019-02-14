@@ -4,9 +4,9 @@ import FormControl from "@material-ui/core/FormControl";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Fade from "@material-ui/core/Fade";
 
-const LoadingButton = ({ loading, children, ...props }) => {
+const LoadingButton = ({ loading, children, fullWidth = true, ...props }) => {
     return (
-        <FormControl margin="normal" fullWidth>
+        <FormControl margin="normal" fullWidth={fullWidth}>
             <Button
                 type="Submit"
                 color="primary"
