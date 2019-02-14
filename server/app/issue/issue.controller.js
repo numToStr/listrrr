@@ -8,15 +8,15 @@ const createIssue = async (req, res, next) => {
             body: { title, description }
         } = req;
 
-        const todo = await new IssueDAL().createIssue({
+        const issue = await new IssueDAL().createIssue({
             title,
             description,
             author: $id
         });
 
         res.status(201).json({
-            message: "To-Do successfully created",
-            todo
+            message: "Issue successfully created",
+            issue
         });
     } catch (error) {
         next(error);
