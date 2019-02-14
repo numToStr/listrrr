@@ -15,7 +15,7 @@ const items = [
     {
         text: "Home 😋",
         icon: HomeIcon,
-        path: "/d"
+        path: "/d/home"
     },
     {
         text: "Issues",

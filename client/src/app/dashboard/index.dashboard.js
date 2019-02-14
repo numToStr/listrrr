@@ -6,7 +6,7 @@ import RoutesRenderer from "../../config/router/route.renderer";
 const Dashboard = ({ routes }) => {
     return (
         <Layout>
-            <RoutesRenderer config={routes} />
+            <RoutesRenderer config={routes} default="/d/home" />
         </Layout>
     );
 };

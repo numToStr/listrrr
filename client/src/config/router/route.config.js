@@ -1,4 +1,5 @@
-import Home from "../../app/login/index.login";
+import Index from "../../app/index/index.app";
+import Login from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Issue from "../../app/issue/index.issue";
@@ -11,13 +12,13 @@ import Hello from "../../app/hello/index.hello";
 export const redirects = {
     default: "/",
     authFailure: "/signup",
-    authSuccess: "/d"
+    authSuccess: "/d/home"
 };
 
 export const routes = [
     {
         path: "/",
-        component: Home,
+        component: Index,
         exact: true,
         private: false
     },
@@ -27,10 +28,20 @@ export const routes = [
         private: false
     },
     {
+        path: "/login",
+        component: Login,
+        private: false
+    },
+    {
         path: "/d",
         component: Dashboard,
         private: true,
         routes: [
+            {
+                path: "/d/home",
+                component: () => "Dashboard Home",
+                private: true
+            },
             {
                 path: "/d/issues",
                 component: Issue,
