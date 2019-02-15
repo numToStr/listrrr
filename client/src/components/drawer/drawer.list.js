@@ -1,11 +1,11 @@
 import React, { memo } from "react";
 import Link from "react-router-dom/Link";
 import withRouter from "react-router-dom/withRouter";
+import makeStyles from "@material-ui/styles/makeStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
@@ -35,13 +35,15 @@ const items = [
     }
 ];
 
-const styles = ({ palette }) => ({
+const useStyles = makeStyles(({ palette }) => ({
     linkColor: {
         color: palette.primary.contrastText
     }
-});
+}));
 
-const DrawerList = ({ classes, location: { pathname } }) => {
+const DrawerList = ({ location: { pathname } }) => {
+    const classes = useStyles();
+
     const list = items.map(({ text, icon: Icon, path }) => {
         const _Link = props => <Link to={path} {...props} />;
 
@@ -72,4 +74,4 @@ const DrawerList = ({ classes, location: { pathname } }) => {
     return <List disablePadding>{list}</List>;
 };
 
-export default withRouter(memo(withStyles(styles)(DrawerList)));
+export default withRouter(memo(DrawerList));
