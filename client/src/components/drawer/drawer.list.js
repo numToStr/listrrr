@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import Link from "react-router-dom/Link";
+import withRouter from "react-router-dom/withRouter";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -40,12 +41,17 @@ const styles = ({ palette }) => ({
     }
 });
 
-const DrawerList = ({ classes }) => {
+const DrawerList = ({ classes, location: { pathname } }) => {
     const list = items.map(({ text, icon: Icon, path }) => {
         const _Link = props => <Link to={path} {...props} />;
 
         return (
-            <ListItem button key={text} component={_Link}>
+            <ListItem
+                button
+                key={text}
+                component={_Link}
+                selected={path === pathname}
+            >
                 <ListItemIcon
                     classes={{
                         root: classes.linkColor
@@ -66,4 +72,4 @@ const DrawerList = ({ classes }) => {
     return <List disablePadding>{list}</List>;
 };
 
-export default memo(withStyles(styles)(DrawerList));
+export default withRouter(memo(withStyles(styles)(DrawerList)));
