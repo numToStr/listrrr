@@ -1,4 +1,4 @@
-import { ISSUE_ADD_SUCCESS } from "../action.types";
+import { ISSUE_ADD_SUCCESS, ISSUE_LIST_SUCCESS } from "../action.types";
 
 const initialState = {
     list: [],
@@ -13,10 +13,19 @@ const onIssueAdd = (state, { issue }) => {
     };
 };
 
+const onIssueList = (state, { issues }) => {
+    return {
+        ...state,
+        list: issues
+    };
+};
+
 export default (state = initialState, { type, data }) => {
     switch (type) {
         case ISSUE_ADD_SUCCESS:
             return onIssueAdd(state, data);
+        case ISSUE_LIST_SUCCESS:
+            return onIssueList(state, data);
         default:
             return state;
     }
