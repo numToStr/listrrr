@@ -30,4 +30,4 @@ const schema = new Schema(
     }
 );
 
-module.exports = model("ToDo", schema);
+module.exports = model("Issue", schema);
