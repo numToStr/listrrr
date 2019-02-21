@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import InputField from "../../../components/form/form.textField";
 import LoadingButton from "../../../components/form/form.loadingButton";
 
-const SignupForm = ({ onSubmit, initialValues, loading }) => {
+const IssueAddForm = ({ onSubmit, initialValues, loading }) => {
     return (
         <Formik
             onSubmit={onSubmit}
@@ -47,4 +47,4 @@ const SignupForm = ({ onSubmit, initialValues, loading }) => {
     );
 };
 
-export default SignupForm;
+export default IssueAddForm;
