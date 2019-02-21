@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
+import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 import ShowIcon from "@material-ui/icons/PanoramaFishEyeTwoTone";
 import HelloIcon from "@material-ui/icons/PetsTwoTone";
@@ -17,6 +18,11 @@ const items = [
         text: "Home 😋",
         icon: HomeIcon,
         path: "/d/home"
+    },
+    {
+        text: "Projects",
+        icon: ProjectIcon,
+        path: "/d/projects/list"
     },
     {
         text: "Issues",
@@ -51,6 +57,8 @@ const DrawerList = ({ classes, location: { pathname } }) => {
                 key={text}
                 component={_Link}
                 selected={path === pathname}
+                disableRipple
+                disableTouchRipple
             >
                 <ListItemIcon
                     classes={{

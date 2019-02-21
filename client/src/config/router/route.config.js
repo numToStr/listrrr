@@ -3,6 +3,9 @@ import Login from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Home from "../../app/home/index.home";
+import Project from "../../app/project/index.project";
+import ProjectAdd from "../../app/project/project-add/index.project.add";
+import ProjectList from "../../app/project/project-list/index.project.list";
 import Issue from "../../app/issue/index.issue";
 import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueList from "../../app/issue/issue-list/index.issue.list";
@@ -42,6 +45,23 @@ export const routes = [
                 path: "/d/home",
                 component: Home,
                 private: true
+            },
+            {
+                path: "/d/projects",
+                component: Project,
+                private: true,
+                routes: [
+                    {
+                        path: "/d/projects/list",
+                        component: ProjectList,
+                        private: true
+                    },
+                    {
+                        path: "/d/projects/add",
+                        component: ProjectAdd,
+                        private: true
+                    }
+                ]
             },
             {
                 path: "/d/issues",
