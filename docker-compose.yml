@@ -7,14 +7,6 @@ services:
             - 27017:27017
         volumes:
             - /data/db:/data/db
-    nginx:
-        container_name: listerr-proxy
-        build:
-            context: ./nginx-proxy
-            dockerfile: Dockerfile
-        image: realvikas/listerr-proxy
-        ports:
-            - 3000:80
     frontend:
         container_name: listerr-web
         build:
@@ -35,3 +27,14 @@ services:
             - ./server:/usr/src/app
         depends_on:
             - database
+    nginx:
+        container_name: listerr-proxy
+        build:
+            context: ./nginx-proxy
+            dockerfile: Dockerfile
+        image: realvikas/listerr-proxy
+        ports:
+            - 3000:80
+        depends_on:
+            - frontend
+            - backend
