@@ -11,9 +11,6 @@ import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueList from "../../app/issue/issue-list/index.issue.list";
 import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
 
-import Show from "../../app/show/index.show";
-import Hello from "../../app/hello/index.hello";
-
 export const redirects = {
     default: "/",
     authFailure: "/signup",
@@ -85,16 +82,6 @@ export const routes = [
                         private: true
                     }
                 ]
-            },
-            {
-                path: "/d/show",
-                component: Show,
-                private: true
-            },
-            {
-                path: "/d/hello",
-                component: Hello,
-                private: true
             }
         ]
     }

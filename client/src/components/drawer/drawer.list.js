@@ -10,8 +10,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
-import ShowIcon from "@material-ui/icons/PanoramaFishEyeTwoTone";
-import HelloIcon from "@material-ui/icons/PetsTwoTone";
 
 const items = [
     {
@@ -28,16 +26,6 @@ const items = [
         text: "Issues",
         icon: IssuesIcon,
         path: "/d/issues/list"
-    },
-    {
-        text: "Show",
-        icon: ShowIcon,
-        path: "/d/show"
-    },
-    {
-        text: "Hello",
-        icon: HelloIcon,
-        path: "/d/hello"
     }
 ];
 
