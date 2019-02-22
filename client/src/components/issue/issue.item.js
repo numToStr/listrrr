@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "react-router-dom/Link";
 
 import formatDistance from "date-fns/formatDistance";
 import Typography from "@material-ui/core/Typography";
@@ -42,7 +43,9 @@ const IssueItem = ({ classes, _id, title, createdAt }) => {
                     />
                 </Grid> */}
                 <Grid item>
-                    <Typography variant="h6">{title}</Typography>
+                    <Typography variant="h6">
+                        <Link to={`/d/issues/edit/${_id}`}>{title}</Link>
+                    </Typography>
                     <Typography variant="caption" color="textSecondary">
                         created {creationDate}
                     </Typography>
