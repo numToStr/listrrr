@@ -16,6 +16,14 @@ IssueDAL.prototype.createIssue = async function createIssue(data = {}) {
     return issue.toObject();
 };
 
+// For getting single issue details
+IssueDAL.prototype.getIssue = function getIssue() {
+    return IssueModel.findOne(this.context)
+        .select(this.select)
+        .lean()
+        .exec();
+};
+
 // For getting all issues
 IssueDAL.prototype.getAllIssue = function getAllIssue(options = {}) {
     const { select = this.select } = options;
@@ -31,6 +39,7 @@ IssueDAL.prototype.getAllIssue = function getAllIssue(options = {}) {
 IssueDAL.prototype.updateIssue = function updateIssue(update = {}) {
     return IssueModel.findOneAndUpdate(this.context, update, this.updateOptions)
         .select(this.select)
+        .lean()
         .exec();
 };
 

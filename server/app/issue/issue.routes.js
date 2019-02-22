@@ -2,7 +2,8 @@ const router = require("express").Router();
 
 const {
     createIssue,
-    getIssues,
+    getIssue,
+    getIssueList,
     updateIssue,
     deleteIssue
 } = require("./issue.controller");
@@ -12,10 +13,12 @@ router
     // For creating issue
     .post(createIssue)
     // For getting issues list
-    .get(getIssues);
+    .get(getIssueList);
 
 router
     .route("/:issueId")
+    // For getting issue
+    .get(getIssue)
     // For updating issue
     .patch(updateIssue)
     // For deleting issue

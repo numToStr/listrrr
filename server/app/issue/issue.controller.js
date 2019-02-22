@@ -23,8 +23,30 @@ const createIssue = async (req, res, next) => {
     }
 };
 
+// For getting single issue details
+const getIssue = async (req, res, next) => {
+    try {
+        const {
+            $author: { $id },
+            params: { issueId }
+        } = req;
+
+        const issue = await new IssueDAL({
+            author: $id,
+            _id: issueId
+        }).getIssue();
+
+        res.status(200).json({
+            message: "Successful",
+            issue
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 // For getting issues
-const getIssues = async (req, res, next) => {
+const getIssueList = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
@@ -85,7 +107,8 @@ const deleteIssue = async (req, res, next) => {
 
 module.exports = {
     createIssue,
-    getIssues,
+    getIssue,
+    getIssueList,
     updateIssue,
     deleteIssue
 };
