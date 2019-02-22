@@ -8,17 +8,21 @@ import Button from "@material-ui/core/Button";
 
 import AddIcon from "@material-ui/icons/Add";
 
+import IssueList from "../../../components/issue/issue.list";
 import { issueList } from "../../../store/actions/issue.action";
 
 const styles = ({ spacing }) => ({
     addIcon: {
         marginRight: spacing.unit / 2.5
+    },
+    headerMargin: {
+        marginBottom: spacing.unit * 2
     }
 });
 
 const _Link = props => <Link to="/d/issues/add" {...props} />;
 
-class IssueList extends Component {
+class IssueListIndex extends Component {
     componentDidMount = () => {
         this.props.$issueList();
     };
@@ -30,7 +34,12 @@ class IssueList extends Component {
 
         return (
             <Fragment>
-                <Grid container justify="space-between" alignItems="center">
+                <Grid
+                    container
+                    justify="space-between"
+                    alignItems="center"
+                    className={classes.headerMargin}
+                >
                     <Grid item>
                         <Typography variant="h5">Issues</Typography>
                     </Grid>
@@ -44,6 +53,11 @@ class IssueList extends Component {
                             <AddIcon className={classes.addIcon} />
                             Add
                         </Button>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <IssueList items={_issueList} />
                     </Grid>
                 </Grid>
             </Fragment>
@@ -62,4 +76,4 @@ const mapDispatchToProps = dispatchEvent => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(IssueList));
+)(withStyles(styles)(IssueListIndex));
