@@ -2,7 +2,9 @@ import {
     ISSUE_ADD_SUCCESS,
     ISSUE_ADD,
     ISSUE_LIST,
-    ISSUE_LIST_SUCCESS
+    ISSUE_LIST_SUCCESS,
+    ISSUE_GET,
+    ISSUE_GET_SUCCESS
 } from "../action.types";
 
 const issueAddSuccess = data => ({
@@ -39,5 +41,22 @@ export const issueList = () => ({
     success: issueListSuccess,
     meta: {
         label: "issueList"
+    }
+});
+
+const issueGetSuccess = data => ({
+    type: ISSUE_GET_SUCCESS,
+    data
+});
+
+export const issueGet = issueId => ({
+    type: ISSUE_GET,
+    payload: {
+        method: "GET",
+        url: `/issue/${issueId}`
+    },
+    success: issueGetSuccess,
+    meta: {
+        lable: "issueGet"
     }
 });

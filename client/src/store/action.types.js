@@ -13,3 +13,5 @@ export const ISSUE_ADD = "ISSUE_ADD";
 export const ISSUE_ADD_SUCCESS = "ISSUE_ADD_SUCCESS";
 export const ISSUE_LIST = "ISSUE_LIST";
 export const ISSUE_LIST_SUCCESS = "ISSUE_LIST_SUCCESS";
+export const ISSUE_GET = "ISSUE_GET";
+export const ISSUE_GET_SUCCESS = "ISSUE_GET_SUCCESS";
