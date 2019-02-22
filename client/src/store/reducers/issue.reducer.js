@@ -1,3 +1,4 @@
+import normalizIssue from "../normalizrs/issue.normalizr";
 import { ISSUE_ADD_SUCCESS, ISSUE_LIST_SUCCESS } from "../action.types";
 
 const initialState = {
@@ -16,7 +17,7 @@ const onIssueAdd = (state, { issue }) => {
 const onIssueList = (state, { issues }) => {
     return {
         ...state,
-        list: issues
+        list: normalizIssue({ issues }).issues
     };
 };
 

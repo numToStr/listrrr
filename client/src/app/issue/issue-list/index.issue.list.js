@@ -30,8 +30,6 @@ class IssueListIndex extends Component {
     render() {
         const { classes, _issueList } = this.props;
 
-        console.log(_issueList);
-
         return (
             <Fragment>
                 <Grid
