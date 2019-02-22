@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 
 import IssueList from "../../../components/issue/issue.list";
+import Loader from "../../../components/loader/loader.page";
 import { issueList } from "../../../store/actions/issue.action";
 
 const styles = ({ spacing }) => ({
@@ -29,6 +30,12 @@ class IssueListIndex extends Component {
 
     render() {
         const { classes, _issueList } = this.props;
+
+        const issueList = _issueList ? (
+            <IssueList items={_issueList} />
+        ) : (
+            <Loader />
+        );
 
         return (
             <Fragment>
@@ -55,7 +62,7 @@ class IssueListIndex extends Component {
                 </Grid>
                 <Grid container>
                     <Grid item xs={12}>
-                        <IssueList items={_issueList} />
+                        {issueList}
                     </Grid>
                 </Grid>
             </Fragment>

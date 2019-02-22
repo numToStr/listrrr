@@ -2,14 +2,13 @@ import normalize from "../json.normalizr";
 import { ISSUE_ADD_SUCCESS, ISSUE_LIST_SUCCESS } from "../action.types";
 
 const initialState = {
-    list: [],
+    list: null,
     lastCreated: null
 };
 
 const onIssueAdd = (state, { issue }) => {
     return {
         ...state,
-        list: [issue, ...state.list],
         lastCreated: issue
     };
 };
