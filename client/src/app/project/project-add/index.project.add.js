@@ -31,7 +31,7 @@ const ProjectAdd = ({ classes, $issueAdd }) => {
                         component={_Link}
                         className={classes.headerMargin}
                     >
-                        <BackIcon />
+                        <BackIcon fontSize="small" />
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
