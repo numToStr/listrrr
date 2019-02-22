@@ -28,7 +28,9 @@ const getIssues = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const issues = await new IssueDAL({ author: $id }).getAllIssue();
+        const issues = await new IssueDAL({ author: $id }).getAllIssue({
+            select: "title createdAt"
+        });
 
         res.status(200).json({
             message: "Successful",

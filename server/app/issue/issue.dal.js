@@ -9,30 +9,32 @@ class IssueDAL {
     }
 }
 
-// For creating todo
+// For creating issue
 IssueDAL.prototype.createIssue = async function createIssue(data = {}) {
-    const todo = await new IssueModel(data).save();
+    const issue = await new IssueModel(data).save();
 
-    return todo.toObject();
+    return issue.toObject();
 };
 
-// For getting all todos
-IssueDAL.prototype.getAllIssue = function getAllIssue() {
+// For getting all issues
+IssueDAL.prototype.getAllIssue = function getAllIssue(options = {}) {
+    const { select = this.select } = options;
+
     return IssueModel.find(this.context)
-        .select(this.select)
+        .select(select)
         .sort(this.sort)
         .lean()
         .exec();
 };
 
-// For updating a todo
+// For updating a issue
 IssueDAL.prototype.updateIssue = function updateIssue(update = {}) {
     return IssueModel.findOneAndUpdate(this.context, update, this.updateOptions)
         .select(this.select)
         .exec();
 };
 
-// For deleting a todo
+// For deleting a issue
 IssueDAL.prototype.deleteIssue = function deleteIssue() {
     return IssueModel.deleteOne(this.context).exec();
 };
