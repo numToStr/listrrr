@@ -27,13 +27,7 @@ const schema = new Schema(
         isOpen: {
             type: Boolean,
             default: true
-        },
-        issue: [
-            {
-                type: SchemaTypes.ObjectId,
-                ref: "Issue"
-            }
-        ]
+        }
     },
     {
         timestamps: true,

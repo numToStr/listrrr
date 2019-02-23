@@ -20,7 +20,12 @@ const schema = new Schema(
         },
         author: {
             type: SchemaTypes.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: true
+        },
+        project: {
+            type: SchemaTypes.ObjectId,
+            ref: "Project"
         }
     },
     {
