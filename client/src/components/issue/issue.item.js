@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Link from "react-router-dom/Link";
 
 import formatDistance from "date-fns/formatDistance";
@@ -55,4 +55,4 @@ const IssueItem = ({ classes, _id, title, createdAt }) => {
     );
 };
 
-export default withStyles(styles)(IssueItem);
+export default memo(withStyles(styles)(IssueItem));
