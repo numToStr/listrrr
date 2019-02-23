@@ -19,9 +19,9 @@ const schema = new Schema(
             trim: true,
             minlength: 5
         },
-        board: {
+        template: {
             type: SchemaTypes.ObjectId,
-            ref: "Board",
+            ref: "Template",
             required: true
         },
         isOpen: {
