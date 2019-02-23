@@ -51,6 +51,7 @@ const issueGetSuccess = data => ({
 
 export const issueGet = issueId => ({
     type: ISSUE_GET,
+    http: true,
     payload: {
         method: "GET",
         url: `/issue/${issueId}`

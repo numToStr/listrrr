@@ -10,6 +10,7 @@ import Issue from "../../app/issue/index.issue";
 import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueList from "../../app/issue/issue-list/index.issue.list";
 import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
+import IssueView from "../../app/issue/issue-view/index.issue.view";
 
 export const redirects = {
     default: "/",
@@ -74,6 +75,11 @@ export const routes = [
                     {
                         path: "/d/issues/add",
                         component: IssueAdd,
+                        private: true
+                    },
+                    {
+                        path: "/d/issues/view/:issueId",
+                        component: IssueView,
                         private: true
                     },
                     {

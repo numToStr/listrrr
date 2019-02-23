@@ -44,7 +44,7 @@ const IssueItem = ({ classes, _id, title, createdAt }) => {
                 </Grid> */}
                 <Grid item>
                     <Typography variant="h6">
-                        <Link to={`/d/issues/edit/${_id}`}>{title}</Link>
+                        <Link to={`/d/issues/view/${_id}`}>{title}</Link>
                     </Typography>
                     <Typography variant="caption" color="textSecondary">
                         created {creationDate}
