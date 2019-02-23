@@ -27,7 +27,7 @@ const createIssue = async (req, res, next) => {
 const getIssue = async (req, res, next) => {
     try {
         const {
-            $author: { $id },
+            $user: { $id },
             params: { issueId }
         } = req;
 
