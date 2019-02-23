@@ -14,9 +14,9 @@ const schema = new Schema(
             minlength: 6,
             required: true
         },
-        completed: {
+        isOpen: {
             type: Boolean,
-            default: false
+            default: true
         },
         author: {
             type: SchemaTypes.ObjectId,
