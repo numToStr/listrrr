@@ -1,17 +1,27 @@
 const ProjectDAL = require("./project.dal");
+const TemplateDAL = require("../template/template.dal");
 
 const createProject = async (req, res, next) => {
     try {
         const {
             $user: { $id },
-            body: { title, description, board }
+            body: { title, description, template }
         } = req;
+
+        let extras = {};
+        if (template) {
+            const { columns } = await new TemplateDAL({
+                _id: template
+            }).getTemplate();
+
+            extras = { template, columns };
+        }
 
         const project = await new ProjectDAL().createProject({
             author: $id,
             title,
             description,
-            board
+            ...extras
         });
 
         res.status(201).json({
