@@ -1,4 +1,9 @@
-import { PROJECT_ADD, PROJECT_ADD_SUCCESS } from "../action.types";
+import {
+    PROJECT_ADD,
+    PROJECT_ADD_SUCCESS,
+    PROJECT_LIST,
+    PROJECT_LIST_SUCCESS
+} from "../action.types";
 
 const projectAddSuccess = data => ({
     type: PROJECT_ADD_SUCCESS,
@@ -16,5 +21,23 @@ export const projectAdd = data => ({
     success: projectAddSuccess,
     meta: {
         label: "projectAdd"
+    }
+});
+
+const projectListSuccess = data => ({
+    type: PROJECT_LIST_SUCCESS,
+    data
+});
+
+export const projectList = () => ({
+    type: PROJECT_LIST,
+    http: true,
+    payload: {
+        method: "GET",
+        url: "/project/list"
+    },
+    success: projectListSuccess,
+    meta: {
+        label: "projectList"
     }
 });
