@@ -10,7 +10,7 @@ import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
 import Loader from "../../../components/loader/loader.page";
 import ProjectAddForm from "./project.add.form";
-import { templateGet } from "../../../store/actions/template.action";
+import { templateGet } from "../../../store/actions/index.action";
 
 const initialValues = { title: "", description: "", template: "" };
 
