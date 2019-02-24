@@ -23,9 +23,11 @@ ProjectDAL.prototype.getProject = function getProject() {
         .exec();
 };
 
-ProjectDAL.prototype.getAllProject = function getAllProject() {
+ProjectDAL.prototype.getAllProject = function getAllProject(options = {}) {
+    const { select = this.select } = options;
+
     return ProjectModel.find(this.context)
-        .select(this.select)
+        .select(select)
         .sort(this.sort)
         .lean()
         .exec();

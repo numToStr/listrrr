@@ -37,7 +37,9 @@ const getProjectList = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const projects = await new ProjectDAL({ author: $id }).getAllProject();
+        const projects = await new ProjectDAL({ author: $id }).getAllProject({
+            select: "title description createdAt"
+        });
 
         res.status(200).json({
             message: "Successful",
