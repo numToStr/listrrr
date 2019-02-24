@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
 import Link from "react-router-dom/Link";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
@@ -7,9 +8,11 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
+import Loader from "../../../components/loader/loader.page";
 import ProjectAddForm from "./project.add.form";
+import { templateGet } from "../../../store/actions/template.action";
 
-const initialValues = { title: "", description: "" };
+const initialValues = { title: "", description: "", template: "" };
 
 const styles = ({ spacing }) => ({
     headerMargin: {
@@ -19,7 +22,15 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/projects/list" {...props} />;
 
-const ProjectAdd = ({ classes, $issueAdd }) => {
+const ProjectAdd = ({ classes, $templateGet, _templates }) => {
+    useEffect(() => {
+        $templateGet();
+    }, []);
+
+    if (!_templates) {
+        return <Loader />;
+    }
+
     const onSubmit = values => console.log(values);
 
     return (
@@ -40,9 +51,24 @@ const ProjectAdd = ({ classes, $issueAdd }) => {
                     </Typography>
                 </Grid>
             </Grid>
-            <ProjectAddForm onSubmit={onSubmit} initialValues={initialValues} />
+            <ProjectAddForm
+                onSubmit={onSubmit}
+                initialValues={initialValues}
+                templates={_templates}
+            />
         </Fragment>
     );
 };
 
-export default withStyles(styles)(ProjectAdd);
+const mapStateToProps = ({ templates }) => ({
+    _templates: templates
+});
+
+const mapDispatchToProps = dispatchEvent => ({
+    $templateGet: () => dispatchEvent(templateGet())
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(ProjectAdd));

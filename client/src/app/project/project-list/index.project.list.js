@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import Link from "react-router-dom/Link";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
@@ -15,31 +15,27 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/projects/add" {...props} />;
 
-class ProjectList extends Component {
-    render() {
-        const { classes } = this.props;
-
-        return (
-            <Fragment>
-                <Grid container justify="space-between" alignItems="center">
-                    <Grid item>
-                        <Typography variant="h5">Projects</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            component={_Link}
-                        >
-                            <AddIcon className={classes.addIcon} />
-                            Add
-                        </Button>
-                    </Grid>
+const ProjectList = ({ classes }) => {
+    return (
+        <Fragment>
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item>
+                    <Typography variant="h5">Projects</Typography>
                 </Grid>
-            </Fragment>
-        );
-    }
-}
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        component={_Link}
+                    >
+                        <AddIcon className={classes.addIcon} />
+                        Add
+                    </Button>
+                </Grid>
+            </Grid>
+        </Fragment>
+    );
+};
 
 export default withStyles(styles)(ProjectList);
