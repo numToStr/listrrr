@@ -1,5 +1,16 @@
 const { Schema, SchemaTypes, model } = require("mongoose");
 
+const templateColumns = new Schema(
+    {
+        title: {
+            type: String
+        }
+    },
+    {
+        timestamps: true
+    }
+);
+
 const schema = new Schema(
     {
         author: {
@@ -19,15 +30,15 @@ const schema = new Schema(
             trim: true,
             minlength: 5
         },
-        template: {
-            type: SchemaTypes.ObjectId,
-            ref: "Template",
-            required: true
-        },
         isOpen: {
             type: Boolean,
             default: true
-        }
+        },
+        template: {
+            type: SchemaTypes.ObjectId,
+            ref: "Template"
+        },
+        columns: [templateColumns]
     },
     {
         timestamps: true,

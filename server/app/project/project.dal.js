@@ -9,8 +9,8 @@ class ProjectDAL {
     }
 }
 
-ProjectDAL.prototype.createProject = function createProject(data = {}) {
-    const newProject = new ProjectModel(data).save();
+ProjectDAL.prototype.createProject = async function createProject(data = {}) {
+    const newProject = await new ProjectModel(data).save();
 
     return newProject.toObject();
 };
