@@ -10,7 +10,7 @@ import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
 import Loader from "../../../components/loader/loader.page";
 import ProjectAddForm from "./project.add.form";
-import { templateGet } from "../../../store/actions/index.action";
+import { templateGet, projectAdd } from "../../../store/actions/index.action";
 
 const initialValues = { title: "", description: "", template: "" };
 
@@ -22,7 +22,7 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/projects/list" {...props} />;
 
-const ProjectAdd = ({ classes, $templateGet, _templates }) => {
+const ProjectAdd = ({ classes, $projectAdd, $templateGet, _templates }) => {
     useEffect(() => {
         $templateGet();
     }, []);
@@ -31,7 +31,7 @@ const ProjectAdd = ({ classes, $templateGet, _templates }) => {
         return <Loader />;
     }
 
-    const onSubmit = values => console.log(values);
+    const onSubmit = values => $projectAdd(values);
 
     return (
         <Fragment>
@@ -65,6 +65,7 @@ const mapStateToProps = ({ templates }) => ({
 });
 
 const mapDispatchToProps = dispatchEvent => ({
+    $projectAdd: values => dispatchEvent(projectAdd(values)),
     $templateGet: () => dispatchEvent(templateGet())
 });
 
