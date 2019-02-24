@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Link from "react-router-dom/Link";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -10,7 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 import IssueList from "../../../components/issue/issue.list";
 import Loader from "../../../components/loader/loader.page";
-import { issueList } from "../../../store/actions/issue.action";
+import { issueList } from "../../../store/actions/index.action";
 
 const styles = ({ spacing }) => ({
     addIcon: {
@@ -23,52 +23,46 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/issues/add" {...props} />;
 
-class IssueListIndex extends Component {
-    componentDidMount = () => {
-        this.props.$issueList();
-    };
+const IssueListIndex = ({ classes, $issueList, _issueList }) => {
+    useEffect(() => {
+        $issueList();
+    }, []);
 
-    render() {
-        const { classes, _issueList } = this.props;
-
-        const issueList = _issueList ? (
-            <IssueList items={_issueList} />
-        ) : (
-            <Loader />
-        );
-
-        return (
-            <Fragment>
-                <Grid
-                    container
-                    justify="space-between"
-                    alignItems="center"
-                    className={classes.headerMargin}
-                >
-                    <Grid item>
-                        <Typography variant="h5">Issues</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            component={_Link}
-                        >
-                            <AddIcon className={classes.addIcon} />
-                            Add
-                        </Button>
-                    </Grid>
-                </Grid>
-                <Grid container>
-                    <Grid item xs={12}>
-                        {issueList}
-                    </Grid>
-                </Grid>
-            </Fragment>
-        );
+    if (!_issueList) {
+        return <Loader />;
     }
-}
+
+    return (
+        <Fragment>
+            <Grid
+                container
+                justify="space-between"
+                alignItems="center"
+                className={classes.headerMargin}
+            >
+                <Grid item>
+                    <Typography variant="h5">Issues</Typography>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        component={_Link}
+                    >
+                        <AddIcon className={classes.addIcon} />
+                        Add
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid container>
+                <Grid item xs={12}>
+                    <IssueList items={_issueList} />
+                </Grid>
+            </Grid>
+        </Fragment>
+    );
+};
 
 const mapStateToProps = ({ issue }) => ({
     _issueList: issue.list
