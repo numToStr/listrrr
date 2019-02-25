@@ -19,7 +19,6 @@ const IssueAddForm = ({ onSubmit, initialValues, loading }) => {
                             name="title"
                             label="Title"
                             type="text"
-                            autoFocus
                             component={InputField}
                         />
                         <Field
