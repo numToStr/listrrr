@@ -13,7 +13,6 @@ const ProjectListIndex = ({ classes, $projectList, _projectList }) => {
     if (!_projectList) {
         return <Loader />;
     }
-    console.log(_projectList);
 
     return (
         <Fragment>
