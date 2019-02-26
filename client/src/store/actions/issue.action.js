@@ -58,6 +58,6 @@ export const issueGet = issueId => ({
     },
     success: issueGetSuccess,
     meta: {
-        lable: "issueGet"
+        label: "issueGet"
     }
 });
