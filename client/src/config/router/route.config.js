@@ -1,11 +1,11 @@
 import Index from "../../app/index/index.app";
 import Login from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
-// import Dashboard from "../../app/dashboard/index.dashboard";
-// import Home from "../../app/home/index.home";
-// import Project from "../../app/project/index.project";
-// import ProjectAdd from "../../app/project/project-add/index.project.add";
-// import ProjectList from "../../app/project/project-list/index.project.list";
+import Dashboard from "../../app/dashboard/index.dashboard";
+import Home from "../../app/home/index.home";
+import Project from "../../app/project/index.project";
+import ProjectAdd from "../../app/project/project-add/index.project.add";
+import ProjectList from "../../app/project/project-list/index.project.list";
 // import Issue from "../../app/issue/index.issue";
 // import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 // import IssueList from "../../app/issue/issue-list/index.issue.list";
@@ -14,7 +14,7 @@ import Signup from "../../app/signup/index.signup";
 
 export const redirects = {
     default: "/",
-    authFailure: "/signup",
+    authFailure: "/login",
     authSuccess: "/d/home"
 };
 
@@ -34,8 +34,8 @@ export const routes = [
         path: "/login",
         component: Login,
         private: false
-    }
-    /*  {
+    },
+    {
         path: "/d",
         component: Dashboard,
         private: true,
@@ -61,8 +61,8 @@ export const routes = [
                         private: true
                     }
                 ]
-            },
-            {
+            }
+            /*  {
                 path: "/d/issues",
                 component: Issue,
                 private: true,
@@ -88,7 +88,7 @@ export const routes = [
                         private: true
                     }
                 ]
-            }
+            } */
         ]
-    } */
+    }
 ];

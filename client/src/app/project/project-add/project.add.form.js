@@ -1,10 +1,12 @@
+// Note: I am not using FormLayout component because its layout is different
+
 import React from "react";
 import { Formik, Field } from "formik";
 import Grid from "@material-ui/core/Grid";
 
-import InputField from "../../../components/form/form.textField";
-import SelectField from "../../../components/form/form.select";
-import LoadingButton from "../../../components/form/form.loadingButton";
+import InputField from "../../../components/forms/inputs/form.textField";
+import SelectField from "../../../components/forms/inputs/form.select";
+import LoadingButton from "../../../components/forms/inputs/form.loadingButton";
 
 const ProjectAddForm = ({ onSubmit, initialValues, loading, templates }) => {
     return (
