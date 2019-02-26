@@ -1,21 +1,44 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormLayout from "../../components/form/form.layout";
-import LoginForm from "./login.form";
+import FormWrapper from "../../components/forms/form.wrapper";
+import FormLayout from "../../components/forms/form.layout";
 import { login } from "../../store/actions/index.action";
 
 const initialValues = { username: "", password: "" };
 
+const config = {
+    fields: [
+        {
+            type: "email",
+            name: "email",
+            label: "Email"
+        },
+        {
+            type: "password",
+            name: "password",
+            label: "Password"
+        }
+    ],
+    actions: [
+        {
+            type: "submit",
+            title: "Signup"
+        }
+    ]
+};
+
 const Login = ({ $login, _loading }) => {
     return (
-        <FormLayout>
-            <LoginForm
+        <FormWrapper>
+            <FormLayout
+                key="login-form"
+                config={config}
                 loading={_loading}
                 initialValues={initialValues}
                 onSubmit={$login}
             />
-        </FormLayout>
+        </FormWrapper>
     );
 };
 
