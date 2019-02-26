@@ -10,9 +10,9 @@ const initialValues = { username: "", password: "" };
 const config = {
     fields: [
         {
-            type: "email",
-            name: "email",
-            label: "Email"
+            type: "text",
+            name: "username",
+            label: "Username"
         },
         {
             type: "password",
@@ -23,7 +23,7 @@ const config = {
     actions: [
         {
             type: "submit",
-            title: "Signup"
+            title: "Login"
         }
     ]
 };
