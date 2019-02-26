@@ -9,18 +9,18 @@ const initialState = {
 };
 
 const onHttpStart = (state, { label }) => ({
-    ...state,
     request: {
+        ...state.request,
         [label]: true
     }
 });
 
 const onHttpSuccess = (state, { label }) => ({
     request: {
+        ...state.request,
         [label]: false
     }
 });
-
 const onHttpFailure = (state, { label, error }) => ({
     request: {
         [label]: false

@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
+import Loader from "../../../components/loader/loader.page";
 import IssueTitle from "./issue-view.title";
 import IssueDescription from "./issue-view.description";
 import { issueGet } from "../../../store/actions/index.action";
@@ -12,16 +12,13 @@ const IssueViewIndex = ({ match: { params }, $issueGet, _currentIssue }) => {
         $issueGet(params.issueId);
     }, []);
 
+    if (!_currentIssue) {
+        return <Loader />;
+    }
+
     return (
         <Fragment>
-            <Grid
-                container
-                justify="space-between"
-                alignItems="center"
-                style={{ marginBottom: "1rem" }}
-            >
-                <IssueTitle title={_currentIssue.title} />
-            </Grid>
+            <IssueTitle title={_currentIssue.title} />
             <Typography variant="caption" color="textSecondary">
                 created @ {_currentIssue.createdAt}
             </Typography>
@@ -33,7 +30,7 @@ const IssueViewIndex = ({ match: { params }, $issueGet, _currentIssue }) => {
     );
 };
 const mapStateToProps = ({ issue }) => ({
-    _currentIssue: issue.current ? issue.current : {}
+    _currentIssue: issue.current
 });
 
 const mapDispatchToProps = dispatchEvent => ({
