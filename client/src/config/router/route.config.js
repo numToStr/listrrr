@@ -6,11 +6,11 @@ import Home from "../../app/home/index.home";
 import Project from "../../app/project/index.project";
 import ProjectAdd from "../../app/project/project-add/index.project.add";
 import ProjectList from "../../app/project/project-list/index.project.list";
-// import Issue from "../../app/issue/index.issue";
-// import IssueAdd from "../../app/issue/issue-add/index.issue.add";
-// import IssueList from "../../app/issue/issue-list/index.issue.list";
-// import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
-// import IssueView from "../../app/issue/issue-view/index.issue.view";
+import Issue from "../../app/issue/index.issue";
+import IssueAdd from "../../app/issue/issue-add/index.issue.add";
+import IssueList from "../../app/issue/issue-list/index.issue.list";
+import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
+import IssueView from "../../app/issue/issue-view/index.issue.view";
 
 export const redirects = {
     default: "/",
@@ -61,8 +61,8 @@ export const routes = [
                         private: true
                     }
                 ]
-            }
-            /*  {
+            },
+            {
                 path: "/d/issues",
                 component: Issue,
                 private: true,
@@ -88,7 +88,7 @@ export const routes = [
                         private: true
                     }
                 ]
-            } */
+            }
         ]
     }
 ];

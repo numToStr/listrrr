@@ -8,10 +8,39 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import IssueAddForm from "./issue.add.form";
+import FormLayout from "../../../components/forms/form.layout";
 import { issueAdd } from "../../../store/actions/issue.action";
 
 const initialValues = { title: "", description: "" };
+
+const config = {
+    fields: [
+        {
+            type: "text",
+            name: "title",
+            label: "Title"
+        },
+        {
+            type: "text",
+            name: "description",
+            label: "Description",
+            muiProps: {
+                multiline: true,
+                rows: 6,
+                rowsMax: 10
+            }
+        }
+    ],
+    actions: [
+        {
+            type: "submit",
+            title: "Submit",
+            muiProps: {
+                fullWidth: false
+            }
+        }
+    ]
+};
 
 const styles = ({ spacing }) => ({
     headerMargin: {
@@ -21,7 +50,7 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/issues/list" {...props} />;
 
-const IssueAdd = ({ classes, $issueAdd }) => {
+const IssueAdd = ({ classes, $issueAdd, _loadingIssueAdd }) => {
     const onSubmit = values => $issueAdd(values);
 
     return (
@@ -42,16 +71,26 @@ const IssueAdd = ({ classes, $issueAdd }) => {
                     </Typography>
                 </Grid>
             </Grid>
-            <IssueAddForm onSubmit={onSubmit} initialValues={initialValues} />
+            <FormLayout
+                key="issue-add-form"
+                config={config}
+                onSubmit={onSubmit}
+                initialValues={initialValues}
+                loading={_loadingIssueAdd}
+            />
         </Fragment>
     );
 };
+
+const mapStateToProps = ({ http: { request } }) => ({
+    _loadingIssueAdd: request.issueAdd
+});
 
 const mapDispatchToProps = dispatchEvent => ({
     $issueAdd: val => dispatchEvent(issueAdd(val))
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(withStyles(styles)(IssueAdd));

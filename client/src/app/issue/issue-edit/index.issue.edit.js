@@ -7,9 +7,38 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import IssueEditForm from "./issue.edit.form";
+import FormLayout from "../../../components/forms/form.layout";
 
 const initialValues = { title: "", description: "" };
+
+const config = {
+    fields: [
+        {
+            type: "text",
+            name: "title",
+            label: "Title"
+        },
+        {
+            type: "text",
+            name: "description",
+            label: "Description",
+            muiProps: {
+                multiline: true,
+                rows: 6,
+                rowsMax: 10
+            }
+        }
+    ],
+    actions: [
+        {
+            type: "submit",
+            title: "Submit",
+            muiProps: {
+                fullWidth: false
+            }
+        }
+    ]
+};
 
 const styles = ({ spacing }) => ({
     headerMargin: {
@@ -21,8 +50,6 @@ const _Link = props => <Link to="/d/issues/list" {...props} />;
 
 const IssueEdit = ({ classes, match: { params } }) => {
     const onSubmit = values => console.log(values);
-
-    console.log(params);
 
     return (
         <Fragment>
@@ -42,7 +69,12 @@ const IssueEdit = ({ classes, match: { params } }) => {
                     </Typography>
                 </Grid>
             </Grid>
-            <IssueEditForm onSubmit={onSubmit} initialValues={initialValues} />
+            <FormLayout
+                key="issue-edit-form"
+                config={config}
+                onSubmit={onSubmit}
+                initialValues={initialValues}
+            />
         </Fragment>
     );
 };
