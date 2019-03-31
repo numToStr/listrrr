@@ -3,15 +3,17 @@ import Login from "../../app/login/index.login";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Home from "../../app/home/index.home";
+
 import Project from "../../app/project/index.project";
 import ProjectAdd from "../../app/project/project-add/index.project.add";
-import ProjectList from "../../app/project/project-list/index.project.list";
+import ProjectList from "../../app/project/ProjectList/ProjectListIndex";
+import ProjectViewIndex from "../../app/project/ProjectView/ProjectViewIndex";
+
 import Issue from "../../app/issue/index.issue";
 import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueListIndex from "../../app/issue/IssueList/IssueListIndex";
 import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
 import IssueView from "../../app/issue/issue-view/index.issue.view";
-import ProjectViewIndex from "../../app/project/ProjectView/ProjectViewIndex";
 
 export const redirects = {
     default: "/",
