@@ -1,5 +1,5 @@
 import React from "react";
-import IssueItem from "./issue.item";
+import IssueItem from "./IssueItem";
 
 const IssueList = ({ items }) => {
     const list = Object.values(items).map(item => (
