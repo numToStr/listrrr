@@ -1,58 +1,25 @@
 import React, { memo } from "react";
 import Link from "react-router-dom/Link";
 
-import formatDistance from "date-fns/formatDistance";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-// import Checkbox from "@material-ui/core/Checkbox";
 
-// import Favorite from "@material-ui/icons/Favorite";
-// import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import ListCard from "../ListCard";
+import DateFormat from "../DateFormat";
 
-const styles = ({ spacing, mixins }) => {
-    const pUnit = spacing.unit * 1.5;
-
-    return {
-        cardPadding: {
-            // padding: `${pUnit}rem ${pUnit}rem !important`
-            ...mixins.gutters(),
-            paddingTop: pUnit,
-            paddingBottom: pUnit,
-            marginBottom: pUnit
-        }
-    };
-};
-
-const IssueItem = ({ classes, _id, title, createdAt }) => {
-    const creationDate = formatDistance(new Date(createdAt), new Date(), {
-        addSuffix: true
-    });
-
+const IssueItem = ({ _id, title, createdAt }) => {
     return (
-        <Paper className={classes.cardPadding} elevation={1}>
+        <ListCard>
             <Grid container alignItems="center">
-                {/* <Grid item>
-                    <Checkbox
-                        icon={<FavoriteBorder fontSize="small" />}
-                        checkedIcon={<Favorite fontSize="small" />}
-                        checked={true}
-                        value={_id}
-                        color="primary"
-                    />
-                </Grid> */}
                 <Grid item>
                     <Typography variant="h6">
                         <Link to={`/d/issues/view/${_id}`}>{title}</Link>
                     </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                        created {creationDate}
-                    </Typography>
+                    <DateFormat date={createdAt} />
                 </Grid>
             </Grid>
-        </Paper>
+        </ListCard>
     );
 };
 
-export default memo(withStyles(styles)(IssueItem));
+export default memo(IssueItem);

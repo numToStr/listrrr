@@ -1,14 +1,17 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 
 import Loader from "../../../components/loader/loader.page";
 import Header from "../../../components/header/header";
 import { projectList } from "../../../store/actions/index.action";
+import ProjectList from "../../../components/Project/ProjectList";
 
-const ProjectListIndex = ({ classes, $projectList, _projectList }) => {
+const ProjectListIndex = ({ $projectList, _projectList }) => {
+    const $$projectList = useCallback($projectList, []);
+
     useEffect(() => {
-        $projectList();
-    }, []);
+        $$projectList();
+    }, [$$projectList]);
 
     if (!_projectList) {
         return <Loader />;
@@ -17,6 +20,7 @@ const ProjectListIndex = ({ classes, $projectList, _projectList }) => {
     return (
         <Fragment>
             <Header title="Projects" addLink="/d/projects/add" />
+            <ProjectList items={_projectList} />
         </Fragment>
     );
 };
