@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
 import IssueList from "../../../components/Issue/IssueList";
-import Header from "../../../components/header/header";
+import Header from "../../../components/Header/Header";
 import Loader from "../../../components/Loader/Loader";
 import { issueList } from "../../../store/actions/index.action";
 
