@@ -15,12 +15,30 @@ ProjectDAL.prototype.create = async function create(data = {}) {
     return newProject.toObject();
 };
 
-ProjectDAL.prototype.findOne = function findOne() {
-    return ProjectModel.findOne(this.ctx)
-        .select(this.select)
-        .sort(this.sort)
-        .lean()
+ProjectDAL.prototype.findOne = async function findOne() {
+    const [project] = await ProjectModel.aggregate()
+        .match(this.ctx)
+        .lookup({
+            from: "issues",
+            localField: "_id",
+            foreignField: "project",
+            as: "issues"
+        })
+        .project({
+            title: 1,
+            description: 1,
+            columns: 1,
+            "issues._id": 1,
+            "issues.title": 1,
+            "issues.description": 1,
+            "issues.createdAt": 1,
+            "issues.isOpen": 1,
+            createdAt: 1,
+            updatedAt: 1
+        })
         .exec();
+
+    return project;
 };
 
 ProjectDAL.prototype.findAll = function findAll(options = {}) {

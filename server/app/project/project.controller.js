@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongoose").Types;
+
 const ProjectDAL = require("./project.dal");
 const TemplateDAL = require("../template/template.dal");
 
@@ -58,8 +60,8 @@ const getProject = async (req, res, next) => {
         } = req;
 
         const project = await new ProjectDAL({
-            _id: projectId,
-            author: $id
+            _id: ObjectId(projectId),
+            author: ObjectId($id)
         }).findOne();
 
         res.status(200).json({
