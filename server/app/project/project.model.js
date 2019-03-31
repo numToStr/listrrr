@@ -1,15 +1,6 @@
 const { Schema, SchemaTypes, model } = require("mongoose");
 
-const templateColumns = new Schema(
-    {
-        title: {
-            type: String
-        }
-    },
-    {
-        timestamps: true
-    }
-);
+const columnSchema = require("../template/column/column.schema");
 
 const schema = new Schema(
     {
@@ -38,7 +29,11 @@ const schema = new Schema(
             type: SchemaTypes.ObjectId,
             ref: "Template"
         },
-        columns: [templateColumns]
+        columns: [
+            columnSchema({
+                timestamps: true
+            })
+        ]
     },
     {
         timestamps: true,

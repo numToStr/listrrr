@@ -1,21 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const templateColumns = new Schema(
-    {
-        title: {
-            type: String,
-            required: true
-        },
-        order: {
-            type: String,
-            required: true,
-            enum: ["#1", "#2", "#3", "#4", "#5"]
-        }
-    },
-    {
-        _id: false
-    }
-);
+const columnSchema = require("./column/column.schema");
 
 const schema = new Schema(
     {
@@ -27,7 +12,11 @@ const schema = new Schema(
             type: String,
             required: true
         },
-        columns: [templateColumns]
+        columns: [
+            columnSchema({
+                _id: false
+            })
+        ]
     },
     {
         minimize: true,
