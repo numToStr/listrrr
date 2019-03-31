@@ -34,6 +34,7 @@ ProjectDAL.prototype.findOne = async function findOne() {
             "issues.title": 1,
             "issues.description": 1,
             "issues.createdAt": 1,
+            "issues.column": 1,
             "issues.isOpen": 1,
             createdAt: 1,
             updatedAt: 1

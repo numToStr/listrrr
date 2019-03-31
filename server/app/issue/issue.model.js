@@ -27,7 +27,7 @@ const schema = new Schema(
             type: SchemaTypes.ObjectId,
             ref: "Project"
         },
-        card: {
+        column: {
             type: SchemaTypes.ObjectId
         }
     },
