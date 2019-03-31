@@ -13,7 +13,7 @@ const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
             <Grid container alignItems="center">
                 <Grid item>
                     <Typography variant="h6" color="textPrimary">
-                        <Link to={`/d/project/view/${_id}`}>{title}</Link>
+                        <Link to={`/d/projects/view/${_id}`}>{title}</Link>
                     </Typography>
                     <Typography variant="body2" gutterBottom>
                         {description}

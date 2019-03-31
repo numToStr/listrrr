@@ -11,6 +11,7 @@ import IssueAdd from "../../app/issue/issue-add/index.issue.add";
 import IssueList from "../../app/issue/issue-list/index.issue.list";
 import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
 import IssueView from "../../app/issue/issue-view/index.issue.view";
+import ProjectViewIndex from "../../app/project/ProjectView/ProjectViewIndex";
 
 export const redirects = {
     default: "/",
@@ -58,6 +59,11 @@ export const routes = [
                     {
                         path: "/d/projects/add",
                         component: ProjectAdd,
+                        private: true
+                    },
+                    {
+                        path: "/d/projects/view/:projectId",
+                        component: ProjectViewIndex,
                         private: true
                     }
                 ]
