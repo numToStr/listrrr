@@ -6,6 +6,7 @@ class IssueDAL {
         this.select = "-author -updatedAt -__v";
         this.sort = { createdAt: -1 };
         this.updateOptions = { new: true };
+        this.populate = ["project", "title"];
     }
 }
 
@@ -17,9 +18,14 @@ IssueDAL.prototype.createIssue = async function createIssue(data = {}) {
 };
 
 // For getting single issue details
-IssueDAL.prototype.getIssue = function getIssue() {
+IssueDAL.prototype.getIssue = function getIssue(options = {}) {
+    const { populate = this.populate } = options;
+
+    const [key, project] = populate;
+
     return IssueModel.findOne(this.context)
         .select(this.select)
+        .populate(key, project)
         .lean()
         .exec();
 };
