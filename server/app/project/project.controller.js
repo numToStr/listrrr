@@ -17,7 +17,7 @@ const createProject = async (req, res, next) => {
             extras = { template, columns };
         }
 
-        const project = await new ProjectDAL().createProject({
+        const project = await new ProjectDAL().create({
             author: $id,
             title,
             description,
@@ -37,7 +37,7 @@ const getProjectList = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const projects = await new ProjectDAL({ author: $id }).getAllProject({
+        const projects = await new ProjectDAL({ author: $id }).findAll({
             select: "title description createdAt updatedAt"
         });
 
@@ -60,7 +60,7 @@ const getProject = async (req, res, next) => {
         const project = await new ProjectDAL({
             _id: projectId,
             author: $id
-        }).getProject();
+        }).findOne();
 
         res.status(200).json({
             success: "Successful",
@@ -91,7 +91,7 @@ const deleteProject = async (req, res, next) => {
         const project = await new ProjectDAL({
             _id: projectId,
             author: $id
-        }).deleteProject();
+        }).deleteOne();
 
         /**
          * @todo Implement Undo feature
