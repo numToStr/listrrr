@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 
-import Loader from "../../../components/loader/loader.page";
+import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./issue-view.title";
 import IssueDescription from "./issue-view.description";
 import { issueGet } from "../../../store/actions/index.action";

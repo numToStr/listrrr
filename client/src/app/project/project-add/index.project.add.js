@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import Loader from "../../../components/loader/loader.page";
+import Loader from "../../../components/Loader/Loader";
 import ProjectAddForm from "./project.add.form";
 import { templateGet, projectAdd } from "../../../store/actions/index.action";
 

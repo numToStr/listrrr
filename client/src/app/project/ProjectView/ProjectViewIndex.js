@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
-import Loader from "../../../components/loader/loader.page";
+import Loader from "../../../components/Loader/Loader";
 import { projectGet } from "../../../store/actions/index.action";
 
 const ProjectViewIndex = ({

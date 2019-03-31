@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 
-import Loader from "../../../components/loader/loader.page";
+import Loader from "../../../components/Loader/Loader";
 import Header from "../../../components/header/header";
 import { projectList } from "../../../store/actions/index.action";
 import ProjectList from "../../../components/Project/ProjectList";

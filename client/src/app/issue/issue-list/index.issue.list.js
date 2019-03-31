@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 
 import IssueList from "../../../components/issue/issue.list";
 import Header from "../../../components/header/header";
-import Loader from "../../../components/loader/loader.page";
+import Loader from "../../../components/Loader/Loader";
 import { issueList } from "../../../store/actions/index.action";
 
 const IssueListIndex = ({ $issueList, _issueList }) => {

@@ -1,27 +1,25 @@
-import React, { Component } from "react";
+import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import withRouter from "react-router-dom/withRouter";
 import { routes } from "../config/router/route.config";
 import RoutesRenderer from "../config/router/route.renderer";
 
-import LoadingPage from "../components/loader/loader.page";
+import Loader from "../components/Loader/Loader";
 import { authenticate } from "../store/actions/index.action";
 
-class index extends Component {
-    componentDidMount = () => {
-        this.props.$authenticate();
-    };
+const Root = ({ $authenticate, _isAuthenticating }) => {
+    const $$authenticate = useCallback($authenticate, [$authenticate]);
 
-    render() {
-        const { _isAuthenticating } = this.props;
+    useEffect(() => {
+        $$authenticate();
+    }, []);
 
-        if (_isAuthenticating) {
-            return <LoadingPage />;
-        }
-
-        return <RoutesRenderer config={routes} default="/" />;
+    if (_isAuthenticating) {
+        return <Loader />;
     }
-}
+
+    return <RoutesRenderer config={routes} default="/" />;
+};
 
 const mapState = ({ http: { request } }) => ({
     _isAuthenticating: request.authenticate ? true : false
@@ -35,5 +33,5 @@ export default withRouter(
     connect(
         mapState,
         mapDispatch
-    )(index)
+    )(Root)
 );
