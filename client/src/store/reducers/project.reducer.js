@@ -1,4 +1,4 @@
-import normalize from "../json.normalizr";
+import normalize, { normalizeLevel1 } from "../json.normalizr";
 import {
     PROJECT_ADD_SUCCESS,
     PROJECT_LIST_SUCCESS,
@@ -21,13 +21,16 @@ const onProjectList = (state, { projects }) => ({
     list: normalize({ projects }, { entity: "projects" }).projects
 });
 
-const onProject = (state, { project: { columns, ...restProject } }) => ({
-    ...state,
-    current: {
-        ...restProject,
-        columns: normalize({ columns }, { entity: "columns" }).columns
-    }
-});
+const onProject = (state, { project: { columns, issues, ...restProject } }) => {
+    return {
+        ...state,
+        current: {
+            ...restProject,
+            columns: normalize({ columns }, { entity: "columns" }).columns,
+            issues: normalizeLevel1(issues, { entity: "issues" })
+        }
+    };
+};
 
 export default (state = initialState, { type, data }) => {
     switch (type) {
