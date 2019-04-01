@@ -9,7 +9,7 @@ const IssueList = ({ items: { entities, result } }) => {
     }
 
     const list = result.map(item => (
-        <IssueItem key={item._id} {...entities[item]} />
+        <IssueItem key={item} {...entities[item]} />
     ));
 
     return list;

@@ -10,7 +10,7 @@ const ProjectCardList = ({ items: { entities, result } }) => {
     }
 
     const list = result.map(item => (
-        <ProjectCard key={item._id} {...entities[item]} />
+        <ProjectCard key={item} {...entities[item]} />
     ));
 
     return (
