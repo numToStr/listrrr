@@ -1,46 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Link from "react-router-dom/Link";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
-
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import FormLayout from "../../../components/forms/form.layout";
-import { issueAdd } from "../../../store/actions/issue.action";
+import { issueAdd, projectList } from "../../../store/actions/index.action";
 
-const initialValues = { title: "", description: "" };
+import Loader from "../../../components/Loader/Loader";
+import IssueAddForm from "./IssueAddForm";
 
-const config = {
-    fields: [
-        {
-            type: "text",
-            name: "title",
-            label: "Title"
-        },
-        {
-            type: "text",
-            name: "description",
-            label: "Description",
-            muiProps: {
-                multiline: true,
-                rows: 6,
-                rowsMax: 10
-            }
-        }
-    ],
-    actions: [
-        {
-            type: "submit",
-            title: "Submit",
-            muiProps: {
-                fullWidth: false
-            }
-        }
-    ]
-};
+const initialValues = { title: "", description: "", project: "" };
 
 const styles = ({ spacing }) => ({
     headerMargin: {
@@ -50,8 +22,22 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/issues/list" {...props} />;
 
-const IssueAdd = ({ classes, $issueAdd, _loadingIssueAdd }) => {
+const IssueAdd = ({
+    classes,
+    $issueAdd,
+    $projectList,
+    _loadingIssueAdd,
+    _projectList
+}) => {
+    useEffect(() => {
+        $projectList();
+    }, []);
+
     const onSubmit = values => $issueAdd(values);
+
+    if (!_projectList) {
+        return <Loader />;
+    }
 
     return (
         <Fragment>
@@ -71,24 +57,26 @@ const IssueAdd = ({ classes, $issueAdd, _loadingIssueAdd }) => {
                     </Typography>
                 </Grid>
             </Grid>
-            <FormLayout
+            <IssueAddForm
                 key="issue-add-form"
-                config={config}
                 onSubmit={onSubmit}
                 initialValues={initialValues}
                 loading={_loadingIssueAdd}
+                options={_projectList}
             />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ http: { request } }) => ({
-    _loadingIssueAdd: request.issueAdd
+const mapStateToProps = ({ http: { request }, project }) => ({
+    _loadingIssueAdd: request.issueAdd,
+    _projectList: project.list
 });
 
-const mapDispatchToProps = dispatchEvent => ({
-    $issueAdd: val => dispatchEvent(issueAdd(val))
-});
+const mapDispatchToProps = {
+    $issueAdd: val => issueAdd(val),
+    $projectList: () => projectList()
+};
 
 export default connect(
     mapStateToProps,

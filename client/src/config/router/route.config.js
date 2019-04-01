@@ -10,7 +10,7 @@ import ProjectList from "../../app/project/ProjectList/ProjectListIndex";
 import ProjectViewIndex from "../../app/project/ProjectView/ProjectViewIndex";
 
 import Issue from "../../app/issue/index.issue";
-import IssueAdd from "../../app/issue/issue-add/index.issue.add";
+import IssueAddIndex from "../../app/issue/IssueAdd/IssueAddIndex";
 import IssueListIndex from "../../app/issue/IssueList/IssueListIndex";
 import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
 import IssueView from "../../app/issue/issue-view/index.issue.view";
@@ -82,7 +82,7 @@ export const routes = [
                     },
                     {
                         path: "/d/issues/add",
-                        component: IssueAdd,
+                        component: IssueAddIndex,
                         private: true
                     },
                     {
