@@ -1,4 +1,4 @@
-import normalize, { normalizeLevel1 } from "../json.normalizr";
+import { normalizeLevel1 } from "../json.normalizr";
 import {
     PROJECT_ADD_SUCCESS,
     PROJECT_LIST_SUCCESS,
@@ -18,7 +18,7 @@ const onProjectAdd = (state, { project }) => ({
 
 const onProjectList = (state, { projects }) => ({
     ...state,
-    list: normalize({ projects }, { entity: "projects" }).projects
+    list: normalizeLevel1(projects, { entity: "projects" })
 });
 
 const onProject = (state, { project: { columns, issues, ...restProject } }) => {
@@ -26,7 +26,7 @@ const onProject = (state, { project: { columns, issues, ...restProject } }) => {
         ...state,
         current: {
             ...restProject,
-            columns: normalize({ columns }, { entity: "columns" }).columns,
+            columns: normalizeLevel1(columns, { entity: "columns" }),
             issues: normalizeLevel1(issues, { entity: "issues" })
         }
     };

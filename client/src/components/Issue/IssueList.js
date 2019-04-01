@@ -1,9 +1,15 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
+
 import IssueItem from "./IssueItem";
 
-const IssueList = ({ items }) => {
-    const list = Object.values(items).map(item => (
-        <IssueItem key={item._id} {...item} />
+const IssueList = ({ items: { entities, result } }) => {
+    if (!result || !result.length) {
+        return <Typography>Oops! There is no Issues.</Typography>;
+    }
+
+    const list = result.map(item => (
+        <IssueItem key={item._id} {...entities[item]} />
     ));
 
     return list;
