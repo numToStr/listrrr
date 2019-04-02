@@ -5,12 +5,14 @@ const createIssue = async (req, res, next) => {
     try {
         const {
             $user: { $id },
-            body: { title, description }
+            body: { title, description, project, column }
         } = req;
 
         const issue = await new IssueDAL().createIssue({
             title,
             description,
+            project,
+            column,
             author: $id
         });
 
