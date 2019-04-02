@@ -47,10 +47,29 @@ ProjectDAL.prototype.findOne = async function findOne() {
 ProjectDAL.prototype.findAll = function findAll(options = {}) {
     const { select = this.select } = options;
 
-    return ProjectModel.find(this.ctx)
-        .select(select)
+    return ProjectModel.aggregate()
+        .match(this.ctx)
+        .addFields({
+            column: {
+                $arrayElemAt: [
+                    {
+                        $filter: {
+                            input: "$columns",
+                            as: "column",
+                            cond: {
+                                $eq: ["$$column.order", "#1"]
+                            }
+                        }
+                    },
+                    0
+                ]
+            }
+        })
+        .addFields({
+            firstColumn: "$column._id"
+        })
+        .project(select)
         .sort(this.sort)
-        .lean()
         .exec();
 };
 
