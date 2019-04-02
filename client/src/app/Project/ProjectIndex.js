@@ -2,8 +2,8 @@ import React from "react";
 
 import RoutesRenderer from "../../config/router/route.renderer";
 
-const Project = ({ routes }) => (
+const ProjectIndex = ({ routes }) => (
     <RoutesRenderer config={routes} default="/d/projects/list" />
 );
 
-export default Project;
+export default ProjectIndex;

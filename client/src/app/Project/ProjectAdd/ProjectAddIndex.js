@@ -5,12 +5,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
-
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import Loader from "../../../components/Loader/Loader";
-import ProjectAddForm from "./project.add.form";
 import { templateGet, projectAdd } from "../../../store/actions/index.action";
+
+import Loader from "../../../components/Loader/Loader";
+import ProjectAddForm from "./ProjectAddForm";
 
 const initialValues = { title: "", description: "", template: "" };
 
@@ -22,7 +22,12 @@ const styles = ({ spacing }) => ({
 
 const _Link = props => <Link to="/d/projects/list" {...props} />;
 
-const ProjectAdd = ({ classes, $projectAdd, $templateGet, _templates }) => {
+const ProjectAddIndex = ({
+    classes,
+    $projectAdd,
+    $templateGet,
+    _templates
+}) => {
     useEffect(() => {
         $templateGet();
     }, []);
@@ -72,4 +77,4 @@ const mapDispatchToProps = dispatchEvent => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(ProjectAdd));
+)(withStyles(styles)(ProjectAddIndex));

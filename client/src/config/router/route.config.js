@@ -4,10 +4,10 @@ import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Home from "../../app/home/index.home";
 
-import Project from "../../app/project/index.project";
-import ProjectAdd from "../../app/project/project-add/index.project.add";
-import ProjectList from "../../app/project/ProjectList/ProjectListIndex";
-import ProjectViewIndex from "../../app/project/ProjectView/ProjectViewIndex";
+import ProjectIndex from "../../app/Project/ProjectIndex";
+import ProjectAddIndex from "../../app/Project/ProjectAdd/ProjectAddIndex";
+import ProjectList from "../../app/Project/ProjectList/ProjectListIndex";
+import ProjectViewIndex from "../../app/Project/ProjectView/ProjectViewIndex";
 
 import Issue from "../../app/issue/index.issue";
 import IssueAddIndex from "../../app/issue/IssueAdd/IssueAddIndex";
@@ -50,7 +50,7 @@ export const routes = [
             },
             {
                 path: "/d/projects",
-                component: Project,
+                component: ProjectIndex,
                 private: true,
                 routes: [
                     {
@@ -60,7 +60,7 @@ export const routes = [
                     },
                     {
                         path: "/d/projects/add",
-                        component: ProjectAdd,
+                        component: ProjectAddIndex,
                         private: true
                     },
                     {
