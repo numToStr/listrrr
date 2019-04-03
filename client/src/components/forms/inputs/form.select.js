@@ -6,14 +6,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 
 const FormSelect = ({
-    options = [],
+    options: { entities, result },
     field, // { name, value, onChange, onBlur }
     form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
     ...props
 }) => {
-    const selectItems = options.map(({ _id, title }) => (
+    const selectItems = result.map(_id => (
         <MenuItem key={_id} value={_id} dense>
-            <Typography variant="body2">{title}</Typography>
+            <Typography variant="body2">{entities[_id].title}</Typography>
         </MenuItem>
     ));
 

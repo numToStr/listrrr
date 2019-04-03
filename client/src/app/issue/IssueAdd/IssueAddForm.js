@@ -5,7 +5,7 @@ import { Formik, Field } from "formik";
 import Grid from "@material-ui/core/Grid";
 
 import InputField from "../../../components/forms/inputs/form.textField";
-import SelectField from "../../../components/forms/inputs/form.select.1";
+import SelectField from "../../../components/forms/inputs/form.select";
 import LoadingButton from "../../../components/forms/inputs/form.loadingButton";
 
 const IssueAddForm = ({ onSubmit, initialValues, loading, options }) => {
