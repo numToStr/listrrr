@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import Link from "react-router-dom/Link";
+import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";

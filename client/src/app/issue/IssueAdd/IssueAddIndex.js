@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import Link from "react-router-dom/Link";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";

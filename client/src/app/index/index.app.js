@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
-import NavLink from "react-router-dom/NavLink";
+import { Link } from "react-router-dom";
 
 const IndexApp = () => {
     return (
         <Fragment>
             <Typography>
-                <NavLink to="/signup">Signup</NavLink>
+                <Link to="/signup">Signup</Link>
             </Typography>
             <Typography>
-                <NavLink to="/login">Login</NavLink>
+                <Link to="/login">Login</Link>
             </Typography>
         </Fragment>
     );

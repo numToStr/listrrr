@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
-import BrowserRouter from "react-router-dom/BrowserRouter";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 // import muiInstall from "@material-ui/styles/install";

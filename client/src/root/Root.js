@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
-import withRouter from "react-router-dom/withRouter";
+import { withRouter } from "react-router-dom";
 import { routes } from "../config/router/route.config";
 import RoutesRenderer from "../config/router/route.renderer";
 

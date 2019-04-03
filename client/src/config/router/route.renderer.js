@@ -1,6 +1,6 @@
 import React from "react";
-import Switch from "react-router-dom/Switch";
-import Redirect from "react-router-dom/Redirect";
+import { Switch } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import PrivateRoute from "./route.private";
 import PublicRoute from "./route.public";
