@@ -1,19 +1,39 @@
+const { ObjectId } = require("mongoose").Types;
+
 const IssueDAL = require("./issue.dal");
+const ProjectDAL = require("../project/project.dal");
 
 // For creating issue
 const createIssue = async (req, res, next) => {
     try {
         const {
             $user: { $id },
-            body: { title, description, project, column }
+            body: { title, description, project }
         } = req;
+
+        let extras = {};
+        if (project) {
+            const _project = await new ProjectDAL({
+                _id: ObjectId(project)
+            }).findOne({
+                select: "firstColumn"
+            });
+
+            if (!_project) {
+                throw new $Error("Project not found", 409);
+            }
+
+            extras = {
+                project,
+                column: _project.firstColumn
+            };
+        }
 
         const issue = await new IssueDAL().createIssue({
             title,
             description,
-            project,
-            column,
-            author: $id
+            author: $id,
+            ...extras
         });
 
         res.status(201).json({

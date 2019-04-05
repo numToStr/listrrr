@@ -3,7 +3,7 @@ const IssueModel = require("./issue.model");
 class IssueDAL {
     constructor(context = {}) {
         this.context = context;
-        this.select = "-author -updatedAt -__v";
+        this.select = "-author -updatedAt -column -__v";
         this.sort = { createdAt: -1 };
         this.updateOptions = { new: true };
         this.populate = ["project", "title"];

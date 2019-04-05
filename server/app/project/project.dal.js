@@ -3,7 +3,8 @@ const ProjectModel = require("./project.model");
 class ProjectDAL {
     constructor(ctx = {}) {
         this.ctx = ctx;
-        this.select = "-__v -author";
+        this.select =
+            "-author -template -__v -column -firstColumn -issues.author -issues.project -issues.__v -issues.updatedAt -columns.createdAt -columns.updatedAt";
         this.sort = { createdAt: -1 };
         this.updateOpt = { new: true };
     }
@@ -15,7 +16,9 @@ ProjectDAL.prototype.create = async function create(data = {}) {
     return newProject.toObject();
 };
 
-ProjectDAL.prototype.findOne = async function findOne() {
+ProjectDAL.prototype.findOne = async function findOne(options = {}) {
+    const { select = this.select } = options;
+
     const [project] = await ProjectModel.aggregate()
         .match(this.ctx)
         .lookup({
@@ -24,31 +27,6 @@ ProjectDAL.prototype.findOne = async function findOne() {
             foreignField: "project",
             as: "issues"
         })
-        .project({
-            title: 1,
-            description: 1,
-            "columns._id": 1,
-            "columns.title": 1,
-            "columns.order": 1,
-            "issues._id": 1,
-            "issues.title": 1,
-            "issues.description": 1,
-            "issues.createdAt": 1,
-            "issues.column": 1,
-            "issues.isOpen": 1,
-            createdAt: 1,
-            updatedAt: 1
-        })
-        .exec();
-
-    return project;
-};
-
-ProjectDAL.prototype.findAll = function findAll(options = {}) {
-    const { select = this.select } = options;
-
-    return ProjectModel.aggregate()
-        .match(this.ctx)
         .addFields({
             column: {
                 $arrayElemAt: [
@@ -69,7 +47,18 @@ ProjectDAL.prototype.findAll = function findAll(options = {}) {
             firstColumn: "$column._id"
         })
         .project(select)
+        .exec();
+
+    return project;
+};
+
+ProjectDAL.prototype.findAll = function findAll(options = {}) {
+    const { select = this.select } = options;
+
+    return ProjectModel.find(this.ctx)
+        .select(select)
         .sort(this.sort)
+        .lean()
         .exec();
 };
 

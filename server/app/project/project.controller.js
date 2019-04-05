@@ -12,11 +12,18 @@ const createProject = async (req, res, next) => {
 
         let extras = {};
         if (template) {
-            const { columns } = await new TemplateDAL({
+            const _template = await new TemplateDAL({
                 _id: template
             }).getTemplate();
 
-            extras = { template, columns };
+            if (!_template) {
+                throw new $Error("Template not found", 409);
+            }
+
+            extras = {
+                template,
+                columns: _template.columns
+            };
         }
 
         const project = await new ProjectDAL().create({
@@ -42,7 +49,7 @@ const getProjectList = async (req, res, next) => {
         const projects = await new ProjectDAL({
             author: ObjectId($id)
         }).findAll({
-            select: "title description firstColumn createdAt updatedAt"
+            select: "title description createdAt updatedAt"
         });
 
         res.status(200).json({
