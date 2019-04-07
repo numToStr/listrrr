@@ -6,7 +6,7 @@ const createTemplate = async (req, res, next) => {
             body: { title, description, columns }
         } = req;
 
-        const template = await new TemplateDAL().createTemplate({
+        const template = await new TemplateDAL().create({
             title,
             description,
             columns
@@ -23,7 +23,7 @@ const createTemplate = async (req, res, next) => {
 
 const getTemplateList = async (req, res, next) => {
     try {
-        const templates = await new TemplateDAL().getAllTemplate({
+        const templates = await new TemplateDAL().findAll({
             select: "title description"
         });
 
@@ -44,7 +44,7 @@ const getTemplate = async (req, res, next) => {
 
         const template = await new TemplateDAL({
             _id: templateId
-        }).getTemplate();
+        }).findOne();
 
         res.status(200).json({
             success: "Successful",

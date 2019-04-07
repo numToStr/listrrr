@@ -9,15 +9,13 @@ class TemplateDAL {
     }
 }
 
-TemplateDAL.prototype.createTemplate = async function createTemplate(
-    data = {}
-) {
+TemplateDAL.prototype.create = async function create(data = {}) {
     const newTemplate = await new TemplateModel(data).save();
 
     return newTemplate.toObject();
 };
 
-TemplateDAL.prototype.getTemplate = function getTemplate() {
+TemplateDAL.prototype.findOne = function findOne() {
     return TemplateModel.findOne(this.ctx)
         .select(this.select)
         .sort(this.sort)
@@ -25,7 +23,7 @@ TemplateDAL.prototype.getTemplate = function getTemplate() {
         .exec();
 };
 
-TemplateDAL.prototype.getAllTemplate = function getAllTemplate(options = {}) {
+TemplateDAL.prototype.findAll = function findAll(options = {}) {
     const { select = this.select } = options;
 
     return TemplateModel.find(this.ctx)
@@ -35,14 +33,14 @@ TemplateDAL.prototype.getAllTemplate = function getAllTemplate(options = {}) {
         .exec();
 };
 
-TemplateDAL.prototype.updateTemplate = function updateTemplate(update = {}) {
+TemplateDAL.prototype.updateOne = function updateOne(update = {}) {
     return TemplateModel.findOneAndUpdate(this.ctx, update, this.updateOpt)
         .select(this.select)
         .lean()
         .exec();
 };
 
-TemplateDAL.prototype.deleteTemplate = function deleteTemplate() {
+TemplateDAL.prototype.deleteOne = function deleteOne() {
     return TemplateModel.findOneAndDelete(this.ctx)
         .lean()
         .exec();

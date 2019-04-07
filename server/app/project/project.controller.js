@@ -14,7 +14,7 @@ const createProject = async (req, res, next) => {
         if (template) {
             const _template = await new TemplateDAL({
                 _id: template
-            }).getTemplate();
+            }).findOne();
 
             if (!_template) {
                 throw new $Error("Template not found", 409);
