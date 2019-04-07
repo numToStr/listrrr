@@ -1,22 +1,31 @@
 const UserModel = require("./user.model");
 
 class UserDAL {
-    constructor(context = {}) {
-        this.context = context;
+    constructor(ctx = {}) {
+        this.ctx = ctx;
         this.select = "-password -createdAt -updatedAt -__v";
     }
 }
 
-UserDAL.prototype.createUser = async function createUser(data) {
+UserDAL.prototype.create = async function create(data) {
     const newUser = await new UserModel(data).save();
 
-    return newUser.toObject();
+    // Converting mongoose document to js object
+    const user = newUser.toObject();
+
+    // Removing extra fields
+    Reflect.deleteProperty(user, "createdAt");
+    Reflect.deleteProperty(user, "updatedAt");
+    Reflect.deleteProperty(user, "__v");
+    Reflect.deleteProperty(user, "password");
+
+    return user;
 };
 
-UserDAL.prototype.getUser = function getUser(options = {}) {
+UserDAL.prototype.findOne = function findOne(options = {}) {
     const { select = this.select } = options;
 
-    return UserModel.findOne(this.context)
+    return UserModel.findOne(this.ctx)
         .select(select)
         .lean()
         .exec();

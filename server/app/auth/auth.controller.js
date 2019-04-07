@@ -8,7 +8,7 @@ const authenticate = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const user = await new UserDAL({ _id: $id }).getUser();
+        const user = await new UserDAL({ _id: $id }).findOne();
 
         if (!user) {
             throw new $Error("Unauthorized Access! Please login", 401);
@@ -30,12 +30,12 @@ const authSignup = async (req, res, next) => {
         const { username, email, password } = req.body;
 
         // Creating user dal with username or email
-        const adminDal = new UserDAL({
+        const userDal = new UserDAL({
             $or: [{ username }, { email }]
         });
 
         // Checking if user is exists with same username or email
-        const isUser = await adminDal.getUser();
+        const isUser = await userDal.findOne();
 
         // If exists return
         if (isUser) {
@@ -49,13 +49,7 @@ const authSignup = async (req, res, next) => {
         // Creating hash from plain text password
         const hash = await new Password(password).hash();
 
-        const {
-            createdAt,
-            updatedAt,
-            __v,
-            password: pwd,
-            ...user
-        } = await adminDal.createUser({ username, email, password: hash });
+        const user = await userDal.create({ username, email, password: hash });
 
         // Generating access and refresh token
         const { accessToken, cookieConfig } = new TokenGenerator({
@@ -82,7 +76,7 @@ const authLogin = async (req, res, next) => {
         const { username, password } = req.body;
 
         // Checking if user exists with this username
-        const isUser = await new UserDAL({ username }).getUser({
+        const isUser = await new UserDAL({ username }).findOne({
             select: "-createdAt -updatedAt -__v"
         });
 
@@ -107,7 +101,8 @@ const authLogin = async (req, res, next) => {
             role: ["user"]
         }).access();
 
-        const { password: pwd, ...user } = isUser;
+        // Deleting password from the user object
+        Reflect.deleteProperty(isUser, "password");
 
         res.status(200)
             .cookie("x-access-token", accessToken, cookieConfig)
@@ -115,7 +110,7 @@ const authLogin = async (req, res, next) => {
                 success: true,
                 message: "Login Successful",
                 action: "login",
-                user
+                user: isUser
             });
     } catch (error) {
         next(error);

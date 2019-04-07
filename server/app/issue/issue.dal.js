@@ -1,8 +1,8 @@
 const IssueModel = require("./issue.model");
 
 class IssueDAL {
-    constructor(context = {}) {
-        this.context = context;
+    constructor(ctx = {}) {
+        this.ctx = ctx;
         this.select = "-author -updatedAt -column -__v";
         this.sort = { createdAt: -1 };
         this.updateOptions = { new: true };
@@ -23,7 +23,7 @@ IssueDAL.prototype.findOne = function findOne(options = {}) {
 
     const [key, project] = populate;
 
-    return IssueModel.findOne(this.context)
+    return IssueModel.findOne(this.ctx)
         .select(this.select)
         .populate(key, project)
         .lean()
@@ -34,7 +34,7 @@ IssueDAL.prototype.findOne = function findOne(options = {}) {
 IssueDAL.prototype.findAll = function findAll(options = {}) {
     const { select = this.select } = options;
 
-    return IssueModel.find(this.context)
+    return IssueModel.find(this.ctx)
         .select(select)
         .sort(this.sort)
         .lean()
@@ -43,7 +43,7 @@ IssueDAL.prototype.findAll = function findAll(options = {}) {
 
 // For updating a issue
 IssueDAL.prototype.updateOne = function updateOne(update = {}) {
-    return IssueModel.findOneAndUpdate(this.context, update, this.updateOptions)
+    return IssueModel.findOneAndUpdate(this.ctx, update, this.updateOptions)
         .select(this.select)
         .lean()
         .exec();
@@ -51,7 +51,7 @@ IssueDAL.prototype.updateOne = function updateOne(update = {}) {
 
 // For deleting a issue
 IssueDAL.prototype.deleteOne = function deleteOne() {
-    return IssueModel.deleteOne(this.context).exec();
+    return IssueModel.deleteOne(this.ctx).exec();
 };
 
 module.exports = IssueDAL;
