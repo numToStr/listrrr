@@ -29,7 +29,7 @@ const createIssue = async (req, res, next) => {
             };
         }
 
-        const issue = await new IssueDAL().createIssue({
+        const issue = await new IssueDAL().create({
             title,
             description,
             author: $id,
@@ -56,7 +56,7 @@ const getIssue = async (req, res, next) => {
         const issue = await new IssueDAL({
             author: $id,
             _id: issueId
-        }).getIssue();
+        }).findOne();
 
         res.status(200).json({
             message: "Successful",
@@ -72,7 +72,7 @@ const getIssueList = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const issues = await new IssueDAL({ author: $id }).getAllIssue({
+        const issues = await new IssueDAL({ author: $id }).findAll({
             select: "title createdAt"
         });
 
@@ -98,7 +98,7 @@ const updateIssue = async (req, res, next) => {
         const issue = await new IssueDAL({
             _id: issueId,
             author: $id
-        }).updateIssue(body);
+        }).updateOne(body);
 
         res.status(200).json({
             message: "To-Do successfully updated",
@@ -117,7 +117,7 @@ const deleteIssue = async (req, res, next) => {
             params: { issueId }
         } = req;
 
-        await new IssueDAL({ _id: issueId, author: $id }).deleteIssue();
+        await new IssueDAL({ _id: issueId, author: $id }).deleteOne();
 
         res.status(200).json({
             message: "To-Do successfully deleted"

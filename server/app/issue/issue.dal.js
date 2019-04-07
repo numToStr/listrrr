@@ -11,14 +11,14 @@ class IssueDAL {
 }
 
 // For creating issue
-IssueDAL.prototype.createIssue = async function createIssue(data = {}) {
+IssueDAL.prototype.create = async function create(data = {}) {
     const issue = await new IssueModel(data).save();
 
     return issue.toObject();
 };
 
 // For getting single issue details
-IssueDAL.prototype.getIssue = function getIssue(options = {}) {
+IssueDAL.prototype.findOne = function findOne(options = {}) {
     const { populate = this.populate } = options;
 
     const [key, project] = populate;
@@ -31,7 +31,7 @@ IssueDAL.prototype.getIssue = function getIssue(options = {}) {
 };
 
 // For getting all issues
-IssueDAL.prototype.getAllIssue = function getAllIssue(options = {}) {
+IssueDAL.prototype.findAll = function findAll(options = {}) {
     const { select = this.select } = options;
 
     return IssueModel.find(this.context)
@@ -42,7 +42,7 @@ IssueDAL.prototype.getAllIssue = function getAllIssue(options = {}) {
 };
 
 // For updating a issue
-IssueDAL.prototype.updateIssue = function updateIssue(update = {}) {
+IssueDAL.prototype.updateOne = function updateOne(update = {}) {
     return IssueModel.findOneAndUpdate(this.context, update, this.updateOptions)
         .select(this.select)
         .lean()
@@ -50,7 +50,7 @@ IssueDAL.prototype.updateIssue = function updateIssue(update = {}) {
 };
 
 // For deleting a issue
-IssueDAL.prototype.deleteIssue = function deleteIssue() {
+IssueDAL.prototype.deleteOne = function deleteOne() {
     return IssueModel.deleteOne(this.context).exec();
 };
 
