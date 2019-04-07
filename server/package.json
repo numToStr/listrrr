@@ -12,6 +12,7 @@
     },
     "scripts": {
         "start": "NODE_ENV=production node ./bin/www.js",
+        "start:prod": "NODE_ENV=production nodemon -r dotenv/config ./bin/www.js",
         "dev": "NODE_ENV=development nodemon -r dotenv/config ./bin/www.js"
     },
     "dependencies": {
