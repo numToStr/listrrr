@@ -1,12 +1,19 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import IssueItem from "../Issue/IssueItem";
 
-const ProjectCard = ({ title, issue = null }) => {
+const styles = ({ spacing }) => ({
+    wrapper: {
+        padding: spacing.unit * 1.8,
+        paddingBottom: spacing.unit
+    }
+});
+
+const ProjectCard = ({ classes, title, issue = null }) => {
     let curIssue = (
         <Typography variant="caption" color="textSecondary">
             No issues.
@@ -24,16 +31,14 @@ const ProjectCard = ({ title, issue = null }) => {
 
     return (
         <Grid item xs>
-            <Card>
-                <CardContent>
-                    <Typography variant="button" paragraph>
-                        {title}
-                    </Typography>
-                    {curIssue}
-                </CardContent>
-            </Card>
+            <Paper elevation={1} className={classes.wrapper}>
+                <Typography variant="button" paragraph>
+                    {title}
+                </Typography>
+                {curIssue}
+            </Paper>
         </Grid>
     );
 };
 
-export default ProjectCard;
+export default withStyles(styles)(ProjectCard);

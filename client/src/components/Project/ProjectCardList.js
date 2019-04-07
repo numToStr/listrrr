@@ -14,7 +14,7 @@ const ProjectCardList = ({ columns: { entities, result }, issues }) => {
     ));
 
     return (
-        <Grid container justify="space-between" spacing={8}>
+        <Grid container justify="space-between" spacing={16}>
             {list}
         </Grid>
     );

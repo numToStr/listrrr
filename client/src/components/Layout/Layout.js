@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import SideDrawer from "../drawer/index.drawer";
 
 const styles = ({ palette, spacing }) => {
-    const drawerWidth = spacing.unit * 35;
+    const drawerWidth = spacing.unit * 30;
 
     return {
         drawer: {
