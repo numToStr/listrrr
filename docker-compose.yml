@@ -1,0 +1,40 @@
+version: "3"
+services:
+    database:
+        container_name: listerr-database
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - /data/db:/data/db
+    frontend:
+        container_name: listerr-web
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        image: realvikas/listerr-web
+        volumes:
+            - ./client:/usr/src/app
+    backend:
+        container_name: listerr-server
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        image: realvikas/listerr-server
+        env_file:
+            - ./server/.env
+        volumes:
+            - ./server:/usr/src/app
+        depends_on:
+            - database
+    nginx:
+        container_name: listerr-proxy
+        build:
+            context: ./nginx-proxy
+            dockerfile: Dockerfile
+        image: realvikas/listerr-proxy
+        ports:
+            - 3000:80
+        depends_on:
+            - frontend
+            - backend

@@ -1,0 +1,17 @@
+# IDE related files
+.vscode
+
+# development related files
+node_modules
+
+# development keys
+keys.dev.js
+
+# exluding test folders
+test
+
+# excluding old files
+backup
+
+# pm2 config
+ecosystem.config.js
