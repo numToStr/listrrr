@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 
 import { projectGet } from "../../../store/actions/index.action";
+import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
 import Loader from "../../../components/Loader/Loader";
 import ProjectCardList from "../../../components/Project/ProjectCardList";
@@ -14,7 +15,8 @@ import DateFormat from "../../../components/DateFormat";
 const ProjectViewIndex = ({
     match: { params },
     $projectGet,
-    _currentProject
+    _currentProject,
+    _currentIssues
 }) => {
     useEffect(() => {
         $projectGet(params.projectId);
@@ -51,13 +53,17 @@ const ProjectViewIndex = ({
                     </Button>
                 </Grid>
             </Grid>
-            <ProjectCardList items={_currentProject.columns} />
+            <ProjectCardList
+                columns={_currentProject.columns}
+                issues={_currentIssues}
+            />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ project }) => ({
-    _currentProject: project.current
+const mapStateToProps = ({ project: { current } }) => ({
+    _currentProject: current,
+    _currentIssues: projectIssuesSelector(current)
 });
 
 const mapDispatchToProps = dispatchEvent => ({

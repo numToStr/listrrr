@@ -4,13 +4,13 @@ import Typography from "@material-ui/core/Typography";
 
 import ProjectCard from "./ProjectCard";
 
-const ProjectCardList = ({ items: { entities, result } }) => {
+const ProjectCardList = ({ columns: { entities, result }, issues }) => {
     if (!result || !result.length) {
         return <Typography>Oops! There is no column.</Typography>;
     }
 
     const list = result.map(item => (
-        <ProjectCard key={item} {...entities[item]} />
+        <ProjectCard key={item} {...entities[item]} issue={issues[item]} />
     ));
 
     return (
