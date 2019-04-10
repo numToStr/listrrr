@@ -11,12 +11,11 @@ const {
     deleteIssue
 } = require("./issue.controller");
 
-router
-    .route("/")
-    // For creating issue
-    .post($validator(issueSchema), createIssue)
-    // For getting issues list
-    .get(getIssueList);
+// For creating issue
+router.post("/", $validator(issueSchema), createIssue);
+
+// For getting issues list
+router.get("/list", getIssueList);
 
 router
     .route("/:issueId")
