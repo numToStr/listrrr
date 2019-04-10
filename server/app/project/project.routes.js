@@ -1,5 +1,8 @@
 const router = require("express").Router();
 
+const $validator = require("../../middlewares/request.validator");
+const { projectSchema, projectIdSchema } = require("./project.validation");
+
 const {
     createProject,
     getProjectList,
@@ -8,14 +11,19 @@ const {
     deleteProject
 } = require("./project.controller");
 
-router.post("/", createProject);
+// For creating project
+router.post("/", $validator(projectSchema), createProject);
 
+// For getting project list
 router.get("/list", getProjectList);
 
 router
     .route("/:projectId")
-    .get(getProject)
-    .patch(updateProject)
-    .delete(deleteProject);
+    // For getting project details
+    .get($validator(projectIdSchema, "params"), getProject)
+    // For updating project
+    .patch($validator(projectIdSchema, "params"), updateProject)
+    // For deleting project
+    .delete($validator(projectIdSchema, "params"), deleteProject);
 
 module.exports = router;

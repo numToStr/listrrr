@@ -21,6 +21,8 @@ IssueDAL.prototype.create = async function create(data = {}) {
     const doc = newDoc.toObject();
 
     Reflect.deleteProperty(doc, "__v");
+    Reflect.deleteProperty(doc, "author");
+    Reflect.deleteProperty(doc, "column");
     Reflect.deleteProperty(doc, "updatedAt");
 
     return doc;
