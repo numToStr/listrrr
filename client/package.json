@@ -1,6 +1,7 @@
 {
-    "name": "listerr-web",
-    "version": "0.1.0",
+    "name": "listrrr-web",
+    "version": "2.0.0",
+    "description": "Client-side for the listrrr app",
     "dependencies": {
         "@babel/core": "7.1.6",
         "@material-ui/core": "^3.9.3",
