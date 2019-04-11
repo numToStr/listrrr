@@ -1,11 +1,11 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Formik, Field, Form } from "formik";
 import Grid from "@material-ui/core/Grid";
 
 import InputField from "../../components/forms/inputs/form.textField";
 import LoadingButton from "../../components/forms/inputs/form.loadingButton";
 
-const FormLayout = ({ config, onSubmit, initialValues, loading }) => {
+const FormLayout = ({ config, onSubmit, initialValues, loading, schema }) => {
     const Fields = props =>
         config.fields.map(({ muiProps, ...field }) => (
             <Field
@@ -30,19 +30,18 @@ const FormLayout = ({ config, onSubmit, initialValues, loading }) => {
             validateOnBlur={false}
             validateOnChange={false}
             initialValues={initialValues}
-            render={({ handleSubmit, dirty, ...props }) => {
-                return (
-                    <form onSubmit={handleSubmit} noValidate>
-                        <Fields />
-                        <Grid container justify="flex-end">
-                            <Actions
-                                loading={loading}
-                                disabled={!dirty || loading}
-                            />
-                        </Grid>
-                    </form>
-                );
-            }}
+            validationSchema={schema}
+            render={({ dirty }) => (
+                <Form>
+                    <Fields />
+                    <Grid container justify="flex-end">
+                        <Actions
+                            loading={loading}
+                            disabled={!dirty || loading}
+                        />
+                    </Grid>
+                </Form>
+            )}
         />
     );
 };

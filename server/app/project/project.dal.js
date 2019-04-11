@@ -11,9 +11,16 @@ class ProjectDAL {
 }
 
 ProjectDAL.prototype.create = async function create(data = {}) {
-    const newProject = await new ProjectModel(data).save();
+    const newDoc = await new ProjectModel(data).save();
 
-    return newProject.toObject();
+    const doc = newDoc.toObject();
+
+    Reflect.deleteProperty(doc, "__v");
+    Reflect.deleteProperty(doc, "author");
+    Reflect.deleteProperty(doc, "template");
+    Reflect.deleteProperty(doc, "columns");
+
+    return doc;
 };
 
 ProjectDAL.prototype.findOne = async function findOne(options = {}) {

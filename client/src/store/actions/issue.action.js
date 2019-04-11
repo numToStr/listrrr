@@ -36,7 +36,7 @@ export const issueList = () => ({
     http: true,
     payload: {
         method: "GET",
-        url: "/issue"
+        url: "/issue/list"
     },
     success: issueListSuccess,
     meta: {

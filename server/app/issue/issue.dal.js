@@ -6,26 +6,35 @@ class IssueDAL {
         this.select = "-author -updatedAt -column -__v";
         this.sort = { createdAt: -1 };
         this.updateOptions = { new: true };
-        this.populate = ["project", "title"];
+        this.populate = {
+            path: "project",
+            select: "title",
+            options: { lean: true }
+        };
     }
 }
 
 // For creating issue
 IssueDAL.prototype.create = async function create(data = {}) {
-    const issue = await new IssueModel(data).save();
+    const newDoc = await new IssueModel(data).save();
 
-    return issue.toObject();
+    const doc = newDoc.toObject();
+
+    Reflect.deleteProperty(doc, "__v");
+    Reflect.deleteProperty(doc, "author");
+    Reflect.deleteProperty(doc, "column");
+    Reflect.deleteProperty(doc, "updatedAt");
+
+    return doc;
 };
 
 // For getting single issue details
 IssueDAL.prototype.findOne = function findOne(options = {}) {
     const { populate = this.populate } = options;
 
-    const [key, project] = populate;
-
     return IssueModel.findOne(this.ctx)
         .select(this.select)
-        .populate(key, project)
+        .populate(populate)
         .lean()
         .exec();
 };

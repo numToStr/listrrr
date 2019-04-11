@@ -12,7 +12,7 @@ const InputField = ({
             variant="outlined"
             margin="dense"
             error={touched && error ? true : false}
-            helperText={touched && error ? error : null}
+            helperText={touched && error ? `- ${error}` : null}
             fullWidth
             {...field}
             {...props}
