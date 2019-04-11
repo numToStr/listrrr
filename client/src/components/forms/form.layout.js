@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import InputField from "../../components/forms/inputs/form.textField";
 import LoadingButton from "../../components/forms/inputs/form.loadingButton";
 
-const FormLayout = ({ config, onSubmit, initialValues, loading }) => {
+const FormLayout = ({ config, onSubmit, initialValues, loading, schema }) => {
     const Fields = props =>
         config.fields.map(({ muiProps, ...field }) => (
             <Field
@@ -30,6 +30,7 @@ const FormLayout = ({ config, onSubmit, initialValues, loading }) => {
             validateOnBlur={false}
             validateOnChange={false}
             initialValues={initialValues}
+            validationSchema={schema}
             render={({ dirty }) => (
                 <Form>
                     <Fields />

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import FormWrapper from "../../components/forms/form.wrapper";
 import FormLayout from "../../components/forms/form.layout";
+
+import { loginSchema } from "../../utils/validations/auth.validation";
 import { login } from "../../store/actions/index.action";
 
 const initialValues = { username: "", password: "" };
@@ -37,6 +39,7 @@ const Login = ({ $login, _loading }) => {
                 loading={_loading}
                 initialValues={initialValues}
                 onSubmit={$login}
+                schema={loginSchema}
             />
         </FormWrapper>
     );
