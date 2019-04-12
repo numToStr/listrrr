@@ -1,5 +1,5 @@
 import Index from "../../app/index/index.app";
-import Login from "../../app/login/index.login";
+import LoginIndex from "../../app/Login/LoginIndex";
 import Signup from "../../app/signup/index.signup";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Home from "../../app/home/index.home";
@@ -35,7 +35,7 @@ export const routes = [
     },
     {
         path: "/login",
-        component: Login,
+        component: LoginIndex,
         private: false
     },
     {
