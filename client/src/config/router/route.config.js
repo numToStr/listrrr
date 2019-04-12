@@ -1,8 +1,8 @@
-import Index from "../../app/index/index.app";
+import LandingIndex from "../../app/Landing/LandingIndex";
 import LoginIndex from "../../app/Login/LoginIndex";
 import SignupIndex from "../../app/Signup/SignupIndex";
-import Dashboard from "../../app/dashboard/index.dashboard";
-import Home from "../../app/home/index.home";
+import DashboardIndex from "../../app/Dashboard/DashboardIndex";
+import HomeIndex from "../../app/Home/HomeIndex";
 
 import ProjectIndex from "../../app/Project/ProjectIndex";
 import ProjectAddIndex from "../../app/Project/ProjectAdd/ProjectAddIndex";
@@ -24,7 +24,7 @@ export const redirects = {
 export const routes = [
     {
         path: "/",
-        component: Index,
+        component: LandingIndex,
         exact: true,
         private: false
     },
@@ -40,12 +40,12 @@ export const routes = [
     },
     {
         path: "/d",
-        component: Dashboard,
+        component: DashboardIndex,
         private: true,
         routes: [
             {
                 path: "/d/home",
-                component: Home,
+                component: HomeIndex,
                 private: true
             },
             {

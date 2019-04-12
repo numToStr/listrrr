@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 
-const IndexApp = () => {
+const LandingIndex = () => {
     return (
         <Fragment>
             <Typography>
@@ -15,4 +15,4 @@ const IndexApp = () => {
     );
 };
 
-export default IndexApp;
+export default LandingIndex;
