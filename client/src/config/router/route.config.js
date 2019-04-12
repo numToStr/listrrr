@@ -9,11 +9,11 @@ import ProjectAddIndex from "../../app/Project/ProjectAdd/ProjectAddIndex";
 import ProjectList from "../../app/Project/ProjectList/ProjectListIndex";
 import ProjectViewIndex from "../../app/Project/ProjectView/ProjectViewIndex";
 
-import Issue from "../../app/issue/index.issue";
-import IssueAddIndex from "../../app/issue/IssueAdd/IssueAddIndex";
-import IssueListIndex from "../../app/issue/IssueList/IssueListIndex";
-import IssueEdit from "../../app/issue/issue-edit/index.issue.edit";
-import IssueView from "../../app/issue/issue-view/index.issue.view";
+import IssueIndex from "../../app/Issue/IssueIndex";
+import IssueAddIndex from "../../app/Issue/IssueAdd/IssueAddIndex";
+import IssueListIndex from "../../app/Issue/IssueList/IssueListIndex";
+import IssueEditIndex from "../../app/Issue/IssueEdit/IssueEditIndex";
+import IssueViewIndex from "../../app/Issue/IssueView/IssueViewIndex";
 
 export const redirects = {
     default: "/",
@@ -72,7 +72,7 @@ export const routes = [
             },
             {
                 path: "/d/issues",
-                component: Issue,
+                component: IssueIndex,
                 private: true,
                 routes: [
                     {
@@ -87,12 +87,12 @@ export const routes = [
                     },
                     {
                         path: "/d/issues/view/:issueId",
-                        component: IssueView,
+                        component: IssueViewIndex,
                         private: true
                     },
                     {
                         path: "/d/issues/edit/:issueId",
-                        component: IssueEdit,
+                        component: IssueEditIndex,
                         private: true
                     }
                 ]

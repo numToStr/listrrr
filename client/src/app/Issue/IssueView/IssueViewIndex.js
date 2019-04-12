@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 
 import Loader from "../../../components/Loader/Loader";
-import IssueTitle from "./issue-view.title";
-import IssueDescription from "./issue-view.description";
+import IssueTitle from "./IssueViewTitle";
+import IssueDescription from "./IssueViewDescription";
 import { issueGet, issueClear } from "../../../store/actions/index.action";
 
 const IssueViewIndex = ({
