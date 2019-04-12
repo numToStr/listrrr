@@ -2,7 +2,8 @@ import { normalizeLevel1 } from "../json.normalizr";
 import {
     PROJECT_ADD_SUCCESS,
     PROJECT_LIST_SUCCESS,
-    PROJECT_GET_SUCCESS
+    PROJECT_GET_SUCCESS,
+    PROJECT_CLEAR
 } from "../action.types";
 
 const initialState = {
@@ -32,6 +33,11 @@ const onProject = (state, { project: { columns, issues, ...restProject } }) => {
     };
 };
 
+const onProjectClear = state => ({
+    ...state,
+    current: null
+});
+
 export default (state = initialState, { type, data }) => {
     switch (type) {
         case PROJECT_ADD_SUCCESS:
@@ -40,6 +46,8 @@ export default (state = initialState, { type, data }) => {
             return onProjectList(state, data);
         case PROJECT_GET_SUCCESS:
             return onProject(state, data);
+        case PROJECT_CLEAR:
+            return onProjectClear(state);
         default:
             return state;
     }

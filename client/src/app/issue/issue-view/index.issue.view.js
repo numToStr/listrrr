@@ -5,11 +5,19 @@ import Typography from "@material-ui/core/Typography";
 import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./issue-view.title";
 import IssueDescription from "./issue-view.description";
-import { issueGet } from "../../../store/actions/index.action";
+import { issueGet, issueClear } from "../../../store/actions/index.action";
 
-const IssueViewIndex = ({ match: { params }, $issueGet, _currentIssue }) => {
+const IssueViewIndex = ({
+    match: { params },
+    $issueGet,
+    $issueClear,
+    _currentIssue
+}) => {
     useEffect(() => {
         $issueGet(params.issueId);
+
+        // Clearing the currently loaded issue
+        return $issueClear;
     }, []);
 
     if (!_currentIssue) {
@@ -33,9 +41,10 @@ const mapStateToProps = ({ issue }) => ({
     _currentIssue: issue.current
 });
 
-const mapDispatchToProps = dispatchEvent => ({
-    $issueGet: id => dispatchEvent(issueGet(id))
-});
+const mapDispatchToProps = {
+    $issueGet: issueGet,
+    $issueClear: issueClear
+};
 
 export default connect(
     mapStateToProps,

@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 
-import { projectGet } from "../../../store/actions/index.action";
+import { projectGet, projectClear } from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
 import Loader from "../../../components/Loader/Loader";
@@ -15,11 +15,15 @@ import DateFormat from "../../../components/DateFormat";
 const ProjectViewIndex = ({
     match: { params },
     $projectGet,
+    $projectClear,
     _currentProject,
     _currentIssues
 }) => {
     useEffect(() => {
         $projectGet(params.projectId);
+
+        // Clearing the currently loaded project
+        return $projectClear;
     }, [params.projectId]);
 
     if (!_currentProject) {
@@ -66,9 +70,10 @@ const mapStateToProps = ({ project: { current } }) => ({
     _currentIssues: projectIssuesSelector(current)
 });
 
-const mapDispatchToProps = dispatchEvent => ({
-    $projectGet: projectId => dispatchEvent(projectGet(projectId))
-});
+const mapDispatchToProps = {
+    $projectGet: projectGet,
+    $projectClear: projectClear
+};
 
 export default connect(
     mapStateToProps,

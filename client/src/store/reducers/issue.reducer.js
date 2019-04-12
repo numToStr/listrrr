@@ -2,7 +2,8 @@ import { normalizeLevel1 } from "../json.normalizr";
 import {
     ISSUE_ADD_SUCCESS,
     ISSUE_LIST_SUCCESS,
-    ISSUE_GET_SUCCESS
+    ISSUE_GET_SUCCESS,
+    ISSUE_CLEAR
 } from "../action.types";
 
 const initialState = {
@@ -32,6 +33,11 @@ const onIssueList = (state, { issues }) => {
     };
 };
 
+const onIssueClear = state => ({
+    ...state,
+    current: null
+});
+
 export default (state = initialState, { type, data }) => {
     switch (type) {
         case ISSUE_ADD_SUCCESS:
@@ -40,6 +46,8 @@ export default (state = initialState, { type, data }) => {
             return onIssueGet(state, data);
         case ISSUE_LIST_SUCCESS:
             return onIssueList(state, data);
+        case ISSUE_CLEAR:
+            return onIssueClear(state);
         default:
             return state;
     }

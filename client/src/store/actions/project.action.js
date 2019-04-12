@@ -4,7 +4,8 @@ import {
     PROJECT_LIST,
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
-    PROJECT_GET
+    PROJECT_GET,
+    PROJECT_CLEAR
 } from "../action.types";
 
 const projectAddSuccess = data => ({
@@ -60,4 +61,8 @@ export const projectGet = projectId => ({
     meta: {
         label: "projectGet"
     }
+});
+
+export const projectClear = () => ({
+    type: PROJECT_CLEAR
 });

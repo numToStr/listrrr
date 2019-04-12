@@ -4,7 +4,8 @@ import {
     ISSUE_LIST,
     ISSUE_LIST_SUCCESS,
     ISSUE_GET,
-    ISSUE_GET_SUCCESS
+    ISSUE_GET_SUCCESS,
+    ISSUE_CLEAR
 } from "../action.types";
 
 const issueAddSuccess = data => ({
@@ -60,4 +61,8 @@ export const issueGet = issueId => ({
     meta: {
         label: "issueGet"
     }
+});
+
+export const issueClear = () => ({
+    type: ISSUE_CLEAR
 });
