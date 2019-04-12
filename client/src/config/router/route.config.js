@@ -1,6 +1,6 @@
 import Index from "../../app/index/index.app";
 import LoginIndex from "../../app/Login/LoginIndex";
-import Signup from "../../app/signup/index.signup";
+import SignupIndex from "../../app/Signup/SignupIndex";
 import Dashboard from "../../app/dashboard/index.dashboard";
 import Home from "../../app/home/index.home";
 
@@ -30,7 +30,7 @@ export const routes = [
     },
     {
         path: "/signup",
-        component: Signup,
+        component: SignupIndex,
         private: false
     },
     {
