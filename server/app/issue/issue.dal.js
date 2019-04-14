@@ -63,4 +63,8 @@ IssueDAL.prototype.deleteOne = function deleteOne() {
     return IssueModel.deleteOne(this.ctx).exec();
 };
 
+IssueDAL.prototype.count = function count() {
+    return IssueModel.countDocuments(this.ctx);
+};
+
 module.exports = IssueDAL;

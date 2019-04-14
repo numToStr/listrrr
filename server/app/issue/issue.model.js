@@ -29,6 +29,10 @@ const schema = new Schema(
         },
         column: {
             type: SchemaTypes.ObjectId
+        },
+        columnIndex: {
+            type: Number,
+            min: 0
         }
     },
     {

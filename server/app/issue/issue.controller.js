@@ -23,9 +23,14 @@ const createIssue = async (req, res, next) => {
                 throw new $Error("Project not found", 409);
             }
 
+            const issueCount = await new IssueDAL({
+                column: _project.firstColumn
+            }).count();
+
             extras = {
                 project,
-                column: _project.firstColumn
+                column: _project.firstColumn,
+                columnIndex: issueCount
             };
         }
 

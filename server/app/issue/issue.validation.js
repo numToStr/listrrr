@@ -15,6 +15,7 @@ const issueSchema = Joi.object().keys({
         .error(new Error("Invalid issue description")),
     project: Joi.string()
         .regex(objectIdRegex)
+        .allow(["", null])
         .error(new Error("Invalid project ID"))
 });
 
