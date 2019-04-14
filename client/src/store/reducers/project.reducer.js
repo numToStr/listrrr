@@ -1,3 +1,4 @@
+import produce from "immer";
 import { normalizeLevel1 } from "../json.normalizr";
 import {
     PROJECT_ADD_SUCCESS,
@@ -13,54 +14,34 @@ const initialState = {
     lastCreated: null
 };
 
-const onProjectAdd = (state, { project }) => ({
-    ...state,
-    lastCreated: project
-});
+const onProjectAdd = (state, { project }) => (state.lastCreated = project);
 
-const onProjectList = (state, { projects }) => ({
-    ...state,
-    list: normalizeLevel1(projects, { entity: "projects" })
-});
+const onProjectList = (state, { projects }) => {
+    state.list = normalizeLevel1(projects, { entity: "projects" });
+};
 
-const onProject = (state, { project: { columns, issues, ...restProject } }) => {
-    return {
-        ...state,
-        current: {
-            ...restProject,
-            columns: normalizeLevel1(columns, { entity: "columns" }),
-            issues: normalizeLevel1(issues, { entity: "issues" })
-        }
+const onProject = (state, { project }) => {
+    state.current = {
+        ...project,
+        columns: normalizeLevel1(project.columns, { entity: "columns" }),
+        issues: normalizeLevel1(project.issues, { entity: "issues" })
     };
 };
 
-const onProjectClear = state => ({
-    ...state,
-    current: null
-});
+const onProjectClear = state => (state.current = null);
 
 const onProjectRearrange = (state, { columnId, sourceIndex, destIndex }) => {
     if (sourceIndex === destIndex) {
         return state;
     }
 
-    const columns = [...state.current.columns.result];
+    const columns = state.current.columns.result;
+
     columns.splice(sourceIndex, 1);
     columns.splice(destIndex, 0, columnId);
-
-    return {
-        ...state,
-        current: {
-            ...state.current,
-            columns: {
-                ...state.current.columns,
-                result: columns
-            }
-        }
-    };
 };
 
-export default (state = initialState, { type, data }) => {
+export default produce((state = initialState, { type, data }) => {
     switch (type) {
         case PROJECT_ADD_SUCCESS:
             return onProjectAdd(state, data);
@@ -75,4 +56,4 @@ export default (state = initialState, { type, data }) => {
         default:
             return state;
     }
-};
+});

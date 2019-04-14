@@ -35,6 +35,7 @@
         "fs-extra": "7.0.0",
         "html-webpack-plugin": "4.0.0-alpha.2",
         "identity-obj-proxy": "3.0.0",
+        "immer": "^2.1.5",
         "jest": "^24.7.1",
         "jest-pnp-resolver": "1.0.1",
         "jest-resolve": "23.6.0",
