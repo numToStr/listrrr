@@ -6,7 +6,11 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 
-import { projectGet, projectClear } from "../../../store/actions/index.action";
+import {
+    projectGet,
+    projectClear,
+    projectRearrange
+} from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
 import Loader from "../../../components/Loader/Loader";
@@ -30,6 +34,7 @@ const ProjectViewIndex = ({
     match: { params },
     $projectGet,
     $projectClear,
+    $projectRearrange,
     _currentProject,
     _currentIssues
 }) => {
@@ -46,7 +51,37 @@ const ProjectViewIndex = ({
         return <Loader />;
     }
 
-    const onDragEnd = data => console.log(data);
+    const onDragEnd = data => {
+        const { type, draggableId, source, destination } = data;
+
+        if (!destination) {
+            return;
+        }
+
+        const isColumn = type === "PROJECT_COLUMN";
+        if (isColumn) {
+            return $projectRearrange(
+                draggableId,
+                source.index,
+                destination.index
+            );
+        }
+
+        const isIssue = type === "PROJECT_ISSUE";
+        if (isIssue) {
+            console.log("Issue Dragged");
+        }
+
+        // Cases:
+        // Column -
+        // 1. doesn't changed place
+        // 2. changed place
+        // Issue -
+        // 1. doesn't changed place
+        // 2. changed place in the same column
+        // 3. column changed with same index
+        // 4. column changed with different index
+    };
 
     return (
         <Fragment>
@@ -101,7 +136,8 @@ const mapStateToProps = ({ project: { current } }) => ({
 
 const mapDispatchToProps = {
     $projectGet: projectGet,
-    $projectClear: projectClear
+    $projectClear: projectClear,
+    $projectRearrange: projectRearrange
 };
 
 export default connect(

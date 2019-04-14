@@ -5,7 +5,8 @@ import {
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
     PROJECT_GET,
-    PROJECT_CLEAR
+    PROJECT_CLEAR,
+    PROJECT_REARRANGE
 } from "../action.types";
 
 const projectAddSuccess = data => ({
@@ -65,4 +66,13 @@ export const projectGet = projectId => ({
 
 export const projectClear = () => ({
     type: PROJECT_CLEAR
+});
+
+export const projectRearrange = (columnId, sourceIndex, destIndex) => ({
+    type: PROJECT_REARRANGE,
+    data: {
+        columnId,
+        sourceIndex,
+        destIndex
+    }
 });

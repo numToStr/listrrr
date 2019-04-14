@@ -34,7 +34,7 @@ const ProjectCard = ({ classes, droppableId, title, issue = null }) => {
             <Typography variant="button" paragraph>
                 {title}
             </Typography>
-            <DroppableWrapper id={droppableId} type="PROJECT_LIST">
+            <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
                 {curIssue}
             </DroppableWrapper>
         </Paper>

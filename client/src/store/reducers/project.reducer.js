@@ -3,7 +3,8 @@ import {
     PROJECT_ADD_SUCCESS,
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
-    PROJECT_CLEAR
+    PROJECT_CLEAR,
+    PROJECT_REARRANGE
 } from "../action.types";
 
 const initialState = {
@@ -38,6 +39,27 @@ const onProjectClear = state => ({
     current: null
 });
 
+const onProjectRearrange = (state, { columnId, sourceIndex, destIndex }) => {
+    if (sourceIndex === destIndex) {
+        return state;
+    }
+
+    const columns = [...state.current.columns.result];
+    columns.splice(sourceIndex, 1);
+    columns.splice(destIndex, 0, columnId);
+
+    return {
+        ...state,
+        current: {
+            ...state.current,
+            columns: {
+                ...state.current.columns,
+                result: columns
+            }
+        }
+    };
+};
+
 export default (state = initialState, { type, data }) => {
     switch (type) {
         case PROJECT_ADD_SUCCESS:
@@ -48,6 +70,8 @@ export default (state = initialState, { type, data }) => {
             return onProject(state, data);
         case PROJECT_CLEAR:
             return onProjectClear(state);
+        case PROJECT_REARRANGE:
+            return onProjectRearrange(state, data);
         default:
             return state;
     }
