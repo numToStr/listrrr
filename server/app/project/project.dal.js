@@ -42,7 +42,7 @@ ProjectDAL.prototype.findOne = async function findOne(options = {}) {
                             input: "$columns",
                             as: "column",
                             cond: {
-                                $eq: ["$$column.order", "#1"]
+                                $eq: ["$$column.order", 0]
                             }
                         }
                     },

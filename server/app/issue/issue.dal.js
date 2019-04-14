@@ -3,7 +3,7 @@ const IssueModel = require("./issue.model");
 class IssueDAL {
     constructor(ctx = {}) {
         this.ctx = ctx;
-        this.select = "-author -updatedAt -column -__v";
+        this.select = "-author -updatedAt -column -columnIndex -__v";
         this.sort = { createdAt: -1 };
         this.updateOptions = { new: true };
         this.populate = {
@@ -23,6 +23,7 @@ IssueDAL.prototype.create = async function create(data = {}) {
     Reflect.deleteProperty(doc, "__v");
     Reflect.deleteProperty(doc, "author");
     Reflect.deleteProperty(doc, "column");
+    Reflect.deleteProperty(doc, "columnIndex");
     Reflect.deleteProperty(doc, "updatedAt");
 
     return doc;
