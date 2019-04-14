@@ -14,7 +14,9 @@ const initialState = {
     lastCreated: null
 };
 
-const onProjectAdd = (state, { project }) => (state.lastCreated = project);
+const onProjectAdd = (state, { project }) => {
+    state.lastCreated = project;
+};
 
 const onProjectList = (state, { projects }) => {
     state.list = normalizeLevel1(projects, { entity: "projects" });
@@ -28,7 +30,9 @@ const onProject = (state, { project }) => {
     };
 };
 
-const onProjectClear = state => (state.current = null);
+const onProjectClear = state => {
+    state.current = null;
+};
 
 const onProjectRearrange = (state, { columnId, sourceIndex, destIndex }) => {
     if (sourceIndex === destIndex) {
