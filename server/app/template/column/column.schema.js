@@ -8,9 +8,9 @@ const templateColumns = (options = {}) => {
                 required: true
             },
             order: {
-                type: String,
+                type: Number,
                 required: true,
-                enum: ["#1", "#2", "#3", "#4", "#5"]
+                min: 0
             }
         },
         options
