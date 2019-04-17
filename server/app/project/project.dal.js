@@ -56,7 +56,7 @@ ProjectDAL.prototype.findOne = async function findOne(options = {}) {
         .project(select)
         .exec();
 
-    return project;
+    return project ? project : null;
 };
 
 ProjectDAL.prototype.findAll = function findAll(options = {}) {
@@ -69,9 +69,11 @@ ProjectDAL.prototype.findAll = function findAll(options = {}) {
         .exec();
 };
 
-ProjectDAL.prototype.updateOne = function updateOne(update = {}) {
-    return ProjectModel.findOneAndUpdate(this.ctx, update, this.updateOpt)
-        .select(this.select)
+ProjectDAL.prototype.updateOne = function updateOne(update = {}, options = {}) {
+    const { select = this.select, updateOpt = this.updateOpt } = options;
+
+    return ProjectModel.findOneAndUpdate(this.ctx, update, updateOpt)
+        .select(select)
         .lean()
         .exec();
 };

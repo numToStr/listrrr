@@ -82,6 +82,77 @@ const getProject = async (req, res, next) => {
     }
 };
 
+const rearrangeProject = async (req, res, next) => {
+    try {
+        const {
+            $user: { $id },
+            params: { projectId },
+            body: { columnId, sourceIndex, destIndex }
+        } = req;
+
+        // If source and destination index are same
+        // then no need to update => return
+        if (sourceIndex === destIndex) {
+            throw new $Error("Source and Destination are equal :/", 400);
+        }
+
+        // Finding columns length
+        const project = await new ProjectDAL({
+            _id: ObjectId(projectId),
+            author: ObjectId($id)
+        }).findOne({
+            select: {
+                columnsLength: {
+                    $size: "$columns"
+                }
+            }
+        });
+
+        // Check if destination index of column is >= project total column length
+        if (!project || destIndex >= project.columnsLength) {
+            throw new $Error("Destination is out of range :/");
+        }
+
+        // Decrement columns index by 1 whose index are greater than source & less than destination index
+        // Update dragged column index to destination index
+        const updateColumn = await new ProjectDAL({
+            author: $id,
+            _id: projectId
+        }).updateOne(
+            {
+                $inc: {
+                    "columns.$[column1].order": -1
+                },
+                "columns.$[column2].order": destIndex
+            },
+            {
+                updateOpt: {
+                    arrayFilters: [
+                        {
+                            "column1.order": {
+                                $gt: sourceIndex,
+                                $lte: destIndex
+                            }
+                        },
+                        {
+                            "column2._id": columnId
+                        }
+                    ],
+                    new: true
+                },
+                select: "_id"
+            }
+        );
+
+        res.status(200).json({
+            message: "Project successfully updated",
+            project: updateColumn
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 const updateProject = (req, res, next) => {
     try {
         res.status(200).json({
@@ -121,6 +192,7 @@ module.exports = {
     createProject,
     getProjectList,
     getProject,
+    rearrangeProject,
     updateProject,
     deleteProject
 };
