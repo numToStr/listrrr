@@ -113,15 +113,35 @@ const rearrangeProject = async (req, res, next) => {
             throw new $Error("Destination is out of range :/");
         }
 
-        // Decrement columns index by 1 whose index are greater than source & less than destination index
-        // Update dragged column index to destination index
+        // If drag BACKWARD i.e. from position 3:{source} --> 1:{destination}
+        // Source > Destination
+        // Increment by 1, whose position is >= destination and < source
+        // Update dragged element index to destination
+        let incPosition = 1;
+        let query = {
+            $gte: destIndex,
+            $lt: sourceIndex
+        };
+
+        // If drag FORWARD i.e. from position 1:{source} --> 3:{destination}
+        // Destination > Source
+        // Decrement by 1, whose position is > source and <= destination
+        // Update dragged element index to destination
+        if (sourceIndex < destIndex) {
+            incPosition = -1;
+            query = {
+                $gt: sourceIndex,
+                $lte: destIndex
+            };
+        }
+
         const updateColumn = await new ProjectDAL({
             author: $id,
             _id: projectId
         }).updateOne(
             {
                 $inc: {
-                    "columns.$[column1].order": -1
+                    "columns.$[column1].order": incPosition
                 },
                 "columns.$[column2].order": destIndex
             },
@@ -129,10 +149,7 @@ const rearrangeProject = async (req, res, next) => {
                 updateOpt: {
                     arrayFilters: [
                         {
-                            "column1.order": {
-                                $gt: sourceIndex,
-                                $lte: destIndex
-                            }
+                            "column1.order": query
                         },
                         {
                             "column2._id": columnId
