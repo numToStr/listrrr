@@ -71,7 +71,14 @@ const getProject = async (req, res, next) => {
         const project = await new ProjectDAL({
             _id: ObjectId(projectId),
             author: ObjectId($id)
-        }).findOne();
+        }).aggregateOne({
+            lookup: {
+                from: "issues",
+                localField: "_id",
+                foreignField: "project",
+                as: "issues"
+            }
+        });
 
         res.status(200).json({
             success: "Successful",
@@ -100,8 +107,8 @@ const rearrangeProject = async (req, res, next) => {
         const project = await new ProjectDAL({
             _id: ObjectId(projectId),
             author: ObjectId($id)
-        }).findOne({
-            select: {
+        }).aggregateOne({
+            project: {
                 columnsLength: {
                     $size: "$columns"
                 }

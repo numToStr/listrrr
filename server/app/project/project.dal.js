@@ -4,9 +4,11 @@ class ProjectDAL {
     constructor(ctx = {}) {
         this.ctx = ctx;
         this.select =
-            "-author -template -__v -column -firstColumn -issues.author -issues.project -issues.__v -issues.updatedAt -columns.createdAt -columns.updatedAt";
+            "-author -template -__v -issues.author -issues.project -issues.__v -issues.updatedAt -columns.createdAt -columns.updatedAt";
         this.sort = { createdAt: -1 };
         this.updateOpt = { new: true };
+        this.lookup = {};
+        this.addFields = { __v: 0 };
     }
 }
 
@@ -23,40 +25,21 @@ ProjectDAL.prototype.create = async function create(data = {}) {
     return doc;
 };
 
-ProjectDAL.prototype.findOne = async function findOne(options = {}) {
-    const { select = this.select } = options;
+ProjectDAL.prototype.aggregateOne = async function aggregateOne(options = {}) {
+    const {
+        project = this.select,
+        addFields = this.addFields,
+        lookup = this.lookup
+    } = options;
 
-    const [project] = await ProjectModel.aggregate()
+    const [doc] = await ProjectModel.aggregate()
         .match(this.ctx)
-        .lookup({
-            from: "issues",
-            localField: "_id",
-            foreignField: "project",
-            as: "issues"
-        })
-        .addFields({
-            column: {
-                $arrayElemAt: [
-                    {
-                        $filter: {
-                            input: "$columns",
-                            as: "column",
-                            cond: {
-                                $eq: ["$$column.order", 0]
-                            }
-                        }
-                    },
-                    0
-                ]
-            }
-        })
-        .addFields({
-            firstColumn: "$column._id"
-        })
-        .project(select)
+        .lookup(lookup)
+        .addFields(addFields)
+        .project(project)
         .exec();
 
-    return project ? project : null;
+    return doc ? doc : null;
 };
 
 ProjectDAL.prototype.findAll = function findAll(options = {}) {

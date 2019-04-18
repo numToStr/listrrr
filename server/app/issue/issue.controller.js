@@ -15,8 +15,26 @@ const createIssue = async (req, res, next) => {
         if (project) {
             const _project = await new ProjectDAL({
                 _id: ObjectId(project)
-            }).findOne({
-                select: "firstColumn"
+            }).aggregateOne({
+                addFields: {
+                    column: {
+                        $arrayElemAt: [
+                            {
+                                $filter: {
+                                    input: "$columns",
+                                    as: "column",
+                                    cond: {
+                                        $eq: ["$$column.order", 0]
+                                    }
+                                }
+                            },
+                            0
+                        ]
+                    }
+                },
+                project: {
+                    firstColumn: "$column._id"
+                }
             });
 
             if (!_project) {
