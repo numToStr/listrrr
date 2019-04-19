@@ -12,7 +12,7 @@ import ProjectViewIndex from "../../app/Project/ProjectView/ProjectViewIndex";
 import IssueIndex from "../../app/Issue/IssueIndex";
 import IssueAddIndex from "../../app/Issue/IssueAdd/IssueAddIndex";
 import IssueListIndex from "../../app/Issue/IssueList/IssueListIndex";
-import IssueEditIndex from "../../app/Issue/IssueEdit/IssueEditIndex";
+// import IssueEditIndex from "../../app/Issue/IssueEdit/IssueEditIndex";
 import IssueViewIndex from "../../app/Issue/IssueView/IssueViewIndex";
 
 export const redirects = {
@@ -89,12 +89,12 @@ export const routes = [
                         path: "/d/issues/view/:issueId",
                         component: IssueViewIndex,
                         private: true
-                    },
-                    {
-                        path: "/d/issues/edit/:issueId",
-                        component: IssueEditIndex,
-                        private: true
                     }
+                    // {
+                    //     path: "/d/issues/edit/:issueId",
+                    //     component: IssueEditIndex,
+                    //     private: true
+                    // }
                 ]
             }
         ]
