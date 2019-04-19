@@ -1,3 +1,4 @@
+import produce from "immer";
 import { normalizeLevel1 } from "../json.normalizr";
 import {
     ISSUE_ADD_SUCCESS,
@@ -13,32 +14,22 @@ const initialState = {
 };
 
 const onIssueAdd = (state, { issue }) => {
-    return {
-        ...state,
-        lastCreated: issue
-    };
+    state.lastCreated = issue;
 };
 
 const onIssueGet = (state, { issue }) => {
-    return {
-        ...state,
-        current: issue
-    };
+    state.current = issue;
 };
 
 const onIssueList = (state, { issues }) => {
-    return {
-        ...state,
-        list: normalizeLevel1(issues, { entity: "issues" })
-    };
+    state.list = normalizeLevel1(issues, { entity: "issues" });
 };
 
-const onIssueClear = state => ({
-    ...state,
-    current: null
-});
+const onIssueClear = state => {
+    state.current = null;
+};
 
-export default (state = initialState, { type, data }) => {
+export default produce((state = initialState, { type, data }) => {
     switch (type) {
         case ISSUE_ADD_SUCCESS:
             return onIssueAdd(state, data);
@@ -51,4 +42,4 @@ export default (state = initialState, { type, data }) => {
         default:
             return state;
     }
-};
+});

@@ -8,7 +8,10 @@ import {
     PROJECT_CLEAR,
     PROJECT_COLUMN_REARRANGE,
     PROJECT_COLUMN_REARRANGE_UPDATE,
-    PROJECT_COLUMN_REARRANGE_SUCCESS
+    PROJECT_COLUMN_REARRANGE_SUCCESS,
+    PROJECT_ISSUE_REARRANGE,
+    PROJECT_ISSUE_REARRANGE_SUCCESS,
+    PROJECT_ISSUE_REARRANGE_UPDATE
 } from "../action.types";
 
 const projectAddSuccess = data => ({
@@ -105,6 +108,49 @@ export const projectColumnRearrangeUpdate = (
     },
     success: projectColumnRearrangeSuccess,
     meta: {
-        label: "projectRearrange"
+        label: "projectColumnRearrange"
+    }
+});
+
+export const projectIssueRearrange = (columnId, sourceIndex, destIndex) => ({
+    type: PROJECT_ISSUE_REARRANGE,
+    data: {
+        columnId,
+        sourceIndex,
+        destIndex
+    }
+});
+
+const projectIssueRearrangeSuccess = data => {
+    console.log(data);
+    return {
+        type: PROJECT_ISSUE_REARRANGE_SUCCESS
+    };
+};
+
+export const projectIssueRearrangeUpdate = (
+    projectId,
+    issueId,
+    sourceColumn,
+    sourceIndex,
+    destColumn,
+    destIndex
+) => ({
+    type: PROJECT_ISSUE_REARRANGE_UPDATE,
+    http: true,
+    payload: {
+        method: "PATCH",
+        url: `/issue/${issueId}/rearrange`,
+        data: {
+            projectId,
+            sourceColumn,
+            sourceIndex,
+            destColumn,
+            destIndex
+        }
+    },
+    success: projectIssueRearrangeSuccess,
+    meta: {
+        label: "projectIssueRearrange"
     }
 });

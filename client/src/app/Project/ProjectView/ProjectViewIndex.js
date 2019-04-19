@@ -10,7 +10,9 @@ import {
     projectGet,
     projectClear,
     projectColumnRearrangeUpdate,
-    projectColumnRearrange
+    projectColumnRearrange,
+    projectIssueRearrange,
+    projectIssueRearrangeUpdate
 } from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
@@ -37,6 +39,8 @@ const ProjectViewIndex = ({
     $projectClear,
     $projectColumnRearrange,
     $projectColumnRearrangeUpdate,
+    $projectIssueRearrange,
+    $projectIssueRearrangeUpdate,
     _currentProject,
     _currentIssues
 }) => {
@@ -56,18 +60,35 @@ const ProjectViewIndex = ({
     const onDragEnd = data => {
         const { type, draggableId, source, destination } = data;
 
+        /**
+         * Cases ============
+         *
+         * For Column :-
+         * 1. doesn't changed place
+         * 2. changed place
+         *
+         * For Issue :-
+         * 1. doesn't changed place
+         * 2. changed place in the same column
+         * 3. column changed with same index
+         * 4. column changed with different index
+         */
+
         // If there is no destination or item is dropped outside of drop context
         if (!destination) {
             return;
         }
 
+        // If column is dragged
         const isColumn = type === "PROJECT_COLUMN";
         if (isColumn && source.index !== destination.index) {
+            // This action is to update the UI
             $projectColumnRearrange(
                 draggableId,
                 source.index,
                 destination.index
             );
+            // This action is the http request to update database
             return $projectColumnRearrangeUpdate(
                 params.projectId,
                 draggableId,
@@ -76,20 +97,24 @@ const ProjectViewIndex = ({
             );
         }
 
+        // If issue is dragged
         const isIssue = type === "PROJECT_ISSUE";
         if (isIssue) {
+            // draggableId : id of the issue
+            // source.droppableId: source column id
+            // source.index: index of issue in the source column
+            // destination.droppableId: destination column id
+            // destination.index: index (to be) of issue in the destination column
+            $projectIssueRearrangeUpdate(
+                params.projectId,
+                draggableId,
+                source.droppableId,
+                source.index,
+                destination.droppableId,
+                destination.index
+            );
             console.log("Issue Dragged: ", data);
         }
-
-        // Cases:
-        // Column -
-        // 1. doesn't changed place
-        // 2. changed place
-        // Issue -
-        // 1. doesn't changed place
-        // 2. changed place in the same column
-        // 3. column changed with same index
-        // 4. column changed with different index
     };
 
     return (
@@ -147,7 +172,9 @@ const mapDispatchToProps = {
     $projectGet: projectGet,
     $projectClear: projectClear,
     $projectColumnRearrange: projectColumnRearrange,
-    $projectColumnRearrangeUpdate: projectColumnRearrangeUpdate
+    $projectColumnRearrangeUpdate: projectColumnRearrangeUpdate,
+    $projectIssueRearrange: projectIssueRearrange,
+    $projectIssueRearrangeUpdate: projectIssueRearrangeUpdate
 };
 
 export default connect(

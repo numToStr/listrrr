@@ -27,10 +27,14 @@ const onProject = (state, { project }) => {
         (curr, next) => curr.order - next.order
     );
 
+    const _issues = project.issues.sort(
+        (curr, next) => curr.columnIndex - next.columnIndex
+    );
+
     state.current = {
         ...project,
         columns: normalizeLevel1(_columns, { entity: "columns" }),
-        issues: normalizeLevel1(project.issues, { entity: "issues" })
+        issues: normalizeLevel1(_issues, { entity: "issues" })
     };
 };
 
