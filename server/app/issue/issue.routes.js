@@ -7,6 +7,7 @@ const {
     createIssue,
     getIssue,
     getIssueList,
+    rearrangeIssue,
     updateIssue,
     deleteIssue
 } = require("./issue.controller");
@@ -16,6 +17,8 @@ router.post("/", $validator(issueSchema), createIssue);
 
 // For getting issues list
 router.get("/list", getIssueList);
+
+router.patch("/:issueId/rearrange", rearrangeIssue);
 
 router
     .route("/:issueId")

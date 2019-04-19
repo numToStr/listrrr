@@ -108,6 +108,129 @@ const getIssueList = async (req, res, next) => {
     }
 };
 
+// For rearranging issue
+
+const rearrangeIssue = async (req, res, next) => {
+    try {
+        const {
+            $user: { $id },
+            params: { issueId },
+            body: {
+                projectId,
+                sourceColumn,
+                sourceIndex,
+                destColumn,
+                destIndex
+            }
+        } = req;
+
+        // If doesn't changed column & doesn't changed index => return
+        if (sourceColumn === destColumn && sourceIndex === destIndex) {
+            throw new $Error("Source and Destination are equal :/", 400);
+        }
+
+        const globalQuery = {
+            author: $id,
+            project: projectId
+        };
+
+        const issuesCount = await new IssueDAL({
+            ...globalQuery,
+            column: destColumn
+        }).count();
+
+        // Check if destination index is >= count of issue in that column
+        if (destIndex >= issuesCount) {
+            throw new $Error("Destination is out of range :/");
+        }
+
+        //  If doesn't change column
+        if (sourceColumn === destColumn) {
+            // If drag BACKWARD i.e. from position 3:{source} --> 1:{destination}
+            // Source > Destination
+            // Increment by 1, whose position is >= destination and < source
+            // Update dragged element index to destination
+            let incPosition = 1;
+            let query = {
+                $gte: destIndex,
+                $lt: sourceIndex
+            };
+
+            // If drag FORWARD i.e. from position 1:{source} --> 3:{destination}
+            // Destination > Source
+            // Decrement by 1, whose position is > source and <= destination
+            // Update dragged element index to destination
+            if (sourceIndex < destIndex) {
+                incPosition = -1;
+                query = {
+                    $gt: sourceIndex,
+                    $lte: destIndex
+                };
+            }
+
+            await new IssueDAL({
+                ...globalQuery,
+                column: destColumn,
+                columnIndex: query
+            }).updateMany({
+                $inc: {
+                    columnIndex: incPosition
+                }
+            });
+        } else {
+            // If changed column
+
+            // Inecrement whose index > than source index in source column
+            const sourceColumnUpdate = new IssueDAL({
+                ...globalQuery,
+                column: sourceColumn,
+                columnIndex: {
+                    $gt: sourceIndex
+                }
+            }).updateMany({
+                $inc: {
+                    columnIndex: -1
+                }
+            });
+
+            // Increment whose index > than destination index in the destination column
+            const destColumnUpdate = new IssueDAL({
+                ...globalQuery,
+                column: destColumn,
+                columnIndex: {
+                    $gte: destIndex
+                }
+            }).updateMany({
+                $inc: {
+                    columnIndex: 1
+                }
+            });
+
+            await Promise.all([sourceColumnUpdate, destColumnUpdate]);
+        }
+
+        // Finally updating the dragged item with the column and index
+        const update = await new IssueDAL({
+            _id: issueId,
+            author: $id,
+            project: projectId
+        }).updateOne(
+            {
+                column: destColumn,
+                columnIndex: destIndex
+            },
+            { select: "_id" }
+        );
+
+        res.status(200).json({
+            success: "Issue successfully update",
+            issue: update
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 // For updating issues
 const updateIssue = async (req, res, next) => {
     try {
@@ -154,6 +277,7 @@ module.exports = {
     createIssue,
     getIssue,
     getIssueList,
+    rearrangeIssue,
     updateIssue,
     deleteIssue
 };

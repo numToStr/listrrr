@@ -5,7 +5,7 @@ class IssueDAL {
         this.ctx = ctx;
         this.select = "-author -updatedAt -column -columnIndex -__v";
         this.sort = { createdAt: -1 };
-        this.updateOptions = { new: true };
+        this.updateOpt = { new: true };
         this.populate = {
             path: "project",
             select: "title",
@@ -52,9 +52,21 @@ IssueDAL.prototype.findAll = function findAll(options = {}) {
 };
 
 // For updating a issue
-IssueDAL.prototype.updateOne = function updateOne(update = {}) {
-    return IssueModel.findOneAndUpdate(this.ctx, update, this.updateOptions)
-        .select(this.select)
+IssueDAL.prototype.updateOne = function updateOne(update = {}, options = {}) {
+    const { select = this.select, updateOpt = this.updateOpt } = options;
+
+    return IssueModel.findOneAndUpdate(this.ctx, update, updateOpt)
+        .select(select)
+        .lean()
+        .exec();
+};
+
+// For updating many issue
+IssueDAL.prototype.updateMany = function updateMany(update = {}, options = {}) {
+    const { select = this.select, updateOpt = this.updateOpt } = options;
+
+    return IssueModel.updateMany(this.ctx, update, updateOpt)
+        .select(select)
         .lean()
         .exec();
 };
