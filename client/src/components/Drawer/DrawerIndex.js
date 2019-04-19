@@ -1,9 +1,9 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 
-import DrawerList from "./drawer.list";
+import DrawerList from "./DrawerList";
 
-const SideDrawer = props => {
+const DrawerIndex = props => {
     return (
         <Drawer {...props} variant="permanent" anchor="left">
             <DrawerList />
@@ -11,4 +11,4 @@ const SideDrawer = props => {
     );
 };
 
-export default SideDrawer;
+export default DrawerIndex;

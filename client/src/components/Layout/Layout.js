@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import SideDrawer from "../drawer/index.drawer";
+import DrawerIndex from "../Drawer/DrawerIndex";
 
 const styles = ({ palette, spacing }) => {
     const drawerWidth = spacing.unit * 30;
@@ -36,7 +36,7 @@ const styles = ({ palette, spacing }) => {
 const Layout = ({ children, classes }) => {
     return (
         <Grid container className={classes.container}>
-            <SideDrawer
+            <DrawerIndex
                 className={classes.drawer}
                 classes={{
                     paper: `${classes.paddingAround} ${classes.drawerPaper}`
