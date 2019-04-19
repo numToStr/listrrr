@@ -7,7 +7,12 @@ class ProjectDAL {
             "-author -template -__v -issues.author -issues.project -issues.__v -issues.updatedAt -columns.createdAt -columns.updatedAt";
         this.sort = { createdAt: -1 };
         this.updateOpt = { new: true };
-        this.lookup = {};
+        this.lookup = {
+            from: "__",
+            as: "__",
+            localField: "__",
+            foreignField: "__"
+        };
         this.addFields = { __v: 0 };
     }
 }
