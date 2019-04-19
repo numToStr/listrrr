@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import FormLayout from "../../../components/forms/form.layout";
+import FormLayout from "../../../components/Form/FormLayout";
 
 const initialValues = { title: "", description: "" };
 

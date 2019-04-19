@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormWrapper from "../../components/forms/form.wrapper";
-import FormLayout from "../../components/forms/form.layout";
+import FormWrapper from "../../components/Form/FormWrapper";
+import FormLayout from "../../components/Form/FormLayout";
 
 import { loginSchema } from "../../utils/validations/auth.validation";
 import { login } from "../../store/actions/index.action";
@@ -30,7 +30,7 @@ const config = {
     ]
 };
 
-const Login = ({ $login, _loading }) => {
+const LoginIndex = ({ $login, _loading }) => {
     return (
         <FormWrapper>
             <FormLayout
@@ -56,4 +56,4 @@ const mapDispatchToProps = dispatchEvent => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login);
+)(LoginIndex);

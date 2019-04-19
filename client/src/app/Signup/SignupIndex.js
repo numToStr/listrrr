@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import FormWrapper from "../../components/forms/form.wrapper";
-import FormLayout from "../../components/forms/form.layout";
+import FormWrapper from "../../components/Form/FormWrapper";
+import FormLayout from "../../components/Form/FormLayout";
 
 import { signupSchema } from "../../utils/validations/auth.validation";
 import { signup } from "../../store/actions/index.action";

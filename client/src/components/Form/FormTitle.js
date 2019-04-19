@@ -6,7 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/CheckTwoTone";
 import CancelIcon from "@material-ui/icons/CloseTwoTone";
-import InputField from "./inputs/form.textField";
+
+import InputField from "./FormFields/FormTextField";
 
 const TitleEditForm = ({
     show,

@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, Field, Form } from "formik";
 import Grid from "@material-ui/core/Grid";
 
-import InputField from "../../components/forms/inputs/form.textField";
-import LoadingButton from "../../components/forms/inputs/form.loadingButton";
+import InputField from "./FormFields/FormTextField";
+import LoadingButton from "./FormFields/FormButton";
 
 const FormLayout = ({ config, onSubmit, initialValues, loading, schema }) => {
     const Fields = props =>

@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import EditIcon from "@material-ui/icons/EditTwoTone";
 import withStyles from "@material-ui/core/styles/withStyles";
-import TitleEditForm from "../../../components/forms/form.title";
+import TitleEditForm from "../../../components/Form/FormTitle";
 
 const styles = ({ spacing }) => {
     return {

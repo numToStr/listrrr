@@ -4,9 +4,9 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import Grid from "@material-ui/core/Grid";
 
-import InputField from "../../../components/forms/inputs/form.textField";
-import SelectField from "../../../components/forms/inputs/form.select";
-import LoadingButton from "../../../components/forms/inputs/form.loadingButton";
+import InputField from "../../../components/Form/FormFields/FormTextField";
+import SelectField from "../../../components/Form/FormFields/FormSelect";
+import LoadingButton from "../../../components/Form/FormFields/FormButton";
 
 const ProjectAddForm = ({ onSubmit, initialValues, loading, templates }) => {
     return (
