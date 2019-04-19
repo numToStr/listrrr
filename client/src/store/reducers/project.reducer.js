@@ -5,7 +5,7 @@ import {
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
     PROJECT_CLEAR,
-    PROJECT_REARRANGE
+    PROJECT_COLUMN_REARRANGE
 } from "../action.types";
 
 const initialState = {
@@ -23,9 +23,13 @@ const onProjectList = (state, { projects }) => {
 };
 
 const onProject = (state, { project }) => {
+    const _columns = project.columns.sort(
+        (curr, next) => curr.order - next.order
+    );
+
     state.current = {
         ...project,
-        columns: normalizeLevel1(project.columns, { entity: "columns" }),
+        columns: normalizeLevel1(_columns, { entity: "columns" }),
         issues: normalizeLevel1(project.issues, { entity: "issues" })
     };
 };
@@ -55,7 +59,7 @@ export default produce((state = initialState, { type, data }) => {
             return onProject(state, data);
         case PROJECT_CLEAR:
             return onProjectClear(state);
-        case PROJECT_REARRANGE:
+        case PROJECT_COLUMN_REARRANGE:
             return onProjectRearrange(state, data);
         default:
             return state;

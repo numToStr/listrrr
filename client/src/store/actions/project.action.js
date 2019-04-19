@@ -6,7 +6,9 @@ import {
     PROJECT_GET_SUCCESS,
     PROJECT_GET,
     PROJECT_CLEAR,
-    PROJECT_REARRANGE
+    PROJECT_COLUMN_REARRANGE,
+    PROJECT_COLUMN_REARRANGE_UPDATE,
+    PROJECT_COLUMN_REARRANGE_SUCCESS
 } from "../action.types";
 
 const projectAddSuccess = data => ({
@@ -68,11 +70,41 @@ export const projectClear = () => ({
     type: PROJECT_CLEAR
 });
 
-export const projectRearrange = (columnId, sourceIndex, destIndex) => ({
-    type: PROJECT_REARRANGE,
+export const projectColumnRearrange = (columnId, sourceIndex, destIndex) => ({
+    type: PROJECT_COLUMN_REARRANGE,
     data: {
         columnId,
         sourceIndex,
         destIndex
+    }
+});
+
+const projectColumnRearrangeSuccess = data => {
+    console.log(data);
+    return {
+        type: PROJECT_COLUMN_REARRANGE_SUCCESS
+    };
+};
+
+export const projectColumnRearrangeUpdate = (
+    projectId,
+    columnId,
+    sourceIndex,
+    destIndex
+) => ({
+    type: PROJECT_COLUMN_REARRANGE_UPDATE,
+    http: true,
+    payload: {
+        method: "PATCH",
+        url: `/project/${projectId}/rearrange`,
+        data: {
+            columnId,
+            sourceIndex,
+            destIndex
+        }
+    },
+    success: projectColumnRearrangeSuccess,
+    meta: {
+        label: "projectRearrange"
     }
 });

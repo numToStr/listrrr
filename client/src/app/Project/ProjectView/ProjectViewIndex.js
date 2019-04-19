@@ -9,7 +9,8 @@ import AddIcon from "@material-ui/icons/Add";
 import {
     projectGet,
     projectClear,
-    projectRearrange
+    projectColumnRearrangeUpdate,
+    projectColumnRearrange
 } from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
@@ -34,7 +35,8 @@ const ProjectViewIndex = ({
     match: { params },
     $projectGet,
     $projectClear,
-    $projectRearrange,
+    $projectColumnRearrange,
+    $projectColumnRearrangeUpdate,
     _currentProject,
     _currentIssues
 }) => {
@@ -54,13 +56,20 @@ const ProjectViewIndex = ({
     const onDragEnd = data => {
         const { type, draggableId, source, destination } = data;
 
+        // If there is no destination or item is dropped outside of drop context
         if (!destination) {
             return;
         }
 
         const isColumn = type === "PROJECT_COLUMN";
-        if (isColumn) {
-            return $projectRearrange(
+        if (isColumn && source.index !== destination.index) {
+            $projectColumnRearrange(
+                draggableId,
+                source.index,
+                destination.index
+            );
+            return $projectColumnRearrangeUpdate(
+                params.projectId,
                 draggableId,
                 source.index,
                 destination.index
@@ -69,7 +78,7 @@ const ProjectViewIndex = ({
 
         const isIssue = type === "PROJECT_ISSUE";
         if (isIssue) {
-            console.log("Issue Dragged");
+            console.log("Issue Dragged: ", data);
         }
 
         // Cases:
@@ -137,7 +146,8 @@ const mapStateToProps = ({ project: { current } }) => ({
 const mapDispatchToProps = {
     $projectGet: projectGet,
     $projectClear: projectClear,
-    $projectRearrange: projectRearrange
+    $projectColumnRearrange: projectColumnRearrange,
+    $projectColumnRearrangeUpdate: projectColumnRearrangeUpdate
 };
 
 export default connect(
