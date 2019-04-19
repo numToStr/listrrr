@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
 const http = require("http");
-const mongoose = require("mongoose");
 
+const app = require("../src/server");
+const db = require("../src/db");
 const { PORT, MONGODB_URI } = require("../config/keys");
-
-// Importing Express app
-const app = require("../server");
 
 // Setting Port in the Express app
 app.set("port", PORT);
@@ -15,25 +13,18 @@ app.set("port", PORT);
 const SERVER = http.createServer(app);
 
 // Connecting MongoDB ============
-mongoose.connect(
-    MONGODB_URI,
-    {
-        // option for removing deprecation warning and preventing further issue
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    },
-    error => {
-        if (error) {
-            throw new Error(`[MongoDB]::ERROR:${error.message}`);
-        }
+(async () => {
+    try {
+        await db(MONGODB_URI);
 
         console.log(`[MongoDB]::LISTEN`);
 
         // Firing up the server on selected port
         SERVER.listen(PORT);
+    } catch (error) {
+        throw new Error(`[MongoDB]::ERROR:${error.message}`);
     }
-);
+})();
 
 SERVER.on("listening", () => {
     console.log(`[Server]::LISTEN:${PORT}`);
