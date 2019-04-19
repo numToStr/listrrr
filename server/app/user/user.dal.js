@@ -1,4 +1,5 @@
 const UserModel = require("./user.model");
+const { deleteProps } = require("../../utils/object.utils");
 
 class UserDAL {
     constructor(ctx = {}) {
@@ -8,18 +9,13 @@ class UserDAL {
 }
 
 UserDAL.prototype.create = async function create(data) {
-    const newUser = await new UserModel(data).save();
+    const newDoc = await new UserModel(data).save();
 
     // Converting mongoose document to js object
-    const user = newUser.toObject();
+    const doc = newDoc.toObject();
 
     // Removing extra fields
-    Reflect.deleteProperty(user, "createdAt");
-    Reflect.deleteProperty(user, "updatedAt");
-    Reflect.deleteProperty(user, "__v");
-    Reflect.deleteProperty(user, "password");
-
-    return user;
+    return deleteProps(doc, ["__v", "createdAt", "updatedAt", "password"]);
 };
 
 UserDAL.prototype.findOne = function findOne(options = {}) {

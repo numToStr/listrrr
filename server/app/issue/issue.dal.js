@@ -1,4 +1,5 @@
 const IssueModel = require("./issue.model");
+const { deleteProps } = require("../../utils/object.utils");
 
 class IssueDAL {
     constructor(ctx = {}) {
@@ -20,13 +21,13 @@ IssueDAL.prototype.create = async function create(data = {}) {
 
     const doc = newDoc.toObject();
 
-    Reflect.deleteProperty(doc, "__v");
-    Reflect.deleteProperty(doc, "author");
-    Reflect.deleteProperty(doc, "column");
-    Reflect.deleteProperty(doc, "columnIndex");
-    Reflect.deleteProperty(doc, "updatedAt");
-
-    return doc;
+    return deleteProps(doc, [
+        "__v",
+        "author",
+        "column",
+        "columnIndex",
+        "updatedAt"
+    ]);
 };
 
 // For getting single issue details

@@ -1,4 +1,5 @@
 const TemplateModel = require("./template.model");
+const { deleteProps } = require("../../utils/object.utils");
 
 class TemplateDAL {
     constructor(ctx = {}) {
@@ -10,9 +11,11 @@ class TemplateDAL {
 }
 
 TemplateDAL.prototype.create = async function create(data = {}) {
-    const newTemplate = await new TemplateModel(data).save();
+    const newDoc = await new TemplateModel(data).save();
 
-    return newTemplate.toObject();
+    const doc = newDoc.toObject();
+
+    return deleteProps(doc, ["__v", "createdAt", "updatedAt"]);
 };
 
 TemplateDAL.prototype.findOne = function findOne() {

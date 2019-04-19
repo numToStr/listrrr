@@ -6,15 +6,9 @@
  * @param {Boolean} mongooseString Determines whether the keys provided is mongoose select string
  */
 
-const deleteProps = (target, keys, mongooseString = false) => {
-    let $keys = keys;
-
-    if (keys) {
-        if (mongooseString) {
-            const _keys = keys.replace(/-/g, "").split(" ");
-            $keys = _keys;
-        }
-
+const deleteProps = (target, keys) => {
+    const $keys = keys;
+    if ($keys) {
         if (typeof keys === "string") {
             Reflect.deleteProperty(target, $keys);
         } else if (Array.isArray(keys)) {

@@ -1,4 +1,5 @@
 const ProjectModel = require("./project.model");
+const { deleteProps } = require("../../utils/object.utils");
 
 class ProjectDAL {
     constructor(ctx = {}) {
@@ -22,12 +23,7 @@ ProjectDAL.prototype.create = async function create(data = {}) {
 
     const doc = newDoc.toObject();
 
-    Reflect.deleteProperty(doc, "__v");
-    Reflect.deleteProperty(doc, "author");
-    Reflect.deleteProperty(doc, "template");
-    Reflect.deleteProperty(doc, "columns");
-
-    return doc;
+    return deleteProps(doc, ["__v", "author", "template", "columns"]);
 };
 
 ProjectDAL.prototype.aggregateOne = async function aggregateOne(options = {}) {
