@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const { objectIdRegex } = require("../../helper/constants");
+const { objectIdRegex } = require("../../utils/constants");
 
 const projectSchema = Joi.object().keys({
     title: Joi.string()
