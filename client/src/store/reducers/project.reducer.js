@@ -5,7 +5,8 @@ import {
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
     PROJECT_CLEAR,
-    PROJECT_COLUMN_REARRANGE
+    PROJECT_COLUMN_REARRANGE,
+    PROJECT_ISSUE_REARRANGE
 } from "../action.types";
 
 const initialState = {
@@ -27,14 +28,10 @@ const onProject = (state, { project }) => {
         (curr, next) => curr.order - next.order
     );
 
-    const _issues = project.issues.sort(
-        (curr, next) => curr.columnIndex - next.columnIndex
-    );
-
     state.current = {
         ...project,
         columns: normalizeLevel1(_columns, { entity: "columns" }),
-        issues: normalizeLevel1(_issues, { entity: "issues" })
+        issues: normalizeLevel1(project.issues, { entity: "issues" })
     };
 };
 
@@ -53,6 +50,49 @@ const onProjectRearrange = (state, { columnId, sourceIndex, destIndex }) => {
     columns.splice(destIndex, 0, columnId);
 };
 
+const onProjectIssueRearrange = (
+    state,
+    { issueId, sourceColumn, sourceIndex, destColumn, destIndex }
+) => {
+    const _issues = state.current.issues.entities;
+
+    if (destColumn === sourceColumn) {
+        state.current.issues.result.forEach(issue => {
+            const ii = _issues[issue];
+            if (ii.column === destColumn) {
+                if (
+                    sourceIndex < destIndex &&
+                    ii.columnIndex > sourceIndex &&
+                    ii.columnIndex <= destIndex
+                ) {
+                    ii.columnIndex -= 1;
+                } else if (
+                    ii.columnIndex >= destIndex &&
+                    ii.columnIndex < sourceIndex
+                ) {
+                    ii.columnIndex += 1;
+                }
+            }
+        });
+
+        _issues[issueId].columnIndex = destIndex;
+
+        return;
+    }
+
+    // const currIssue = _issues[issueId];
+
+    // currIssue.column = destColumn;
+
+    // console.table({
+    //     issueId,
+    //     sourceColumn,
+    //     sourceIndex,
+    //     destColumn,
+    //     destIndex
+    // });
+};
+
 export default produce((state = initialState, { type, data }) => {
     switch (type) {
         case PROJECT_ADD_SUCCESS:
@@ -65,6 +105,8 @@ export default produce((state = initialState, { type, data }) => {
             return onProjectClear(state);
         case PROJECT_COLUMN_REARRANGE:
             return onProjectRearrange(state, data);
+        case PROJECT_ISSUE_REARRANGE:
+            return onProjectIssueRearrange(state, data);
         default:
             return state;
     }

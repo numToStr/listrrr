@@ -22,11 +22,13 @@ const ProjectCard = ({ classes, droppableId, title, issue = null }) => {
     );
 
     if (issue) {
-        curIssue = issue.map((_issue, $i) => (
-            <DraggableWrapper key={_issue._id} id={_issue._id} index={$i}>
-                <IssueItem titleProps={{ variant: "body1" }} {..._issue} />
-            </DraggableWrapper>
-        ));
+        curIssue = issue
+            .sort((curr, next) => curr.columnIndex - next.columnIndex)
+            .map((_issue, $i) => (
+                <DraggableWrapper key={_issue._id} id={_issue._id} index={$i}>
+                    <IssueItem titleProps={{ variant: "body1" }} {..._issue} />
+                </DraggableWrapper>
+            ));
     }
 
     return (

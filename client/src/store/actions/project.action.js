@@ -112,11 +112,19 @@ export const projectColumnRearrangeUpdate = (
     }
 });
 
-export const projectIssueRearrange = (columnId, sourceIndex, destIndex) => ({
+export const projectIssueRearrange = (
+    issueId,
+    sourceColumn,
+    sourceIndex,
+    destColumn,
+    destIndex
+) => ({
     type: PROJECT_ISSUE_REARRANGE,
     data: {
-        columnId,
+        issueId,
+        sourceColumn,
         sourceIndex,
+        destColumn,
         destIndex
     }
 });

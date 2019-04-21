@@ -105,6 +105,13 @@ const ProjectViewIndex = ({
             // source.index: index of issue in the source column
             // destination.droppableId: destination column id
             // destination.index: index (to be) of issue in the destination column
+            $projectIssueRearrange(
+                draggableId,
+                source.droppableId,
+                source.index,
+                destination.droppableId,
+                destination.index
+            );
             $projectIssueRearrangeUpdate(
                 params.projectId,
                 draggableId,
@@ -113,7 +120,6 @@ const ProjectViewIndex = ({
                 destination.droppableId,
                 destination.index
             );
-            console.log("Issue Dragged: ", data);
         }
     };
 
