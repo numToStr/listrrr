@@ -1,17 +1,19 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Grid from "@material-ui/core/Grid";
 
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
     page: {
         height: "100%",
         paddingBottom: spacing.unit * 11
     }
-});
+}));
 
-const LoaderPage = ({ classes }) => {
+const Loader = () => {
+    const classes = useStyles();
+
     return (
         <Grid
             container
@@ -29,4 +31,4 @@ const LoaderPage = ({ classes }) => {
     );
 };
 
-export default withStyles(styles)(LoaderPage);
+export default Loader;

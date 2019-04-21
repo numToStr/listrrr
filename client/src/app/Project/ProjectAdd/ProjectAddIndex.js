@@ -1,42 +1,23 @@
-import React, { Fragment, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
 
-import { templateGet, projectAdd } from "../../../store/actions/index.action";
-
-import Loader from "../../../components/Loader/Loader";
 import ProjectAddForm from "./ProjectAddForm";
 
-const initialValues = { title: "", description: "", template: "" };
-
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
     headerMargin: {
         marginBottom: spacing.unit * 2
     }
-});
+}));
 
 const _Link = props => <Link to="/d/projects/list" {...props} />;
 
-const ProjectAddIndex = ({
-    classes,
-    $projectAdd,
-    $templateGet,
-    _templates
-}) => {
-    useEffect(() => {
-        $templateGet();
-    }, []);
-
-    if (!_templates) {
-        return <Loader />;
-    }
-
-    const onSubmit = values => $projectAdd(values);
+const ProjectAddIndex = () => {
+    const classes = useStyles();
 
     return (
         <Fragment>
@@ -56,25 +37,9 @@ const ProjectAddIndex = ({
                     </Typography>
                 </Grid>
             </Grid>
-            <ProjectAddForm
-                onSubmit={onSubmit}
-                initialValues={initialValues}
-                templates={_templates}
-            />
+            <ProjectAddForm />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ templates }) => ({
-    _templates: templates
-});
-
-const mapDispatchToProps = dispatchEvent => ({
-    $projectAdd: values => dispatchEvent(projectAdd(values)),
-    $templateGet: () => dispatchEvent(templateGet())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(ProjectAddIndex));
+export default ProjectAddIndex;
