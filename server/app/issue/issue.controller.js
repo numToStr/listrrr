@@ -139,8 +139,8 @@ const rearrangeIssue = async (req, res, next) => {
             column: destColumn
         }).count();
 
-        // Check if destination index is >= count of issue in that column
-        if (destIndex >= issuesCount) {
+        // Check if destination index is > count of issue in that column [Note: count is 1 based]
+        if (destIndex > issuesCount) {
             throw new $Error("Destination is out of range :/");
         }
 
