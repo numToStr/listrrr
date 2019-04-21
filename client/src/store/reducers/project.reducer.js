@@ -56,41 +56,34 @@ const onProjectIssueRearrange = (
 ) => {
     const _issues = state.current.issues.entities;
 
-    if (destColumn === sourceColumn) {
-        state.current.issues.result.forEach(issue => {
-            const ii = _issues[issue];
-            if (ii.column === destColumn) {
+    state.current.issues.result.forEach(issue => {
+        const ii = _issues[issue];
+        const _column = ii.column;
+        const _index = ii.columnIndex;
+
+        if (destColumn === sourceColumn) {
+            if (_column === destColumn) {
                 if (
                     sourceIndex < destIndex &&
-                    ii.columnIndex > sourceIndex &&
-                    ii.columnIndex <= destIndex
+                    _index > sourceIndex &&
+                    _index <= destIndex
                 ) {
                     ii.columnIndex -= 1;
-                } else if (
-                    ii.columnIndex >= destIndex &&
-                    ii.columnIndex < sourceIndex
-                ) {
+                } else if (_index >= destIndex && _index < sourceIndex) {
                     ii.columnIndex += 1;
                 }
             }
-        });
+        } else {
+            if (_column === sourceColumn && _index > sourceIndex) {
+                ii.columnIndex -= 1;
+            } else if (_column === destColumn && _index >= destIndex) {
+                ii.columnIndex += 1;
+            }
+        }
 
         _issues[issueId].columnIndex = destIndex;
-
-        return;
-    }
-
-    // const currIssue = _issues[issueId];
-
-    // currIssue.column = destColumn;
-
-    // console.table({
-    //     issueId,
-    //     sourceColumn,
-    //     sourceIndex,
-    //     destColumn,
-    //     destIndex
-    // });
+        _issues[issueId].column = destColumn;
+    });
 };
 
 export default produce((state = initialState, { type, data }) => {
