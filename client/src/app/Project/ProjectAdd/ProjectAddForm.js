@@ -16,7 +16,7 @@ const initialValues = { title: "", description: "", template: "" };
 const ProjectAddForm = ({
     $projectAdd,
     $templateGet,
-    _templates: _items,
+    _templates,
     _loading
 }) => {
     const $$templateGet = useCallback($templateGet, []);
@@ -25,7 +25,7 @@ const ProjectAddForm = ({
         $$templateGet();
     }, [$$templateGet]);
 
-    if (!_items) {
+    if (!_templates) {
         return <Loader />;
     }
 
@@ -69,7 +69,7 @@ const ProjectAddForm = ({
                                 type="text"
                                 label="Project Template"
                                 component={FormSelect}
-                                options={_items}
+                                options={_templates}
                             />
                         </Grid>
                     </Grid>
