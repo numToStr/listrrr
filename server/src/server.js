@@ -26,7 +26,7 @@ app.use("/api", api);
 
 // Serving build files if production */
 if (isProd) {
-    const staticFiles = path.resolve(__dirname, "./static");
+    const staticFiles = path.join(__dirname, "..", "static");
 
     app.use(express.static(staticFiles));
 }
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
     const isAPI = /^\/api\//.test(req.url);
 
     if (!isAPI && isProd) {
-        const indexHTML = path.resolve(__dirname, "./static", "index.html");
+        const indexHTML = path.join(__dirname, "..", "static", "index.html");
 
         return res.sendFile(indexHTML);
     }
