@@ -31,7 +31,15 @@
         "morgan": "^1.9.1",
         "nodemon": "^1.18.10"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vkasraj/listrrr.git"
+    },
     "keywords": [],
     "author": "",
-    "license": "MIT"
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vkasraj/listrrr/issues"
+    },
+    "homepage": "https://github.com/vkasraj/listrrr#readme"
 }
