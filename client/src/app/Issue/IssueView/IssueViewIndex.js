@@ -1,11 +1,27 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import makeStyles from "@material-ui/styles/makeStyles";
 
 import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./IssueViewTitle";
-import IssueDescription from "./IssueViewDescription";
+import Surface from "../../../components/Surface";
 import { issueGet, issueClear } from "../../../store/actions/index.action";
+
+const useStyles = makeStyles(({ spacing }) => ({
+    btnMargin: {
+        marginLeft: spacing.unit
+    },
+    descMargin: {
+        marginBottom: spacing.unit * 5
+    },
+    commentMargin: {
+        marginBottom: spacing.unit * 1.5
+    }
+}));
 
 const IssueViewIndex = ({
     match: { params },
@@ -13,6 +29,8 @@ const IssueViewIndex = ({
     $issueClear,
     _currentIssue
 }) => {
+    const classes = useStyles();
+
     useEffect(() => {
         $issueGet(params.issueId);
 
@@ -33,7 +51,56 @@ const IssueViewIndex = ({
             <Typography variant="body2" paragraph>
                 Issue is {_currentIssue.isOpen ? "Open" : "Closed"}
             </Typography>
-            <IssueDescription description={_currentIssue.description} />
+            <Grid container spacing={16}>
+                <Grid item xs={9}>
+                    <Surface className={classes.descMargin}>
+                        <Typography variant="body1">
+                            {_currentIssue.description}
+                        </Typography>
+                    </Surface>
+                    <Grid container className={classes.commentMargin}>
+                        <TextField
+                            label="Comment"
+                            placeholder="Leave a comment"
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            rows={5}
+                        />
+                    </Grid>
+                    <Grid container justify="flex-end">
+                        {_currentIssue.isOpen && (
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                className={classes.btnMargin}
+                            >
+                                Close Issue
+                            </Button>
+                        )}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.btnMargin}
+                        >
+                            Comment
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography variant="body2" gutterBottom>
+                        Project
+                    </Typography>
+                    <Typography variant="caption">
+                        {_currentIssue.project
+                            ? _currentIssue.project.title
+                            : "+ Add to project"}
+                    </Typography>
+                </Grid>
+            </Grid>
         </Fragment>
     );
 };
