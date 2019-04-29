@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 
 import Paper from "@material-ui/core/Paper";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 
-const styles = ({ spacing, mixins }) => {
-    const pUnit = spacing.unit * 1.5;
+const useStyles = makeStyles(({ spacing, mixins }) => {
+    const pUnit = spacing(1.5);
 
     return {
         cardPadding: {
@@ -14,9 +14,11 @@ const styles = ({ spacing, mixins }) => {
             marginBottom: pUnit
         }
     };
-};
+});
 
-const ListCard = ({ classes, children }) => {
+const ListCard = ({ children }) => {
+    const classes = useStyles();
+
     return (
         <Paper className={classes.cardPadding} elevation={1}>
             {children}
@@ -24,4 +26,4 @@ const ListCard = ({ classes, children }) => {
     );
 };
 
-export default memo(withStyles(styles)(ListCard));
+export default memo(ListCard);

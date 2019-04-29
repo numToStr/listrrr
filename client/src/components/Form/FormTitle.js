@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Field, Form } from "formik";
 import Grid from "@material-ui/core/Grid";
 import Zoom from "@material-ui/core/Zoom";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,6 +8,7 @@ import SaveIcon from "@material-ui/icons/CheckTwoTone";
 import CancelIcon from "@material-ui/icons/CloseTwoTone";
 
 import InputField from "./FormFields/FormTextField";
+import FormLayout from "./FormLayout";
 
 const TitleEditForm = ({
     show,
@@ -17,25 +18,19 @@ const TitleEditForm = ({
     onSubmit
 }) => {
     return (
-        <Formik
+        <FormLayout
             onSubmit={onSubmit}
-            validateOnBlur={false}
-            validateOnChange={false}
             initialValues={initialValues}
-            render={({ handleSubmit, dirty, ...props }) => (
-                <form
-                    onSubmit={handleSubmit}
-                    noValidate
-                    style={{ width: "100%" }}
-                >
+            render={({ dirty }) => (
+                <Form style={{ width: "100%" }}>
                     <Grid
                         container
                         justify="space-between"
                         alignItems="center"
                         style={{ marginBottom: "1rem" }}
                     >
-                        <Grid item>
-                            <Zoom in={show}>
+                        <Zoom in={show}>
+                            <Grid item>
                                 <Field
                                     name="title"
                                     type="text"
@@ -43,8 +38,8 @@ const TitleEditForm = ({
                                     margin="dense"
                                     component={InputField}
                                 />
-                            </Zoom>
-                        </Grid>
+                            </Grid>
+                        </Zoom>
                         <Grid item>
                             <Zoom in={show}>
                                 <IconButton
@@ -67,7 +62,7 @@ const TitleEditForm = ({
                             </Zoom>
                         </Grid>
                     </Grid>
-                </form>
+                </Form>
             )}
         />
     );

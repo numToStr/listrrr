@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 
 import InputField from "../../../components/Form/FormFields/FormTextField";
 import SelectField from "../../../components/Form/FormFields/FormSelect";
-import LoadingButton from "../../../components/Form/FormFields/FormButton";
+import FormButton from "../../../components/Form/FormFields/FormButton";
 import FormLayout from "../../../components/Form/FormLayout";
 import Loader from "../../../components/Loader/Loader";
 
@@ -31,7 +31,7 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>
-                    <Grid container spacing={16}>
+                    <Grid container spacing={2}>
                         <Grid item xs={9}>
                             <Field
                                 name="title"
@@ -49,13 +49,13 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
                                 component={InputField}
                             />
                             <Grid container justify="flex-end">
-                                <LoadingButton
+                                <FormButton
                                     loading={_loading}
                                     disabled={!dirty || _loading}
                                     fullWidth={false}
                                 >
                                     Submit
-                                </LoadingButton>
+                                </FormButton>
                             </Grid>
                         </Grid>
                         <Grid item xs={3}>

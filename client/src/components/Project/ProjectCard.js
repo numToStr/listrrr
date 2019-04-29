@@ -1,5 +1,5 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
@@ -7,14 +7,16 @@ import IssueItem from "../Issue/IssueItem";
 import DroppableWrapper from "../DragAndDrop/DroppableWrapper";
 import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
 
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
     wrapper: {
-        padding: spacing.unit * 1.8,
-        paddingBottom: spacing.unit
+        padding: spacing(1.8),
+        paddingBottom: spacing(1)
     }
-});
+}));
 
-const ProjectCard = ({ classes, droppableId, title, issue = null }) => {
+const ProjectCard = ({ droppableId, title, issue = null }) => {
+    const classes = useStyles();
+
     let curIssue = (
         <Typography variant="caption" color="textSecondary">
             No issues.
@@ -43,4 +45,4 @@ const ProjectCard = ({ classes, droppableId, title, issue = null }) => {
     );
 };
 
-export default withStyles(styles)(ProjectCard);
+export default ProjectCard;

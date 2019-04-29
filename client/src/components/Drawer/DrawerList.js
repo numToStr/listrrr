@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -37,7 +37,9 @@ const styles = ({ palette }) => ({
 
 const DrawerList = ({ classes, location: { pathname } }) => {
     const list = items.map(({ text, icon: Icon, path }) => {
-        const _Link = props => <Link to={path} {...props} />;
+        const _Link = forwardRef((props, ref) => (
+            <Link to={path} {...props} ref={ref} />
+        ));
 
         return (
             <ListItem

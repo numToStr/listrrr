@@ -1,11 +1,11 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 
 import DrawerIndex from "../Drawer/DrawerIndex";
 
-const styles = ({ palette, spacing }) => {
-    const drawerWidth = spacing.unit * 30;
+const useStyles = makeStyles(({ palette, spacing }) => {
+    const drawerWidth = spacing(30);
 
     return {
         drawer: {
@@ -23,17 +23,19 @@ const styles = ({ palette, spacing }) => {
             height: "100%"
         },
         paddingAround: {
-            padding: spacing.unit * 2.5,
-            paddingTop: spacing.unit * 5
+            padding: spacing(2.5),
+            paddingTop: spacing(5)
         },
         content: {
             flexGrow: 1,
             width: drawerWidth
         }
     };
-};
+});
 
-const Layout = ({ children, classes }) => {
+const Layout = ({ children }) => {
+    const classes = useStyles();
+
     return (
         <Grid container className={classes.container}>
             <DrawerIndex
@@ -49,4 +51,4 @@ const Layout = ({ children, classes }) => {
     );
 };
 
-export default withStyles(styles)(Layout);
+export default Layout;

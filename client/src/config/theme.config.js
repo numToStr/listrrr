@@ -1,23 +1,16 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import grey from "@material-ui/core/colors/grey";
-import purple from "@material-ui/core/colors/purple";
+import red from "@material-ui/core/colors/red";
 
 export default createMuiTheme({
     palette: {
-        primary: {
-            light: purple[300],
-            main: purple[500],
-            dark: purple[700]
-        },
-        secondary: {
-            main: grey[900]
-        },
+        primary: red,
+        secondary: grey,
         background: {
             default: "#fff"
         }
     },
     typography: {
-        useNextVariants: true,
         fontFamily: [
             "Roboto Mono",
             "monospace",

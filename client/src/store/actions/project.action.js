@@ -83,7 +83,6 @@ export const projectColumnRearrange = (columnId, sourceIndex, destIndex) => ({
 });
 
 const projectColumnRearrangeSuccess = data => {
-    console.log(data);
     return {
         type: PROJECT_COLUMN_REARRANGE_SUCCESS
     };
@@ -130,7 +129,6 @@ export const projectIssueRearrange = (
 });
 
 const projectIssueRearrangeSuccess = data => {
-    console.log(data);
     return {
         type: PROJECT_ISSUE_REARRANGE_SUCCESS
     };

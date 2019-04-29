@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles(({ spacing }) => ({
     page: {
         height: "100%",
-        paddingBottom: spacing.unit * 11
+        paddingBottom: spacing(11)
     }
 }));
 

@@ -13,13 +13,13 @@ import { issueGet, issueClear } from "../../../store/actions/index.action";
 
 const useStyles = makeStyles(({ spacing }) => ({
     btnMargin: {
-        marginLeft: spacing.unit
+        marginLeft: spacing(1)
     },
     descMargin: {
-        marginBottom: spacing.unit * 5
+        marginBottom: spacing(5)
     },
     commentMargin: {
-        marginBottom: spacing.unit * 1.5
+        marginBottom: spacing(1.5)
     }
 }));
 
@@ -51,7 +51,7 @@ const IssueViewIndex = ({
             <Typography variant="body2" paragraph>
                 Issue is {_currentIssue.isOpen ? "Open" : "Closed"}
             </Typography>
-            <Grid container spacing={16}>
+            <Grid container spacing={2}>
                 <Grid item xs={9}>
                     <Surface className={classes.descMargin}>
                         <Typography variant="body1">

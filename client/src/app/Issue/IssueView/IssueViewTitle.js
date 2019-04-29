@@ -4,23 +4,25 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import IconButton from "@material-ui/core/IconButton";
-
 import EditIcon from "@material-ui/icons/EditTwoTone";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
+
 import TitleEditForm from "../../../components/Form/FormTitle";
 
-const styles = ({ spacing }) => {
+const useStyles = makeStyles(({ spacing }) => {
     return {
         titlePadding: {
             padding: `.9rem 0`
         },
         buttonMargin: {
-            marginLeft: spacing.unit / 2
+            marginLeft: spacing(0.5)
         }
     };
-};
+});
 
-const IssueViewTitle = ({ classes, title }) => {
+const IssueViewTitle = ({ title }) => {
+    const classes = useStyles();
+
     const [editField, setEditField] = useState(false);
 
     if (editField) {
@@ -60,4 +62,4 @@ const IssueViewTitle = ({ classes, title }) => {
     );
 };
 
-export default memo(withStyles(styles)(IssueViewTitle));
+export default memo(IssueViewTitle);

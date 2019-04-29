@@ -1,23 +1,27 @@
-import React, { memo } from "react";
+import React, { memo, forwardRef } from "react";
 import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import AddIcon from "@material-ui/icons/Add";
 
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
     addIcon: {
-        marginRight: spacing.unit / 2.5
+        marginRight: spacing(0.4)
     },
     headerMargin: {
-        marginBottom: spacing.unit * 2
+        marginBottom: spacing(2)
     }
-});
+}));
 
-const Header = ({ classes, addLink, title }) => {
-    const _Link = props => <Link to={addLink} {...props} />;
+const Header = ({ addLink, title }) => {
+    const classes = useStyles();
+
+    const _Link = forwardRef((props, ref) => (
+        <Link to={addLink} {...props} ref={ref} />
+    ));
 
     return (
         <Grid
@@ -44,4 +48,4 @@ const Header = ({ classes, addLink, title }) => {
     );
 };
 
-export default memo(withStyles(styles)(Header));
+export default memo(Header);

@@ -36,7 +36,7 @@ const ProjectAddForm = ({
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>
-                    <Grid container spacing={16}>
+                    <Grid container spacing={2}>
                         <Grid item xs={9}>
                             <Field
                                 name="title"

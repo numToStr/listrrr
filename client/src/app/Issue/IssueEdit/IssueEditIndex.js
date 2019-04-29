@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
@@ -40,15 +40,16 @@ const config = {
     ]
 };
 
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
     headerMargin: {
-        marginBottom: spacing.unit * 2
+        marginBottom: spacing(2)
     }
-});
+}));
 
 const _Link = props => <Link to="/d/issues/list" {...props} />;
 
-const IssueEdit = ({ classes, match: { params } }) => {
+const IssueEdit = ({ match: { params } }) => {
+    const classes = useStyles();
     const onSubmit = values => console.log(values);
 
     return (
@@ -79,4 +80,4 @@ const IssueEdit = ({ classes, match: { params } }) => {
     );
 };
 
-export default withStyles(styles)(IssueEdit);
+export default IssueEdit;
