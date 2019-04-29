@@ -4,15 +4,12 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-
 import AddIcon from "@material-ui/icons/Add";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(({ spacing }) => ({
     addIcon: {
         marginRight: spacing(0.4)
-    },
-    headerMargin: {
-        marginBottom: spacing(2)
     }
 }));
 
@@ -24,27 +21,29 @@ const Header = ({ addLink, title }) => {
     ));
 
     return (
-        <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            className={classes.headerMargin}
-        >
-            <Grid item>
-                <Typography variant="h5">{title}</Typography>
+        <Box mb={3}>
+            <Grid
+                container
+                justify="space-between"
+                alignItems="center"
+                className={classes.headerMargin}
+            >
+                <Grid item>
+                    <Typography variant="h5">{title}</Typography>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        component={_Link}
+                    >
+                        <AddIcon className={classes.addIcon} />
+                        Add
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid item>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    component={_Link}
-                >
-                    <AddIcon className={classes.addIcon} />
-                    Add
-                </Button>
-            </Grid>
-        </Grid>
+        </Box>
     );
 };
 

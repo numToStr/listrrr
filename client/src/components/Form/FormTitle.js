@@ -22,7 +22,7 @@ const TitleEditForm = ({
             onSubmit={onSubmit}
             initialValues={initialValues}
             render={({ dirty }) => (
-                <Form style={{ width: "100%" }}>
+                <Form>
                     <Grid
                         container
                         justify="space-between"

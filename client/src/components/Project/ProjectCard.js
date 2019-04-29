@@ -1,22 +1,13 @@
 import React from "react";
-import makeStyles from "@material-ui/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 import IssueItem from "../Issue/IssueItem";
 import DroppableWrapper from "../DragAndDrop/DroppableWrapper";
 import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
 
-const useStyles = makeStyles(({ spacing }) => ({
-    wrapper: {
-        padding: spacing(1.8),
-        paddingBottom: spacing(1)
-    }
-}));
-
 const ProjectCard = ({ droppableId, title, issue = null }) => {
-    const classes = useStyles();
-
     let curIssue = (
         <Typography variant="caption" color="textSecondary">
             No issues.
@@ -34,13 +25,15 @@ const ProjectCard = ({ droppableId, title, issue = null }) => {
     }
 
     return (
-        <Paper elevation={1} className={classes.wrapper}>
-            <Typography variant="button" paragraph>
-                {title}
-            </Typography>
-            <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
-                {curIssue}
-            </DroppableWrapper>
+        <Paper elevation={1}>
+            <Box p={1.8} pb={1}>
+                <Typography variant="button" paragraph>
+                    {title}
+                </Typography>
+                <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
+                    {curIssue}
+                </DroppableWrapper>
+            </Box>
         </Paper>
     );
 };

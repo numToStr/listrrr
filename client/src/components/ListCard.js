@@ -1,29 +1,11 @@
 import React, { memo } from "react";
+import Box from "@material-ui/core/Box";
+import Surface from "./Surface";
 
-import Paper from "@material-ui/core/Paper";
-import makeStyles from "@material-ui/styles/makeStyles";
-
-const useStyles = makeStyles(({ spacing, mixins }) => {
-    const pUnit = spacing(1.5);
-
-    return {
-        cardPadding: {
-            ...mixins.gutters(),
-            paddingTop: pUnit,
-            paddingBottom: pUnit,
-            marginBottom: pUnit
-        }
-    };
-});
-
-const ListCard = ({ children }) => {
-    const classes = useStyles();
-
-    return (
-        <Paper className={classes.cardPadding} elevation={1}>
-            {children}
-        </Paper>
-    );
-};
+const ListCard = ({ children }) => (
+    <Box mb={1.5}>
+        <Surface>{children}</Surface>
+    </Box>
+);
 
 export default memo(ListCard);
