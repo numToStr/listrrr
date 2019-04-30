@@ -3,7 +3,7 @@ import Box from "@material-ui/core/Box";
 import Surface from "./Surface";
 
 const ListCard = ({ children }) => (
-    <Box mb={1.5}>
+    <Box mb={1}>
         <Surface>{children}</Surface>
     </Box>
 );

@@ -1,18 +1,22 @@
-import React from "react";
+import React, { forwardRef } from "react";
+import Grid from "@material-ui/core/Grid";
 import { Draggable } from "react-beautiful-dnd";
+
+const RefGrid = forwardRef((props, ref) => <Grid innerRef={ref} {...props} />);
 
 const DraggableWrapper = ({ id, index, children, innerProps }) => (
     <Draggable draggableId={id} index={index}>
         {(provided, snapshot) => (
-            <div
+            <RefGrid
+                item
+                xs
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
-                {...innerProps}
             >
                 {children}
                 {provided.placeholder}
-            </div>
+            </RefGrid>
         )}
     </Draggable>
 );

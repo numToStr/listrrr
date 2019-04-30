@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -22,17 +21,6 @@ import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
 import DropContext from "../../../components/DragAndDrop/DropContext";
 
-const useStyles = makeStyles({
-    container: {
-        width: "calc(100% + 16px)",
-        margin: "-8px",
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        boxSizing: "border-box"
-    }
-});
-
 const ProjectViewIndex = ({
     match: { params },
     $projectGet,
@@ -44,8 +32,6 @@ const ProjectViewIndex = ({
     _currentProject,
     _currentIssues
 }) => {
-    const styles = useStyles();
-
     useEffect(() => {
         $projectGet(params.projectId);
 
@@ -112,7 +98,7 @@ const ProjectViewIndex = ({
                 destination.droppableId,
                 destination.index
             );
-            $projectIssueRearrangeUpdate(
+            return $projectIssueRearrangeUpdate(
                 params.projectId,
                 draggableId,
                 source.droppableId,
@@ -155,9 +141,6 @@ const ProjectViewIndex = ({
                     id="project-column"
                     direction="horizontal"
                     type="PROJECT_COLUMN"
-                    innerProps={{
-                        className: styles.container
-                    }}
                 >
                     <ProjectCardList
                         columns={_currentProject.columns}
