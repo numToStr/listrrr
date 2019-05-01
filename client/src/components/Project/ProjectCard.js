@@ -9,16 +9,23 @@ import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
 
 const ProjectCard = ({ droppableId, title, issue = null }) => {
     let curIssue = (
-        <Typography variant="caption" color="textSecondary">
-            No issues.
-        </Typography>
+        <Box pl={0.5} pb={0.5}>
+            <Typography variant="caption" color="textSecondary">
+                No issues.
+            </Typography>
+        </Box>
     );
 
     if (issue) {
         curIssue = issue
             .sort((curr, next) => curr.columnIndex - next.columnIndex)
             .map((_issue, $i) => (
-                <DraggableWrapper key={_issue._id} id={_issue._id} index={$i}>
+                <DraggableWrapper
+                    key={_issue._id}
+                    id={_issue._id}
+                    index={$i}
+                    width={12}
+                >
                     <IssueItem titleProps={{ variant: "body1" }} {..._issue} />
                 </DraggableWrapper>
             ));

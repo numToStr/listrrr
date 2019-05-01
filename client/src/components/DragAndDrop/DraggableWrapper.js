@@ -4,12 +4,12 @@ import { Draggable } from "react-beautiful-dnd";
 
 const RefGrid = forwardRef((props, ref) => <Grid innerRef={ref} {...props} />);
 
-const DraggableWrapper = ({ id, index, children, innerProps }) => (
+const DraggableWrapper = ({ id, index, children, width = true }) => (
     <Draggable draggableId={id} index={index}>
         {(provided, snapshot) => (
             <RefGrid
                 item
-                xs
+                xs={width}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
