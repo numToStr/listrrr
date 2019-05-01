@@ -3,19 +3,21 @@ import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 
-import ListCard from "../ListCard";
 import DateFormat from "../DateFormat";
+import Surface from "../Surface";
 
 const IssueItem = ({ _id, title, createdAt, titleProps }) => {
     const link = `/d/issues/view/${_id}`;
 
     return (
-        <ListCard>
-            <Typography variant="h6" {...titleProps} gutterBottom>
-                <Link to={link}>{title}</Link>
+        <Surface>
+            <Typography variant="h6" {...titleProps}>
+                <Link style={{ textDecoration: "none" }} to={link}>
+                    {title}
+                </Link>
             </Typography>
             <DateFormat date={createdAt} />
-        </ListCard>
+        </Surface>
     );
 };
 

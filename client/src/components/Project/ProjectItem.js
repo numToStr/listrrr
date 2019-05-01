@@ -5,15 +5,20 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import DateFormat from "../DateFormat";
-import ListCard from "../ListCard";
+import Surface from "../Surface";
 
 const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
     return (
-        <ListCard>
+        <Surface>
             <Grid container alignItems="center">
                 <Grid item>
                     <Typography variant="h6" color="textPrimary">
-                        <Link to={`/d/projects/view/${_id}`}>{title}</Link>
+                        <Link
+                            style={{ textDecoration: "none" }}
+                            to={`/d/projects/view/${_id}`}
+                        >
+                            {title}
+                        </Link>
                     </Typography>
                     <Typography variant="body2" gutterBottom>
                         {description}
@@ -21,10 +26,10 @@ const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
                 </Grid>
             </Grid>
             <Grid container justify="space-between">
-                <DateFormat date={createdAt} />
                 <DateFormat date={updatedAt} prefix="updated" />
+                <DateFormat date={createdAt} />
             </Grid>
-        </ListCard>
+        </Surface>
     );
 };
 

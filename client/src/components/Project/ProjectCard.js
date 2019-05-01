@@ -33,7 +33,7 @@ const ProjectCard = ({ droppableId, title, issue = null }) => {
 
     return (
         <Paper elevation={1}>
-            <Box p={1.8} pb={1}>
+            <Box p={1.8}>
                 <Typography variant="button" paragraph>
                     {title}
                 </Typography>
