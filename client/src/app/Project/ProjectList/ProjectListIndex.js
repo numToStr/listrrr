@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 
 import Loader from "../../../components/Loader/Loader";
 import Header from "../../../components/Header/Header";
-import { projectList } from "../../../store/actions/index.action";
 import ProjectList from "../../../components/Project/ProjectList";
+import Subheader from "../../../components/Header/Subheader";
+
+import { projectList } from "../../../store/actions/index.action";
 
 const ProjectListIndex = ({ $projectList, _projectList }) => {
     const $$projectList = useCallback($projectList);
@@ -20,6 +22,7 @@ const ProjectListIndex = ({ $projectList, _projectList }) => {
     return (
         <Fragment>
             <Header title="Projects" addLink="/d/projects/add" />
+            <Subheader />
             <ProjectList items={_projectList} />
         </Fragment>
     );

@@ -1,6 +1,5 @@
 import React, { memo, forwardRef } from "react";
 import { Link } from "react-router-dom";
-import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -11,15 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-const useStyles = makeStyles(({ spacing }) => ({
-    addIcon: {
-        marginRight: spacing(0.4)
-    }
-}));
-
 const Header = ({ addLink, title }) => {
-    const classes = useStyles();
-
     const _Link = forwardRef((props, ref) => (
         <Link to={addLink} {...props} ref={ref} />
     ));
@@ -58,8 +49,8 @@ const Header = ({ addLink, title }) => {
                                 size="small"
                                 component={_Link}
                             >
-                                <AddIcon className={classes.addIcon} />
-                                Add
+                                <AddIcon />
+                                <Box ml={0.5}>Add</Box>
                             </Button>
                         </Grid>
                     </Grid>

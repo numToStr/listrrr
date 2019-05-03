@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import IssueList from "../../../components/Issue/IssueList";
 import Header from "../../../components/Header/Header";
 import Loader from "../../../components/Loader/Loader";
+import Subheader from "../../../components/Header/Subheader";
+
 import { issueList } from "../../../store/actions/index.action";
 
 const IssueListIndex = ({ $issueList, _issueList }) => {
@@ -20,6 +22,7 @@ const IssueListIndex = ({ $issueList, _issueList }) => {
     return (
         <Fragment>
             <Header title="Issues" addLink="/d/issues/add" />
+            <Subheader />
             <IssueList items={_issueList} />
         </Fragment>
     );
