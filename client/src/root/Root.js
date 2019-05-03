@@ -8,11 +8,11 @@ import Loader from "../components/Loader/Loader";
 import { authenticate } from "../store/actions/index.action";
 
 const Root = ({ $authenticate, _isAuthenticating }) => {
-    const $$authenticate = useCallback($authenticate, [$authenticate]);
+    const $$authenticate = useCallback($authenticate);
 
     useEffect(() => {
         $$authenticate();
-    }, []);
+    }, [$$authenticate]);
 
     if (_isAuthenticating) {
         return <Loader />;

@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useCallback } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -32,12 +32,18 @@ const ProjectViewIndex = ({
     _currentProject,
     _currentIssues
 }) => {
-    useEffect(() => {
+    const $$projectGet = useCallback(() => {
         $projectGet(params.projectId);
+    }, [$projectGet, params.projectId]);
+
+    const $$projectClear = useCallback($projectClear);
+
+    useEffect(() => {
+        $$projectGet();
 
         // Clearing the currently loaded project
-        return $projectClear;
-    }, [params.projectId]);
+        return $$projectClear;
+    }, [$$projectGet, $$projectClear]);
 
     if (!_currentProject) {
         return <Loader />;

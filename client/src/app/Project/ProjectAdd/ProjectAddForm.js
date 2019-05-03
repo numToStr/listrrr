@@ -19,7 +19,7 @@ const ProjectAddForm = ({
     _templates,
     _loading
 }) => {
-    const $$templateGet = useCallback($templateGet, []);
+    const $$templateGet = useCallback($templateGet);
 
     useEffect(() => {
         $$templateGet();

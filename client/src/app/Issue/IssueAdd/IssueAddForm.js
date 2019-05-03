@@ -14,11 +14,11 @@ import { issueAdd, projectList } from "../../../store/actions/index.action";
 const initialValues = { title: "", description: "", project: "" };
 
 const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
-    const $$projectList = useCallback($projectList, []);
+    const $$projectList = useCallback($projectList);
 
     useEffect(() => {
         $$projectList();
-    }, []);
+    }, [$$projectList]);
 
     if (!_projectList) {
         return <Loader />;

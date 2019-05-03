@@ -7,7 +7,7 @@ import { projectList } from "../../../store/actions/index.action";
 import ProjectList from "../../../components/Project/ProjectList";
 
 const ProjectListIndex = ({ $projectList, _projectList }) => {
-    const $$projectList = useCallback($projectList, []);
+    const $$projectList = useCallback($projectList);
 
     useEffect(() => {
         $$projectList();

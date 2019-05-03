@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 
 import IssueList from "../../../components/Issue/IssueList";
@@ -7,9 +7,11 @@ import Loader from "../../../components/Loader/Loader";
 import { issueList } from "../../../store/actions/index.action";
 
 const IssueListIndex = ({ $issueList, _issueList }) => {
+    const $$issueList = useCallback($issueList);
+
     useEffect(() => {
-        $issueList();
-    }, []);
+        $$issueList();
+    }, [$$issueList]);
 
     if (!_issueList) {
         return <Loader />;

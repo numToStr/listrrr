@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -31,12 +31,18 @@ const IssueViewIndex = ({
 }) => {
     const classes = useStyles();
 
-    useEffect(() => {
+    const $$issueGet = useCallback(() => {
         $issueGet(params.issueId);
+    }, [$issueGet, params.issueId]);
+
+    const $$issueClear = useCallback($issueClear);
+
+    useEffect(() => {
+        $$issueGet();
 
         // Clearing the currently loaded issue
-        return $issueClear;
-    }, []);
+        return $$issueClear;
+    }, [$$issueGet, $$issueClear]);
 
     if (!_currentIssue) {
         return <Loader />;
