@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 
 import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
-import ProjectCard from "./ProjectCard";
+import ProjectColumn from "./ProjectColumn";
 
 const ProjectCardList = ({ columns: { entities, result }, issues }) => {
     if (!result || !result.length) {
@@ -11,7 +11,7 @@ const ProjectCardList = ({ columns: { entities, result }, issues }) => {
 
     const list = result.map((item, $i) => (
         <DraggableWrapper key={item} id={item} index={$i}>
-            <ProjectCard
+            <ProjectColumn
                 droppableId={item}
                 issue={issues[item]}
                 {...entities[item]}

@@ -16,7 +16,7 @@ import {
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
 import Loader from "../../../components/Loader/Loader";
-import ProjectCardList from "../../../components/Project/ProjectCardList";
+import ProjectColumnList from "../../../components/Project/ProjectColumnList";
 import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
 import DropContext from "../../../components/DragAndDrop/DropContext";
@@ -148,7 +148,7 @@ const ProjectViewIndex = ({
                     direction="horizontal"
                     type="PROJECT_COLUMN"
                 >
-                    <ProjectCardList
+                    <ProjectColumnList
                         columns={_currentProject.columns}
                         issues={_currentIssues}
                     />
