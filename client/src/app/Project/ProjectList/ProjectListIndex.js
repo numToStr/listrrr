@@ -32,9 +32,9 @@ const mapStateToProps = ({ project }) => ({
     _projectList: project.list
 });
 
-const mapDispatchToProps = dispatchEvent => ({
-    $projectList: () => dispatchEvent(projectList())
-});
+const mapDispatchToProps = {
+    $projectList: projectList
+};
 
 export default connect(
     mapStateToProps,

@@ -25,9 +25,9 @@ const mapState = ({ http: { request } }) => ({
     _isAuthenticating: request.authenticate ? true : false
 });
 
-const mapDispatch = dispatchEvent => ({
-    $authenticate: () => dispatchEvent(authenticate())
-});
+const mapDispatch = {
+    $authenticate: authenticate
+};
 
 export default withRouter(
     connect(
