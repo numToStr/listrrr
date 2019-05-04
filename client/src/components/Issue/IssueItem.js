@@ -1,22 +1,31 @@
-import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, forwardRef } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
 import DateFormat from "../DateFormat";
 import Surface from "../Surface";
+import Box from "@material-ui/core/Box";
 
 const IssueItem = ({ _id, title, createdAt, titleProps }) => {
-    const link = `/d/issues/view/${_id}`;
+    const AdapterLink = forwardRef((props, ref) => (
+        <RouterLink innerRef={ref} {...props} />
+    ));
 
     return (
         <Surface>
-            <Typography variant="h6" {...titleProps}>
-                <Link style={{ textDecoration: "none" }} to={link}>
+            <Box display="flex" flexDirection="column">
+                <Link
+                    variant="h6"
+                    color="textPrimary"
+                    component={AdapterLink}
+                    to={`/d/issues/view/${_id}`}
+                    {...titleProps}
+                >
                     {title}
                 </Link>
-            </Typography>
-            <DateFormat date={createdAt} />
+                <DateFormat date={createdAt} />
+            </Box>
         </Surface>
     );
 };
