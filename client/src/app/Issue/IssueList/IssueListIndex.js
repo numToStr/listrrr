@@ -1,42 +1,17 @@
-import React, { Fragment, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
 
-import IssueList from "../../../components/Issue/IssueList";
+import IssueList from "./IssueList";
 import Header from "../../../components/Header/Header";
-import Loader from "../../../components/Loader/Loader";
 import Subheader from "../../../components/Header/Subheader";
 
-import { issueList } from "../../../store/actions/index.action";
-
-const IssueListIndex = ({ $issueList, _issueList }) => {
-    const $$issueList = useCallback($issueList);
-
-    useEffect(() => {
-        $$issueList();
-    }, [$$issueList]);
-
-    if (!_issueList) {
-        return <Loader />;
-    }
-
+const IssueListIndex = ({ location }) => {
     return (
         <Fragment>
             <Header title="Issues" addLink="/d/issues/add" />
             <Subheader />
-            <IssueList items={_issueList} />
+            <IssueList location={location} />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ issue }) => ({
-    _issueList: issue.list
-});
-
-const mapDispatchToProps = dispatchEvent => ({
-    $issueList: () => dispatchEvent(issueList())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IssueListIndex);
+export default IssueListIndex;

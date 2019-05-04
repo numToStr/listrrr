@@ -1,27 +1,23 @@
 import React, { memo } from "react";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import WarningIcon from "@material-ui/icons/WarningTwoTone";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 
-const OpenCloseIndicator = ({ open, close }) => (
-    <Grid container spacing={3}>
+const OpenCloseIndicator = ({ open, closed, onClickOpen, onClickClosed }) => (
+    <Grid container spacing={1}>
         <Grid item>
-            <Box display="flex" alignItems="center">
+            <Button size="small" onClick={onClickOpen}>
                 <WarningIcon fontSize="small" />
-                <Box ml={0.5}>
-                    <Typography variant="body2">{open} Open</Typography>
-                </Box>
-            </Box>
+                <Box ml={0.5}>{open} Open</Box>
+            </Button>
         </Grid>
         <Grid item>
-            <Box display="flex" alignItems="center">
+            <Button size="small" onClick={onClickClosed}>
                 <DoneIcon fontSize="small" />
-                <Box ml={0.5}>
-                    <Typography variant="body2">{close} Closed</Typography>
-                </Box>
-            </Box>
+                <Box ml={0.5}>{closed} Closed</Box>
+            </Button>
         </Grid>
     </Grid>
 );
