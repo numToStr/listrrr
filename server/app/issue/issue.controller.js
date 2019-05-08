@@ -95,7 +95,10 @@ const getIssueList = async (req, res, next) => {
     try {
         const { $id } = req.$user;
 
-        const issues = await new IssueDAL({ author: $id }).findAll({
+        const issues = await new IssueDAL({
+            author: $id,
+            isOpen: true
+        }).findAll({
             select: "title createdAt"
         });
 
@@ -109,7 +112,6 @@ const getIssueList = async (req, res, next) => {
 };
 
 // For rearranging issue
-
 const rearrangeIssue = async (req, res, next) => {
     try {
         const {

@@ -47,7 +47,8 @@ const getProjectList = async (req, res, next) => {
         const { $id } = req.$user;
 
         const projects = await new ProjectDAL({
-            author: ObjectId($id)
+            author: $id,
+            isOpen: true
         }).findAll({
             select: "title description createdAt updatedAt"
         });
