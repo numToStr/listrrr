@@ -32,12 +32,13 @@ const issueListSuccess = data => ({
     data
 });
 
-export const issueList = () => ({
+export const issueList = params => ({
     type: ISSUE_LIST,
     http: true,
     payload: {
         method: "GET",
-        url: "/issue/list"
+        url: "/issue/list",
+        params
     },
     success: issueListSuccess,
     meta: {

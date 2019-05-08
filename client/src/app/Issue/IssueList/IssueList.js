@@ -11,9 +11,10 @@ import { issueList } from "../../../store/actions/index.action";
 import { parseQuery } from "../../../utils/url/url.utils";
 
 const IssueList = ({ $issueList, _issueList, location: { search } }) => {
+    const _search = search ? search : "?q=is%3Aopen";
     const query = useMemo(() => {
-        return parseQuery(search);
-    }, [search]);
+        return parseQuery(_search);
+    }, [_search]);
 
     useEffect(() => {
         $issueList(query);

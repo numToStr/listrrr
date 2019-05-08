@@ -8,7 +8,7 @@ const http = ({ dispatch }) => next => async action => {
     }
 
     const {
-        payload: { method, url, data },
+        payload: { method, url, data, params = {} },
         meta: { label }
     } = action;
 
@@ -34,7 +34,8 @@ const http = ({ dispatch }) => next => async action => {
         } = await axios({
             method,
             url,
-            data
+            data,
+            params
         });
 
         dispatch(action.success(response));
