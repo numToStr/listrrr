@@ -44,11 +44,11 @@ ProjectDAL.prototype.aggregateOne = async function aggregateOne(options = {}) {
 };
 
 ProjectDAL.prototype.findAll = function findAll(options = {}) {
-    const { select = this.select } = options;
+    const { select = this.select, sort = this.sort } = options;
 
     return ProjectModel.find(this.ctx)
         .select(select)
-        .sort(this.sort)
+        .sort(sort)
         .lean()
         .exec();
 };

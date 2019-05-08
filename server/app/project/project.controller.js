@@ -2,6 +2,7 @@ const { ObjectId } = require("mongoose").Types;
 
 const ProjectDAL = require("./project.dal");
 const TemplateDAL = require("../template/template.dal");
+const { parseQ, parseSort } = require("../../utils/query.utils");
 
 const createProject = async (req, res, next) => {
     try {
@@ -44,12 +45,20 @@ const createProject = async (req, res, next) => {
 
 const getProjectList = async (req, res, next) => {
     try {
-        const { $id } = req.$user;
+        const {
+            $user: { $id },
+            // eslint-disable-next-line
+            query: { q: $q, sort: $sort }
+        } = req;
+
+        const isOpen = parseQ($q);
+        const sort = parseSort($sort);
 
         const projects = await new ProjectDAL({
             author: $id,
-            isOpen: true
+            isOpen
         }).findAll({
+            sort,
             select: "title description createdAt updatedAt"
         });
 

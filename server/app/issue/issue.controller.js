@@ -3,6 +3,8 @@ const { ObjectId } = require("mongoose").Types;
 const IssueDAL = require("./issue.dal");
 const ProjectDAL = require("../project/project.dal");
 
+const { parseQ, parseSort } = require("../../utils/query.utils");
+
 // For creating issue
 const createIssue = async (req, res, next) => {
     try {
@@ -93,12 +95,20 @@ const getIssue = async (req, res, next) => {
 // For getting issues
 const getIssueList = async (req, res, next) => {
     try {
-        const { $id } = req.$user;
+        const {
+            $user: { $id },
+            // eslint-disable-next-line
+            query: { q: $q, sort: $sort }
+        } = req;
+
+        const isOpen = parseQ($q);
+        const sort = parseSort($sort);
 
         const issues = await new IssueDAL({
             author: $id,
-            isOpen: true
+            isOpen
         }).findAll({
+            sort,
             select: "title createdAt"
         });
 
