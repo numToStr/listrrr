@@ -1,5 +1,4 @@
-import React, { forwardRef } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
@@ -10,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
+import BaseLink from "../Base/BaseRouterLink";
 
 const items = [
     {
@@ -37,15 +37,12 @@ const styles = ({ palette }) => ({
 
 const DrawerList = ({ classes, location: { pathname } }) => {
     const list = items.map(({ text, icon: Icon, path }) => {
-        const _Link = forwardRef((props, ref) => (
-            <Link to={path} {...props} ref={ref} />
-        ));
-
         return (
             <ListItem
                 button
                 key={text}
-                component={_Link}
+                component={BaseLink}
+                to={path}
                 selected={path === pathname}
                 disableRipple
                 disableTouchRipple

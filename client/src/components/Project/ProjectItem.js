@@ -1,5 +1,4 @@
-import React, { memo, forwardRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { memo } from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
@@ -7,12 +6,9 @@ import Grid from "@material-ui/core/Grid";
 
 import DateFormat from "../DateFormat";
 import Surface from "../Surface";
+import BaseLink from "../Base/BaseRouterLink";
 
 const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
-    const AdapterLink = forwardRef((props, ref) => (
-        <RouterLink innerRef={ref} {...props} />
-    ));
-
     return (
         <Surface>
             <Grid container alignItems="center">
@@ -20,7 +16,7 @@ const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
                     <Link
                         variant="h6"
                         color="textPrimary"
-                        component={AdapterLink}
+                        component={BaseLink}
                         to={`/d/projects/view/${_id}`}
                     >
                         {title}

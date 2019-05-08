@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 
@@ -9,13 +8,8 @@ import Sort from "../Filters/Sort";
 
 import { appendQuery } from "../../utils/url/url.utils";
 
-const Subheader = ({ history, location: { search } }) => {
-    const handleClick = q => () => {
-        const encode = appendQuery(q, search);
-        history.push(`?${encode}`);
-    };
-
-    const onSort = value => handleClick({ sort: value })();
+const Subheader = ({ location: { search } }) => {
+    const query = q => `?${appendQuery(q, search)}`;
 
     return (
         <Box mb={2}>
@@ -24,12 +18,12 @@ const Subheader = ({ history, location: { search } }) => {
                     <OpenCloseIndicator
                         open={10}
                         closed={1}
-                        onClickOpen={handleClick({ q: "is:open" })}
-                        onClickClosed={handleClick({ q: "is:closed" })}
+                        openLink={query({ q: "is:open" })}
+                        closeLink={query({ q: "is:closed" })}
                     />
                 </Grid>
                 <Grid item>
-                    <Sort onChange={onSort} />
+                    <Sort />
                 </Grid>
             </Grid>
         </Box>

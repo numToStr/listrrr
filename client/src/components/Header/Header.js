@@ -1,5 +1,4 @@
-import React, { memo, forwardRef } from "react";
-import { Link } from "react-router-dom";
+import React, { memo } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -9,12 +8,9 @@ import SearchIcon from "@material-ui/icons/SearchTwoTone";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import BaseLink from "../Base/BaseRouterLink";
 
 const Header = ({ addLink, title }) => {
-    const _Link = forwardRef((props, ref) => (
-        <Link to={addLink} {...props} ref={ref} />
-    ));
-
     return (
         <Box mb={3}>
             <Grid container justify="space-between" alignItems="center">
@@ -47,7 +43,8 @@ const Header = ({ addLink, title }) => {
                                 variant="contained"
                                 color="primary"
                                 size="small"
-                                component={_Link}
+                                component={BaseLink}
+                                to={addLink}
                             >
                                 <AddIcon />
                                 <Box ml={0.5}>Add</Box>

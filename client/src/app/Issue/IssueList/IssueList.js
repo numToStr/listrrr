@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -49,7 +50,9 @@ const mapDispatchToProps = {
     $issueList: issueList
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IssueList);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(IssueList)
+);

@@ -1,12 +1,15 @@
 import React, { Fragment, useState } from "react";
+import { withRouter } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Popover from "@material-ui/core/Popover";
 import SortIcon from "@material-ui/icons/SortTwoTone";
 import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
 
 import Surface from "../Surface";
-import { Grid } from "@material-ui/core";
+import BaseLink from "../Base/BaseRouterLink";
+import { appendQuery } from "../../utils/url/url.utils";
 
 const types = [
     {
@@ -23,22 +26,19 @@ const types = [
     }
 ];
 
-const Sort = ({ onChange }) => {
+const Sort = ({ location: { search } }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = ({ currentTarget }) => setAnchorEl(currentTarget);
     const handleClose = () => setAnchorEl(null);
 
-    const handleChange = type => () => onChange(type);
-
     const items = types.map(({ text, type }) => (
         <Grid key={type} item>
             <Link
-                style={{ cursor: "pointer" }}
                 variant="body2"
-                component="span"
+                component={BaseLink}
                 color="inherit"
-                onClick={handleChange(type)}
+                to={`?${appendQuery({ sort: type }, search)}`}
             >
                 {text}
             </Link>
@@ -74,4 +74,4 @@ const Sort = ({ onChange }) => {
     );
 };
 
-export default Sort;
+export default withRouter(Sort);
