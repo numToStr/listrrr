@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 
 const FormWrapper = ({ children }) => {
     return (
-        <Box mt={10}>
+        <Box mt={10} mb={2}>
             <Grid container justify="center">
                 <Grid item xs={9} sm={5} md={3}>
                     {children}
@@ -14,4 +14,4 @@ const FormWrapper = ({ children }) => {
     );
 };
 
-export default FormWrapper;
+export default memo(FormWrapper);
