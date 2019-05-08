@@ -10,3 +10,5 @@ export const appendQuery = (query, prevQuery = "") => {
 
     return encode;
 };
+
+export const defaultQuery = "?q=is%3Aopen";

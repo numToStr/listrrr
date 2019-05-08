@@ -4,35 +4,35 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-import IssueItem from "../../../components/Issue/IssueItem";
 import Loader from "../../../components/Loader/Loader";
+import ProjectItem from "../../../components/Project/ProjectItem";
 
-import { issueList } from "../../../store/actions/index.action";
+import { projectList } from "../../../store/actions/index.action";
 import { parseQuery, defaultQuery } from "../../../utils/url/url.utils";
 
-const IssueList = ({ $issueList, _issueList, location: { search } }) => {
+const ProjectList = ({ $projectList, _projectList, location: { search } }) => {
     const _search = search ? search : defaultQuery;
     const query = useMemo(() => {
         return parseQuery(_search);
     }, [_search]);
 
     useEffect(() => {
-        $issueList(query);
-    }, [$issueList, query]);
+        $projectList(query);
+    }, [$projectList, query]);
 
-    if (!_issueList) {
+    if (!_projectList) {
         return <Loader />;
     }
 
-    const { entities, result } = _issueList;
+    const { result, entities } = _projectList;
 
     if (!result || !result.length) {
-        return <Typography>Oops! There is no Issues.</Typography>;
+        return <Typography>Oops! There is no Project.</Typography>;
     }
 
     const list = result.map(item => (
         <Grid item xs={12} key={item}>
-            <IssueItem {...entities[item]} />
+            <ProjectItem {...entities[item]} />
         </Grid>
     ));
 
@@ -43,17 +43,17 @@ const IssueList = ({ $issueList, _issueList, location: { search } }) => {
     );
 };
 
-const mapStateToProps = ({ issue }) => ({
-    _issueList: issue.list
+const mapStateToProps = ({ project }) => ({
+    _projectList: project.list
 });
 
 const mapDispatchToProps = {
-    $issueList: issueList
+    $projectList: projectList
 };
 
 export default withRouter(
     connect(
         mapStateToProps,
         mapDispatchToProps
-    )(IssueList)
+    )(ProjectList)
 );

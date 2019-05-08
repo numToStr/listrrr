@@ -38,12 +38,13 @@ const projectListSuccess = data => ({
     data
 });
 
-export const projectList = () => ({
+export const projectList = params => ({
     type: PROJECT_LIST,
     http: true,
     payload: {
         method: "GET",
-        url: "/project/list"
+        url: "/project/list",
+        params
     },
     success: projectListSuccess,
     meta: {
