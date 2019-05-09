@@ -4,7 +4,8 @@ const $validator = require("../../middlewares/request.validator");
 const {
     projectSchema,
     projectIdSchema,
-    projectRearrangeSchema
+    projectRearrangeSchema,
+    queryValidation
 } = require("./project.validation");
 
 const {
@@ -20,7 +21,7 @@ const {
 router.post("/", $validator(projectSchema), createProject);
 
 // For getting project list
-router.get("/list", getProjectList);
+router.get("/list", $validator(queryValidation), getProjectList);
 
 // For updating project
 router.patch(

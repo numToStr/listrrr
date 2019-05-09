@@ -1,6 +1,10 @@
 const Joi = require("joi");
 
-const { objectIdRegex } = require("../../utils/constants");
+const {
+    objectIdSchema,
+    qSchema,
+    sortSchema
+} = require("../../global/validations.global");
 
 const issueSchema = Joi.object().keys({
     title: Joi.string()
@@ -13,20 +17,21 @@ const issueSchema = Joi.object().keys({
         .trim()
         .required()
         .error(new Error("Invalid issue description")),
-    project: Joi.string()
-        .regex(objectIdRegex)
-        .allow(["", null])
-        .error(new Error("Invalid project ID"))
+    project: objectIdSchema().allow(["", null])
 });
 
 const issueIdSchema = Joi.object().keys({
-    issueId: Joi.string()
-        .regex(objectIdRegex)
-        .required()
-        .error(new Error("Invalid issue ID"))
+    issueId: objectIdSchema().required()
+});
+
+const queryValidation = Joi.object().keys({
+    // eslint-disable-next-line
+    q: qSchema(),
+    sort: sortSchema()
 });
 
 module.exports = {
     issueSchema,
-    issueIdSchema
+    issueIdSchema,
+    queryValidation
 };

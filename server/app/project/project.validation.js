@@ -1,6 +1,10 @@
 const Joi = require("joi");
 
-const { objectIdRegex } = require("../../utils/constants");
+const {
+    objectIdSchema,
+    qSchema,
+    sortSchema
+} = require("../../global/validations.global");
 
 const projectSchema = Joi.object().keys({
     title: Joi.string()
@@ -13,23 +17,15 @@ const projectSchema = Joi.object().keys({
         .trim()
         .required()
         .error(new Error("Invalid issue description")),
-    template: Joi.string()
-        .regex(objectIdRegex)
-        .error(new Error("Invalid project ID"))
+    template: objectIdSchema()
 });
 
 const projectIdSchema = Joi.object().keys({
-    projectId: Joi.string()
-        .regex(objectIdRegex)
-        .required()
-        .error(new Error("Invalid project ID"))
+    projectId: objectIdSchema().required()
 });
 
 const projectRearrangeSchema = Joi.object().keys({
-    columnId: Joi.string()
-        .regex(objectIdRegex)
-        .required()
-        .error(new Error("Invalid project ID")),
+    columnId: objectIdSchema().required(),
     sourceIndex: Joi.number()
         .min(0)
         .required()
@@ -40,8 +36,15 @@ const projectRearrangeSchema = Joi.object().keys({
         .error(new Error("Invalid destination index"))
 });
 
+const queryValidation = Joi.object().keys({
+    // eslint-disable-next-line
+    q: qSchema(),
+    sort: sortSchema()
+});
+
 module.exports = {
     projectSchema,
     projectIdSchema,
-    projectRearrangeSchema
+    projectRearrangeSchema,
+    queryValidation
 };
