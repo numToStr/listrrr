@@ -1,5 +1,6 @@
-import axios from "../axios.interface";
+import { batch } from "react-redux";
 
+import axios from "../axios.interface";
 import { httpStart, httpSuccess, httpFailure } from "../actions/index.action";
 
 const http = ({ dispatch }) => next => async action => {
@@ -38,14 +39,22 @@ const http = ({ dispatch }) => next => async action => {
             params
         });
 
-        dispatch(action.success(response));
-        dispatch(httpSuccess({ label }));
-    } catch ({
-        response: {
-            data: { message }
+        // batch() ensures a single DOM update
+        batch(() => {
+            dispatch(action.success(response));
+            dispatch(httpSuccess({ label }));
+        });
+    } catch (error) {
+        const res = error.response;
+        if (res) {
+            const {
+                data: { message }
+            } = res;
+
+            dispatch(httpFailure({ label, error: message }));
         }
-    }) {
-        dispatch(httpFailure({ label, error: message }));
+
+        throw error;
     }
 };
 
