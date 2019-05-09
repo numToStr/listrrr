@@ -27,7 +27,7 @@ const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
                 </Grid>
             </Grid>
             <Grid container justify="space-between">
-                <DateFormat date={updatedAt} prefix="updated" />
+                <DateFormat date={updatedAt} updated />
                 <DateFormat date={createdAt} />
             </Grid>
         </Surface>

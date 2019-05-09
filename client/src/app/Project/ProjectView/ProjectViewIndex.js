@@ -131,8 +131,8 @@ const ProjectViewIndex = ({
                     </Typography>
                     <DateFormat
                         date={_currentProject.updatedAt}
-                        prefix="updated"
-                        paragraph
+                        updated
+                        mb={3}
                     />
                 </Grid>
                 <Grid item>
