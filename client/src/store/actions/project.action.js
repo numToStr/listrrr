@@ -38,7 +38,7 @@ const projectListSuccess = data => ({
     data
 });
 
-export const projectList = params => ({
+export const projectList = (params = { q: "is:open" }) => ({
     type: PROJECT_LIST,
     http: true,
     payload: {

@@ -32,7 +32,7 @@ const issueListSuccess = data => ({
     data
 });
 
-export const issueList = params => ({
+export const issueList = (params = { q: "is:open" }) => ({
     type: ISSUE_LIST,
     http: true,
     payload: {
