@@ -15,7 +15,7 @@ const parseSort = query => {
     return { [aliases[key]]: aliases[value] };
 };
 
-const parseQ = query => {
+const parseQ = (query = "is:open") => {
     const aliases = {
         "is:open": true,
         "is:closed": false
