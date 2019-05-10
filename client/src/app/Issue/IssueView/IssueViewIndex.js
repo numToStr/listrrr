@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
+import Hidden from "@material-ui/core/Hidden";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./IssueViewTitle";
@@ -15,18 +14,7 @@ import {
     issueClear,
     issueUpdate
 } from "../../../store/actions/index.action";
-
-const useStyles = makeStyles(({ spacing }) => ({
-    btnMargin: {
-        marginLeft: spacing(1)
-    },
-    descMargin: {
-        marginBottom: spacing(5)
-    },
-    commentMargin: {
-        marginBottom: spacing(1.5)
-    }
-}));
+import IssueCommentForm from "./IssueCommentForm";
 
 const IssueViewIndex = ({
     match: { params },
@@ -35,16 +23,17 @@ const IssueViewIndex = ({
     $issueUpdate,
     _currentIssue
 }) => {
-    const classes = useStyles();
-
     const $$issueGet = useCallback(() => {
         $issueGet(params.issueId);
     }, [$issueGet, params.issueId]);
 
     const $$issueClear = useCallback($issueClear);
 
-    const issueClose = () =>
+    const issueClose = () => {
         $issueUpdate(params.issueId, { isOpen: !_currentIssue.isOpen });
+    };
+
+    const onComment = val => console.log(val);
 
     useEffect(() => {
         $$issueGet();
@@ -68,55 +57,32 @@ const IssueViewIndex = ({
                 Issue is {_currentIssue.isOpen ? "Open" : "Closed"}
             </Typography>
             <Grid container spacing={2}>
-                <Grid item xs={9}>
-                    <Surface className={classes.descMargin}>
-                        <Typography variant="body1">
-                            {_currentIssue.description}
+                <Grid item xs={12} sm={9}>
+                    <Box mb={5}>
+                        <Surface>
+                            <Typography variant="body1">
+                                {_currentIssue.description}
+                            </Typography>
+                        </Surface>
+                    </Box>
+                    <IssueCommentForm
+                        onSubmit={onComment}
+                        onClose={issueClose}
+                        isOpen={_currentIssue.isOpen}
+                    />
+                </Grid>
+                <Hidden xsDown>
+                    <Grid item xs>
+                        <Typography variant="body2" gutterBottom>
+                            Project
                         </Typography>
-                    </Surface>
-                    <Grid container className={classes.commentMargin}>
-                        <TextField
-                            label="Comment"
-                            placeholder="Leave a comment"
-                            InputLabelProps={{
-                                shrink: true
-                            }}
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            rows={5}
-                        />
+                        <Typography variant="caption">
+                            {_currentIssue.project
+                                ? _currentIssue.project.title
+                                : "+ Add to project"}
+                        </Typography>
                     </Grid>
-                    <Grid container justify="flex-end">
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            className={classes.btnMargin}
-                            onClick={issueClose}
-                        >
-                            {_currentIssue.isOpen
-                                ? "Close Issue"
-                                : "Open Issue"}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.btnMargin}
-                        >
-                            Comment
-                        </Button>
-                    </Grid>
-                </Grid>
-                <Grid item xs={3}>
-                    <Typography variant="body2" gutterBottom>
-                        Project
-                    </Typography>
-                    <Typography variant="caption">
-                        {_currentIssue.project
-                            ? _currentIssue.project.title
-                            : "+ Add to project"}
-                    </Typography>
-                </Grid>
+                </Hidden>
             </Grid>
         </Fragment>
     );
