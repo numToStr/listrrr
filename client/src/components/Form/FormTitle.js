@@ -17,9 +17,9 @@ const TitleEditForm = ({ show, initialValues, onCancel, onSubmit }) => {
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>
-                    <Grid container justify="space-between" alignItems="center">
-                        <Zoom in={show}>
-                            <Grid item>
+                    <Grid container alignItems="center">
+                        <Grid item xs>
+                            <Zoom in={show}>
                                 <Field
                                     name="title"
                                     type="text"
@@ -27,8 +27,8 @@ const TitleEditForm = ({ show, initialValues, onCancel, onSubmit }) => {
                                     margin="dense"
                                     component={InputField}
                                 />
-                            </Grid>
-                        </Zoom>
+                            </Zoom>
+                        </Grid>
                         <Grid item>
                             <Zoom in={show}>
                                 <IconButton onClick={onCancel} type="reset">
