@@ -16,15 +16,16 @@
         "dev": "NODE_ENV=development nodemon -r dotenv/config ./bin/www.js"
     },
     "dependencies": {
+        "@hapi/joi": "^15.0.2",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.4",
         "express": "^4.16.4",
         "helmet": "^3.18.0",
-        "joi": "^14.3.1",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.5.6"
     },
     "devDependencies": {
+        "@types/hapi__joi": "^15.0.1",
         "dotenv": "^8.0.0",
         "eslint": "^5.16.0",
         "eslint-plugin-node": "^9.0.1",
