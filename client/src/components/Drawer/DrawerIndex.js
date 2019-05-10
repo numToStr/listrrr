@@ -1,13 +1,19 @@
-import React from "react";
-import Drawer from "@material-ui/core/Drawer";
+import React, { Fragment } from "react";
+import Hidden from "@material-ui/core/Hidden";
 
-import DrawerList from "./DrawerList";
+import DrawerMobile from "./DrawerMobile";
+import DrawerDesktop from "./DrawerDesktop";
 
 const DrawerIndex = props => {
     return (
-        <Drawer {...props} variant="permanent" anchor="left">
-            <DrawerList />
-        </Drawer>
+        <Fragment>
+            <Hidden smUp>
+                <DrawerMobile {...props} />
+            </Hidden>
+            <Hidden xsDown>
+                <DrawerDesktop {...props} />
+            </Hidden>
+        </Fragment>
     );
 };
 

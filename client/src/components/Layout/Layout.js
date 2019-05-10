@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/styles/makeStyles";
 
@@ -27,8 +27,7 @@ const useStyles = makeStyles(({ palette, spacing }) => {
             paddingTop: spacing(5)
         },
         content: {
-            flexGrow: 1,
-            width: drawerWidth
+            flexGrow: 1
         }
     };
 });
@@ -37,17 +36,30 @@ const Layout = ({ children }) => {
     const classes = useStyles();
 
     return (
-        <Grid container className={classes.container}>
-            <DrawerIndex
-                className={classes.drawer}
-                classes={{
-                    paper: `${classes.paddingAround} ${classes.drawerPaper}`
-                }}
-            />
-            <main className={`${classes.paddingAround} ${classes.content}`}>
-                {children}
-            </main>
-        </Grid>
+        <Fragment>
+            <Grid container className={classes.container}>
+                <Grid item>
+                    <DrawerIndex
+                        className={classes.drawer}
+                        classes={{
+                            paper: `${classes.paddingAround} ${
+                                classes.drawerPaper
+                            }`
+                        }}
+                    />
+                </Grid>
+                {/* Don't remove the xs prop, otherwise will break the layout */}
+                <Grid item xs>
+                    <main
+                        className={`${classes.paddingAround} ${
+                            classes.content
+                        }`}
+                    >
+                        {children}
+                    </main>
+                </Grid>
+            </Grid>
+        </Fragment>
     );
 };
 

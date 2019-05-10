@@ -1,14 +1,14 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import makeStyles from "@material-ui/styles/makeStyles";
 import HomeIcon from "@material-ui/icons/HomeTwoTone";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
+
 import BaseLink from "../Base/BaseRouterLink";
 
 const items = [
@@ -29,13 +29,15 @@ const items = [
     }
 ];
 
-const styles = ({ palette }) => ({
+const useStyles = makeStyles(({ palette }) => ({
     linkColor: {
         color: palette.primary.contrastText
     }
-});
+}));
 
-const DrawerList = ({ classes, location: { pathname } }) => {
+const DrawerList = ({ location: { pathname } }) => {
+    const classes = useStyles();
+
     const list = items.map(({ text, icon: Icon, path }) => {
         return (
             <ListItem
@@ -44,15 +46,11 @@ const DrawerList = ({ classes, location: { pathname } }) => {
                 component={BaseLink}
                 to={path}
                 selected={path === pathname}
-                disableRipple
+                // disableRipple
                 disableTouchRipple
             >
-                <ListItemIcon
-                    classes={{
-                        root: classes.linkColor
-                    }}
-                >
-                    <Icon />
+                <ListItemIcon>
+                    <Icon className={classes.linkColor} />
                 </ListItemIcon>
                 <ListItemText
                     primary={text}
@@ -67,4 +65,4 @@ const DrawerList = ({ classes, location: { pathname } }) => {
     return <List disablePadding>{list}</List>;
 };
 
-export default withRouter(withStyles(styles)(DrawerList));
+export default withRouter(DrawerList);
