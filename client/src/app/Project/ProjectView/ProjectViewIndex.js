@@ -20,6 +20,7 @@ import ProjectColumnList from "../../../components/Project/ProjectColumnList";
 import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
 import DropContext from "../../../components/DragAndDrop/DropContext";
+import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 
 const ProjectViewIndex = ({
     match: { params },
@@ -117,6 +118,7 @@ const ProjectViewIndex = ({
 
     return (
         <Fragment>
+            <HeaderBackButton to="/d/projects/list" />
             <Grid container justify="space-between">
                 <Grid item>
                     <Typography variant="h5">

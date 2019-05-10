@@ -10,25 +10,14 @@ import CancelIcon from "@material-ui/icons/CloseTwoTone";
 import InputField from "./FormFields/FormTextField";
 import FormLayout from "./FormLayout";
 
-const TitleEditForm = ({
-    show,
-    initialValues,
-    btnClass,
-    onCancel,
-    onSubmit
-}) => {
+const TitleEditForm = ({ show, initialValues, onCancel, onSubmit }) => {
     return (
         <FormLayout
             onSubmit={onSubmit}
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>
-                    <Grid
-                        container
-                        justify="space-between"
-                        alignItems="center"
-                        style={{ marginBottom: "1rem" }}
-                    >
+                    <Grid container justify="space-between" alignItems="center">
                         <Zoom in={show}>
                             <Grid item>
                                 <Field
@@ -42,20 +31,16 @@ const TitleEditForm = ({
                         </Zoom>
                         <Grid item>
                             <Zoom in={show}>
-                                <IconButton
-                                    className={btnClass}
-                                    onClick={onCancel}
-                                    type="reset"
-                                >
+                                <IconButton onClick={onCancel} type="reset">
                                     <CancelIcon fontSize="small" />
                                 </IconButton>
                             </Zoom>
                             <Zoom in={show}>
                                 <Fab
-                                    className={btnClass}
                                     size="small"
                                     color="primary"
                                     type="submit"
+                                    disabled={!dirty}
                                 >
                                     <SaveIcon fontSize="small" />
                                 </Fab>

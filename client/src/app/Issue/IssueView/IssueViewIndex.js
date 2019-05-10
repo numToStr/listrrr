@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./IssueViewTitle";
 import Surface from "../../../components/Surface";
 import { issueGet, issueClear } from "../../../store/actions/index.action";
+import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 
 const useStyles = makeStyles(({ spacing }) => ({
     btnMargin: {
@@ -50,6 +51,7 @@ const IssueViewIndex = ({
 
     return (
         <Fragment>
+            <HeaderBackButton to="/d/issues/list" />
             <IssueTitle title={_currentIssue.title} />
             <Typography variant="caption" color="textSecondary">
                 created @ {_currentIssue.createdAt}
