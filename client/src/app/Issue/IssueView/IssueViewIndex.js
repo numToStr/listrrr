@@ -9,8 +9,12 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import Loader from "../../../components/Loader/Loader";
 import IssueTitle from "./IssueViewTitle";
 import Surface from "../../../components/Surface";
-import { issueGet, issueClear } from "../../../store/actions/index.action";
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
+import {
+    issueGet,
+    issueClear,
+    issueUpdate
+} from "../../../store/actions/index.action";
 
 const useStyles = makeStyles(({ spacing }) => ({
     btnMargin: {
@@ -28,6 +32,7 @@ const IssueViewIndex = ({
     match: { params },
     $issueGet,
     $issueClear,
+    $issueUpdate,
     _currentIssue
 }) => {
     const classes = useStyles();
@@ -37,6 +42,9 @@ const IssueViewIndex = ({
     }, [$issueGet, params.issueId]);
 
     const $$issueClear = useCallback($issueClear);
+
+    const issueClose = () =>
+        $issueUpdate(params.issueId, { isOpen: !_currentIssue.isOpen });
 
     useEffect(() => {
         $$issueGet();
@@ -80,15 +88,16 @@ const IssueViewIndex = ({
                         />
                     </Grid>
                     <Grid container justify="flex-end">
-                        {_currentIssue.isOpen && (
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                className={classes.btnMargin}
-                            >
-                                Close Issue
-                            </Button>
-                        )}
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            className={classes.btnMargin}
+                            onClick={issueClose}
+                        >
+                            {_currentIssue.isOpen
+                                ? "Close Issue"
+                                : "Open Issue"}
+                        </Button>
                         <Button
                             variant="contained"
                             color="primary"
@@ -118,7 +127,8 @@ const mapStateToProps = ({ issue }) => ({
 
 const mapDispatchToProps = {
     $issueGet: issueGet,
-    $issueClear: issueClear
+    $issueClear: issueClear,
+    $issueUpdate: issueUpdate
 };
 
 export default connect(

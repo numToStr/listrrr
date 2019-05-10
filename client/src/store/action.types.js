@@ -15,6 +15,8 @@ export const ISSUE_LIST = "ISSUE_LIST";
 export const ISSUE_LIST_SUCCESS = "ISSUE_LIST_SUCCESS";
 export const ISSUE_GET = "ISSUE_GET";
 export const ISSUE_GET_SUCCESS = "ISSUE_GET_SUCCESS";
+export const ISSUE_UPDATE = "ISSUE_UPDATE";
+export const ISSUE_UPDATE_SUCCESS = "ISSUE_UPDATE_SUCCESS";
 export const ISSUE_CLEAR = "ISSUE_CLEAR";
 
 export const TEMPLATE_GET = "TEMPLATE_GET";

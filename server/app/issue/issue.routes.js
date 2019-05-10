@@ -4,7 +4,8 @@ const $validator = require("../../middlewares/request.validator");
 const {
     issueSchema,
     issueIdSchema,
-    queryValidation
+    queryValidation,
+    updateValidation
 } = require("./issue.validation");
 
 const {
@@ -29,7 +30,11 @@ router
     // For getting issue
     .get($validator(issueIdSchema, "params"), getIssue)
     // For updating issue
-    .patch($validator(issueIdSchema, "params"), updateIssue)
+    .patch(
+        $validator(issueIdSchema, "params"),
+        $validator(updateValidation),
+        updateIssue
+    )
     // For deleting issue
     .delete($validator(issueIdSchema, "params"), deleteIssue);
 

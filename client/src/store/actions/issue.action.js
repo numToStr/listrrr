@@ -5,7 +5,9 @@ import {
     ISSUE_LIST_SUCCESS,
     ISSUE_GET,
     ISSUE_GET_SUCCESS,
-    ISSUE_CLEAR
+    ISSUE_CLEAR,
+    ISSUE_UPDATE_SUCCESS,
+    ISSUE_UPDATE
 } from "../action.types";
 
 const issueAddSuccess = data => ({
@@ -66,4 +68,23 @@ export const issueGet = issueId => ({
 
 export const issueClear = () => ({
     type: ISSUE_CLEAR
+});
+
+const issueUpdateSuccess = data => ({
+    type: ISSUE_UPDATE_SUCCESS,
+    data
+});
+
+export const issueUpdate = (issueId, data) => ({
+    type: ISSUE_UPDATE,
+    http: true,
+    payload: {
+        method: "PATCH",
+        url: `/issue/${issueId}`,
+        data
+    },
+    success: issueUpdateSuccess,
+    meta: {
+        label: "issueUpdate"
+    }
 });

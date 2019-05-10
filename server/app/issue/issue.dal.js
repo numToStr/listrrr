@@ -58,6 +58,7 @@ IssueDAL.prototype.updateOne = function updateOne(update = {}, options = {}) {
 
     return IssueModel.findOneAndUpdate(this.ctx, update, updateOpt)
         .select(select)
+        .populate(this.populate)
         .lean()
         .exec();
 };

@@ -4,7 +4,8 @@ import {
     ISSUE_ADD_SUCCESS,
     ISSUE_LIST_SUCCESS,
     ISSUE_GET_SUCCESS,
-    ISSUE_CLEAR
+    ISSUE_CLEAR,
+    ISSUE_UPDATE_SUCCESS
 } from "../action.types";
 
 const initialState = {
@@ -25,6 +26,14 @@ const onIssueList = (state, { issues }) => {
     state.list = normalizeLevel1(issues, { entity: "issues" });
 };
 
+const onIssueUpdate = (state, { issue }) => {
+    if (state.list) {
+        state.list.result = state.list.result.filter(iss => iss !== issue._id);
+        Reflect.deleteProperty(state.list.entities, issue._id);
+    }
+    state.current = issue;
+};
+
 const onIssueClear = state => {
     state.current = null;
 };
@@ -37,6 +46,8 @@ export default produce((state = initialState, { type, data }) => {
             return onIssueGet(state, data);
         case ISSUE_LIST_SUCCESS:
             return onIssueList(state, data);
+        case ISSUE_UPDATE_SUCCESS:
+            return onIssueUpdate(state, data);
         case ISSUE_CLEAR:
             return onIssueClear(state);
         default:
