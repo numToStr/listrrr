@@ -3,37 +3,26 @@ const Joi = require("@hapi/joi");
 const {
     objectIdSchema,
     qSchema,
-    sortSchema
+    indexSchema,
+    sortSchema,
+    titleSchema,
+    descSchema
 } = require("../../global/validations.global");
 
 const projectSchema = Joi.object().keys({
-    title: Joi.string()
-        .min(5)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue title")),
-    description: Joi.string()
-        .min(5)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue description")),
+    title: titleSchema("Invalid project title").required(),
+    description: descSchema("Invalid project description"),
     template: objectIdSchema()
 });
 
 const projectIdSchema = Joi.object().keys({
-    projectId: objectIdSchema().required()
+    projectId: objectIdSchema("Invalid project ID").required()
 });
 
 const projectRearrangeSchema = Joi.object().keys({
-    columnId: objectIdSchema().required(),
-    sourceIndex: Joi.number()
-        .min(0)
-        .required()
-        .error(new Error("Invalid source index")),
-    destIndex: Joi.number()
-        .min(0)
-        .required()
-        .error(new Error("Invalid destination index"))
+    columnId: objectIdSchema("Invalid column ID").required(),
+    sourceIndex: indexSchema("Invalid source index").required(),
+    destIndex: indexSchema("Invalid destination index").required()
 });
 
 const queryValidation = Joi.object().keys({

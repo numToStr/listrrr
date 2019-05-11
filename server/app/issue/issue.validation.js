@@ -3,25 +3,19 @@ const Joi = require("@hapi/joi");
 const {
     objectIdSchema,
     qSchema,
-    sortSchema
+    sortSchema,
+    titleSchema,
+    descSchema
 } = require("../../global/validations.global");
 
 const issueSchema = Joi.object().keys({
-    title: Joi.string()
-        .min(5)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue title")),
-    description: Joi.string()
-        .min(10)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue description")),
-    project: objectIdSchema().allow(["", null])
+    title: titleSchema("Invalid issue title").required(),
+    description: descSchema("Invalid issue description").required(),
+    project: objectIdSchema("Invalid project ID").allow([""])
 });
 
 const issueIdSchema = Joi.object().keys({
-    issueId: objectIdSchema().required()
+    issueId: objectIdSchema("Invalid issue ID").required()
 });
 
 const queryValidation = Joi.object().keys({
@@ -31,16 +25,10 @@ const queryValidation = Joi.object().keys({
 });
 
 const updateValidation = Joi.object().keys({
-    title: Joi.string()
-        .min(5)
-        .trim()
-        .error(new Error("Invalid issue title")),
-    description: Joi.string()
-        .min(10)
-        .trim()
-        .error(new Error("Invalid issue description")),
+    title: titleSchema("Invalid issue title"),
+    description: descSchema("Invalid issue description"),
     isOpen: Joi.boolean().error(new Error("Invalid action to close")),
-    project: objectIdSchema()
+    project: objectIdSchema("Invalid project ID")
 });
 
 module.exports = {
