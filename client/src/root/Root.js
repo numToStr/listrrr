@@ -1,10 +1,11 @@
 import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { routes } from "../config/router/route.config";
-import RoutesRenderer from "../config/router/route.renderer";
 
+import RoutesRenderer from "../config/router/route.renderer";
 import Loader from "../components/Loader/Loader";
+
+import { routes } from "../config/router/route.config";
 import { authenticate } from "../store/actions/index.action";
 
 const Root = ({ $authenticate, _isAuthenticating }) => {

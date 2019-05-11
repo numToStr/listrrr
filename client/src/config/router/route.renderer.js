@@ -5,36 +5,22 @@ import { Redirect } from "react-router-dom";
 import PrivateRoute from "./route.private";
 import PublicRoute from "./route.public";
 
-import { redirects } from "./route.config";
-
-const WhichRoute = ({ private: pvt, path, component, ...props }) => {
-    return pvt ? (
-        <PrivateRoute
-            path={path}
-            component={component}
-            failureRedirect={redirects.authFailure}
-            {...props}
-        />
-    ) : (
-        <PublicRoute
-            path={path}
-            component={component}
-            successRedirect={redirects.authSuccess}
-            {...props}
-        />
-    );
-};
-
 const RouteRenderer = ({ config, default: redirectDefault }) => {
     const _routes = config.map(
-        ({ private: pvt, path, component, ...route }) => {
-            return (
-                <WhichRoute
+        ({ private: pvt, path, component, ...props }) => {
+            return pvt ? (
+                <PrivateRoute
                     key={path}
-                    private={pvt}
                     path={path}
                     component={component}
-                    {...route}
+                    {...props}
+                />
+            ) : (
+                <PublicRoute
+                    key={path}
+                    path={path}
+                    component={component}
+                    {...props}
                 />
             );
         }
