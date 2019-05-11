@@ -117,8 +117,28 @@ const authLogin = async (req, res, next) => {
     }
 };
 
+// For github authentication
+const authGithubSuccess = (req, res) => {
+    console.log(new Date());
+    res.json(req.$github);
+};
+
+// const h = {
+//     id: "42532967",
+//     displayName: "Vikas Raj",
+//     username: "realvikas",
+//     profileUrl: "https://github.com/realvikas",
+//     photos: [
+//         {
+//             value: "https://avatars0.githubusercontent.com/u/42532967?v=4"
+//         }
+//     ],
+//     provider: "github"
+// };
+
 module.exports = {
     authenticate,
     authSignup,
-    authLogin
+    authLogin,
+    authGithubSuccess
 };
