@@ -51,7 +51,7 @@ const http = ({ dispatch }) => next => async action => {
                 data: { message }
             } = res;
 
-            dispatch(httpFailure({ label, error: message }));
+            return dispatch(httpFailure({ label, error: message }));
         }
 
         throw error;
