@@ -6,6 +6,8 @@ import FormLayout from "../../../components/Form/FormLayout";
 import InputField from "../../../components/Form/FormFields/FormTextField";
 import FormButton from "../../../components/Form/FormFields/FormButton";
 
+import { commentSchema } from "../../../utils/validations/issue.validation";
+
 const initialValues = { comment: "" };
 
 const IssueCommentForm = ({ onSubmit, onClose, isOpen }) => {
@@ -13,6 +15,7 @@ const IssueCommentForm = ({ onSubmit, onClose, isOpen }) => {
         <FormLayout
             key="issue-comment-form"
             onSubmit={onSubmit}
+            schema={commentSchema}
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>

@@ -10,6 +10,7 @@ import FormLayout from "../../../components/Form/FormLayout";
 import Loader from "../../../components/Loader/Loader";
 
 import { issueAdd, projectList } from "../../../store/actions/index.action";
+import { issueCreateSchema } from "../../../utils/validations/issue.validation";
 
 const initialValues = { title: "", description: "", project: "" };
 
@@ -28,6 +29,7 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
         <FormLayout
             key="issue-add-form"
             onSubmit={$issueAdd}
+            schema={issueCreateSchema}
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>

@@ -4,6 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const FormSelect = ({
     options: { entities, result },
@@ -11,6 +12,8 @@ const FormSelect = ({
     form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
     ...props
 }) => {
+    const error = errors[field.name];
+
     const selectItems = result.map(_id => (
         <MenuItem key={_id} value={_id} dense>
             <Typography variant="body2">{entities[_id].title}</Typography>
@@ -18,7 +21,11 @@ const FormSelect = ({
     ));
 
     return (
-        <FormControl margin="dense" fullWidth>
+        <FormControl
+            margin="dense"
+            fullWidth
+            error={touched && error ? true : false}
+        >
             <InputLabel shrink htmlFor={`htmlfor-${props.label}`}>
                 {props.label}
             </InputLabel>
@@ -33,7 +40,9 @@ const FormSelect = ({
                 </MenuItem>
                 {selectItems}
             </Select>
-            {/* <FormHelperText>Label + placeholder</FormHelperText> */}
+            {touched && error ? (
+                <FormHelperText> - {error}</FormHelperText>
+            ) : null}
         </FormControl>
     );
 };

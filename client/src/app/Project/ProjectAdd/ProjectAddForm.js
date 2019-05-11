@@ -10,6 +10,7 @@ import FormButton from "../../../components/Form/FormFields/FormButton";
 import FormLayout from "../../../components/Form/FormLayout";
 
 import { projectAdd, templateGet } from "../../../store/actions/index.action";
+import { projectCreateSchema } from "../../../utils/validations/project.validation";
 
 const initialValues = { title: "", description: "", template: "" };
 
@@ -33,6 +34,7 @@ const ProjectAddForm = ({
         <FormLayout
             key="project-add-form"
             onSubmit={$projectAdd}
+            schema={projectCreateSchema}
             initialValues={initialValues}
             render={({ dirty }) => (
                 <Form>
