@@ -11,15 +11,15 @@ const TokenVerifier = require("../services/token/token.verify");
 const verifyToken = (req, res, next) => {
     try {
         // Getting the Authorization header
-        const tokenCookie = req.cookies["x-access-token"];
+        const { SESID } = req.cookies;
 
         // Check if any value is present in Authorization header or not
-        if (!tokenCookie) {
+        if (!SESID) {
             return res.sendStatus(403);
         }
 
         // Verifying the token, if error => return
-        const { accessDecoded } = new TokenVerifier(tokenCookie).access();
+        const { accessDecoded } = new TokenVerifier(SESID).access();
 
         // Forwarding the decoded token to next middleware
         req.$user = accessDecoded;

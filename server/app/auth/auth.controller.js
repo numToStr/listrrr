@@ -58,7 +58,7 @@ const authSignup = async (req, res, next) => {
         }).access();
 
         res.status(200)
-            .cookie("x-access-token", accessToken, cookieConfig)
+            .cookie("SESID", accessToken, cookieConfig)
             .json({
                 success: true,
                 message: "Signup successful",
@@ -105,7 +105,7 @@ const authLogin = async (req, res, next) => {
         Reflect.deleteProperty(isUser, "password");
 
         res.status(200)
-            .cookie("x-access-token", accessToken, cookieConfig)
+            .cookie("SESID", accessToken, cookieConfig)
             .json({
                 success: true,
                 message: "Login Successful",
