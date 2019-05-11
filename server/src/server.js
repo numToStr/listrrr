@@ -3,7 +3,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-const api = require("../app/app");
+const api = require("../app/app.routes");
 const customError = require("../utils/custom.error");
 const middlewares = require("../middlewares/express.middleware");
 const { NODE_ENV } = require("../config/keys");
