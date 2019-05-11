@@ -11,8 +11,8 @@ const {
 
 const projectSchema = Joi.object().keys({
     title: titleSchema("Invalid project title").required(),
-    description: descSchema("Invalid project description"),
-    template: objectIdSchema()
+    description: descSchema("Invalid project description").required(),
+    template: objectIdSchema("Invalid template ID").required()
 });
 
 const projectIdSchema = Joi.object().keys({
