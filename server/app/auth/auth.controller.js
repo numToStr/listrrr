@@ -77,7 +77,7 @@ const authLogin = async (req, res, next) => {
 
         // Checking if user exists with this username
         const isUser = await new UserDAL({ username }).findOne({
-            select: "-createdAt -updatedAt -__v"
+            select: "password -createdAt -updatedAt -__v"
         });
 
         // If user doesn't exists => return
@@ -118,23 +118,37 @@ const authLogin = async (req, res, next) => {
 };
 
 // For github authentication
-const authGithubSuccess = (req, res) => {
-    console.log(new Date());
-    res.json(req.$github);
-};
+const authGithubSuccess = async (req, res, next) => {
+    try {
+        const { $github } = req;
 
-// const h = {
-//     id: "42532967",
-//     displayName: "Vikas Raj",
-//     username: "realvikas",
-//     profileUrl: "https://github.com/realvikas",
-//     photos: [
-//         {
-//             value: "https://avatars0.githubusercontent.com/u/42532967?v=4"
-//         }
-//     ],
-//     provider: "github"
-// };
+        // Find user with github id
+        // If exists set cookie
+        // Else create user then set cookie
+        // Finally redirect to /d/home
+        const userDAL = new UserDAL({ profileID: String($github.id) });
+
+        let user = await userDAL.findOne({ select: "_id" });
+
+        if (!user) {
+            user = userDAL.create({
+                authType: "github",
+                username: $github.login,
+                avatar: $github.avatar_url,
+                profileID: $github.id
+            });
+        }
+
+        const { accessToken, cookieConfig } = new TokenGenerator({
+            $id: user._id,
+            role: ["user"]
+        }).access();
+
+        res.cookie("SESID", accessToken, cookieConfig).redirect("/d/home");
+    } catch (error) {
+        next(error);
+    }
+};
 
 module.exports = {
     authenticate,
