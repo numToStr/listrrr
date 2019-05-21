@@ -1,6 +1,9 @@
 # Node Base Image
 FROM node:lts-alpine
 
+LABEL maintainer="vkasraj"
+LABEL email="vikasraj1911@gmail.com"
+
 # Making necessary folder for storing server and static frontend files
 RUN mkdir -p /usr/src/app/static
 
