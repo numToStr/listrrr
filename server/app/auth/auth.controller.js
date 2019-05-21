@@ -77,7 +77,7 @@ const authLogin = async (req, res, next) => {
 
         // Checking if user exists with this username
         const isUser = await new UserDAL({ username }).findOne({
-            select: "password -createdAt -updatedAt -__v"
+            select: "email username password avatar"
         });
 
         // If user doesn't exists => return
