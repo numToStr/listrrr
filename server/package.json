@@ -22,7 +22,7 @@
         "express": "^4.17.0",
         "helmet": "^3.18.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.5.9"
+        "mongoose": "^5.5.10"
     },
     "devDependencies": {
         "@types/hapi__joi": "^15.0.1",
