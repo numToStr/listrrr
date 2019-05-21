@@ -2,6 +2,12 @@
     "name": "v3",
     "version": "0.1.0",
     "private": true,
+    "scripts": {
+        "start": "node scripts/start.js",
+        "build": "NODE_ENV=production GENERATE_SOURCEMAP=false node scripts/build.js",
+        "test": "node scripts/test.js"
+    },
+    "proxy": "http://backend:5000",
     "dependencies": {
         "@babel/core": "7.4.3",
         "@hot-loader/react-dom": "^16.8.6",
@@ -72,11 +78,6 @@
         "webpack-manifest-plugin": "2.0.4",
         "workbox-webpack-plugin": "4.2.0",
         "yup": "^0.27.0"
-    },
-    "scripts": {
-        "start": "node scripts/start.js",
-        "build": "NODE_ENV=production GENERATE_SOURCEMAP=false node scripts/build.js",
-        "test": "node scripts/test.js"
     },
     "eslintConfig": {
         "extends": "react-app"
