@@ -32,3 +32,14 @@ services:
             - ./server:/usr/src/app
         depends_on:
             - database
+    # nginx:
+    #     container_name: listerr-proxy
+    #     build:
+    #         context: ./nginx-proxy
+    #         dockerfile: Dockerfile
+    #     image: realvikas/listerr-proxy
+    #     ports:
+    #         - 3000:80
+    #     depends_on:
+    #         - frontend
+    #         - backend
