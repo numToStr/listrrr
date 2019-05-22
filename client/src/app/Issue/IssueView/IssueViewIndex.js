@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import Loader from "../../../components/Loader/Loader";
-import IssueTitle from "./IssueViewTitle";
 import Surface from "../../../components/Surface";
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 import {
@@ -15,6 +14,7 @@ import {
     issueUpdate
 } from "../../../store/actions/index.action";
 import IssueCommentForm from "./IssueCommentForm";
+import IssueEditIndex from "../IssueEdit/IssueEditIndex";
 
 const IssueViewIndex = ({
     match: { params },
@@ -49,7 +49,16 @@ const IssueViewIndex = ({
     return (
         <Fragment>
             <HeaderBackButton to="/d/issues/list" />
-            <IssueTitle title={_currentIssue.title} />
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item>
+                    <Typography variant="h5" gutterBottom>
+                        {_currentIssue.title}
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <IssueEditIndex />
+                </Grid>
+            </Grid>
             <Typography variant="caption" color="textSecondary">
                 created @ {_currentIssue.createdAt}
             </Typography>

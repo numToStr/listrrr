@@ -2,8 +2,8 @@ import React, { useEffect, Fragment, useCallback } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
+// import Button from "@material-ui/core/Button";
+// import AddIcon from "@material-ui/icons/Add";
 
 import {
     projectGet,
@@ -21,6 +21,7 @@ import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
 import DropContext from "../../../components/DragAndDrop/DropContext";
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
+import ProjectEditIndex from "../ProjectEdit/ProjectEditIndex";
 
 const ProjectViewIndex = ({
     match: { params },
@@ -138,10 +139,11 @@ const ProjectViewIndex = ({
                     />
                 </Grid>
                 <Grid item>
-                    <Button size="small" variant="contained" color="primary">
+                    <ProjectEditIndex />
+                    {/* <Button size="small" variant="contained" color="primary">
                         <AddIcon />
                         Add Card
-                    </Button>
+                    </Button> */}
                 </Grid>
             </Grid>
             <DropContext onDragEnd={onDragEnd}>

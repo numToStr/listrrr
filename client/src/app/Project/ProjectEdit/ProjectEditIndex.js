@@ -6,7 +6,7 @@ import BaseEditDrawer from "../../../components/Base/BaseEditDrawer";
 
 const initValues = { title: "", description: "" };
 
-const IssueEditIndex = () => {
+const ProjectEditIndex = () => {
     const onSubmit = val => console.log(val);
 
     return (
@@ -14,7 +14,7 @@ const IssueEditIndex = () => {
             <BaseEditDrawer>
                 <Fragment>
                     <Typography gutterBottom variant="h6">
-                        Edit Issue
+                        Edit Project
                     </Typography>
                     <BaseEditForm
                         initialValues={initValues}
@@ -26,4 +26,4 @@ const IssueEditIndex = () => {
     );
 };
 
-export default IssueEditIndex;
+export default ProjectEditIndex;
