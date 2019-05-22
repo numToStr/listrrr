@@ -34,4 +34,4 @@ COPY --chown=node:node ./server ./
 COPY --chown=node:node ./client/build ./static
 
 # Container default command
-CMD [ "npm", "start" ]
+CMD [ "node", "bin/www.js" ]
