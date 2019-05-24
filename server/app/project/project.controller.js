@@ -189,8 +189,21 @@ const rearrangeProject = async (req, res, next) => {
 
 const updateProject = (req, res, next) => {
     try {
+        const {
+            $user: { $id },
+            params: { projectId },
+            // body: title | desciption | completed
+            body
+        } = req;
+
+        const project = new ProjectDAL({
+            _id: projectId,
+            author: $id
+        }).updateOne(body);
+
         res.status(200).json({
-            message: "TODO: To be implemented"
+            message: "Project successfully updated",
+            project
         });
     } catch (error) {
         next(error);

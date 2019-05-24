@@ -259,7 +259,7 @@ const updateIssue = async (req, res, next) => {
         }).updateOne(body);
 
         res.status(200).json({
-            message: "To-Do successfully updated",
+            message: "Issue successfully updated",
             issue
         });
     } catch (error) {
