@@ -187,7 +187,7 @@ const rearrangeProject = async (req, res, next) => {
     }
 };
 
-const updateProject = (req, res, next) => {
+const updateProject = async (req, res, next) => {
     try {
         const {
             $user: { $id },
@@ -196,10 +196,12 @@ const updateProject = (req, res, next) => {
             body
         } = req;
 
-        const project = new ProjectDAL({
+        const project = await new ProjectDAL({
             _id: projectId,
             author: $id
-        }).updateOne(body);
+        }).updateOne(body, {
+            select: "title description isOpen"
+        });
 
         res.status(200).json({
             message: "Project successfully updated",

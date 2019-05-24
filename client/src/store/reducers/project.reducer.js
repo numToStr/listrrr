@@ -6,7 +6,8 @@ import {
     PROJECT_GET_SUCCESS,
     PROJECT_CLEAR,
     PROJECT_COLUMN_REARRANGE,
-    PROJECT_ISSUE_REARRANGE
+    PROJECT_ISSUE_REARRANGE,
+    PROJECT_UPDATE_SUCCESS
 } from "../action.types";
 
 const initialState = {
@@ -86,6 +87,20 @@ const onProjectIssueRearrange = (
     });
 };
 
+const onProjectUpdate = (state, { project }) => {
+    if (state.list) {
+        state.list.result = state.list.result.filter(
+            proj => proj !== project._id
+        );
+        Reflect.deleteProperty(state.list.entities, project._id);
+    }
+
+    state.current = {
+        ...state.current,
+        ...project
+    };
+};
+
 export default produce((state = initialState, { type, data }) => {
     switch (type) {
         case PROJECT_ADD_SUCCESS:
@@ -100,6 +115,8 @@ export default produce((state = initialState, { type, data }) => {
             return onProjectRearrange(state, data);
         case PROJECT_ISSUE_REARRANGE:
             return onProjectIssueRearrange(state, data);
+        case PROJECT_UPDATE_SUCCESS:
+            return onProjectUpdate(state, data);
         default:
             return state;
     }

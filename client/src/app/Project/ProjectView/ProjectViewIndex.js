@@ -139,7 +139,7 @@ const ProjectViewIndex = ({
                     />
                 </Grid>
                 <Grid item>
-                    <ProjectEditIndex />
+                    <ProjectEditIndex project={_currentProject} />
                     {/* <Button size="small" variant="contained" color="primary">
                         <AddIcon />
                         Add Card
