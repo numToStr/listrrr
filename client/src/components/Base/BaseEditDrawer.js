@@ -1,8 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import Box from "@material-ui/core/Box";
 import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/EditTwoTone";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 const useStyles = makeStyles(({ spacing, breakpoints }) => ({
@@ -17,27 +15,20 @@ const useStyles = makeStyles(({ spacing, breakpoints }) => ({
     }
 }));
 
-const BaseEditDrawer = ({ children }) => {
+const BaseEditDrawer = ({ children, open, onClose }) => {
     const classes = useStyles();
-    const [editDrawer, setEditDrawer] = useState(false);
-
     return (
-        <Fragment>
-            <IconButton onClick={() => setEditDrawer(true)}>
-                <EditIcon fontSize="small" />
-            </IconButton>
-            <Drawer
-                classes={{
-                    paper: classes.editDrawer
-                }}
-                open={editDrawer}
-                onClose={() => setEditDrawer(false)}
-                variant="temporary"
-                anchor="right"
-            >
-                <Box p={2}>{children}</Box>
-            </Drawer>
-        </Fragment>
+        <Drawer
+            classes={{
+                paper: classes.editDrawer
+            }}
+            open={open}
+            onClose={onClose}
+            variant="temporary"
+            anchor="right"
+        >
+            <Box p={2}>{children}</Box>
+        </Drawer>
     );
 };
 

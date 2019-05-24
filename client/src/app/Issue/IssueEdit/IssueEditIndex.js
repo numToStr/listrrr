@@ -1,17 +1,31 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/EditTwoTone";
 
 import BaseEditForm from "../../../components/Base/BaseEditForm";
 import BaseEditDrawer from "../../../components/Base/BaseEditDrawer";
 
-const initValues = { title: "", description: "" };
+import { issueUpdate } from "../../../store/actions/issue.action";
 
-const IssueEditIndex = () => {
-    const onSubmit = val => console.log(val);
+const IssueEditIndex = ({
+    issue: { _id, title, description },
+    $issueUpdate,
+    _loading
+}) => {
+    const [editDrawer, setEditDrawer] = useState(false);
+    const handleEditDrawer = () => setEditDrawer(val => !val);
 
+    const onSubmit = val => $issueUpdate(_id, val);
+
+    const initValues = { title, description };
     return (
         <Fragment>
-            <BaseEditDrawer>
+            <IconButton onClick={handleEditDrawer}>
+                <EditIcon fontSize="small" />
+            </IconButton>
+            <BaseEditDrawer open={editDrawer} onClose={handleEditDrawer}>
                 <Fragment>
                     <Typography gutterBottom variant="h6">
                         Edit Issue
@@ -19,6 +33,7 @@ const IssueEditIndex = () => {
                     <BaseEditForm
                         initialValues={initValues}
                         onSubmit={onSubmit}
+                        loading={_loading}
                     />
                 </Fragment>
             </BaseEditDrawer>
@@ -26,4 +41,15 @@ const IssueEditIndex = () => {
     );
 };
 
-export default IssueEditIndex;
+const mapStateToProps = ({ http: { request } }) => ({
+    _loading: request.issueUpdate
+});
+
+const mapDispatchToProps = {
+    $issueUpdate: issueUpdate
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IssueEditIndex);

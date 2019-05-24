@@ -56,7 +56,7 @@ const IssueViewIndex = ({
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <IssueEditIndex />
+                    <IssueEditIndex issue={_currentIssue} />
                 </Grid>
             </Grid>
             <Typography variant="caption" color="textSecondary">
