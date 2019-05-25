@@ -5,7 +5,7 @@ class ProjectDAL {
     constructor(ctx = {}) {
         this.ctx = ctx;
         this.select =
-            "-author -template -__v -issues.author -issues.project -issues.__v -issues.updatedAt -columns.createdAt -columns.updatedAt";
+            "-author -template -__v -issues.author -issues.project -issues.__v -columns.createdAt -columns.updatedAt";
         this.sort = { createdAt: -1 };
         this.updateOpt = { new: true };
         this.lookup = {
