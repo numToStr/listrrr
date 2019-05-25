@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Suspense } from "react";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import DrawerIndex from "../Drawer/DrawerIndex";
+import Loader from "../Loader/Loader";
 
 const useStyles = makeStyles(({ palette, spacing }) => {
     const drawerWidth = spacing(30);
@@ -55,7 +56,7 @@ const Layout = ({ children }) => {
                             classes.content
                         }`}
                     >
-                        {children}
+                        <Suspense fallback={<Loader />}>{children}</Suspense>
                     </main>
                 </Grid>
             </Grid>

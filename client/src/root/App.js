@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { hot } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -9,6 +9,7 @@ import configureStore from "../store/index.store";
 import theme from "../config/theme.config";
 
 import Root from "./Root";
+import Loader from "../components/Loader/Loader";
 
 const store = configureStore();
 
@@ -19,7 +20,9 @@ const App = () => (
         <BrowserRouter>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <NewRoot />
+                <Suspense fallback={<Loader />}>
+                    <NewRoot />
+                </Suspense>
             </ThemeProvider>
         </BrowserRouter>
     </Provider>

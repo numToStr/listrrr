@@ -1,19 +1,32 @@
+import { lazy } from "react";
 import LandingIndex from "../../app/Landing/LandingIndex";
-import LoginIndex from "../../app/Login/LoginIndex";
-import SignupIndex from "../../app/Signup/SignupIndex";
 import DashboardIndex from "../../app/Dashboard/DashboardIndex";
 import HomeIndex from "../../app/Home/HomeIndex";
-
 import ProjectIndex from "../../app/Project/ProjectIndex";
-import ProjectAddIndex from "../../app/Project/ProjectAdd/ProjectAddIndex";
-import ProjectList from "../../app/Project/ProjectList/ProjectListIndex";
-import ProjectViewIndex from "../../app/Project/ProjectView/ProjectViewIndex";
-
 import IssueIndex from "../../app/Issue/IssueIndex";
-import IssueAddIndex from "../../app/Issue/IssueAdd/IssueAddIndex";
-import IssueListIndex from "../../app/Issue/IssueList/IssueListIndex";
-// import IssueEditIndex from "../../app/Issue/IssueEdit/IssueEditIndex";
-import IssueViewIndex from "../../app/Issue/IssueView/IssueViewIndex";
+
+const SignupIndex = lazy(() => import("../../app/Signup/SignupIndex"));
+const LoginIndex = lazy(() => import("../../app/Login/LoginIndex"));
+
+const ProjectAddIndex = lazy(() =>
+    import("../../app/Project/ProjectAdd/ProjectAddIndex")
+);
+const ProjectList = lazy(() =>
+    import("../../app/Project/ProjectList/ProjectListIndex")
+);
+const ProjectViewIndex = lazy(() =>
+    import("../../app/Project/ProjectView/ProjectViewIndex")
+);
+
+const IssueAddIndex = lazy(() =>
+    import("../../app/Issue/IssueAdd/IssueAddIndex")
+);
+const IssueListIndex = lazy(() =>
+    import("../../app/Issue/IssueList/IssueListIndex")
+);
+const IssueViewIndex = lazy(() =>
+    import("../../app/Issue/IssueView/IssueViewIndex")
+);
 
 export const redirects = {
     default: "/",
@@ -90,11 +103,6 @@ export const routes = [
                         component: IssueViewIndex,
                         private: true
                     }
-                    // {
-                    //     path: "/d/issues/edit/:issueId",
-                    //     component: IssueEditIndex,
-                    //     private: true
-                    // }
                 ]
             }
         ]
