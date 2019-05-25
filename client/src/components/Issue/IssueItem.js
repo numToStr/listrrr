@@ -7,7 +7,7 @@ import Surface from "../Surface";
 import Box from "@material-ui/core/Box";
 import BaseLink from "../Base/BaseRouterLink";
 
-const IssueItem = ({ _id, title, createdAt, titleProps }) => {
+const IssueItem = ({ _id, title, createdAt, updatedAt, titleProps }) => {
     return (
         <Surface>
             <Box display="flex" flexDirection="column">
@@ -20,7 +20,10 @@ const IssueItem = ({ _id, title, createdAt, titleProps }) => {
                 >
                     {title}
                 </Link>
-                <DateFormat date={createdAt} />
+                <Box display="flex" justifyContent="space-between">
+                    <DateFormat updated date={updatedAt} />
+                    <DateFormat date={createdAt} />
+                </Box>
             </Box>
         </Surface>
     );
