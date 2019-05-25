@@ -5,7 +5,7 @@ import DrawerList from "./DrawerList";
 const DrawerDesktop = props => {
     return (
         <Drawer {...props} variant="permanent" anchor="left">
-            <DrawerList />
+            <DrawerList type="desktop" />
         </Drawer>
     );
 };

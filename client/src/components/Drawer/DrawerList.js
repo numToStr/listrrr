@@ -6,7 +6,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import BaseLink from "../Base/BaseRouterLink";
 import IconHome from "../Icons/IconHome";
 import IconProject from "../Icons/IconProject";
 import IconIssue from "../Icons/IconIssue";
@@ -35,19 +34,26 @@ const useStyles = makeStyles(({ palette }) => ({
     }
 }));
 
-const DrawerList = ({ location: { pathname } }) => {
+const DrawerList = ({ onTap, history, location: { pathname } }) => {
     const classes = useStyles();
+
+    const handleLinkClick = path => () => {
+        history.push(path);
+        if (typeof onTap === "function") {
+            // NOTE: onTap() is only implemented for mobile drawer for closing after click on link item
+            onTap();
+        }
+    };
 
     const list = items.map(({ text, icon: Icon, path }) => {
         return (
             <ListItem
                 button
                 key={text}
-                component={BaseLink}
-                to={path}
                 selected={path === pathname}
                 // disableRipple
                 disableTouchRipple
+                onClick={handleLinkClick(path)}
             >
                 <ListItemIcon>
                     <Icon fontSize="small" className={classes.linkColor} />

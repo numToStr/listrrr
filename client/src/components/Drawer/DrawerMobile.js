@@ -41,7 +41,7 @@ const DrawerMobile = props => {
                 variant="temporary"
                 anchor="left"
             >
-                <DrawerList />
+                <DrawerList type="mobile" onTap={setDrawer(false)} />
             </Drawer>
         </Fragment>
     );
