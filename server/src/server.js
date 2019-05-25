@@ -41,26 +41,31 @@ app.use((req, res, next) => {
     const isAPI = /^\/api\//.test(req.url);
 
     if (!isAPI && isProd) {
-        const indexHTML = path.join(__dirname, "..", "static", "index.html");
+        // This path will be available after docker image is build
+        const indexPath = path.join(__dirname, "..", "static");
 
-        return res.sendFile(indexHTML);
+        return res.sendFile("index.html", {
+            root: indexPath,
+            dotfiles: "deny",
+            maxAge: "2d",
+            headers: {
+                "x-whoami": "Vikas Raj"
+            }
+        });
     }
 
     const error = new $Error("URL not found!", 404, "ServerError");
     next(error);
 });
 
-app.use((
-    {
+// eslint-disable-next-line
+app.use((error, req, res, next) => {
+    const {
         message = "Oops! Something went wrong",
         status = 500,
         name = "SeverError"
-    },
-    req,
-    res,
-    /* eslint-disable-next-line */
-    next
-) => {
+    } = error;
+
     return res.status(status).json({
         success: false,
         message,
