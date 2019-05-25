@@ -5,9 +5,9 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 const useStyles = makeStyles(({ spacing, breakpoints }) => ({
     editDrawer: {
-        width: spacing(30),
+        width: spacing(40),
         [breakpoints.up("sm")]: {
-            width: spacing(45)
+            width: spacing(50)
         },
         [breakpoints.up("md")]: {
             width: spacing(60)
@@ -27,7 +27,7 @@ const BaseEditDrawer = ({ children, open, onClose }) => {
             variant="temporary"
             anchor="right"
         >
-            <Box p={2}>{children}</Box>
+            <Box p={3}>{children}</Box>
         </Drawer>
     );
 };

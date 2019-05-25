@@ -25,7 +25,11 @@ const BaseEditForm = ({ initialValues, loading, onSubmit }) => (
                     rows={5}
                     component={InputField}
                 />
-                <FormButton disabled={!dirty || loading} variant="outlined">
+                <FormButton
+                    disabled={!dirty || loading}
+                    loading={loading}
+                    variant="outlined"
+                >
                     Submit
                 </FormButton>
             </Form>
