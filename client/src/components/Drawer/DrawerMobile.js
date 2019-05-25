@@ -13,8 +13,9 @@ const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
         drawerBg: {
             background: primary.main,
             color: primary.contrastText,
-            borderRadius: spacing(2, 2),
-            height: spacing(50)
+            borderTopLeftRadius: spacing(2),
+            borderTopRightRadius: spacing(2),
+            height: spacing(40)
         },
         menuBtn: {
             position: "fixed",

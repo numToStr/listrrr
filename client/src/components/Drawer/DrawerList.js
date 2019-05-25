@@ -28,11 +28,16 @@ const items = [
     }
 ];
 
-const useStyles = makeStyles(({ palette }) => ({
-    linkColor: {
-        color: palette.primary.contrastText
-    }
-}));
+const useStyles = makeStyles(
+    ({ palette: { primary }, shape: { borderRadius } }) => ({
+        linkColor: {
+            color: primary.contrastText
+        },
+        listRounded: {
+            borderRadius
+        }
+    })
+);
 
 const DrawerList = ({ onTap, history, location: { pathname } }) => {
     const classes = useStyles();
@@ -54,6 +59,7 @@ const DrawerList = ({ onTap, history, location: { pathname } }) => {
                 // disableRipple
                 disableTouchRipple
                 onClick={handleLinkClick(path)}
+                className={classes.listRounded}
             >
                 <ListItemIcon>
                     <Icon fontSize="small" className={classes.linkColor} />
