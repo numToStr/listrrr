@@ -8,7 +8,7 @@ const FormCaption = ({ primary, secondary, to }) => {
     return (
         <Grid container spacing={1} justify="center">
             <Grid item>
-                <Typography variant="subtitle2">{primary}</Typography>
+                <Typography variant="body2">{primary}</Typography>
             </Grid>
             <Grid item>
                 <Link variant="subtitle2" component={BaseRouterLink} to={to}>
