@@ -22,13 +22,13 @@
         "express": "^4.17.0",
         "helmet": "^3.18.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.5.10"
+        "mongoose": "^5.5.11"
     },
     "devDependencies": {
         "@types/hapi__joi": "^15.0.1",
         "dotenv": "^8.0.0",
         "eslint": "^5.16.0",
-        "eslint-plugin-node": "^9.0.1",
+        "eslint-plugin-node": "^9.1.0",
         "morgan": "^1.9.1",
         "nodemon": "^1.19.0"
     },
