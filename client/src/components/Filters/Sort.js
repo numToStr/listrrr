@@ -3,10 +3,10 @@ import { withRouter } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Popover from "@material-ui/core/Popover";
-import SortIcon from "@material-ui/icons/SortTwoTone";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 
+import IconSort from "../Icons/IconSort";
 import Surface from "../Surface";
 import BaseLink from "../Base/BaseRouterLink";
 import { appendQuery } from "../../utils/url/url.utils";
@@ -49,7 +49,7 @@ const Sort = ({ location: { search } }) => {
         <Fragment>
             <Button size="small" onClick={handleClick}>
                 <Box mr={0.5}>Sort</Box>
-                <SortIcon fontSize="small" />
+                <IconSort />
             </Button>
             <Popover
                 open={Boolean(anchorEl)}

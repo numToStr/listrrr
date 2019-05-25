@@ -2,10 +2,11 @@ import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/EditTwoTone";
 
 import BaseEditForm from "../../../components/Base/BaseEditForm";
 import BaseEditDrawer from "../../../components/Base/BaseEditDrawer";
+import IconEdit from "../../../components/Icons/IconEdit";
+
 import { projectUpdate } from "../../../store/actions/index.action";
 
 const ProjectEditIndex = ({
@@ -22,7 +23,7 @@ const ProjectEditIndex = ({
     return (
         <Fragment>
             <IconButton onClick={handleEditDrawer}>
-                <EditIcon fontSize="small" />
+                <IconEdit />
             </IconButton>
             <BaseEditDrawer open={editDrawer} onClose={handleEditDrawer}>
                 <Fragment>

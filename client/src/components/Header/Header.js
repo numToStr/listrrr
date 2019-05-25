@@ -2,13 +2,14 @@ import React, { memo } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import Box from "@material-ui/core/Box";
-import SearchIcon from "@material-ui/icons/SearchTwoTone";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
+
 import BaseLink from "../Base/BaseRouterLink";
+import IconSearch from "../Icons/IconSearch";
+import IconAdd from "../Icons/IconAdd";
 
 const Header = ({ addLink, title }) => {
     return (
@@ -31,7 +32,7 @@ const Header = ({ addLink, title }) => {
                                                 color="primary"
                                                 type="submit"
                                             >
-                                                <SearchIcon />
+                                                <IconSearch />
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -46,7 +47,7 @@ const Header = ({ addLink, title }) => {
                                 component={BaseLink}
                                 to={addLink}
                             >
-                                <AddIcon />
+                                <IconAdd />
                                 <Box ml={0.5}>Add</Box>
                             </Button>
                         </Grid>

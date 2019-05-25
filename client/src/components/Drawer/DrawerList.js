@@ -5,26 +5,26 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/styles/makeStyles";
-import HomeIcon from "@material-ui/icons/HomeTwoTone";
-import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
-import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 
 import BaseLink from "../Base/BaseRouterLink";
+import IconHome from "../Icons/IconHome";
+import IconProject from "../Icons/IconProject";
+import IconIssue from "../Icons/IconIssue";
 
 const items = [
     {
         text: "Home 😋",
-        icon: HomeIcon,
+        icon: IconHome,
         path: "/d/home"
     },
     {
         text: "Projects",
-        icon: ProjectIcon,
+        icon: IconProject,
         path: "/d/projects/list"
     },
     {
         text: "Issues",
-        icon: IssuesIcon,
+        icon: IconIssue,
         path: "/d/issues/list"
     }
 ];
@@ -50,7 +50,7 @@ const DrawerList = ({ location: { pathname } }) => {
                 disableTouchRipple
             >
                 <ListItemIcon>
-                    <Icon className={classes.linkColor} />
+                    <Icon fontSize="small" className={classes.linkColor} />
                 </ListItemIcon>
                 <ListItemText
                     primary={text}
