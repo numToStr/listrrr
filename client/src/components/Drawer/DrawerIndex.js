@@ -1,20 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, lazy } from "react";
 import Hidden from "@material-ui/core/Hidden";
 
-import DrawerMobile from "./DrawerMobile";
-import DrawerDesktop from "./DrawerDesktop";
+const DrawerMobile = lazy(() => import("./DrawerMobile"));
+const DrawerDesktop = lazy(() => import("./DrawerDesktop"));
 
-const DrawerIndex = props => {
-    return (
-        <Fragment>
-            <Hidden smUp>
-                <DrawerMobile {...props} />
-            </Hidden>
-            <Hidden xsDown>
-                <DrawerDesktop {...props} />
-            </Hidden>
-        </Fragment>
-    );
-};
+const DrawerIndex = () => (
+    <Fragment>
+        <Hidden smUp>
+            <DrawerMobile />
+        </Hidden>
+        <Hidden xsDown>
+            <DrawerDesktop />
+        </Hidden>
+    </Fragment>
+);
 
 export default DrawerIndex;

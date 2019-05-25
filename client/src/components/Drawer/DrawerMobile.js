@@ -1,4 +1,5 @@
 import React, { Fragment, useState, memo } from "react";
+import Box from "@material-ui/core/Box";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -6,19 +7,24 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import DrawerList from "./DrawerList";
 import IconMenu from "../Icons/IconMenu";
 
-const useStyles = makeStyles(({ spacing }) => {
-    const unit = spacing(0.5);
+const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
+    const unit = spacing(1.5);
     return {
+        drawerBg: {
+            background: primary.main,
+            color: primary.contrastText,
+            borderRadius: spacing(2, 2),
+            height: spacing(50)
+        },
         menuBtn: {
             position: "fixed",
             right: unit,
-            bottom: unit,
-            margin: spacing(1)
+            bottom: unit
         }
     };
 });
 
-const DrawerMobile = props => {
+const DrawerMobile = () => {
     const classes = useStyles();
 
     const [drawerState, setDrawerState] = useState(false);
@@ -35,13 +41,17 @@ const DrawerMobile = props => {
                 <IconMenu />
             </Fab>
             <Drawer
-                {...props}
                 open={drawerState}
                 onClose={setDrawer(false)}
                 variant="temporary"
-                anchor="left"
+                anchor="bottom"
+                classes={{
+                    paper: classes.drawerBg
+                }}
             >
-                <DrawerList type="mobile" onTap={setDrawer(false)} />
+                <Box p={3}>
+                    <DrawerList type="mobile" onTap={setDrawer(false)} />
+                </Box>
             </Drawer>
         </Fragment>
     );
