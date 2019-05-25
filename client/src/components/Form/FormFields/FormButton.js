@@ -15,7 +15,7 @@ const FormButton = ({ loading, children, fullWidth = true, ...props }) => {
             >
                 {loading ? (
                     <Fade in={loading} unmountOnExit>
-                        <CircularProgress size={16} thickness={4} />
+                        <CircularProgress size={22} thickness={4} />
                     </Fade>
                 ) : (
                     children
