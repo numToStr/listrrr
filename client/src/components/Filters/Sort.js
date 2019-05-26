@@ -4,11 +4,9 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Popover from "@material-ui/core/Popover";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 
 import IconSort from "../Icons/IconSort";
 import Surface from "../Surface";
-import BaseLink from "../Base/BaseRouterLink";
 import { appendQuery } from "../../utils/url/url.utils";
 
 const types = [
@@ -26,23 +24,22 @@ const types = [
     }
 ];
 
-const Sort = ({ location: { search } }) => {
+const Sort = ({ location: { search }, history }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = ({ currentTarget }) => setAnchorEl(currentTarget);
     const handleClose = () => setAnchorEl(null);
 
+    const goTo = type => () => {
+        return history.push(`?${appendQuery({ sort: type }, search)}`);
+    };
+
     const items = types.map(({ text, type }) => (
-        <Grid key={type} item>
-            <Link
-                variant="body2"
-                component={BaseLink}
-                color="inherit"
-                to={`?${appendQuery({ sort: type }, search)}`}
-            >
+        <Box key={type} py={0.5}>
+            <Link color="inherit" variant="body2" onClick={goTo(type)}>
                 {text}
             </Link>
-        </Grid>
+        </Box>
     ));
 
     return (
@@ -64,11 +61,7 @@ const Sort = ({ location: { search } }) => {
                     horizontal: "right"
                 }}
             >
-                <Surface>
-                    <Grid container spacing={1} direction="column">
-                        {items}
-                    </Grid>
-                </Surface>
+                <Surface>{items}</Surface>
             </Popover>
         </Fragment>
     );
