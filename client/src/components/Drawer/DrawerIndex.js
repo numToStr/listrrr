@@ -6,10 +6,10 @@ const DrawerDesktop = lazy(() => import("./DrawerDesktop"));
 
 const DrawerIndex = () => (
     <Fragment>
-        <Hidden smUp>
+        <Hidden mdUp>
             <DrawerMobile />
         </Hidden>
-        <Hidden xsDown>
+        <Hidden smDown>
             <DrawerDesktop />
         </Hidden>
     </Fragment>
