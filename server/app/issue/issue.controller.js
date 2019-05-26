@@ -109,7 +109,7 @@ const getIssueList = async (req, res, next) => {
             isOpen
         }).findAll({
             sort,
-            select: "title createdAt updatedAt"
+            select: "title createdAt updatedAt isOpen"
         });
 
         res.status(200).json({

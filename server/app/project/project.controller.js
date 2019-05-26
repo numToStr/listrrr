@@ -59,7 +59,7 @@ const getProjectList = async (req, res, next) => {
             isOpen
         }).findAll({
             sort,
-            select: "title description createdAt updatedAt"
+            select: "title description createdAt updatedAt isOpen"
         });
 
         res.status(200).json({

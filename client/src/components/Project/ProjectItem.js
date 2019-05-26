@@ -1,36 +1,48 @@
-import React, { memo } from "react";
-
+import React, { memo, useMemo } from "react";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 
 import DateFormat from "../DateFormat";
-import Surface from "../Surface";
+import BaseBlockQuote from "../Base/BaseBlockQuote";
 import BaseLink from "../Base/BaseRouterLink";
 
-const ProjectItem = ({ _id, title, description, createdAt, updatedAt }) => {
+const ProjectItem = ({
+    _id,
+    title,
+    description,
+    createdAt,
+    updatedAt,
+    isOpen
+}) => {
+    const color = useMemo(() => (isOpen ? "green" : "red"), [isOpen]);
     return (
-        <Surface>
-            <Grid container alignItems="center">
-                <Grid item>
-                    <Link
-                        variant="h6"
-                        color="textPrimary"
-                        component={BaseLink}
-                        to={`/d/projects/view/${_id}`}
-                    >
-                        {title}
-                    </Link>
-                    <Typography variant="body2" gutterBottom>
-                        {description}
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container justify="space-between">
-                <DateFormat date={updatedAt} updated />
-                <DateFormat date={createdAt} />
-            </Grid>
-        </Surface>
+        <BaseBlockQuote color={color}>
+            <Box display="flex" flexDirection="column">
+                <Link
+                    noWrap
+                    variant="h6"
+                    color="textPrimary"
+                    component={BaseLink}
+                    to={`/d/projects/view/${_id}`}
+                >
+                    {title}
+                </Link>
+                <Typography variant="body2" gutterBottom>
+                    {description}
+                </Typography>
+                <Box
+                    display={{
+                        xs: "block",
+                        md: "flex"
+                    }}
+                    justifyContent="space-between"
+                >
+                    <DateFormat date={updatedAt} updated />
+                    <DateFormat date={createdAt} />
+                </Box>
+            </Box>
+        </BaseBlockQuote>
     );
 };
 

@@ -33,14 +33,16 @@ const DrawerMobile = () => {
 
     return (
         <Fragment>
-            <Fab
-                size="small"
-                color="primary"
-                onClick={setDrawer(true)}
-                className={classes.menuBtn}
-            >
-                <IconMenu />
-            </Fab>
+            <Box zIndex="modal" clone>
+                <Fab
+                    size="small"
+                    color="primary"
+                    onClick={setDrawer(true)}
+                    className={classes.menuBtn}
+                >
+                    <IconMenu />
+                </Fab>
+            </Box>
             <Drawer
                 open={drawerState}
                 onClose={setDrawer(false)}

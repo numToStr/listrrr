@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import Loader from "../../../components/Loader/Loader";
-import Surface from "../../../components/Surface";
+import BaseBlockQuote from "../../../components/Base/BaseBlockQuote";
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 import {
     issueGet,
@@ -68,11 +68,11 @@ const IssueViewIndex = ({
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={9}>
                     <Box mb={5}>
-                        <Surface>
+                        <BaseBlockQuote>
                             <Typography variant="body1">
                                 {_currentIssue.description}
                             </Typography>
-                        </Surface>
+                        </BaseBlockQuote>
                     </Box>
                     <IssueCommentForm
                         onSubmit={onComment}

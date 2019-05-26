@@ -1,13 +1,10 @@
 import React, { memo } from "react";
-import Paper from "@material-ui/core/Paper";
-import styled from "@material-ui/styles/styled";
-
-const MyPaper = styled(Paper)({
-    padding: "12px 24px"
-});
+import Box from "@material-ui/core/Box";
 
 const Surface = ({ children, ...props }) => (
-    <MyPaper {...props}>{children}</MyPaper>
+    <Box py={1.5} px={{ xs: 2, md: 3 }} position="relative" {...props}>
+        {children}
+    </Box>
 );
 
 export default memo(Surface);
