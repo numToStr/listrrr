@@ -4,6 +4,7 @@ const express = require("express");
 const api = require("../app/app.routes");
 const customError = require("../utils/custom.error");
 const middlewares = require("../middlewares/express.middleware");
+const pkg = require("../package.json");
 const { NODE_ENV } = require("../config/keys");
 
 const app = express();
@@ -49,7 +50,7 @@ app.use((req, res, next) => {
             dotfiles: "deny",
             maxAge: "2d",
             headers: {
-                "x-whoami": "Vikas Raj"
+                "x-whoami": pkg.author
             }
         });
     }

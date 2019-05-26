@@ -3,6 +3,7 @@
     "version": "2.0.0",
     "description": "Server-side for the listrrr app",
     "main": "server.js",
+    "author": "Vikas Raj <vikasraj1911@gmail.com>",
     "bin": {
         "server": "www.js"
     },
@@ -37,7 +38,6 @@
         "url": "git+https://github.com/vkasraj/listrrr.git"
     },
     "keywords": [],
-    "author": "",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/vkasraj/listrrr/issues"
