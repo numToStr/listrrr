@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import RoutesRenderer from "../config/router/route.renderer";
-import Loader from "../components/Loader/Loader";
+import BaseLoader from "../components/Base/BaseLoader";
 
 import { routes } from "../config/router/route.config";
 import { authenticate } from "../store/actions/index.action";
@@ -16,7 +16,7 @@ const Root = ({ $authenticate, _isAuthenticating }) => {
     }, [$$authenticate]);
 
     if (_isAuthenticating) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     return <RoutesRenderer config={routes} default="/" />;

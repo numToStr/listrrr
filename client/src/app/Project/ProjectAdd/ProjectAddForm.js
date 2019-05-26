@@ -3,7 +3,7 @@ import { Form, Field } from "formik";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 import FormTextField from "../../../components/Form/FormFields/FormTextField";
 import FormSelect from "../../../components/Form/FormFields/FormSelect";
 import FormButton from "../../../components/Form/FormFields/FormButton";
@@ -27,7 +27,7 @@ const ProjectAddForm = ({
     }, [$$templateGet]);
 
     if (!_templates) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     return (

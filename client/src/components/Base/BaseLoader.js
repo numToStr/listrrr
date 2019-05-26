@@ -11,7 +11,7 @@ const useStyles = makeStyles(({ spacing }) => ({
     }
 }));
 
-const Loader = () => {
+const BaseLoader = () => {
     const classes = useStyles();
 
     return (
@@ -31,4 +31,4 @@ const Loader = () => {
     );
 };
 
-export default Loader;
+export default BaseLoader;

@@ -1,11 +1,11 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 
-import Surface from "../Surface";
+import BaseSurface from "./BaseSurface";
 
 const BaseBlockQuote = ({ children, color = "primary.main" }) => {
     return (
-        <Surface>
+        <BaseSurface>
             <Box
                 width={2}
                 bgcolor={color}
@@ -18,7 +18,7 @@ const BaseBlockQuote = ({ children, color = "primary.main" }) => {
                 }}
             />
             {children}
-        </Surface>
+        </BaseSurface>
     );
 };
 

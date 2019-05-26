@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import IssueItem from "../../../components/Issue/IssueItem";
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 
 import { issueList } from "../../../store/actions/index.action";
 import { parseQuery, defaultQuery } from "../../../utils/url/url.utils";
@@ -21,7 +21,7 @@ const IssueList = ({ $issueList, _issueList, location: { search } }) => {
     }, [$issueList, query]);
 
     if (!_issueList) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     const { entities, result } = _issueList;

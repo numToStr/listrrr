@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import DrawerIndex from "../Drawer/DrawerIndex";
-import Loader from "../Loader/Loader";
+import BaseLoader from "./BaseLoader";
 
 const useStyles = makeStyles({
     container: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Layout = ({ children }) => {
+const BaseLayout = ({ children }) => {
     const classes = useStyles();
 
     return (
@@ -23,11 +23,11 @@ const Layout = ({ children }) => {
             {/* Don't remove the xs prop, otherwise will break the layout */}
             <Grid item xs>
                 <Box p={3} pt={5} flexGrow={1} component="main">
-                    <Suspense fallback={<Loader />}>{children}</Suspense>
+                    <Suspense fallback={<BaseLoader />}>{children}</Suspense>
                 </Box>
             </Grid>
         </Grid>
     );
 };
 
-export default Layout;
+export default BaseLayout;

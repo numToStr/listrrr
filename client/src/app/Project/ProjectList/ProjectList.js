@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 import ProjectItem from "../../../components/Project/ProjectItem";
 
 import { projectList } from "../../../store/actions/index.action";
@@ -21,7 +21,7 @@ const ProjectList = ({ $projectList, _projectList, location: { search } }) => {
     }, [$projectList, query]);
 
     if (!_projectList) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     const { result, entities } = _projectList;

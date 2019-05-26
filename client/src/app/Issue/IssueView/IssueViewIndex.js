@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 import BaseBlockQuote from "../../../components/Base/BaseBlockQuote";
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 import {
@@ -43,7 +43,7 @@ const IssueViewIndex = ({
     }, [$$issueGet, $$issueClear]);
 
     if (!_currentIssue) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     return (

@@ -15,7 +15,7 @@ import {
 } from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 import ProjectColumnList from "../../../components/Project/ProjectColumnList";
 import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
@@ -48,7 +48,7 @@ const ProjectViewIndex = ({
     }, [$$projectGet, $$projectClear]);
 
     if (!_currentProject) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     const onDragEnd = data => {

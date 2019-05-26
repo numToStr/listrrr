@@ -7,7 +7,7 @@ import InputField from "../../../components/Form/FormFields/FormTextField";
 import SelectField from "../../../components/Form/FormFields/FormSelect";
 import FormButton from "../../../components/Form/FormFields/FormButton";
 import FormLayout from "../../../components/Form/FormLayout";
-import Loader from "../../../components/Loader/Loader";
+import BaseLoader from "../../../components/Base/BaseLoader";
 
 import { issueAdd, projectList } from "../../../store/actions/index.action";
 import { issueCreateSchema } from "../../../utils/validations/issue.validation";
@@ -22,7 +22,7 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
     }, [$$projectList]);
 
     if (!_projectList) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     return (

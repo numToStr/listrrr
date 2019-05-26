@@ -6,7 +6,7 @@ import Popover from "@material-ui/core/Popover";
 import Link from "@material-ui/core/Link";
 
 import IconSort from "../Icons/IconSort";
-import Surface from "../Surface";
+import BaseSurface from "../Base/BaseSurface";
 import { appendQuery } from "../../utils/url/url.utils";
 
 const types = [
@@ -61,7 +61,7 @@ const Sort = ({ location: { search }, history }) => {
                     horizontal: "right"
                 }}
             >
-                <Surface>{items}</Surface>
+                <BaseSurface>{items}</BaseSurface>
             </Popover>
         </Fragment>
     );

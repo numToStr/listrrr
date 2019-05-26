@@ -9,7 +9,7 @@ import configureStore from "../store/index.store";
 import theme from "../config/theme.config";
 
 import Root from "./Root";
-import Loader from "../components/Loader/Loader";
+import BaseLoader from "../components/Base/BaseLoader";
 
 const store = configureStore();
 
@@ -20,7 +20,7 @@ const App = () => (
         <BrowserRouter>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Suspense fallback={<Loader />}>
+                <Suspense fallback={<BaseLoader />}>
                     <NewRoot />
                 </Suspense>
             </ThemeProvider>
