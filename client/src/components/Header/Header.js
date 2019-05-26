@@ -10,6 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import BaseLink from "../Base/BaseRouterLink";
 import IconSearch from "../Icons/IconSearch";
 import IconAdd from "../Icons/IconAdd";
+import Hidden from "@material-ui/core/Hidden";
 
 const Header = ({ addLink, title }) => {
     return (
@@ -39,18 +40,20 @@ const Header = ({ addLink, title }) => {
                                 }}
                             />
                         </Grid>
-                        <Grid item>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                component={BaseLink}
-                                to={addLink}
-                            >
-                                <IconAdd />
-                                <Box ml={0.5}>Add</Box>
-                            </Button>
-                        </Grid>
+                        <Hidden xsDown>
+                            <Grid item>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="small"
+                                    component={BaseLink}
+                                    to={addLink}
+                                >
+                                    <IconAdd />
+                                    <Box ml={0.5}>Add</Box>
+                                </Button>
+                            </Grid>
+                        </Hidden>
                     </Grid>
                 </Grid>
             </Grid>
