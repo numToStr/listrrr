@@ -24,12 +24,14 @@ const queryValidation = Joi.object().keys({
     sort: sortSchema()
 });
 
-const updateValidation = Joi.object().keys({
-    title: titleSchema("Invalid issue title"),
-    description: descSchema("Invalid issue description"),
-    isOpen: Joi.boolean().error(new Error("Invalid action to close")),
-    project: objectIdSchema("Invalid project ID")
-});
+const updateValidation = Joi.object()
+    .keys({
+        title: titleSchema("Invalid issue title"),
+        description: descSchema("Invalid issue description"),
+        isOpen: Joi.boolean().error(new Error("Invalid action to close")),
+        project: objectIdSchema("Invalid project ID")
+    })
+    .or(["title", "description", "isOpen", "project"]);
 
 module.exports = {
     issueSchema,

@@ -5,7 +5,8 @@ const {
     projectSchema,
     projectIdSchema,
     projectRearrangeSchema,
-    queryValidation
+    queryValidation,
+    updateValidation
 } = require("./project.validation");
 
 const {
@@ -36,7 +37,11 @@ router
     // For getting project details
     .get($validator(projectIdSchema, "params"), getProject)
     // For updating project
-    .patch($validator(projectIdSchema, "params"), updateProject)
+    .patch(
+        $validator(projectIdSchema, "params"),
+        $validator(updateValidation),
+        updateProject
+    )
     // For deleting project
     .delete($validator(projectIdSchema, "params"), deleteProject);
 

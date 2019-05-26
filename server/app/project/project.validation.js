@@ -31,9 +31,17 @@ const queryValidation = Joi.object().keys({
     sort: sortSchema()
 });
 
+const updateValidation = Joi.object()
+    .keys({
+        title: titleSchema("Invalid issue title"),
+        description: descSchema("Invalid issue description")
+    })
+    .or(["title", "description"]);
+
 module.exports = {
     projectSchema,
     projectIdSchema,
     projectRearrangeSchema,
-    queryValidation
+    queryValidation,
+    updateValidation
 };
