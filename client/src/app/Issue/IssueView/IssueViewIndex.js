@@ -50,8 +50,8 @@ const IssueViewIndex = ({
         <Fragment>
             <HeaderBackButton to="/d/issues/list" />
             <Grid container justify="space-between" alignItems="center">
-                <Grid item>
-                    <Typography variant="h5" gutterBottom>
+                <Grid item xs>
+                    <Typography variant="h6" gutterBottom>
                         {_currentIssue.title}
                     </Typography>
                 </Grid>

@@ -120,9 +120,9 @@ const ProjectViewIndex = ({
     return (
         <Fragment>
             <HeaderBackButton to="/d/projects/list" />
-            <Grid container justify="space-between">
-                <Grid item>
-                    <Typography variant="h5">
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item xs>
+                    <Typography variant="h6">
                         {_currentProject.title}
                     </Typography>
                     <Typography
@@ -132,20 +132,12 @@ const ProjectViewIndex = ({
                     >
                         {_currentProject.description}
                     </Typography>
-                    <DateFormat
-                        date={_currentProject.updatedAt}
-                        updated
-                        mb={3}
-                    />
                 </Grid>
                 <Grid item>
                     <ProjectEditIndex project={_currentProject} />
-                    {/* <Button size="small" variant="contained" color="primary">
-                        <AddIcon />
-                        Add Card
-                    </Button> */}
                 </Grid>
             </Grid>
+            <DateFormat date={_currentProject.updatedAt} updated mb={3} />
             <DropContext onDragEnd={onDragEnd}>
                 <DroppableWrapper
                     id="project-column"
