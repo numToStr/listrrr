@@ -10,7 +10,12 @@ const ProjectCardList = ({ columns: { entities, result }, issues }) => {
     }
 
     const list = result.map((item, $i) => (
-        <DraggableWrapper key={item} id={item} index={$i}>
+        <DraggableWrapper
+            gridProps={{ xs: 12, md: 4 }}
+            key={item}
+            id={item}
+            index={$i}
+        >
             <ProjectColumn
                 droppableId={item}
                 issue={issues[item]}

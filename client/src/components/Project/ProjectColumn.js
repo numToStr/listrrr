@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
@@ -24,7 +23,9 @@ const ProjectCard = ({ droppableId, title, issue = null }) => {
                     key={_issue._id}
                     id={_issue._id}
                     index={$i}
-                    width={12}
+                    gridProps={{
+                        xs: 12
+                    }}
                 >
                     <IssueItem titleProps={{ variant: "body1" }} {..._issue} />
                 </DraggableWrapper>
@@ -32,16 +33,21 @@ const ProjectCard = ({ droppableId, title, issue = null }) => {
     }
 
     return (
-        <Paper elevation={1}>
-            <Box p={1.8}>
-                <Typography variant="button" paragraph>
-                    {title}
-                </Typography>
-                <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
-                    {curIssue}
-                </DroppableWrapper>
-            </Box>
-        </Paper>
+        <Box
+            p={1.8}
+            bgcolor="background.paper"
+            boxShadow={1}
+            borderRadius="borderRadius"
+            // Enabling height make dragging hard to see [need intercation feedback]
+            // height="100%"
+        >
+            <Typography variant="button" paragraph>
+                {title}
+            </Typography>
+            <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
+                {curIssue}
+            </DroppableWrapper>
+        </Box>
     );
 };
 
