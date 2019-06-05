@@ -1,7 +1,11 @@
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
+const compression = require("compression");
 
 const main = (app, express) => {
+    // Adding compression
+    app.use(compression());
+
     // Setting configuration middlwares ============
     // for securing headers
     app.use(helmet());
