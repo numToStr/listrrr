@@ -54,7 +54,7 @@ const getProjectList = async (req, res, next) => {
         const isOpen = parseQ($q);
         const sort = parseSort($sort);
 
-        const projects = await new ProjectDAL({
+        const projectsReq = new ProjectDAL({
             author: $id,
             isOpen
         }).findAll({
@@ -62,9 +62,28 @@ const getProjectList = async (req, res, next) => {
             select: "title description createdAt updatedAt isOpen"
         });
 
+        const openReq = new ProjectDAL({
+            author: $id,
+            isOpen: true
+        }).count();
+        const closedReq = new ProjectDAL({
+            author: $id,
+            isOpen: false
+        }).count();
+
+        const [projects, open, closed] = await Promise.all([
+            projectsReq,
+            openReq,
+            closedReq
+        ]);
+
         res.status(200).json({
             message: "Successful",
-            projects
+            projects,
+            counts: {
+                closed,
+                open
+            }
         });
     } catch (error) {
         next(error);

@@ -12,6 +12,7 @@ import {
 
 const initialState = {
     list: null,
+    counts: {},
     current: null,
     lastCreated: null
 };
@@ -20,8 +21,9 @@ const onProjectAdd = (state, { project }) => {
     state.lastCreated = project;
 };
 
-const onProjectList = (state, { projects }) => {
+const onProjectList = (state, { projects, counts }) => {
     state.list = normalizeLevel1(projects, { entity: "projects" });
+    state.counts = counts;
 };
 
 const onProject = (state, { project }) => {

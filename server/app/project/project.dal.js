@@ -68,4 +68,8 @@ ProjectDAL.prototype.deleteOne = function deleteOne() {
         .exec();
 };
 
+ProjectDAL.prototype.count = function count() {
+    return ProjectModel.countDocuments(this.ctx);
+};
+
 module.exports = ProjectDAL;
