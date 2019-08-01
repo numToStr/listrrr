@@ -24,12 +24,14 @@ const LoginForm = ({ $login, _loading }) => {
                         name="username"
                         label="Username"
                         type="text"
+                        required
                         component={FormTextField}
                     />
                     <Field
                         name="password"
                         label="Password"
                         type="password"
+                        required
                         component={FormTextField}
                     />
                     <FormButton

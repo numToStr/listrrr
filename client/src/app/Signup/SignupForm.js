@@ -24,25 +24,29 @@ const SignupForm = ({ $signup, _loading }) => {
                         name="username"
                         label="Username"
                         type="text"
+                        required
+                        autoFocus
                         component={FormTextField}
                     />
                     <Field
                         name="email"
                         label="Email"
                         type="email"
+                        required
                         component={FormTextField}
                     />
                     <Field
                         name="password"
                         label="Password"
                         type="password"
+                        required
                         component={FormTextField}
                     />
                     <FormButton
                         loading={_loading}
                         disabled={!dirty || _loading}
                     >
-                        Signup
+                        Sign up
                     </FormButton>
                 </Form>
             )}
