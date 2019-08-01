@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import LandingIndex from "../../app/Landing/LandingIndex";
-import DashboardIndex from "../../app/Dashboard/DashboardIndex";
 import HomeIndex from "../../app/Home/HomeIndex";
+import DashboardIndex from "../../app/Dashboard/DashboardIndex";
 import ProjectIndex from "../../app/Project/ProjectIndex";
 import IssueIndex from "../../app/Issue/IssueIndex";
 
@@ -53,12 +53,12 @@ export const routes = [
     },
     {
         path: "/d",
-        component: DashboardIndex,
+        component: HomeIndex,
         private: true,
         routes: [
             {
-                path: "/d/home",
-                component: HomeIndex,
+                path: "/d/dash",
+                component: DashboardIndex,
                 private: true
             },
             {

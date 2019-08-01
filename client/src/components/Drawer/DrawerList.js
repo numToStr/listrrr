@@ -12,9 +12,9 @@ import IconIssue from "../Icons/IconIssue";
 
 const items = [
     {
-        text: "Home 😋",
+        text: "Dashboard",
         icon: IconHome,
-        path: "/d/home"
+        path: "/d/dash"
     },
     {
         text: "Projects",
