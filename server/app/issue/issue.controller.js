@@ -104,7 +104,7 @@ const getIssueList = async (req, res, next) => {
         const isOpen = parseQ($q);
         const sort = parseSort($sort);
 
-        const issues = await new IssueDAL({
+        const issuesReq = new IssueDAL({
             author: $id,
             isOpen
         }).findAll({
@@ -112,9 +112,29 @@ const getIssueList = async (req, res, next) => {
             select: "title createdAt updatedAt isOpen"
         });
 
+        const closedReq = new IssueDAL({
+            author: $id,
+            isOpen: false
+        }).count();
+
+        const openReq = new IssueDAL({
+            author: $id,
+            isOpen: true
+        }).count();
+
+        const [issues, closed, open] = await Promise.all([
+            issuesReq,
+            closedReq,
+            openReq
+        ]);
+
         res.status(200).json({
             message: "Successful",
-            issues
+            issues,
+            counts: {
+                closed,
+                open
+            }
         });
     } catch (error) {
         next(error);

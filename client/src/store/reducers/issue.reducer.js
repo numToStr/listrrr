@@ -10,6 +10,7 @@ import {
 
 const initialState = {
     list: null,
+    counts: {},
     lastCreated: null,
     current: null
 };
@@ -22,8 +23,9 @@ const onIssueGet = (state, { issue }) => {
     state.current = issue;
 };
 
-const onIssueList = (state, { issues }) => {
+const onIssueList = (state, { issues, counts }) => {
     state.list = normalizeLevel1(issues, { entity: "issues" });
+    state.counts = counts;
 };
 
 const onIssueUpdate = (state, { issue }) => {
