@@ -34,15 +34,23 @@ const IssueList = ({
 
     const { entities, result } = _issueList;
 
-    if (!result || !result.length) {
-        return <Typography>Oops! There is no Issues.</Typography>;
-    }
+    let list = (
+        <Typography align="center">Oops! There are no issues.</Typography>
+    );
 
-    const list = result.map(item => (
-        <Grid item xs={12} key={item}>
-            <IssueItem {...entities[item]} />
-        </Grid>
-    ));
+    if (result && result.length) {
+        const listGrid = result.map(item => (
+            <Grid item xs={12} key={item}>
+                <IssueItem {...entities[item]} />
+            </Grid>
+        ));
+
+        list = (
+            <Grid container spacing={1}>
+                {listGrid}
+            </Grid>
+        );
+    }
 
     return (
         <Fragment>
@@ -53,9 +61,7 @@ const IssueList = ({
                 />
                 <Sort />
             </Box>
-            <Grid container spacing={1}>
-                {list}
-            </Grid>
+            {list}
         </Fragment>
     );
 };

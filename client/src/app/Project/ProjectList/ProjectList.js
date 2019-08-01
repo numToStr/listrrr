@@ -34,15 +34,23 @@ const ProjectList = ({
 
     const { result, entities } = _projectList;
 
-    if (!result || !result.length) {
-        return <Typography>Oops! There is no Project.</Typography>;
-    }
+    let list = (
+        <Typography align="center">Oops! There are no projects.</Typography>
+    );
 
-    const list = result.map(item => (
-        <Grid item xs={12} key={item}>
-            <ProjectItem {...entities[item]} />
-        </Grid>
-    ));
+    if (result && result.length) {
+        const listGrid = result.map(item => (
+            <Grid item xs={12} key={item}>
+                <ProjectItem {...entities[item]} />
+            </Grid>
+        ));
+
+        list = (
+            <Grid container spacing={1}>
+                {listGrid}
+            </Grid>
+        );
+    }
 
     return (
         <Fragment>
@@ -53,9 +61,7 @@ const ProjectList = ({
                 />
                 <Sort />
             </Box>
-            <Grid container spacing={1}>
-                {list}
-            </Grid>
+            {list}
         </Fragment>
     );
 };
