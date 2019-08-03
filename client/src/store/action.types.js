@@ -7,6 +7,9 @@ export const LOGIN = "LOGIN";
 export const SIGNUP = "SIGNUP";
 export const AUTHENTICATE_SUCCESS = "AUTHENTICATE_SUCCESS";
 
+export const DASHBOARD_GET = "DASHBOARD_GET";
+export const DASHBOARD_SUCCESS = "DASHBOARD_SUCCESS";
+
 export const ISSUE_ADD = "ISSUE_ADD";
 export const ISSUE_ADD_SUCCESS = "ISSUE_ADD_SUCCESS";
 export const ISSUE_LIST = "ISSUE_LIST";

@@ -1,11 +1,24 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import BaseLoader from "../../components/Base/BaseLoader";
 import IconTaskOpen from "../../components/Icons/IconTaskOpen";
 import IconTaskClose from "../../components/Icons/IconTaskClose";
+import { dashboard } from "../../store/actions/index.action";
 
-const DashboardIndex = () => {
+const DashboardIndex = ({ $dashboard, _dashboard }) => {
+    useEffect(() => {
+        $dashboard();
+    }, [$dashboard]);
+
+    if (!_dashboard) {
+        return <BaseLoader />;
+    }
+
+    const { projects, issues } = _dashboard;
+
     return (
         <Fragment>
             <Box mb={3}>
@@ -20,7 +33,7 @@ const DashboardIndex = () => {
                     </Box>
                     <Box mb={5}>
                         <Typography variant="h3" align="center">
-                            30
+                            {projects.total}
                         </Typography>
                         <Typography
                             align="center"
@@ -35,13 +48,13 @@ const DashboardIndex = () => {
                             <Box clone mr={0.5}>
                                 <IconTaskOpen fontSize="default" />
                             </Box>
-                            <Typography>Open: 25</Typography>
+                            <Typography>Open: {projects.open}</Typography>
                         </Box>
                         <Box display="flex" alignItems="center">
                             <Box clone mr={0.5}>
                                 <IconTaskClose fontSize="default" />
                             </Box>
-                            <Typography>Closed: 5</Typography>
+                            <Typography>Closed: {projects.closed}</Typography>
                         </Box>
                     </Box>
                 </Grid>
@@ -53,7 +66,7 @@ const DashboardIndex = () => {
                     </Box>
                     <Box mb={5}>
                         <Typography variant="h3" align="center">
-                            30
+                            {issues.total}
                         </Typography>
                         <Typography
                             align="center"
@@ -68,13 +81,13 @@ const DashboardIndex = () => {
                             <Box clone mr={0.5}>
                                 <IconTaskOpen fontSize="default" />
                             </Box>
-                            <Typography>Open: 25</Typography>
+                            <Typography>Open: {issues.open}</Typography>
                         </Box>
                         <Box display="flex" alignItems="center">
                             <Box clone mr={0.5}>
                                 <IconTaskClose fontSize="default" />
                             </Box>
-                            <Typography>Closed: 5</Typography>
+                            <Typography>Closed: {issues.closed}</Typography>
                         </Box>
                     </Box>
                 </Grid>
@@ -83,4 +96,15 @@ const DashboardIndex = () => {
     );
 };
 
-export default DashboardIndex;
+const mapStateToProps = ({ dashboard }) => ({
+    _dashboard: dashboard
+});
+
+const mapDispatchToProps = {
+    $dashboard: dashboard
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DashboardIndex);
