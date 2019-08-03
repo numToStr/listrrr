@@ -3,27 +3,6 @@ const UserDAL = require("../user/user.dal");
 const Password = require("../../services/password/password.service");
 const TokenGenerator = require("../../services/token/token.generate");
 
-// For authenticating user on client app startup
-const authenticate = async (req, res, next) => {
-    try {
-        const { $id } = req.$user;
-
-        const user = await new UserDAL({ _id: $id }).findOne();
-
-        if (!user) {
-            throw new $Error("Unauthorized Access! Please login", 401);
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Authentication successful",
-            user
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
 // For signing up new user
 const authSignup = async (req, res, next) => {
     try {
@@ -151,7 +130,6 @@ const authGithubSuccess = async (req, res, next) => {
 };
 
 module.exports = {
-    authenticate,
     authSignup,
     authLogin,
     authGithubSuccess
