@@ -7,7 +7,7 @@ const {
     sortSchema,
     titleSchema,
     descSchema
-} = require("../../global/validations.global");
+} = require("../../shared/validations.shared");
 
 const projectSchema = Joi.object().keys({
     title: titleSchema("Invalid project title").required(),
