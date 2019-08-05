@@ -1,47 +1,64 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
-import AddIcon from "@material-ui/icons/Add";
+import BaseLink from "../Base/BaseRouterLink";
+import IconSearch from "../Icons/IconSearch";
+import IconAdd from "../Icons/IconAdd";
+import Hidden from "@material-ui/core/Hidden";
 
-const styles = ({ spacing }) => ({
-    addIcon: {
-        marginRight: spacing.unit / 2.5
-    },
-    headerMargin: {
-        marginBottom: spacing.unit * 2
-    }
-});
-
-const Header = ({ classes, addLink, title }) => {
-    const _Link = props => <Link to={addLink} {...props} />;
-
+const Header = ({ addLink, title }) => {
     return (
-        <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            className={classes.headerMargin}
-        >
-            <Grid item>
-                <Typography variant="h5">{title}</Typography>
+        <Box mb={3}>
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item>
+                    <Typography variant="h5">{title}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs>
+                            <TextField
+                                placeholder="Search"
+                                fullWidth
+                                InputProps={{
+                                    disableUnderline: true,
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <IconButton
+                                                color="primary"
+                                                type="submit"
+                                            >
+                                                <IconSearch />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        </Grid>
+                        <Hidden xsDown>
+                            <Grid item>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="small"
+                                    component={BaseLink}
+                                    to={addLink}
+                                >
+                                    <IconAdd />
+                                    <Box ml={0.5}>Add</Box>
+                                </Button>
+                            </Grid>
+                        </Hidden>
+                    </Grid>
+                </Grid>
             </Grid>
-            <Grid item>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    component={_Link}
-                >
-                    <AddIcon className={classes.addIcon} />
-                    Add
-                </Button>
-            </Grid>
-        </Grid>
+        </Box>
     );
 };
 
-export default memo(withStyles(styles)(Header));
+export default memo(Header);

@@ -4,7 +4,7 @@ const { deleteProps } = require("../../utils/object.utils");
 class UserDAL {
     constructor(ctx = {}) {
         this.ctx = ctx;
-        this.select = "-password -createdAt -updatedAt -__v";
+        this.select = "-createdAt -updatedAt -__v";
     }
 }
 

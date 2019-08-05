@@ -1,32 +1,43 @@
 import React from "react";
 import { Form, Field } from "formik";
+import { connect } from "react-redux";
 
 import FormLayout from "../../components/Form/FormLayout";
-import InputField from "../../components/Form/FormFields/FormTextField";
+import FormTextField from "../../components/Form/FormFields/FormTextField";
 import FormButton from "../../components/Form/FormFields/FormButton";
 
-const LoginForm = ({ onSubmit, initialValues, schema, loading }) => {
+import { loginSchema } from "../../utils/validations/auth.validation";
+import { login } from "../../store/actions/index.action";
+
+const initialValues = { username: "", password: "" };
+
+const LoginForm = ({ $login, _loading }) => {
     return (
         <FormLayout
             key="login-form"
-            onSubmit={onSubmit}
+            onSubmit={$login}
             initialValues={initialValues}
-            schema={schema}
+            schema={loginSchema}
             render={({ dirty }) => (
                 <Form>
                     <Field
                         name="username"
                         label="Username"
                         type="text"
-                        component={InputField}
+                        required
+                        component={FormTextField}
                     />
                     <Field
                         name="password"
                         label="Password"
                         type="password"
-                        component={InputField}
+                        required
+                        component={FormTextField}
                     />
-                    <FormButton loading={loading} disabled={!dirty || loading}>
+                    <FormButton
+                        loading={_loading}
+                        disabled={!dirty || _loading}
+                    >
                         Login
                     </FormButton>
                 </Form>
@@ -35,4 +46,15 @@ const LoginForm = ({ onSubmit, initialValues, schema, loading }) => {
     );
 };
 
-export default LoginForm;
+const mapStateToProps = ({ http: { request } }) => ({
+    _loading: request.login
+});
+
+const mapDispatchToProps = {
+    $login: login
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginForm);

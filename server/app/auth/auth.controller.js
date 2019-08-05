@@ -3,27 +3,6 @@ const UserDAL = require("../user/user.dal");
 const Password = require("../../services/password/password.service");
 const TokenGenerator = require("../../services/token/token.generate");
 
-// For authenticating user on client app startup
-const authenticate = async (req, res, next) => {
-    try {
-        const { $id } = req.$user;
-
-        const user = await new UserDAL({ _id: $id }).findOne();
-
-        if (!user) {
-            throw new $Error("Unauthorized Access! Please login", 401);
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Authentication successful",
-            user
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
 // For signing up new user
 const authSignup = async (req, res, next) => {
     try {
@@ -58,7 +37,7 @@ const authSignup = async (req, res, next) => {
         }).access();
 
         res.status(200)
-            .cookie("x-access-token", accessToken, cookieConfig)
+            .cookie("SESID", accessToken, cookieConfig)
             .json({
                 success: true,
                 message: "Signup successful",
@@ -77,7 +56,7 @@ const authLogin = async (req, res, next) => {
 
         // Checking if user exists with this username
         const isUser = await new UserDAL({ username }).findOne({
-            select: "-createdAt -updatedAt -__v"
+            select: "email username password avatar"
         });
 
         // If user doesn't exists => return
@@ -105,7 +84,7 @@ const authLogin = async (req, res, next) => {
         Reflect.deleteProperty(isUser, "password");
 
         res.status(200)
-            .cookie("x-access-token", accessToken, cookieConfig)
+            .cookie("SESID", accessToken, cookieConfig)
             .json({
                 success: true,
                 message: "Login Successful",
@@ -117,8 +96,41 @@ const authLogin = async (req, res, next) => {
     }
 };
 
+// For github authentication
+const authGithubSuccess = async (req, res, next) => {
+    try {
+        const { $github } = req;
+
+        // Find user with github id
+        // If exists set cookie
+        // Else create user then set cookie
+        // Finally redirect to /d/home
+        const userDAL = new UserDAL({ profileID: String($github.id) });
+
+        let user = await userDAL.findOne({ select: "_id" });
+
+        if (!user) {
+            user = userDAL.create({
+                authType: "github",
+                username: $github.login,
+                avatar: $github.avatar_url,
+                profileID: $github.id
+            });
+        }
+
+        const { accessToken, cookieConfig } = new TokenGenerator({
+            $id: user._id,
+            role: ["user"]
+        }).access();
+
+        res.cookie("SESID", accessToken, cookieConfig).redirect("/d/home");
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
-    authenticate,
     authSignup,
-    authLogin
+    authLogin,
+    authGithubSuccess
 };

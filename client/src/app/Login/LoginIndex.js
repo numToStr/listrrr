@@ -1,36 +1,20 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
 
 import FormWrapper from "../../components/Form/FormWrapper";
 import LoginForm from "./LoginForm";
+import FormCaption from "../../components/Form/FormCaption";
 
-import { loginSchema } from "../../utils/validations/auth.validation";
-import { login } from "../../store/actions/index.action";
-
-const initialValues = { username: "", password: "" };
-
-const LoginIndex = ({ $login, _loading }) => {
-    return (
+const LoginIndex = () => (
+    <Fragment>
         <FormWrapper>
-            <LoginForm
-                initialValues={initialValues}
-                onSubmit={$login}
-                schema={loginSchema}
-                loading={_loading}
-            />
+            <LoginForm />
         </FormWrapper>
-    );
-};
+        <FormCaption
+            primary="Don't have an account?"
+            secondary="Sign up"
+            to="/signup"
+        />
+    </Fragment>
+);
 
-const mapStateToProps = ({ http: { request } }) => ({
-    _loading: request.login
-});
-
-const mapDispatchToProps = dispatchEvent => ({
-    $login: val => dispatchEvent(login(val))
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LoginIndex);
+export default LoginIndex;

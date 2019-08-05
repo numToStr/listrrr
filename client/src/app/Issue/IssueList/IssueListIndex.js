@@ -1,42 +1,15 @@
-import React, { Fragment, useEffect } from "react";
-import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
+import React, { Fragment } from "react";
 
-import IssueList from "../../../components/Issue/IssueList";
+import IssueList from "./IssueList";
 import Header from "../../../components/Header/Header";
-import Loader from "../../../components/Loader/Loader";
-import { issueList } from "../../../store/actions/index.action";
 
-const IssueListIndex = ({ $issueList, _issueList }) => {
-    useEffect(() => {
-        $issueList();
-    }, []);
-
-    if (!_issueList) {
-        return <Loader />;
-    }
-
+const IssueListIndex = () => {
     return (
         <Fragment>
             <Header title="Issues" addLink="/d/issues/add" />
-            <Grid container>
-                <Grid item xs={12}>
-                    <IssueList items={_issueList} />
-                </Grid>
-            </Grid>
+            <IssueList />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ issue }) => ({
-    _issueList: issue.list
-});
-
-const mapDispatchToProps = dispatchEvent => ({
-    $issueList: () => dispatchEvent(issueList())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IssueListIndex);
+export default IssueListIndex;

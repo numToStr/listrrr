@@ -3,27 +3,28 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
+import { redirects } from "./route.config";
+
 const PublicRoute = ({
     _authenticated,
     path,
     component: Component,
-    successRedirect,
     routes,
     location,
     ...props
 }) => {
     const { from } = location.state || {
-        from: { pathname: successRedirect }
+        from: { pathname: redirects.authSuccess }
     };
 
     return (
         <Route
             {...props}
-            render={props =>
+            render={renderProps =>
                 _authenticated ? (
                     <Redirect to={from} />
                 ) : (
-                    <Component routes={routes} {...props} />
+                    <Component routes={routes} {...renderProps} />
                 )
             }
         />

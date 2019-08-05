@@ -1,11 +1,13 @@
-import React, { Fragment } from "react";
-import Typography from "@material-ui/core/Typography";
+import React from "react";
 
-const HomeIndex = () => {
+import BaseLayout from "../../components/Base/BaseLayout";
+import RoutesRenderer from "../../config/router/route.renderer";
+
+const HomeIndex = ({ routes }) => {
     return (
-        <Fragment>
-            <Typography variant="h5">Home</Typography>
-        </Fragment>
+        <BaseLayout>
+            <RoutesRenderer config={routes} default="/d/dash" />
+        </BaseLayout>
     );
 };
 

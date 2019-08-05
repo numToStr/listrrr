@@ -11,7 +11,9 @@ import {
     PROJECT_COLUMN_REARRANGE_SUCCESS,
     PROJECT_ISSUE_REARRANGE,
     PROJECT_ISSUE_REARRANGE_SUCCESS,
-    PROJECT_ISSUE_REARRANGE_UPDATE
+    PROJECT_ISSUE_REARRANGE_UPDATE,
+    PROJECT_UPDATE,
+    PROJECT_UPDATE_SUCCESS
 } from "../action.types";
 
 const projectAddSuccess = data => ({
@@ -38,12 +40,13 @@ const projectListSuccess = data => ({
     data
 });
 
-export const projectList = () => ({
+export const projectList = params => ({
     type: PROJECT_LIST,
     http: true,
     payload: {
         method: "GET",
-        url: "/project/list"
+        url: "/project/list",
+        params
     },
     success: projectListSuccess,
     meta: {
@@ -83,7 +86,6 @@ export const projectColumnRearrange = (columnId, sourceIndex, destIndex) => ({
 });
 
 const projectColumnRearrangeSuccess = data => {
-    console.log(data);
     return {
         type: PROJECT_COLUMN_REARRANGE_SUCCESS
     };
@@ -130,7 +132,6 @@ export const projectIssueRearrange = (
 });
 
 const projectIssueRearrangeSuccess = data => {
-    console.log(data);
     return {
         type: PROJECT_ISSUE_REARRANGE_SUCCESS
     };
@@ -160,5 +161,24 @@ export const projectIssueRearrangeUpdate = (
     success: projectIssueRearrangeSuccess,
     meta: {
         label: "projectIssueRearrange"
+    }
+});
+
+const projectUpdateSuccess = data => ({
+    type: PROJECT_UPDATE_SUCCESS,
+    data
+});
+
+export const projectUpdate = (projectId, data) => ({
+    type: PROJECT_UPDATE,
+    http: true,
+    payload: {
+        method: "PATCH",
+        url: `/project/${projectId}`,
+        data
+    },
+    success: projectUpdateSuccess,
+    meta: {
+        label: "projectUpdate"
     }
 });

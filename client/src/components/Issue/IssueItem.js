@@ -1,26 +1,46 @@
-import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useMemo } from "react";
 
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 
-import ListCard from "../ListCard";
 import DateFormat from "../DateFormat";
+import BaseBlockQuote from "../Base/BaseBlockQuote";
+import Box from "@material-ui/core/Box";
+import BaseLink from "../Base/BaseRouterLink";
 
-const IssueItem = ({ _id, title, createdAt, titleProps }) => {
-    const link = `/d/issues/view/${_id}`;
-
+const IssueItem = ({
+    _id,
+    title,
+    createdAt,
+    updatedAt,
+    titleProps,
+    isOpen
+}) => {
+    const color = useMemo(() => (isOpen ? "green" : "red"), [isOpen]);
     return (
-        <ListCard>
-            <Grid container alignItems="center">
-                <Grid item>
-                    <Typography variant="h6" {...titleProps} gutterBottom>
-                        <Link to={link}>{title}</Link>
-                    </Typography>
+        <BaseBlockQuote color={color}>
+            <Box display="flex" flexDirection="column">
+                <Link
+                    noWrap
+                    variant="h6"
+                    color="textPrimary"
+                    component={BaseLink}
+                    to={`/d/issues/view/${_id}`}
+                    {...titleProps}
+                >
+                    {title}
+                </Link>
+                <Box
+                    display={{
+                        xs: "block",
+                        md: "flex"
+                    }}
+                    justifyContent="space-between"
+                >
+                    <DateFormat updated date={updatedAt} />
                     <DateFormat date={createdAt} />
-                </Grid>
-            </Grid>
-        </ListCard>
+                </Box>
+            </Box>
+        </BaseBlockQuote>
     );
 };
 

@@ -1,59 +1,68 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import makeStyles from "@material-ui/styles/makeStyles";
 
-import HomeIcon from "@material-ui/icons/HomeTwoTone";
-import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
-import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
+import IconHome from "../Icons/IconHome";
+import IconProject from "../Icons/IconProject";
+import IconIssue from "../Icons/IconIssue";
 
 const items = [
     {
-        text: "Home 😋",
-        icon: HomeIcon,
-        path: "/d/home"
+        text: "Dashboard",
+        icon: IconHome,
+        path: "/d/dash"
     },
     {
         text: "Projects",
-        icon: ProjectIcon,
+        icon: IconProject,
         path: "/d/projects/list"
     },
     {
         text: "Issues",
-        icon: IssuesIcon,
+        icon: IconIssue,
         path: "/d/issues/list"
     }
 ];
 
-const styles = ({ palette }) => ({
-    linkColor: {
-        color: palette.primary.contrastText
-    }
-});
+const useStyles = makeStyles(
+    ({ palette: { primary }, shape: { borderRadius } }) => ({
+        linkColor: {
+            color: primary.contrastText
+        },
+        listRounded: {
+            borderRadius
+        }
+    })
+);
 
-const DrawerList = ({ classes, location: { pathname } }) => {
+const DrawerList = ({ onTap, history, location: { pathname } }) => {
+    const classes = useStyles();
+
+    const handleLinkClick = path => () => {
+        history.push(path);
+        if (typeof onTap === "function") {
+            // NOTE: onTap() is only implemented for mobile drawer for closing after click on link item
+            onTap();
+        }
+    };
+
     const list = items.map(({ text, icon: Icon, path }) => {
-        const _Link = props => <Link to={path} {...props} />;
-
         return (
             <ListItem
                 button
                 key={text}
-                component={_Link}
                 selected={path === pathname}
-                disableRipple
+                // disableRipple
                 disableTouchRipple
+                onClick={handleLinkClick(path)}
+                className={classes.listRounded}
             >
-                <ListItemIcon
-                    classes={{
-                        root: classes.linkColor
-                    }}
-                >
-                    <Icon />
+                <ListItemIcon>
+                    <Icon fontSize="small" className={classes.linkColor} />
                 </ListItemIcon>
                 <ListItemText
                     primary={text}
@@ -68,4 +77,4 @@ const DrawerList = ({ classes, location: { pathname } }) => {
     return <List disablePadding>{list}</List>;
 };
 
-export default withRouter(withStyles(styles)(DrawerList));
+export default withRouter(DrawerList);

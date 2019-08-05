@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 
 const usernameSchema = Joi.object().keys({
     username: Joi.string()
@@ -12,7 +12,7 @@ const usernameSchema = Joi.object().keys({
 
 const emailSchema = Joi.object().keys({
     email: Joi.string()
-        .email({ minDomainAtoms: 2 })
+        .email({ minDomainSegments: 2 })
         .trim()
         .required()
         .error(new Error("Invalid email address"))

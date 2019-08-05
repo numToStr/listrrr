@@ -3,25 +3,26 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
+import { redirects } from "./route.config";
+
 const PrivateRoute = ({
     _authenticated,
     path,
     component: Component,
     routes,
-    failureRedirect,
     ...props
 }) => {
     return (
         <Route
             path={path}
             {...props}
-            render={props => {
+            render={renderProps => {
                 return _authenticated ? (
-                    <Component routes={routes} {...props} />
+                    <Component routes={routes} {...renderProps} />
                 ) : (
                     <Redirect
                         to={{
-                            pathname: failureRedirect,
+                            pathname: redirects.authFailure,
                             state: {
                                 from: props.location
                             }

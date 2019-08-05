@@ -1,32 +1,41 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 
-const { objectIdRegex } = require("../../utils/constants");
+const {
+    objectIdSchema,
+    qSchema,
+    sortSchema,
+    titleSchema,
+    descSchema
+} = require("../../shared/validations.shared");
 
 const issueSchema = Joi.object().keys({
-    title: Joi.string()
-        .min(5)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue title")),
-    description: Joi.string()
-        .min(10)
-        .trim()
-        .required()
-        .error(new Error("Invalid issue description")),
-    project: Joi.string()
-        .regex(objectIdRegex)
-        .allow(["", null])
-        .error(new Error("Invalid project ID"))
+    title: titleSchema("Invalid issue title").required(),
+    description: descSchema("Invalid issue description").required(),
+    project: objectIdSchema("Invalid project ID").allow([""])
 });
 
 const issueIdSchema = Joi.object().keys({
-    issueId: Joi.string()
-        .regex(objectIdRegex)
-        .required()
-        .error(new Error("Invalid issue ID"))
+    issueId: objectIdSchema("Invalid issue ID").required()
 });
+
+const queryValidation = Joi.object().keys({
+    // eslint-disable-next-line
+    q: qSchema(),
+    sort: sortSchema()
+});
+
+const updateValidation = Joi.object()
+    .keys({
+        title: titleSchema("Invalid issue title"),
+        description: descSchema("Invalid issue description"),
+        isOpen: Joi.boolean().error(new Error("Invalid action to close")),
+        project: objectIdSchema("Invalid project ID")
+    })
+    .or(["title", "description", "isOpen", "project"]);
 
 module.exports = {
     issueSchema,
-    issueIdSchema
+    issueIdSchema,
+    queryValidation,
+    updateValidation
 };

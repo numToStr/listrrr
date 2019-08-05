@@ -1,38 +1,52 @@
 import React from "react";
 import { Form, Field } from "formik";
+import { connect } from "react-redux";
 
 import FormLayout from "../../components/Form/FormLayout";
-import InputField from "../../components/Form/FormFields/FormTextField";
+import FormTextField from "../../components/Form/FormFields/FormTextField";
 import FormButton from "../../components/Form/FormFields/FormButton";
 
-const SignupForm = ({ onSubmit, initialValues, loading }) => {
+import { signupSchema } from "../../utils/validations/auth.validation";
+import { signup } from "../../store/actions/index.action";
+
+const initialValues = { username: "", email: "", password: "" };
+
+const SignupForm = ({ $signup, _loading }) => {
     return (
         <FormLayout
             key="signup-form"
-            onSubmit={onSubmit}
+            onSubmit={$signup}
             initialValues={initialValues}
+            schema={signupSchema}
             render={({ dirty }) => (
                 <Form>
                     <Field
                         name="username"
                         label="Username"
                         type="text"
-                        component={InputField}
+                        required
+                        autoFocus
+                        component={FormTextField}
                     />
                     <Field
                         name="email"
                         label="Email"
                         type="email"
-                        component={InputField}
+                        required
+                        component={FormTextField}
                     />
                     <Field
                         name="password"
                         label="Password"
                         type="password"
-                        component={InputField}
+                        required
+                        component={FormTextField}
                     />
-                    <FormButton loading={loading} disabled={!dirty || loading}>
-                        Signup
+                    <FormButton
+                        loading={_loading}
+                        disabled={!dirty || _loading}
+                    >
+                        Sign up
                     </FormButton>
                 </Form>
             )}
@@ -40,4 +54,15 @@ const SignupForm = ({ onSubmit, initialValues, loading }) => {
     );
 };
 
-export default SignupForm;
+const mapStateToProps = ({ http: { request } }) => ({
+    _loading: request.signup
+});
+
+const mapDispatchToProps = {
+    $signup: signup
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignupForm);

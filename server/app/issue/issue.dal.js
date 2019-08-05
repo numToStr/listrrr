@@ -43,11 +43,11 @@ IssueDAL.prototype.findOne = function findOne(options = {}) {
 
 // For getting all issues
 IssueDAL.prototype.findAll = function findAll(options = {}) {
-    const { select = this.select } = options;
+    const { select = this.select, sort = this.sort } = options;
 
     return IssueModel.find(this.ctx)
         .select(select)
-        .sort(this.sort)
+        .sort(sort)
         .lean()
         .exec();
 };
@@ -58,6 +58,7 @@ IssueDAL.prototype.updateOne = function updateOne(update = {}, options = {}) {
 
     return IssueModel.findOneAndUpdate(this.ctx, update, updateOpt)
         .select(select)
+        .populate(this.populate)
         .lean()
         .exec();
 };

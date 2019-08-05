@@ -1,21 +1,17 @@
-import React from "react";
+import React, { memo } from "react";
 import Grid from "@material-ui/core/Grid";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Box from "@material-ui/core/Box";
 
-const styles = ({ spacing }) => ({
-    root: {
-        marginTop: spacing.unit * 10
-    }
-});
-
-const FormWrapper = ({ classes, children }) => {
+const FormWrapper = ({ children }) => {
     return (
-        <Grid container justify="center" className={classes.root}>
-            <Grid item xs={9} sm={5} md={3}>
-                {children}
+        <Box mt={10} mb={2}>
+            <Grid container justify="center">
+                <Grid item xs={9} sm={5} md={3}>
+                    {children}
+                </Grid>
             </Grid>
-        </Grid>
+        </Box>
     );
 };
 
-export default withStyles(styles)(FormWrapper);
+export default memo(FormWrapper);

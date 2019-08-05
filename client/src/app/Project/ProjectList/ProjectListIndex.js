@@ -1,39 +1,15 @@
-import React, { Fragment, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
 
-import Loader from "../../../components/Loader/Loader";
 import Header from "../../../components/Header/Header";
-import { projectList } from "../../../store/actions/index.action";
-import ProjectList from "../../../components/Project/ProjectList";
+import ProjectList from "./ProjectList";
 
-const ProjectListIndex = ({ $projectList, _projectList }) => {
-    const $$projectList = useCallback($projectList, []);
-
-    useEffect(() => {
-        $$projectList();
-    }, [$$projectList]);
-
-    if (!_projectList) {
-        return <Loader />;
-    }
-
+const ProjectListIndex = () => {
     return (
         <Fragment>
             <Header title="Projects" addLink="/d/projects/add" />
-            <ProjectList items={_projectList} />
+            <ProjectList />
         </Fragment>
     );
 };
 
-const mapStateToProps = ({ project }) => ({
-    _projectList: project.list
-});
-
-const mapDispatchToProps = dispatchEvent => ({
-    $projectList: () => dispatchEvent(projectList())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ProjectListIndex);
+export default ProjectListIndex;

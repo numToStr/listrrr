@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 
 const { usernameSchema, emailSchema } = require("../user/user.validation");
 

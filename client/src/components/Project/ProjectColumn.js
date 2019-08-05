@@ -1,46 +1,54 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 import IssueItem from "../Issue/IssueItem";
 import DroppableWrapper from "../DragAndDrop/DroppableWrapper";
 import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
 
-const styles = ({ spacing }) => ({
-    wrapper: {
-        padding: spacing.unit * 1.8,
-        paddingBottom: spacing.unit
-    }
-});
-
-const ProjectCard = ({ classes, droppableId, title, issue = null }) => {
+const ProjectCard = ({ droppableId, title, issue = null }) => {
     let curIssue = (
-        <Typography variant="caption" color="textSecondary">
-            No issues.
-        </Typography>
+        <Box pl={0.5} pb={0.5}>
+            <Typography variant="caption" color="textSecondary">
+                No issues.
+            </Typography>
+        </Box>
     );
 
     if (issue) {
         curIssue = issue
             .sort((curr, next) => curr.columnIndex - next.columnIndex)
             .map((_issue, $i) => (
-                <DraggableWrapper key={_issue._id} id={_issue._id} index={$i}>
+                <DraggableWrapper
+                    key={_issue._id}
+                    id={_issue._id}
+                    index={$i}
+                    gridProps={{
+                        xs: 12
+                    }}
+                >
                     <IssueItem titleProps={{ variant: "body1" }} {..._issue} />
                 </DraggableWrapper>
             ));
     }
 
     return (
-        <Paper elevation={1} className={classes.wrapper}>
+        <Box
+            p={1.8}
+            bgcolor="background.paper"
+            boxShadow={1}
+            borderRadius="borderRadius"
+            // Enabling height make dragging hard to see [need intercation feedback]
+            // height="100%"
+        >
             <Typography variant="button" paragraph>
                 {title}
             </Typography>
             <DroppableWrapper id={droppableId} type="PROJECT_ISSUE">
                 {curIssue}
             </DroppableWrapper>
-        </Paper>
+        </Box>
     );
 };
 
-export default withStyles(styles)(ProjectCard);
+export default ProjectCard;

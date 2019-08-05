@@ -2,9 +2,7 @@ import {
     AUTHENTICATE,
     AUTHENTICATE_SUCCESS,
     LOGIN,
-    LOGIN_SUCCESS,
-    SIGNUP,
-    SIGNUP_SUCCESS
+    SIGNUP
 } from "../action.types";
 
 const authenticateSuccess = data => ({
@@ -17,18 +15,13 @@ export const authenticate = () => ({
     http: true,
     payload: {
         method: "GET",
-        url: "/auth"
+        url: "/user"
     },
     success: authenticateSuccess,
     meta: {
         label: "authenticate",
         isProtected: true
     }
-});
-
-const loginSuccess = data => ({
-    type: LOGIN_SUCCESS,
-    data
 });
 
 export const login = data => ({
@@ -39,15 +32,10 @@ export const login = data => ({
         url: "/auth/login",
         data
     },
-    success: loginSuccess,
+    success: authenticateSuccess,
     meta: {
         label: "login"
     }
-});
-
-const signupSuccess = data => ({
-    type: SIGNUP_SUCCESS,
-    data
 });
 
 export const signup = data => ({
@@ -58,7 +46,7 @@ export const signup = data => ({
         url: "/auth/signup",
         data
     },
-    success: signupSuccess,
+    success: authenticateSuccess,
     meta: {
         label: "signup"
     }

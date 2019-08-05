@@ -1,10 +1,9 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useCallback } from "react";
 import { connect } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
+// import Button from "@material-ui/core/Button";
+// import AddIcon from "@material-ui/icons/Add";
 
 import {
     projectGet,
@@ -16,22 +15,13 @@ import {
 } from "../../../store/actions/index.action";
 import { projectIssuesSelector } from "../../../store/selectors/project.selector";
 
-import Loader from "../../../components/Loader/Loader";
-import ProjectCardList from "../../../components/Project/ProjectCardList";
+import BaseLoader from "../../../components/Base/BaseLoader";
+import ProjectColumnList from "../../../components/Project/ProjectColumnList";
 import DateFormat from "../../../components/DateFormat";
 import DroppableWrapper from "../../../components/DragAndDrop/DroppableWrapper";
 import DropContext from "../../../components/DragAndDrop/DropContext";
-
-const useStyles = makeStyles({
-    container: {
-        width: "calc(100% + 16px)",
-        margin: "-8px",
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        boxSizing: "border-box"
-    }
-});
+import HeaderBackButton from "../../../components/Header/HeaderBackButton";
+import ProjectEditIndex from "../ProjectEdit/ProjectEditIndex";
 
 const ProjectViewIndex = ({
     match: { params },
@@ -44,17 +34,21 @@ const ProjectViewIndex = ({
     _currentProject,
     _currentIssues
 }) => {
-    const styles = useStyles();
+    const $$projectGet = useCallback(() => {
+        $projectGet(params.projectId);
+    }, [$projectGet, params.projectId]);
+
+    const $$projectClear = useCallback($projectClear);
 
     useEffect(() => {
-        $projectGet(params.projectId);
+        $$projectGet();
 
         // Clearing the currently loaded project
-        return $projectClear;
-    }, [params.projectId]);
+        return $$projectClear;
+    }, [$$projectGet, $$projectClear]);
 
     if (!_currentProject) {
-        return <Loader />;
+        return <BaseLoader />;
     }
 
     const onDragEnd = data => {
@@ -112,7 +106,7 @@ const ProjectViewIndex = ({
                 destination.droppableId,
                 destination.index
             );
-            $projectIssueRearrangeUpdate(
+            return $projectIssueRearrangeUpdate(
                 params.projectId,
                 draggableId,
                 source.droppableId,
@@ -125,9 +119,10 @@ const ProjectViewIndex = ({
 
     return (
         <Fragment>
-            <Grid container justify="space-between">
-                <Grid item>
-                    <Typography variant="h5">
+            <HeaderBackButton to="/d/projects/list" />
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item xs>
+                    <Typography variant="h6">
                         {_currentProject.title}
                     </Typography>
                     <Typography
@@ -137,29 +132,19 @@ const ProjectViewIndex = ({
                     >
                         {_currentProject.description}
                     </Typography>
-                    <DateFormat
-                        date={_currentProject.updatedAt}
-                        prefix="updated"
-                        paragraph
-                    />
                 </Grid>
                 <Grid item>
-                    <Button size="small" variant="contained" color="primary">
-                        <AddIcon />
-                        Add Card
-                    </Button>
+                    <ProjectEditIndex project={_currentProject} />
                 </Grid>
             </Grid>
+            <DateFormat date={_currentProject.updatedAt} updated mb={3} />
             <DropContext onDragEnd={onDragEnd}>
                 <DroppableWrapper
                     id="project-column"
                     direction="horizontal"
                     type="PROJECT_COLUMN"
-                    innerProps={{
-                        className: styles.container
-                    }}
                 >
-                    <ProjectCardList
+                    <ProjectColumnList
                         columns={_currentProject.columns}
                         issues={_currentIssues}
                     />

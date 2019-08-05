@@ -1,39 +1,22 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import DraggableWrapper from "../DragAndDrop/DraggableWrapper";
-import ProjectCard from "./ProjectCard";
-
-const useStyles = makeStyles({
-    item: {
-        padding: 8,
-        flexGrow: 1,
-        maxWidth: "100%",
-        flexBasis: 0,
-        margin: 0,
-        boxSizing: "border-box",
-        height: "100%"
-    }
-});
+import ProjectColumn from "./ProjectColumn";
 
 const ProjectCardList = ({ columns: { entities, result }, issues }) => {
-    const styles = useStyles();
-
     if (!result || !result.length) {
         return <Typography>Oops! There is no column.</Typography>;
     }
 
     const list = result.map((item, $i) => (
         <DraggableWrapper
+            gridProps={{ xs: 12, md: true }}
             key={item}
             id={item}
             index={$i}
-            innerProps={{
-                className: styles.item
-            }}
         >
-            <ProjectCard
+            <ProjectColumn
                 droppableId={item}
                 issue={issues[item]}
                 {...entities[item]}

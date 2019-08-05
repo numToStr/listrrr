@@ -13,6 +13,8 @@ services:
             context: ./client
             dockerfile: Dockerfile
         image: realvikas/listerr-web
+        ports:
+            - 3000:3000
         volumes:
             - ./client:/usr/src/app
     backend:
@@ -21,20 +23,23 @@ services:
             context: ./server
             dockerfile: Dockerfile
         image: realvikas/listerr-server
+        ports:
+            - 5000:5000
+            - 9229:9229
         env_file:
             - ./server/.env
         volumes:
             - ./server:/usr/src/app
         depends_on:
             - database
-    nginx:
-        container_name: listerr-proxy
-        build:
-            context: ./nginx-proxy
-            dockerfile: Dockerfile
-        image: realvikas/listerr-proxy
-        ports:
-            - 3000:80
-        depends_on:
-            - frontend
-            - backend
+    # nginx:
+    #     container_name: listerr-proxy
+    #     build:
+    #         context: ./nginx-proxy
+    #         dockerfile: Dockerfile
+    #     image: realvikas/listerr-proxy
+    #     ports:
+    #         - 3000:80
+    #     depends_on:
+    #         - frontend
+    #         - backend

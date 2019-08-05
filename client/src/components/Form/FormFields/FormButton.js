@@ -4,18 +4,18 @@ import FormControl from "@material-ui/core/FormControl";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Fade from "@material-ui/core/Fade";
 
-const LoadingButton = ({ loading, children, fullWidth = true, ...props }) => {
+const FormButton = ({ loading, children, fullWidth = true, ...props }) => {
     return (
         <FormControl margin="normal" fullWidth={fullWidth}>
             <Button
-                type="Submit"
+                type="submit"
                 color="primary"
                 variant="contained"
                 {...props}
             >
                 {loading ? (
                     <Fade in={loading} unmountOnExit>
-                        <CircularProgress size={16} thickness={4} />
+                        <CircularProgress size={22} thickness={4} />
                     </Fade>
                 ) : (
                     children
@@ -25,4 +25,4 @@ const LoadingButton = ({ loading, children, fullWidth = true, ...props }) => {
     );
 };
 
-export default memo(LoadingButton);
+export default memo(FormButton);
