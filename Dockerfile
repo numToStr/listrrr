@@ -22,10 +22,10 @@ WORKDIR /usr/src/app
 USER node
 
 # Copying server packages
-COPY --chown=node:node ./server/package*.json ./
+COPY --chown=node:node ./server/package.json ./
 
 # Installing server dependencies
-RUN npm ci && npm cache clean --force
+RUN npm i --production --no-package-lock
 
 # Copying server files
 COPY --chown=node:node ./server ./
