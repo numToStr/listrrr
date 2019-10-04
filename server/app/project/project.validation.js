@@ -36,7 +36,7 @@ const updateValidation = Joi.object()
         title: titleSchema("Invalid issue title"),
         description: descSchema("Invalid issue description")
     })
-    .or(["title", "description"]);
+    .or("title", "description");
 
 module.exports = {
     projectSchema,
