@@ -22,13 +22,13 @@ const indexSchema = errTxt => {
 
 const qSchema = () => {
     return Joi.string()
-        .valid(["is:open", "is:closed"])
+        .valid("is:open", "is:closed")
         .error(new Error("Invalid q param"));
 };
 
 const sortSchema = () => {
     return Joi.string()
-        .valid(["created:asc", "created:desc", "updated:desc"])
+        .valid("created:asc", "created:desc", "updated:desc")
         .error(new Error("Invalid sort param"));
 };
 

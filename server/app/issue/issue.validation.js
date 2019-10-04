@@ -11,7 +11,7 @@ const {
 const issueSchema = Joi.object().keys({
     title: titleSchema("Invalid issue title").required(),
     description: descSchema("Invalid issue description").required(),
-    project: objectIdSchema("Invalid project ID").allow([""])
+    project: objectIdSchema("Invalid project ID").allow("")
 });
 
 const issueIdSchema = Joi.object().keys({
@@ -31,7 +31,7 @@ const updateValidation = Joi.object()
         isOpen: Joi.boolean().error(new Error("Invalid action to close")),
         project: objectIdSchema("Invalid project ID")
     })
-    .or(["title", "description", "isOpen", "project"]);
+    .or("title", "description", "isOpen", "project");
 
 module.exports = {
     issueSchema,
