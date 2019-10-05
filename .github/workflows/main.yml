@@ -35,7 +35,7 @@ jobs:
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
             - name: Docker Build
-              run: docker build . --file Dockerfile --tag listrrr:$(date +%s)
+              run: docker build . --file ../Dockerfile --tag listrrr:$(date +%s)
             - name: Heroku Push
               uses: actions/heroku@master
               with:
