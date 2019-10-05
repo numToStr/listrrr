@@ -21,7 +21,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: npm install & build
               run: |
-                  npm i --prefix client
+                  npm i --no-package-lock --prefix client
                   npm run build --prefix client
     build:
         needs: [installation]
