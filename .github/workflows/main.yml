@@ -8,7 +8,7 @@ on:
             - master
 jobs:
     installation:
-        name: react-install-n-build
+        name: install-n-build-client
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -25,7 +25,15 @@ jobs:
                   npm run build --prefix client
     build:
         needs: [installation]
-        name: docker-image-build
+        name: build-docker
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - name: Build the Docker image
+              run: docker build --rm --file Dockerfile --tag listrrr:$(date +%s) .
+    deploy:
+        needs: [build]
+        name: deployment-heroku
         runs-on: ubuntu-latest
         steps:
             - name: Heroku Login
@@ -34,8 +42,6 @@ jobs:
                   args: container:login
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Docker Build
-              run: docker build . --file ../Dockerfile --tag listrrr:$(date +%s)
             - name: Heroku Push
               uses: actions/heroku@master
               with:
