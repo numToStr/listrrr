@@ -7,24 +7,24 @@ on:
         branches:
             - master
 jobs:
-    installation:
-        name: install-n-build-client
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [10.x]
-        steps:
-            - uses: actions/checkout@master
-            - name: Using Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@master
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: npm install & build
-              run: |
-                  npm i --no-package-lock --prefix client
-                  npm run build --prefix client
+    # installation:
+    #     name: install-n-build-client
+    #     runs-on: ubuntu-latest
+    #     strategy:
+    #         matrix:
+    #             node-version: [10.x]
+    #     steps:
+    #         - uses: actions/checkout@master
+    #         - name: Using Node.js ${{ matrix.node-version }}
+    #           uses: actions/setup-node@master
+    #           with:
+    #               node-version: ${{ matrix.node-version }}
+    #         - name: npm install & build
+    #           run: |
+    #               npm i --no-package-lock --prefix client
+    #               npm run build --prefix client
     build:
-        needs: [installation]
+        # needs: [installation]
         name: build-docker
         runs-on: ubuntu-latest
         steps:
