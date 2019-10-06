@@ -9,6 +9,7 @@ on:
 env:
     LISTRRR_GPR_IMAGE: docker.pkg.github.com/vkasraj/listrrr/app:latest
     LISTRRR_HEROKU_IMAGE: registry.heroku.com/listrrr/web
+    HEROKU_APP: listrrr
 jobs:
     # installation:
     #     name: install-n-build-client
@@ -26,42 +27,40 @@ jobs:
     #           run: |
     #               npm i --no-package-lock --prefix client
     #               npm run build --prefix client
-    build:
-        # needs: [installation]
-        name: build-docker
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@master
-            - name: Build the Docker image
-              run: docker build --rm --file Dockerfile --tag $LISTRRR_GPR_IMAGE .
-            - name: Push Image to Github Package Registery (GPR)
-              run: |
-                  docker login docker.pkg.github.com --username vkasraj -p ${{ secrets.LISTRRR_GPR_TOKEN }}
-                  docker push $LISTRRR_GPR_IMAGE
+    # build:
+    # needs: [installation]
+    # name: build-docker
+    # runs-on: ubuntu-latest
+    # steps:
+    #     - uses: actions/checkout@master
+    #     - name: Build the Docker image
+    #       run: docker build --rm --file Dockerfile --tag $LISTRRR_GPR_IMAGE .
+    #     - name: Push Image to Github Package Registery (GPR)
+    #       run: |
+    #           docker login docker.pkg.github.com --username vkasraj -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+    #           docker push $LISTRRR_GPR_IMAGE
     deploy:
-        needs: [build]
+        # needs: [build]
         name: deployment-heroku
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@master
             - name: Heroku Login
               uses: actions/heroku@master
               with:
                   args: container:login
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Heroku Tag and Push
-              run: |
-                  docker tag $LISTRRR_GPR_IMAGE $LISTRRR_HEROKU_IMAGE
-                  docker push $LISTRRR_HEROKU_IMAGE
-              #   uses: actions/heroku@master
-              #   with:
-              #       args: container:push web -a listrrr
+            - name: Heroku push
+              uses: actions/heroku@master
+              with:
+                  args: container:push web -a $HEROKU_APP
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
             - name: Heroku Release
               uses: actions/heroku@master
               with:
-                  args: container:release web -a listrrr
+                  args: container:release web -a $HEROKU_APP
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
                   # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
