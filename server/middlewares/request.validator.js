@@ -1,5 +1,3 @@
-const Joi = require("@hapi/joi");
-
 /**
  * Function for validating incoming request
  * It can validate request body, params, query
@@ -12,9 +10,16 @@ const Joi = require("@hapi/joi");
  * @throws {Error}
  */
 const validator = (validationScema, where = "body") => {
-    return (req, res, next) => {
+    return (req, _, next) => {
         try {
-            const { error } = Joi.validate(req[where], validationScema);
+            const { error } = validationScema.validate(req[where], {
+                dateFormat: "iso",
+                debug: true,
+                errors: {
+                    escapeHtml: true
+                }
+            });
+
             if (error) {
                 throw new $Error(error.message, 400, ":ValidationError");
             }
