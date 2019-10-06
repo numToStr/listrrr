@@ -1,5 +1,21 @@
+FROM node:lts-slim AS builder
+
+ENV NODE_ENV=production
+ENV GENERATE_SOURCEMAP=false
+
+RUN mkdir -p /usr/src/client
+WORKDIR /usr/src/client
+
+COPY ./client/package.json .
+
+RUN npm i --no-package-lock
+
+COPY ./client .
+
+RUN npm run build
+
 # Node Base Image
-FROM node:lts-alpine
+FROM node:lts-slim AS final
 
 # Production Environment
 # Exposing 5000 port of server for networking
@@ -31,7 +47,7 @@ RUN npm i --production --no-package-lock
 COPY --chown=node:node ./server ./
 
 # Copying frontend files
-COPY --chown=node:node ./client/build ./static
+COPY --chown=node:node --from=builder /usr/src/client/build ./static
 
 # Container default command
 CMD [ "node", "bin/www.js" ]

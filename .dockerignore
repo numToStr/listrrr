@@ -1,6 +1,7 @@
 # IDE files
 .vscode
 .idea
+package-lock.json
 
 # Logs
 logs
@@ -112,5 +113,7 @@ server/.env
 server/.eslint*
 server/Dockerfile
 
-client/**
-!client/build
+client/node_modules
+client/Dockerfile
+client/README.md
+client/build
