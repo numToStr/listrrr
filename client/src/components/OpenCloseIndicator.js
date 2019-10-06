@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router-dom";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import BaseLink from "./Base/BaseRouterLink";
@@ -19,9 +18,9 @@ const OpenCloseIndicator = ({ open, closed, location: { search } }) => {
                     size="small"
                     component={BaseLink}
                     to={queryLink({ q: "is:open" })}
+                    startIcon={<IconTaskOpen />}
                 >
-                    <IconTaskOpen />
-                    <Box ml={0.5}>{open} Open</Box>
+                    {open} Open
                 </Button>
             </Grid>
             <Grid item>
@@ -29,9 +28,9 @@ const OpenCloseIndicator = ({ open, closed, location: { search } }) => {
                     size="small"
                     component={BaseLink}
                     to={queryLink({ q: "is:closed" })}
+                    startIcon={<IconTaskClose />}
                 >
-                    <IconTaskClose />
-                    <Box ml={0.5}>{closed} Closed</Box>
+                    {closed} Closed
                 </Button>
             </Grid>
         </Grid>

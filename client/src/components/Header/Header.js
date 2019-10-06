@@ -48,9 +48,9 @@ const Header = ({ addLink, title }) => {
                                     size="small"
                                     component={BaseLink}
                                     to={addLink}
+                                    startIcon={<IconAdd />}
                                 >
-                                    <IconAdd />
-                                    <Box ml={0.5}>Add</Box>
+                                    Add
                                 </Button>
                             </Grid>
                         </Hidden>

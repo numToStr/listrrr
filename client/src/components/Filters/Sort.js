@@ -44,9 +44,13 @@ const Sort = ({ location: { search }, history }) => {
 
     return (
         <Fragment>
-            <Button size="small" onClick={handleClick}>
-                <Box mr={0.5}>Sort</Box>
-                <IconSort />
+            <Button
+                variant="text"
+                size="small"
+                onClick={handleClick}
+                endIcon={<IconSort />}
+            >
+                Sort
             </Button>
             <Popover
                 open={Boolean(anchorEl)}
