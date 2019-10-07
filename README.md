@@ -2,7 +2,6 @@
 
 <p align="center">
     <img src="https://github.com/vkasraj/listrrr/workflows/build-n-deploy/badge.svg" />
-    <img src="https://github.com/vkasraj/listrrr/workflows/pr-status/badge.svg" />
 </p>
 
 ### Introduction
