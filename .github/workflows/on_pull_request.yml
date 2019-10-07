@@ -1,4 +1,4 @@
-name: listrrr-build
+name: pr-status
 on:
     pull_request:
         branches:
