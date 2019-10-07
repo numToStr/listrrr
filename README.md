@@ -1,5 +1,10 @@
 <h1 align="center">listrrr</h1>
 
+<p align="center">
+    <img src="https://github.com/vkasraj/listrrr/workflows/build-n-deploy/badge.svg" />
+    <img src="https://github.com/vkasraj/listrrr/workflows/pr-status/badge.svg" />
+</p>
+
 ### Introduction
 
 [Listrrr](https://listrrr.herokuapp.com) is a issue and project tracker app built with Node.js, MongoDB and React bootstrapped with docker. It is just a fun project grown from a simple to-do app.

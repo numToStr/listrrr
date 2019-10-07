@@ -1,4 +1,4 @@
-name: listrrr
+name: build-n-deploy
 on:
     push:
         branches:
