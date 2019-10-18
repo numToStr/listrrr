@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useCallback } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,13 +16,16 @@ const IssueEditIndex = ({
     const [editDrawer, setEditDrawer] = useState(false);
     const handleEditDrawer = () => setEditDrawer(val => !val);
 
-    const onSubmit = async val => {
-        const data = await issueUpdate(_id, val);
+    const handleSubmit = useCallback(
+        async val => {
+            const data = await issueUpdate(_id, val);
 
-        $issueUpdateSuccess(data);
+            $issueUpdateSuccess(data);
 
-        handleEditDrawer();
-    };
+            handleEditDrawer();
+        },
+        [$issueUpdateSuccess, _id]
+    );
 
     const initValues = { title, description };
     return (
@@ -37,7 +40,7 @@ const IssueEditIndex = ({
                     </Typography>
                     <BaseEditForm
                         initialValues={initValues}
-                        onSubmit={onSubmit}
+                        onSubmit={handleSubmit}
                     />
                 </Fragment>
             </BaseEditDrawer>

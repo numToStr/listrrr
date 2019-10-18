@@ -9,12 +9,12 @@ import FormButton from "../../../components/Form/FormFields/FormButton";
 import FormLayout from "../../../components/Form/FormLayout";
 import BaseLoader from "../../../components/Base/BaseLoader";
 
-import { issueAdd, projectList } from "../../../store/actions/index.action";
+import { projectList } from "../../../store/actions/index.action";
 import { issueCreateSchema } from "../../../utils/validations/issue.validation";
 
 const initialValues = { title: "", description: "", project: "" };
 
-const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
+const IssueAddForm = ({ $projectList, _projectList, onSubmit }) => {
     const $$projectList = useCallback($projectList);
 
     useEffect(() => {
@@ -28,10 +28,10 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
     return (
         <FormLayout
             key="issue-add-form"
-            onSubmit={$issueAdd}
+            onSubmit={onSubmit}
             schema={issueCreateSchema}
             initialValues={initialValues}
-            render={({ dirty }) => (
+            render={({ dirty, isSubmitting }) => (
                 <Form>
                     <Grid container spacing={2}>
                         <Grid item xs={9}>
@@ -52,8 +52,8 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
                             />
                             <Grid container justify="flex-end">
                                 <FormButton
-                                    loading={_loading}
-                                    disabled={!dirty || _loading}
+                                    loading={isSubmitting}
+                                    disabled={!dirty || isSubmitting}
                                     fullWidth={false}
                                 >
                                     Submit
@@ -76,13 +76,11 @@ const IssueAddForm = ({ $issueAdd, $projectList, _projectList, _loading }) => {
     );
 };
 
-const mapStateToProps = ({ http: { request }, project }) => ({
-    _loading: request.issueAdd,
+const mapStateToProps = ({ project }) => ({
     _projectList: project.list
 });
 
 const mapDispatchToProps = {
-    $issueAdd: issueAdd,
     $projectList: projectList
 };
 
