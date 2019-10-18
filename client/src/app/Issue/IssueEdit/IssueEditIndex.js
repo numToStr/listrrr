@@ -6,18 +6,23 @@ import IconButton from "@material-ui/core/IconButton";
 import BaseEditForm from "../../../components/Base/BaseEditForm";
 import BaseEditDrawer from "../../../components/Base/BaseEditDrawer";
 import IconEdit from "../../../components/Icons/IconEdit";
-
-import { issueUpdate } from "../../../store/actions/issue.action";
+import { issueUpdate } from "../../../store/requests/issue.request";
+import { issueUpdateSuccess } from "../../../store/actions/issue.action";
 
 const IssueEditIndex = ({
     issue: { _id, title, description },
-    $issueUpdate,
-    _loading
+    $issueUpdateSuccess
 }) => {
     const [editDrawer, setEditDrawer] = useState(false);
     const handleEditDrawer = () => setEditDrawer(val => !val);
 
-    const onSubmit = val => $issueUpdate(_id, val);
+    const onSubmit = async val => {
+        const data = await issueUpdate(_id, val);
+
+        $issueUpdateSuccess(data);
+
+        handleEditDrawer();
+    };
 
     const initValues = { title, description };
     return (
@@ -33,7 +38,6 @@ const IssueEditIndex = ({
                     <BaseEditForm
                         initialValues={initValues}
                         onSubmit={onSubmit}
-                        loading={_loading}
                     />
                 </Fragment>
             </BaseEditDrawer>
@@ -41,15 +45,11 @@ const IssueEditIndex = ({
     );
 };
 
-const mapStateToProps = ({ http: { request } }) => ({
-    _loading: request.issueUpdate
-});
-
 const mapDispatchToProps = {
-    $issueUpdate: issueUpdate
+    $issueUpdateSuccess: issueUpdateSuccess
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(IssueEditIndex);
