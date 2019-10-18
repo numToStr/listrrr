@@ -9,17 +9,12 @@ import FormSelect from "../../../components/Form/FormFields/FormSelect";
 import FormButton from "../../../components/Form/FormFields/FormButton";
 import FormLayout from "../../../components/Form/FormLayout";
 
-import { projectAdd, templateGet } from "../../../store/actions/index.action";
+import { templateGet } from "../../../store/actions/index.action";
 import { projectCreateSchema } from "../../../utils/validations/project.validation";
 
 const initialValues = { title: "", description: "", template: "" };
 
-const ProjectAddForm = ({
-    $projectAdd,
-    $templateGet,
-    _templates,
-    _loading
-}) => {
+const ProjectAddForm = ({ onSubmit, $templateGet, _templates }) => {
     const $$templateGet = useCallback($templateGet);
 
     useEffect(() => {
@@ -33,10 +28,10 @@ const ProjectAddForm = ({
     return (
         <FormLayout
             key="project-add-form"
-            onSubmit={$projectAdd}
+            onSubmit={onSubmit}
             schema={projectCreateSchema}
             initialValues={initialValues}
-            render={({ dirty }) => (
+            render={({ dirty, isSubmitting }) => (
                 <Form>
                     <Grid container spacing={2}>
                         <Grid item xs={9}>
@@ -57,8 +52,8 @@ const ProjectAddForm = ({
                             />
                             <Grid container justify="flex-end">
                                 <FormButton
-                                    loading={_loading}
-                                    disabled={!dirty || _loading}
+                                    loading={isSubmitting}
+                                    disabled={!dirty || isSubmitting}
                                     fullWidth={false}
                                 >
                                     Submit
@@ -81,13 +76,11 @@ const ProjectAddForm = ({
     );
 };
 
-const mapStateToProps = ({ http: { request }, templates }) => ({
-    _loading: request.projectAdd,
+const mapStateToProps = ({ templates }) => ({
     _templates: templates
 });
 
 const mapDispatchToProps = {
-    $projectAdd: projectAdd,
     $templateGet: templateGet
 };
 
