@@ -12,7 +12,7 @@ import {
     PROJECT_ISSUE_REARRANGE,
     PROJECT_ISSUE_REARRANGE_SUCCESS,
     PROJECT_ISSUE_REARRANGE_UPDATE,
-    PROJECT_UPDATE,
+    // PROJECT_UPDATE,
     PROJECT_UPDATE_SUCCESS
 } from "../action.types";
 
@@ -164,21 +164,21 @@ export const projectIssueRearrangeUpdate = (
     }
 });
 
-const projectUpdateSuccess = data => ({
+export const projectUpdateSuccess = data => ({
     type: PROJECT_UPDATE_SUCCESS,
     data
 });
 
-export const projectUpdate = (projectId, data) => ({
-    type: PROJECT_UPDATE,
-    http: true,
-    payload: {
-        method: "PATCH",
-        url: `/project/${projectId}`,
-        data
-    },
-    success: projectUpdateSuccess,
-    meta: {
-        label: "projectUpdate"
-    }
-});
+// export const projectUpdate = (projectId, data) => ({
+//     type: PROJECT_UPDATE,
+//     http: true,
+//     payload: {
+//         method: "PATCH",
+//         url: `/project/${projectId}`,
+//         data
+//     },
+//     success: projectUpdateSuccess,
+//     meta: {
+//         label: "projectUpdate"
+//     }
+// });

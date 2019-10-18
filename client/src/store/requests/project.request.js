@@ -5,3 +5,12 @@ export const projectAdd = async data => {
 
     return response;
 };
+
+export const projectUpdate = async (projectId, data) => {
+    const { data: response } = await apiInterface.patch(
+        `/project/${projectId}`,
+        data
+    );
+
+    return response;
+};
