@@ -17,22 +17,22 @@
         "dev": "NODE_ENV=development nodemon -r dotenv/config --inspect=0.0.0.0 ./bin/www.js"
     },
     "dependencies": {
-        "@hapi/joi": "^16.1.5",
+        "@hapi/joi": "^16.1.7",
         "bcryptjs": "^2.4.3",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.4",
         "express": "^4.17.1",
-        "helmet": "^3.21.1",
+        "helmet": "^3.21.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.7.3"
+        "mongoose": "^5.7.7"
     },
     "devDependencies": {
         "@types/hapi__joi": "^15.0.4",
-        "dotenv": "^8.1.0",
-        "eslint": "^6.5.1",
+        "dotenv": "^8.2.0",
+        "eslint": "^6.6.0",
         "eslint-plugin-node": "^10.0.0",
         "morgan": "^1.9.1",
-        "nodemon": "^1.19.3"
+        "nodemon": "^1.19.4"
     },
     "repository": {
         "type": "git",
