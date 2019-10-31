@@ -23,7 +23,7 @@ const errorHandler = (
     event: string
 ): never => {
     if (error) {
-        throw new Error(`>> [EXIT]:{SERVER} \n${error}`);
+        throw error;
     }
 
     throw new Error(`${event} caught`);
