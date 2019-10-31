@@ -1,0 +1,8 @@
+{
+    "name": "@listrrr/core",
+    "description": "Core functions shared accross listrrr packages",
+    "private": false,
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "license": "MIT"
+}
