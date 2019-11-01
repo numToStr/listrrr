@@ -1,6 +1,6 @@
-import { ObjectType, Field, registerEnumType, ID } from "type-graphql";
+import { ObjectType, Field, registerEnumType } from "type-graphql";
 import { prop, getModelForClass } from "@typegoose/typegoose";
-import { Types } from "mongoose";
+import { IDSchema } from "../../utils/schema/schema";
 
 // don't extract this enum from this file
 export enum AuthRolesEnum {
@@ -9,10 +9,7 @@ export enum AuthRolesEnum {
 }
 
 @ObjectType()
-export class User {
-    @Field(() => ID)
-    _id: Types.ObjectId;
-
+export class User extends IDSchema {
     @Field()
     @prop({
         unique: true,

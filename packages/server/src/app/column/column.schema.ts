@@ -1,6 +1,6 @@
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field } from "type-graphql";
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
-import { Types } from "mongoose";
+import { TitleSchema } from "../../utils/schema/schema";
 
 @ObjectType()
 @modelOptions({
@@ -10,18 +10,7 @@ import { Types } from "mongoose";
         timestamps: true,
     },
 })
-export class Column {
-    @Field(() => ID)
-    _id: Types.ObjectId;
-
-    @Field()
-    @prop({
-        required: true,
-        minlength: 5,
-        maxlength: 50,
-    })
-    title: string;
-
+export class Column extends TitleSchema {
     @Field()
     @prop({
         required: true,

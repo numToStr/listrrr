@@ -7,7 +7,7 @@ import { UserService } from "../user/user.service";
 import { Context } from "../../network/context";
 import { Column } from "../column/column.schema";
 import { ColumnService } from "../column/column.service";
-import { FindInput } from "../../utils/schema/schema";
+import { IDSchema } from "../../utils/schema/schema";
 
 @Resolver(() => Project)
 export class ProjectResolver {
@@ -21,7 +21,7 @@ export class ProjectResolver {
     @Query(() => Project, {
         nullable: true,
     })
-    project(@Arg("where") { _id }: FindInput) {
+    project(@Arg("where") { _id }: IDSchema) {
         return new ProjectService().project(_id);
     }
 

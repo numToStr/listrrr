@@ -1,31 +1,12 @@
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field } from "type-graphql";
 import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
-import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
 import { Column, ColumnList } from "../column/column.schema";
+import { TitleAndDescriptionSchema } from "../../utils/schema/schema";
 
 @ObjectType()
-export class Project {
-    @Field(() => ID)
-    _id: Types.ObjectId;
-
-    @Field()
-    @prop({
-        required: true,
-        minlength: 5,
-        maxlength: 50,
-    })
-    title: string;
-
-    @Field()
-    @prop({
-        required: true,
-        minlength: 10,
-        maxlength: 200,
-    })
-    description: string;
-
+export class Project extends TitleAndDescriptionSchema {
     @Field()
     @prop({
         default: false,

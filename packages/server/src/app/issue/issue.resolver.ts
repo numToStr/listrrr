@@ -4,7 +4,7 @@ import { Issue } from "./issue.schema";
 import { IssueService } from "./issue.service";
 import { ProjectService } from "../project/project.service";
 import { Project } from "../project/project.schema";
-import { FindInput } from "../../utils/schema/schema";
+import { IDSchema } from "../../utils/schema/schema";
 
 @Resolver(() => Issue)
 export class IssueResolver {
@@ -18,7 +18,7 @@ export class IssueResolver {
     @Query(() => Issue, {
         nullable: true,
     })
-    issue(@Arg("where") { _id }: FindInput) {
+    issue(@Arg("where") { _id }: IDSchema) {
         return new IssueService().issue(_id);
     }
 
