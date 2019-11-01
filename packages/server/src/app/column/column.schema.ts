@@ -1,10 +1,16 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { prop, getModelForClass } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 import { Types } from "mongoose";
-import { Column } from "../column/column.schema";
 
 @ObjectType()
-export class Template {
+@modelOptions({
+    schemaOptions: {
+        _id: true,
+        minimize: true,
+        timestamps: true,
+    },
+})
+export class Column {
     @Field(() => ID)
     _id: Types.ObjectId;
 
@@ -19,19 +25,17 @@ export class Template {
     @Field()
     @prop({
         required: true,
-        minlength: 10,
-        maxlength: 200,
+        min: 0,
     })
-    description: string;
+    position: number;
+}
 
-    @Field(() => [Column])
-    @prop({
-        required: true,
-    })
+export class ColumnList {
+    @prop()
     columns: Column[];
 }
 
-export const TemplateModel = getModelForClass(Template, {
+export const ColumnModel = getModelForClass(ColumnList, {
     schemaOptions: {
         timestamps: true,
         minimize: true,
