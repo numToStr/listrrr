@@ -2,7 +2,6 @@ import { InputType, Field, ID, ObjectType } from "type-graphql";
 import { Types } from "mongoose";
 import { prop } from "@typegoose/typegoose";
 
-@InputType("FindInput")
 @ObjectType({
     isAbstract: true,
 })
@@ -11,7 +10,16 @@ export class IDSchema {
     _id: Types.ObjectId;
 }
 
-@ObjectType("TitleSchema", {
+@InputType()
+export class FindInput {
+    @Field()
+    _id: Types.ObjectId;
+}
+
+@ObjectType({
+    isAbstract: true,
+})
+@InputType({
     isAbstract: true,
 })
 export abstract class TitleSchema extends IDSchema {
@@ -24,10 +32,13 @@ export abstract class TitleSchema extends IDSchema {
     title: string;
 }
 
-@ObjectType("TitleAndDescriptionSchema", {
+@ObjectType({
     isAbstract: true,
 })
-export abstract class TitleAndDescriptionSchema extends TitleSchema {
+@InputType({
+    isAbstract: true,
+})
+export abstract class TitleAndDescSchema extends TitleSchema {
     @Field()
     @prop({
         required: true,

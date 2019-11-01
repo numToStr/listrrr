@@ -1,10 +1,10 @@
 import { ObjectType, Field } from "type-graphql";
 import { prop, getModelForClass } from "@typegoose/typegoose";
 import { Column } from "../column/column.schema";
-import { TitleAndDescriptionSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "../../utils/schema/schema";
 
 @ObjectType()
-export class Template extends TitleAndDescriptionSchema {
+export class Template extends TitleAndDescSchema {
     @Field(() => [Column])
     @prop({
         required: true,

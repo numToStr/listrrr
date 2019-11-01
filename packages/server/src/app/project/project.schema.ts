@@ -3,10 +3,10 @@ import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
 import { Column, ColumnList } from "../column/column.schema";
-import { TitleAndDescriptionSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "../../utils/schema/schema";
 
 @ObjectType()
-export class Project extends TitleAndDescriptionSchema {
+export class Project extends TitleAndDescSchema {
     @Field()
     @prop({
         default: false,

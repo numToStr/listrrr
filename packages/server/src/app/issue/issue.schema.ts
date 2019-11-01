@@ -2,10 +2,10 @@ import { ObjectType, Field } from "type-graphql";
 import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
-import { TitleAndDescriptionSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "../../utils/schema/schema";
 
 @ObjectType()
-export class Issue extends TitleAndDescriptionSchema {
+export class Issue extends TitleAndDescSchema {
     @Field()
     @prop({
         default: false,
