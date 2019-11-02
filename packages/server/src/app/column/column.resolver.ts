@@ -1,15 +1,19 @@
-import { Resolver, FieldResolver, Root } from "type-graphql";
+import { Resolver, FieldResolver, Root, Ctx } from "type-graphql";
 import { Types } from "mongoose";
 import { Column } from "./column.schema";
-import { ColumnService } from "./column.service";
 import { Issue } from "../issue/issue.schema";
+import { IssueService } from "../issue/issue.service";
+import { Context } from "../../network/context";
 
 @Resolver(() => Column)
 export class ColumnResolver {
     @FieldResolver(() => [Issue], {
         nullable: "items",
     })
-    issues(@Root() { issueIDs }: Column): Promise<Issue[]> {
-        return new ColumnService().issues(issueIDs as Types.ObjectId[]);
+    issues(
+        @Ctx() ctx: Context,
+        @Root() { issueIDs }: Column
+    ): Promise<Issue[]> {
+        return new IssueService(ctx).issues(issueIDs as Types.ObjectId[]);
     }
 }
