@@ -65,4 +65,15 @@ export class IssueResolver {
     createIssue(@Ctx() ctx: Context, @Arg("data") data: CreateIssueInput) {
         return new IssueService(ctx).createIssue(data);
     }
+
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Mutation(() => Issue, {
+        nullable: true,
+    })
+    deleteIssue(
+        @Ctx() ctx: Context,
+        @Arg("where") where: FindInput
+    ): Promise<Issue> {
+        return new IssueService(ctx).deleteIssue(where);
+    }
 }

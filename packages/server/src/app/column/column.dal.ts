@@ -26,4 +26,17 @@ export class ColumnDAL extends RootDAL<ColumnList> {
             }
         );
     }
+
+    static removeIssueFromColumns(issueID: Types.ObjectId) {
+        return ColumnModel.updateMany(
+            {
+                "columns.issueIDs": issueID,
+            },
+            {
+                $pull: {
+                    "columns.$.issueIDs": issueID,
+                },
+            }
+        );
+    }
 }

@@ -49,6 +49,12 @@ export abstract class RootDAL<SchemaType extends object> {
             .exec();
     }
 
+    updateMany(data: object): Promise<SchemaType> {
+        return this.Model.updateMany(this.ctx, data, { multi: true })
+            .lean()
+            .exec();
+    }
+
     deleteOne(options: DALOptions = {}): Promise<SchemaType> {
         const { select = this.select } = options;
 
