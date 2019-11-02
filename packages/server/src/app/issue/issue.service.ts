@@ -3,7 +3,8 @@ import { IssueDAL } from "./issue.dal";
 import { Issue } from "./issue.schema";
 import { CreateIssueInput } from "./issue.resolver";
 import { Context } from "../../network/context";
-// import { ProjectDAL } from "../project/project.dal";
+import { ProjectDAL } from "../project/project.dal";
+import { ColumnDAL } from "../column/column.dal";
 
 export class IssueService {
     constructor(private ctx: Context) {}
@@ -26,13 +27,22 @@ export class IssueService {
         return new IssueDAL({ _id }).findOne();
     }
 
-    async createIssue({ title, description }: CreateIssueInput) {
-        // const firstColumn = await new ProjectDAL().firstColumnID(projectID);
-
-        return new IssueDAL().create({
+    async createIssue({ projectIDs, title, description }: CreateIssueInput) {
+        const issue = await new IssueDAL().create({
             title,
             description,
             userID: this.ID,
+            projectIDs,
         });
+
+        if (projectIDs && projectIDs.length) {
+            const columnsIDs = await ProjectDAL.columns(projectIDs);
+
+            if (columnsIDs && columnsIDs.length) {
+                await ColumnDAL.updateColumnWithIssue(columnsIDs, issue._id);
+            }
+        }
+
+        return issue;
     }
 }

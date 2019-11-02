@@ -17,14 +17,16 @@ import { ProjectService } from "../project/project.service";
 import { Project } from "../project/project.schema";
 import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
 import { Context } from "../../network/context";
-import { AuthRolesEnum } from "../user/user.schema";
+import { AuthRolesEnum, User } from "../user/user.schema";
+import { UserService } from "../user/user.service";
 
 @InputType()
 export class CreateIssueInput extends TitleAndDescSchema {
-    @Field({
-        description: `Project ID for the issue which it belongs`,
+    @Field(() => [Types.ObjectId], {
+        nullable: "items",
+        description: `Project IDs for the issue which it belongs`,
     })
-    projectID: Types.ObjectId;
+    projectIDs: Array<Types.ObjectId>;
 }
 
 @Resolver(() => Issue)
@@ -43,6 +45,11 @@ export class IssueResolver {
     })
     issue(@Ctx() ctx: Context, @Arg("where") { _id }: FindInput) {
         return new IssueService(ctx).issue(_id);
+    }
+
+    @FieldResolver(() => User)
+    createdBy(@Ctx() ctx: Context, @Root() { userID }: Project): Promise<User> {
+        return new UserService(ctx).createdBy(userID as Types.ObjectId);
     }
 
     @FieldResolver(() => Project)

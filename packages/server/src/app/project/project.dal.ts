@@ -8,7 +8,7 @@ export class ProjectDAL extends RootDAL<Project> {
         super(ProjectModel, ctx);
     }
 
-    async firstColumnID(projectID: Types.ObjectId) {
+    static async firstColumnID(projectID: Types.ObjectId) {
         const [project] = await ProjectModel.aggregate()
             .match({
                 _id: projectID,
@@ -43,5 +43,20 @@ export class ProjectDAL extends RootDAL<Project> {
             });
 
         return project && project.firstColumn;
+    }
+
+    static async columns(projectIDs: Array<Types.ObjectId>) {
+        const columnsArray = await ProjectModel.aggregate()
+            .match({
+                _id: {
+                    $in: projectIDs,
+                },
+            })
+            .project({
+                _id: 0,
+                columnsID: 1,
+            });
+
+        return columnsArray.map(column => column.columnsID);
     }
 }
