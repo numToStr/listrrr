@@ -22,7 +22,7 @@ export class Issue extends TitleAndDescSchema {
     createdBy: User;
 
     @prop({
-        ref: Project,
+        ref: "Project",
     })
     projectID?: Ref<Project>;
 

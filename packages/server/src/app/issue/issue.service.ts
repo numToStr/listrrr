@@ -20,12 +20,12 @@ export class IssueService {
         return new IssueDAL({ _id }).findOne();
     }
 
-    async createIssue({ projectID, title, description }: CreateIssueInput) {
+    async createIssue({ title, description }: CreateIssueInput) {
         // const firstColumn = await new ProjectDAL().firstColumnID(projectID);
+
         return new IssueDAL().create({
             title,
             description,
-            projectID,
             userID: this.ID,
         });
     }

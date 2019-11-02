@@ -4,9 +4,11 @@ import {
     getModelForClass,
     modelOptions,
     arrayProp,
+    Ref,
 } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { TitleSchema } from "../../utils/schema/schema";
+import { Issue } from "../issue/issue.schema";
 
 @ObjectType()
 @modelOptions({
@@ -22,6 +24,18 @@ export class Column extends TitleSchema {
         min: 0,
     })
     position: number;
+
+    @Field(() => [Issue], {
+        nullable: "items",
+    })
+    issues: Issue[];
+
+    @prop({
+        default: [],
+        // ref is `string` to prevent circular dependencies
+        ref: "Issue",
+    })
+    issueIDs: Ref<Issue>[];
 }
 
 export class ColumnList {

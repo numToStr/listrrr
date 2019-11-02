@@ -30,7 +30,7 @@ export class Project extends TitleAndDescSchema {
 
     @prop({
         required: true,
-        ref: ColumnList,
+        ref: "ColumnList",
     })
     columnsID: Ref<ColumnList>;
 
