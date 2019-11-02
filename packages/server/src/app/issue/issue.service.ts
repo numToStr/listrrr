@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { IssueDAL } from "./issue.dal";
 import { Issue } from "./issue.schema";
-import { CreateIssueInput } from "./issue.resolver";
+import { CreateIssueInput, ClosedInput } from "./issue.resolver";
 import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
@@ -50,6 +50,15 @@ export class IssueService {
         }
 
         return issue;
+    }
+
+    closeOrOpenIssue({ _id }: FindInput, { closed }: ClosedInput) {
+        return new IssueDAL({
+            _id,
+            userID: this.ID,
+        }).updateOne({
+            closed,
+        });
     }
 
     async deleteIssue({ _id }: FindInput) {
