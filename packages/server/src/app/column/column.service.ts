@@ -6,7 +6,9 @@ export class ColumnService {
     async columns(_id: Types.ObjectId): Promise<Column[]> {
         const { columns = [] } = await new ColumnDAL({
             _id,
-        }).findOne();
+        }).findOne({
+            select: "columns -_id",
+        });
 
         return columns;
     }

@@ -31,11 +31,10 @@ export class Column extends TitleSchema {
     issues: Issue[];
 
     @prop({
-        default: [],
         // ref is `string` to prevent circular dependencies
         ref: "Issue",
     })
-    issueIDs: Ref<Issue>[];
+    issueIDs?: Ref<Issue>[];
 }
 
 export class ColumnList {

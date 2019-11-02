@@ -26,7 +26,7 @@ export abstract class TitleSchema extends IDSchema {
     @Field()
     @prop({
         required: true,
-        minlength: 5,
+        minlength: 3,
         maxlength: 50,
     })
     title: string;

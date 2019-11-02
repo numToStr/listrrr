@@ -39,7 +39,9 @@ export class ProjectService {
     }: Omit<CreateProjectInput, "_id">): Promise<Project> {
         const template = await new TemplateDAL({
             _id: templateID,
-        }).findOne();
+        }).findOne({
+            select: "columns -_id",
+        });
 
         if (!template) {
             throw new Error("Template not found");
