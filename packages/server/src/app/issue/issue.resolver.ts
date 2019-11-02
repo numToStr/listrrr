@@ -46,11 +46,11 @@ export class IssueResolver {
     }
 
     @FieldResolver(() => Project)
-    project(
-        @Root() { projectID }: Issue,
+    projects(
+        @Root() { projectIDs }: Issue,
         @Ctx() ctx: Context
-    ): Promise<Project> {
-        return new ProjectService(ctx).project(projectID as Types.ObjectId);
+    ): Promise<Project[]> {
+        return new ProjectService(ctx).projects(projectIDs as Types.ObjectId[]);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

@@ -22,14 +22,15 @@ export class Issue extends TitleAndDescSchema {
     createdBy: User;
 
     @prop({
+        default: [],
         ref: "Project",
     })
-    projectID?: Ref<Project>;
+    projectIDs?: Ref<Project>[];
 
-    @Field(() => Project, {
-        nullable: true,
+    @Field(() => [Project], {
+        nullable: "items",
     })
-    project?: Project;
+    projects?: Project[];
 }
 
 export const IssueModel = getModelForClass(Issue);

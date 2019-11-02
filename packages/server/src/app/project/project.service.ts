@@ -13,8 +13,16 @@ export class ProjectService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    projects(): Promise<Project[]> {
-        return new ProjectDAL().findAll();
+    projects(_ids?: Types.ObjectId[]): Promise<Project[]> {
+        const query = _ids
+            ? {
+                  _id: {
+                      $in: _ids,
+                  },
+              }
+            : {};
+
+        return new ProjectDAL(query as Partial<Project>).findAll();
     }
 
     project(_id: Types.ObjectId): Promise<Project> {
