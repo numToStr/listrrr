@@ -6,7 +6,7 @@ import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { DALQuery } from "../../@types/types";
-import { FindInput } from "../../utils/schema/schema";
+import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
 
 export class IssueService {
     constructor(private ctx: Context) {}
@@ -61,17 +61,29 @@ export class IssueService {
         });
     }
 
+    updateTitleAndDecription(
+        { _id }: FindInput,
+        { title, description }: TitleAndDescSchema
+    ) {
+        return new IssueDAL({
+            _id,
+            userID: this.ID,
+        }).updateOne({
+            title,
+            description,
+        });
+    }
+
     async deleteIssue({ _id }: FindInput) {
         const isDeleted = await new IssueDAL({
             _id,
             userID: this.ID,
         }).deleteOne();
 
-        if (!isDeleted) {
-            throw Error(`You are not authorized to delete this issue`);
+        if (isDeleted) {
+            await ColumnDAL.removeIssueFromColumns(_id);
+            // throw Error(`You are not authorized to delete this issue`);
         }
-
-        await ColumnDAL.removeIssueFromColumns(_id);
 
         return isDeleted;
     }

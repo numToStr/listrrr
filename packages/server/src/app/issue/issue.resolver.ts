@@ -73,13 +73,27 @@ export class IssueResolver {
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Issue)
+    @Mutation(() => Issue, {
+        nullable: true,
+    })
     closeOrOpenIssue(
         @Ctx() ctx: Context,
         @Arg("where") where: FindInput,
         @Arg("data") data: ClosedInput
     ) {
         return new IssueService(ctx).closeOrOpenIssue(where, data);
+    }
+
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Mutation(() => Issue, {
+        nullable: true,
+    })
+    updateTitleAndDescription(
+        @Ctx() ctx: Context,
+        @Arg("where") where: FindInput,
+        @Arg("data") data: TitleAndDescSchema
+    ) {
+        return new IssueService(ctx).updateTitleAndDecription(where, data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

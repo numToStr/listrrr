@@ -37,7 +37,10 @@ export abstract class RootDAL<SchemaType extends object> {
             .exec();
     }
 
-    updateOne(data: object, options: DALOptions = {}): Promise<SchemaType> {
+    updateOne(
+        data: Partial<SchemaType>,
+        options: DALOptions = {}
+    ): Promise<SchemaType> {
         const { select = this.select, upsert = this.upsert } = options;
 
         return this.Model.findOneAndUpdate(this.ctx, data, {
@@ -49,7 +52,7 @@ export abstract class RootDAL<SchemaType extends object> {
             .exec();
     }
 
-    updateMany(data: object): Promise<SchemaType> {
+    updateMany(data: Partial<SchemaType>): Promise<SchemaType> {
         return this.Model.updateMany(this.ctx, data, { multi: true })
             .lean()
             .exec();

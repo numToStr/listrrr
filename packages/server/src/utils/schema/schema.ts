@@ -35,9 +35,7 @@ export abstract class TitleSchema extends IDSchema {
 @ObjectType({
     isAbstract: true,
 })
-@InputType({
-    isAbstract: true,
-})
+@InputType("TitleAndDescriptionInput")
 export abstract class TitleAndDescSchema extends TitleSchema {
     @Field()
     @prop({
