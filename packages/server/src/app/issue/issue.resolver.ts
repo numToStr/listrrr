@@ -35,6 +35,14 @@ export class ClosedInput {
     closed: boolean;
 }
 
+@InputType()
+export class UpdateIssueProjectInput {
+    @Field(() => [Types.ObjectId], {
+        nullable: "items",
+    })
+    projectIDs: Array<Types.ObjectId>;
+}
+
 @Resolver(() => Issue)
 export class IssueResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
@@ -94,6 +102,18 @@ export class IssueResolver {
         @Arg("data") data: TitleAndDescSchema
     ) {
         return new IssueService(ctx).updateTitleAndDecription(where, data);
+    }
+
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Mutation(() => Issue, {
+        nullable: true,
+    })
+    updateIssueProjects(
+        @Ctx() ctx: Context,
+        @Arg("where") where: FindInput,
+        @Arg("data") data: UpdateIssueProjectInput
+    ) {
+        return new IssueService(ctx).updateIssueProjects(where, data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
