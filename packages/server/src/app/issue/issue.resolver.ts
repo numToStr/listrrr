@@ -30,12 +30,6 @@ export class CreateIssueInput extends TitleAndDescSchema {
 }
 
 @InputType()
-export class ClosedInput {
-    @Field()
-    closed: boolean;
-}
-
-@InputType()
 export class UpdateIssueProjectInput {
     @Field(() => [Types.ObjectId], {
         nullable: "items",
@@ -78,30 +72,6 @@ export class IssueResolver {
     @Mutation(() => Issue)
     createIssue(@Ctx() ctx: Context, @Arg("data") data: CreateIssueInput) {
         return new IssueService(ctx).createIssue(data);
-    }
-
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Issue, {
-        nullable: true,
-    })
-    closeOrOpenIssue(
-        @Ctx() ctx: Context,
-        @Arg("where") where: FindInput,
-        @Arg("data") data: ClosedInput
-    ) {
-        return new IssueService(ctx).closeOrOpenIssue(where, data);
-    }
-
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Issue, {
-        nullable: true,
-    })
-    updateTitleAndDescription(
-        @Ctx() ctx: Context,
-        @Arg("where") where: FindInput,
-        @Arg("data") data: TitleAndDescSchema
-    ) {
-        return new IssueService(ctx).updateTitleAndDecription(where, data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

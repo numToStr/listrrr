@@ -1,16 +1,12 @@
 import { Types } from "mongoose";
 import { IssueDAL } from "./issue.dal";
 import { Issue } from "./issue.schema";
-import {
-    CreateIssueInput,
-    ClosedInput,
-    UpdateIssueProjectInput,
-} from "./issue.resolver";
+import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
 import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { DALQuery } from "../../@types/types";
-import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
+import { FindInput } from "../../utils/schema/schema";
 
 export class IssueService {
     constructor(private ctx: Context) {}
@@ -54,28 +50,6 @@ export class IssueService {
         }
 
         return issue;
-    }
-
-    closeOrOpenIssue({ _id }: FindInput, { closed }: ClosedInput) {
-        return new IssueDAL({
-            _id,
-            userID: this.ID,
-        }).updateOne({
-            closed,
-        });
-    }
-
-    updateTitleAndDecription(
-        { _id }: FindInput,
-        { title, description }: TitleAndDescSchema
-    ) {
-        return new IssueDAL({
-            _id,
-            userID: this.ID,
-        }).updateOne({
-            title,
-            description,
-        });
     }
 
     updateIssueProjects(
