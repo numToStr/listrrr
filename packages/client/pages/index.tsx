@@ -1,15 +1,14 @@
-import React from "react";
-import Head from "next/head";
-import { Typography } from "@material-ui/core";
+import React, { Fragment } from "react";
+import RouterLink from "../components/RouterLink";
+import SEO from "../components/SEO";
 
 const Home = () => {
     return (
-        <div>
-            <Head>
-                <title>Home</title>
-            </Head>
-            <Typography>Heloo --></Typography>
-        </div>
+        <Fragment>
+            <SEO title="Home" />
+            <RouterLink href="/login">Login</RouterLink>
+            <RouterLink href="/signup">Signup</RouterLink>
+        </Fragment>
     );
 };
 
