@@ -1,5 +1,9 @@
 import { IncomingMessage } from "http";
 import { TokenPayload } from "../@types/types";
+import { userLoader } from "../utils/dataloader/user.loader";
+import { projectLoader } from "../utils/dataloader/project.loader";
+import { columnLoader } from "../utils/dataloader/column.loader";
+import { issueLoader } from "../utils/dataloader/issue.loader";
 
 interface ApolloContext {
     req: IncomingMessage;
@@ -7,6 +11,14 @@ interface ApolloContext {
 
 export class Context {
     private me: TokenPayload;
+
+    userLoader = userLoader();
+
+    projectLoader = projectLoader();
+
+    columnLoader = columnLoader();
+
+    issueLoader = issueLoader();
 
     constructor(private ctx: ApolloContext) {}
 

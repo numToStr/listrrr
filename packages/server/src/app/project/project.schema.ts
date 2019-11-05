@@ -16,6 +16,7 @@ export class Project extends TitleAndDescSchema {
     @prop({
         required: true,
         ref: User,
+        index: true,
     })
     userID: Ref<User>;
 

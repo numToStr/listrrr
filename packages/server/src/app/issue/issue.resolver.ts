@@ -13,12 +13,10 @@ import {
 import { Types } from "mongoose";
 import { Issue } from "./issue.schema";
 import { IssueService } from "./issue.service";
-import { ProjectService } from "../project/project.service";
 import { Project } from "../project/project.schema";
 import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
 import { Context } from "../../network/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
-import { UserService } from "../user/user.service";
 
 @InputType()
 export class CreateIssueInput extends TitleAndDescSchema {
@@ -57,7 +55,7 @@ export class IssueResolver {
 
     @FieldResolver(() => User)
     createdBy(@Ctx() ctx: Context, @Root() { userID }: Project): Promise<User> {
-        return new UserService(ctx).createdBy(userID as Types.ObjectId);
+        return ctx.userLoader.load(userID as Types.ObjectId);
     }
 
     @FieldResolver(() => Project)
@@ -65,7 +63,7 @@ export class IssueResolver {
         @Root() { projectIDs }: Issue,
         @Ctx() ctx: Context
     ): Promise<Project[]> {
-        return new ProjectService(ctx).projects(projectIDs as Types.ObjectId[]);
+        return ctx.projectLoader.loadMany(projectIDs as Array<Types.ObjectId>);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

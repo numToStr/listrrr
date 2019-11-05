@@ -14,10 +14,8 @@ import { Types } from "mongoose";
 import { Project } from "./project.schema";
 import { ProjectService } from "./project.service";
 import { User, AuthRolesEnum } from "../user/user.schema";
-import { UserService } from "../user/user.service";
 import { Context } from "../../network/context";
 import { Column } from "../column/column.schema";
-import { ColumnService } from "../column/column.service";
 import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
 
 @InputType()
@@ -48,13 +46,16 @@ export class ProjectResolver {
 
     @FieldResolver(() => User)
     createdBy(@Ctx() ctx: Context, @Root() { userID }: Project): Promise<User> {
-        return new UserService(ctx).createdBy(userID as Types.ObjectId);
+        return ctx.userLoader.load(userID as Types.ObjectId);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @FieldResolver(() => [Column])
-    columns(@Root() { columnsID }: Project): Promise<Column[]> {
-        return new ColumnService().columns(columnsID as Types.ObjectId);
+    columns(
+        @Ctx() ctx: Context,
+        @Root() { columnsID }: Project
+    ): Promise<Column[]> {
+        return ctx.columnLoader.load(columnsID as Types.ObjectId);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
