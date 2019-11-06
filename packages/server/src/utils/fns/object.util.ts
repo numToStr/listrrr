@@ -2,13 +2,16 @@ import { Types } from "mongoose";
 
 /**
  * For deleting properties from a object
+ * @returns {Object} Shallow copy of the input object
  */
 export function deleteProps<T extends object>(target: T, props: string[]): T {
+    const freezed = { ...target };
+
     props.forEach(prop => {
-        Reflect.deleteProperty(target, prop);
+        Reflect.deleteProperty(freezed, prop);
     });
 
-    return target;
+    return freezed;
 }
 
 /**
