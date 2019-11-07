@@ -11,7 +11,7 @@ export class ColumnResolver {
     })
     issues(
         @Ctx() ctx: Context,
-        @Root() { issueIDs }: Column
+        @Root() { issueIDs = [] }: Column
     ): Promise<Issue[]> {
         return ctx.issueLoader.loadMany(issueIDs as Types.ObjectId[]);
     }
