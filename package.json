@@ -10,7 +10,7 @@
         "yarn": "^1.9.0"
     },
     "scripts": {
-        "client": "yarn --cwd packages/client dev",
+        "client": "yarn --cwd packages/client start",
         "server": "yarn --cwd packages/server dev",
         "build:client": "yarn --cwd packages/client build",
         "build:server": "yarn --cwd packages/server build",

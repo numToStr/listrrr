@@ -3,32 +3,50 @@
     "description": "Next.js client app for the listrrr",
     "version": "0.1.0",
     "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start"
-    },
     "dependencies": {
         "@apollo/client": "^3.0.0-beta.4",
         "@material-ui/core": "^4.6.0",
         "@material-ui/icons": "^4.5.1",
         "@material-ui/styles": "^4.6.0",
+        "@types/jest": "24.0.22",
+        "@types/node": "12.12.6",
+        "@types/react": "16.9.11",
+        "@types/react-dom": "16.9.4",
+        "@types/react-router-dom": "^5.1.2",
         "axios": "^0.19.0",
-        "clsx": "^1.0.4",
         "date-fns": "^2.6.0",
         "formik": "^2.0.3",
-        "isomorphic-unfetch": "^3.0.0",
         "mobx": "^5.14.2",
         "mobx-react": "^6.1.4",
-        "next": "^9.1.2",
         "query-string": "^6.8.3",
         "react": "^16.11.0",
-        "react-dom": "^16.11.0"
+        "react-app-rewire-hot-loader": "^2.0.1",
+        "react-app-rewired": "^2.1.5",
+        "react-dom": "npm:@hot-loader/react-dom",
+        "react-hot-loader": "^4.12.16",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.2.0",
+        "typescript": "3.7.2"
     },
-    "devDependencies": {
-        "@types/next": "^8.0.6",
-        "@types/react": "^16.9.11",
-        "@types/react-dom": "^16.9.3",
-        "typescript": "^3.7.2"
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
 }
