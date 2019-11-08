@@ -1,18 +1,16 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
-import { Button, MuiThemeProvider, CssBaseline } from "@material-ui/core";
+import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
 import { theme } from "./config/theme.config";
+import { RouteRenderer } from "./components/Routes/RouteRenderer";
+import { routesConfig } from "./config/routes.config";
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
             <MuiThemeProvider theme={theme}>
-                <div className="App">
-                    <Button variant="contained" color="primary">
-                        Hello
-                    </Button>
-                </div>
+                <RouteRenderer routes={routesConfig} />
                 <CssBaseline />
             </MuiThemeProvider>
         </BrowserRouter>
