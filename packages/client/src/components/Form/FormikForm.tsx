@@ -1,11 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import { Formik, Form, FormikConfig } from "formik";
+import { Paper } from "@material-ui/core";
 
-const FormikForm: FC<FormikConfig<any>> = ({ children, ...props }) => {
+type Props = FormikConfig<any> & {
+    error?: string;
+};
+
+const FormikForm: FC<Props> = ({ children, error, ...props }) => {
     return (
-        <Formik {...props} validateOnBlur={false} validateOnChange={false}>
-            <Form>{children}</Form>
-        </Formik>
+        <Fragment>
+            {!!error && <Paper>{error}</Paper>}
+            <Formik {...props} validateOnBlur={false} validateOnChange={false}>
+                <Form>{children}</Form>
+            </Formik>
+        </Fragment>
     );
 };
 

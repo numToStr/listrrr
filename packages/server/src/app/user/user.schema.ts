@@ -46,4 +46,9 @@ registerEnumType(AuthRolesEnum, {
     description: "Roles for the authenticated users",
 });
 
-export const UserModel = getModelForClass(User);
+export const UserModel = getModelForClass(User, {
+    schemaOptions: {
+        timestamps: true,
+        minimize: true,
+    },
+});

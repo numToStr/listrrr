@@ -3,6 +3,7 @@
     "description": "Next.js client app for the listrrr",
     "version": "0.1.0",
     "private": true,
+    "proxy": "http://localhost:5000",
     "dependencies": {
         "@apollo/client": "^3.0.0-beta.4",
         "@material-ui/core": "^4.6.0",

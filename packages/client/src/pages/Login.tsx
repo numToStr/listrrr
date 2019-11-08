@@ -5,12 +5,35 @@ import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import FormikForm from "../components/Form/FormikForm";
 import FormWrapper from "../components/Form/FormWrapper";
 import FormCaption from "../components/Form/FormCaption";
+import { gql, useMutation } from "@apollo/client";
 
 const initValues = { email: "", password: "" };
 
+const LOGIN = gql`
+    mutation Login($data: LoginInput!) {
+        login(data: $data) {
+            user {
+                _id
+                username
+                email
+            }
+            auth {
+                token
+                role
+            }
+        }
+    }
+`;
+
 const Login = () => {
+    const [handleLogin] = useMutation(LOGIN);
+
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
-        console.log(values);
+        handleLogin({
+            variables: {
+                data: values
+            }
+        });
     };
 
     return (
