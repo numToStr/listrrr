@@ -14,7 +14,8 @@
         "server": "yarn --cwd packages/server dev",
         "build:client": "yarn --cwd packages/client build",
         "build:server": "yarn --cwd packages/server build",
-        "build": "yarn build:server && yarn build:client"
+        "build": "yarn build:server && yarn build:client",
+        "gql:gen": "yarn --cwd packages/client gql:gen"
     },
     "repository": "https://github.com/vkasraj/listrrr.git",
     "author": "vkasraj <vikasraj1911@gmail.com>",

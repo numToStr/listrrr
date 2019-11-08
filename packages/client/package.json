@@ -17,6 +17,7 @@
         "axios": "^0.19.0",
         "date-fns": "^2.6.0",
         "formik": "^2.0.3",
+        "graphql": "^14.5.8",
         "mobx": "^5.14.2",
         "mobx-react": "^6.1.4",
         "query-string": "^6.8.3",
@@ -33,7 +34,9 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
-        "eject": "react-app-rewired eject"
+        "eject": "react-app-rewired eject",
+        "gql:init": "graphql-codegen init",
+        "gql:gen": "graphql-codegen --config codegen.yml"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -49,5 +52,11 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "^1.8.3",
+        "@graphql-codegen/typescript": "1.8.3",
+        "@graphql-codegen/typescript-operations": "1.8.3",
+        "@graphql-codegen/typescript-react-apollo": "1.8.3"
     }
 }
