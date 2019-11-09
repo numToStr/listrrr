@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { RoutesConfig } from "../../config/routes.config";
+import { Routes } from "../../config/routes.config";
 import { Switch, Route } from "react-router-dom";
 
 type Props = {
-    routes: RoutesConfig[];
+    routes: Routes;
 };
 
 export const RouteRenderer: FC<Props> = ({ routes }) => {

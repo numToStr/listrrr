@@ -1,17 +1,20 @@
 import { ComponentType } from "react";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import Index from "../pages/Index";
+import { Index } from "../pages/Index";
+import { Login } from "../pages/Login";
+import { Signup } from "../pages/Signup";
+import { Home } from "../pages/Home";
+
+export type Routes = RoutesConfig[];
 
 export interface RoutesConfig {
     path: string;
-    component: ComponentType<{ routes?: RoutesConfig[] }>;
+    component: ComponentType<{ routes?: Routes }>;
     private: boolean;
     exact?: boolean;
-    routes?: RoutesConfig[];
+    routes?: Routes;
 }
 
-export const routesConfig: RoutesConfig[] = [
+export const routesConfig: Routes = [
     {
         path: "/",
         component: Index,
@@ -28,5 +31,10 @@ export const routesConfig: RoutesConfig[] = [
         path: "/signup",
         component: Signup,
         private: false
+    },
+    {
+        path: "/d",
+        component: Home,
+        private: true
     }
 ];

@@ -16,7 +16,8 @@ const client = new ApolloClient({
     link: new HttpLink({
         uri: "/"
     }),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    connectToDevTools: true
 });
 
 const Root = hot(module)(() => <RouteRenderer routes={routesConfig} />);

@@ -5,35 +5,22 @@ import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import FormikForm from "../components/Form/FormikForm";
 import FormWrapper from "../components/Form/FormWrapper";
 import FormCaption from "../components/Form/FormCaption";
-import { gql, useMutation } from "@apollo/client";
+import { useLoginMutation } from "../gql/auth.query";
+import { useHistory } from "react-router-dom";
 
 const initValues = { email: "", password: "" };
 
-const LOGIN = gql`
-    mutation Login($data: LoginInput!) {
-        login(data: $data) {
-            user {
-                _id
-                username
-                email
-            }
-            auth {
-                token
-                role
-            }
-        }
-    }
-`;
+export const Login = () => {
+    const { push } = useHistory();
 
-const Login = () => {
-    const [handleLogin] = useMutation(LOGIN);
+    const [handleLogin] = useLoginMutation({
+        onCompleted() {
+            push("/d");
+        }
+    });
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
-        handleLogin({
-            variables: {
-                data: values
-            }
-        });
+        handleLogin(values);
     };
 
     return (
@@ -57,5 +44,3 @@ const Login = () => {
         </Fragment>
     );
 };
-
-export default Login;

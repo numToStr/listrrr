@@ -11,11 +11,13 @@ export type Scalars = {
 };
 
 export type AuthInfo = {
+   __typename?: 'AuthInfo',
   token: Scalars['String'],
   role: AuthRoles,
 };
 
 export type AuthResponse = {
+   __typename?: 'AuthResponse',
   user: User,
   auth: AuthInfo,
 };
@@ -31,6 +33,7 @@ export type ClosedInput = {
 };
 
 export type Column = {
+   __typename?: 'Column',
   _id: Scalars['ID'],
   title: Scalars['String'],
   position: Scalars['Float'],
@@ -69,6 +72,7 @@ export type FindInput = {
 };
 
 export type Issue = {
+   __typename?: 'Issue',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -83,6 +87,7 @@ export type LoginInput = {
 };
 
 export type Mutation = {
+   __typename?: 'Mutation',
   /** For logging in user */
   login: AuthResponse,
   /** For signing up new users */
@@ -142,6 +147,7 @@ export type MutationUpdateTitleAndDescriptionArgs = {
 
 
 export type Project = {
+   __typename?: 'Project',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -151,6 +157,7 @@ export type Project = {
 };
 
 export type Query = {
+   __typename?: 'Query',
   issues: Array<Maybe<Issue>>,
   issue?: Maybe<Issue>,
   projects: Array<Maybe<Project>>,
@@ -176,6 +183,7 @@ export type SignupInput = {
 };
 
 export type Template = {
+   __typename?: 'Template',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -192,6 +200,7 @@ export type UpdateIssueProjectInput = {
 };
 
 export type User = {
+   __typename?: 'User',
   _id: Scalars['ID'],
   username: Scalars['String'],
   email: Scalars['String'],

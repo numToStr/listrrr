@@ -9,7 +9,7 @@ generates:
       # - "typescript-react-apollo"
     config:
     #   reactApolloVersion: 3
-      skipTypename: true
+      # skipTypename: true
     #   withHooks: true
     #   withHOC: false
     #   withComponent: false

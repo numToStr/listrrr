@@ -5,35 +5,22 @@ import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import FormikForm from "../components/Form/FormikForm";
 import FormWrapper from "../components/Form/FormWrapper";
 import FormCaption from "../components/Form/FormCaption";
-import { gql, useMutation } from "@apollo/client";
-
-const SIGNUP = gql`
-    mutation Signup($data: SignupInput!) {
-        signup(data: $data) {
-            user {
-                _id
-                username
-                email
-            }
-            auth {
-                token
-                role
-            }
-        }
-    }
-`;
+import { useSignupMutation } from "../gql/auth.query";
+import { useHistory } from "react-router-dom";
 
 const initValues = { username: "", email: "", password: "" };
 
-const Signup = () => {
-    const [handleSignup] = useMutation(SIGNUP);
+export const Signup = () => {
+    const { push } = useHistory();
+
+    const [handleSignup] = useSignupMutation({
+        onCompleted() {
+            push("/d");
+        }
+    });
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
-        handleSignup({
-            variables: {
-                data: values
-            }
-        });
+        handleSignup(values);
     };
 
     return (
@@ -58,5 +45,3 @@ const Signup = () => {
         </Fragment>
     );
 };
-
-export default Signup;
