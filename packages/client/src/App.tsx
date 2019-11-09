@@ -9,9 +9,9 @@ import {
     InMemoryCache
 } from "@apollo/client";
 import { theme } from "./config/theme.config";
-import { RouteRenderer } from "./components/Routes/RouteRenderer";
+import RouteRenderer from "./components/Routes/RouteRenderer";
 import { routesConfig } from "./config/routes.config";
-import { BaseLoader } from "./components/Base/BaseLoader";
+import BaseLoader from "./components/Base/BaseLoader";
 
 const client = new ApolloClient({
     link: new HttpLink({

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Drawer, Box, makeStyles } from "@material-ui/core";
-import { DrawerList, DrawerType } from "./DrawerList";
+import DrawerList, { DrawerType } from "./DrawerList";
 
 const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
     const drawerWidth = spacing(30);

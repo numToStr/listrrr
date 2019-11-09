@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ spacing }) => ({
     }
 }));
 
-export const BaseLoader = () => {
+const BaseLoader = () => {
     const classes = useStyles();
 
     return (
@@ -32,3 +32,5 @@ export const BaseLoader = () => {
         </Grid>
     );
 };
+
+export default BaseLoader;

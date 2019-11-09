@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 const initValues = { username: "", email: "", password: "" };
 
-export const Signup = () => {
+const Signup = () => {
     const { push } = useHistory();
 
     const [handleSignup] = useSignupMutation({
@@ -45,3 +45,5 @@ export const Signup = () => {
         </Fragment>
     );
 };
+
+export default Signup;

@@ -1,7 +1,7 @@
 import React, { Suspense, FC } from "react";
 import { Grid, Box, makeStyles } from "@material-ui/core";
 import DrawerIndex from "../Drawer/DrawerIndex";
-import { BaseLoader } from "./BaseLoader";
+import BaseLoader from "./BaseLoader";
 
 const useStyles = makeStyles({
     container: {
@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const BaseLayout: FC = ({ children }) => {
+const BaseLayout: FC = ({ children }) => {
     const classes = useStyles();
 
     return (
@@ -33,3 +33,5 @@ export const BaseLayout: FC = ({ children }) => {
         </Grid>
     );
 };
+
+export default BaseLayout;

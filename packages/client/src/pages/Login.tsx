@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 const initValues = { email: "", password: "" };
 
-export const Login = () => {
+const Login = () => {
     const { push } = useHistory();
 
     const [handleLogin] = useLoginMutation({
@@ -44,3 +44,5 @@ export const Login = () => {
         </Fragment>
     );
 };
+
+export default Login;

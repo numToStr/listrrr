@@ -7,10 +7,7 @@ type Props = {
     defaultRedirect?: string;
 };
 
-export const RouteRenderer: FC<Props> = ({
-    routes,
-    defaultRedirect: redirect
-}) => {
+const RouteRenderer: FC<Props> = ({ routes, defaultRedirect: redirect }) => {
     const allRoutes = routes.map(({ path, component: C, routes, ...props }) => (
         <Route key={path} path={path} {...props}>
             <C routes={routes} />
@@ -24,3 +21,5 @@ export const RouteRenderer: FC<Props> = ({
         </Switch>
     );
 };
+
+export default RouteRenderer;

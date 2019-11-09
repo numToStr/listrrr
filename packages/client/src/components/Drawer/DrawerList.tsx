@@ -40,7 +40,7 @@ type Props = {
     type: DrawerType;
 };
 
-export const DrawerList: FC<Props> = ({ onTap, type }) => {
+const DrawerList: FC<Props> = ({ onTap, type }) => {
     const { pathname } = useLocation();
     const { push } = useHistory();
 
@@ -77,3 +77,5 @@ export const DrawerList: FC<Props> = ({ onTap, type }) => {
 
     return <List disablePadding>{list}</List>;
 };
+
+export default DrawerList;

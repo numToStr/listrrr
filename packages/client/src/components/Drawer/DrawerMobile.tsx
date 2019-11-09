@@ -1,7 +1,7 @@
 import React, { Fragment, useState, memo } from "react";
 import { Box, Drawer, Fab, makeStyles } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { DrawerList, DrawerType } from "./DrawerList";
+import DrawerList, { DrawerType } from "./DrawerList";
 
 const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
     const unit = spacing(1.5);
