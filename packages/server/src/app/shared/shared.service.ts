@@ -32,7 +32,7 @@ export class SharedService {
         { _id, type }: FindEntityInput,
         data: TitleAndDescSchema
     ): Promise<typeof Entity> {
-        if (type) {
+        if (type === EntityType.ISSUE) {
             return new IssueDAL({ _id, userID: this.ID }).updateOne(data);
         }
 
