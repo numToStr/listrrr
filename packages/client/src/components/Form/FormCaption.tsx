@@ -1,6 +1,6 @@
 import React, { memo, FC } from "react";
 import { Box, Grid, Typography, Link } from "@material-ui/core";
-import RouterLink from "../RouterLink";
+import BaseRouterLink from "../Base/BaseRouterLink";
 
 type Props = {
     primary: string;
@@ -16,7 +16,11 @@ const FormCaption: FC<Props> = ({ primary, secondary, to }) => {
                     <Typography variant="body2">{primary}</Typography>
                 </Grid>
                 <Grid item>
-                    <Link variant="subtitle2" component={RouterLink} to={to}>
+                    <Link
+                        variant="subtitle2"
+                        component={BaseRouterLink}
+                        to={to}
+                    >
                         {secondary}
                     </Link>
                 </Grid>

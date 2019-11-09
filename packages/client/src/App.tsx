@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { hot } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
@@ -11,6 +11,7 @@ import {
 import { theme } from "./config/theme.config";
 import { RouteRenderer } from "./components/Routes/RouteRenderer";
 import { routesConfig } from "./config/routes.config";
+import { BaseLoader } from "./components/Base/BaseLoader";
 
 const client = new ApolloClient({
     link: new HttpLink({
@@ -27,8 +28,10 @@ const App: React.FC = () => {
         <ApolloProvider client={client}>
             <BrowserRouter>
                 <MuiThemeProvider theme={theme}>
-                    <Root />
                     <CssBaseline />
+                    <Suspense fallback={<BaseLoader />}>
+                        <Root />
+                    </Suspense>
                 </MuiThemeProvider>
             </BrowserRouter>
         </ApolloProvider>
