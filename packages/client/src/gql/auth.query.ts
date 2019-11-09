@@ -7,6 +7,7 @@ import {
     SignupInput
 } from "../generated/graphql";
 import { MutationHook, HandleMutation } from "../@types/types";
+import { TokenUtil } from "../utils/token";
 
 const authKey: AuthResponse["__typename"] = "AuthResponse";
 
@@ -40,9 +41,12 @@ export const useLoginMutation: MutationHook<
         {
             update(cache, { data }) {
                 if (data) {
+                    const d = data.login;
+
+                    TokenUtil.setToken(d.auth.token);
                     cache.writeData({
                         data: {
-                            [authKey]: data.login
+                            [authKey]: d
                         }
                     });
                 }
@@ -92,9 +96,12 @@ export const useSignupMutation: MutationHook<
         {
             update(cache, { data }) {
                 if (data) {
+                    const d = data.signup;
+
+                    TokenUtil.setToken(d.auth.token);
                     cache.writeData({
                         data: {
-                            [authKey]: data.signup
+                            [authKey]: d
                         }
                     });
                 }
