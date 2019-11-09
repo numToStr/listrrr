@@ -1,10 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { BaseLayout } from "../components/Base/BaseLayout";
+import { RouteRenderer } from "../components/Routes/RouteRenderer";
+import { Routes } from "../config/routes.config";
 
-export const Home = () => {
+type Props = {
+    routes?: Routes;
+};
+
+export const Home: FC<Props> = ({ routes = [] }) => {
     return (
         <BaseLayout>
-            <div>Home</div>
+            <RouteRenderer routes={routes} />
         </BaseLayout>
     );
 };

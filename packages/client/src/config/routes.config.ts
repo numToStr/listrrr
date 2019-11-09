@@ -3,6 +3,8 @@ import { Index } from "../pages/Index";
 import { Login } from "../pages/Login";
 import { Signup } from "../pages/Signup";
 import { Home } from "../pages/Home";
+import Project from "../pages/Project";
+import Issue from "../pages/Issue";
 
 export type Routes = RoutesConfig[];
 
@@ -35,6 +37,18 @@ export const routesConfig: Routes = [
     {
         path: "/d",
         component: Home,
-        private: true
+        private: true,
+        routes: [
+            {
+                path: "/d/project",
+                component: Project,
+                private: false
+            },
+            {
+                path: "/d/issue",
+                component: Issue,
+                private: false
+            }
+        ]
     }
 ];

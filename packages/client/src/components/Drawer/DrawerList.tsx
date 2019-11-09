@@ -5,40 +5,30 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    makeStyles
+    Typography,
+    Box
 } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/HomeTwoTone";
+// import HomeIcon from "@material-ui/icons/HomeTwoTone";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 
 const items = [
-    {
-        text: "Dashboard",
-        icon: HomeIcon,
-        path: "/d/dash"
-    },
+    // {
+    //     text: "Dashboard",
+    //     icon: HomeIcon,
+    //     path: "/d/login"
+    // },
     {
         text: "Projects",
         icon: ProjectIcon,
-        path: "/d/projects/list"
+        path: "/d/project"
     },
     {
         text: "Issues",
         icon: IssuesIcon,
-        path: "/d/issues/list"
+        path: "/d/issue"
     }
 ];
-
-const useStyles = makeStyles(
-    ({ palette: { primary }, shape: { borderRadius } }) => ({
-        linkColor: {
-            color: primary.contrastText
-        },
-        listRounded: {
-            borderRadius
-        }
-    })
-);
 
 export enum DrawerType {
     DESKTOP,
@@ -51,7 +41,6 @@ type Props = {
 };
 
 export const DrawerList: FC<Props> = ({ onTap, type }) => {
-    const classes = useStyles();
     const { pathname } = useLocation();
     const { push } = useHistory();
 
@@ -65,23 +54,24 @@ export const DrawerList: FC<Props> = ({ onTap, type }) => {
 
     const list = items.map(({ text, icon: Icon, path }) => {
         return (
-            <ListItem
-                key={path}
-                button
-                selected={path === pathname}
-                onClick={handleLinkClick(path)}
-                className={classes.listRounded}
-            >
-                <ListItemIcon>
-                    <Icon fontSize="small" className={classes.linkColor} />
-                </ListItemIcon>
-                <ListItemText
-                    primary={text}
-                    classes={{
-                        primary: classes.linkColor
-                    }}
-                />
-            </ListItem>
+            <Box clone key={path} borderRadius="borderRadius">
+                <ListItem
+                    button
+                    selected={path === pathname}
+                    onClick={handleLinkClick(path)}
+                >
+                    <ListItemIcon>
+                        <Box clone color="primary.contrastText">
+                            <Icon fontSize="small" />
+                        </Box>
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography color="inherit">{text}</Typography>
+                        }
+                    />
+                </ListItem>
+            </Box>
         );
     });
 
