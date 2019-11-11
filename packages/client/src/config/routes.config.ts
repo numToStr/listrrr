@@ -1,12 +1,13 @@
-import { ComponentType } from "react";
+import { ComponentType, lazy } from "react";
 import Index from "../pages/Index";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
 import Home from "../pages/Home";
-import Project from "../pages/Project";
-import Issue from "../pages/Issue";
-import ProjectView from "../pages/ProjectView";
-import IssueView from "../pages/IssueView";
+
+const Login = lazy(() => import("../pages/Login"));
+const Signup = lazy(() => import("../pages/Signup"));
+const Project = lazy(() => import("../pages/Project"));
+const Issue = lazy(() => import("../pages/Issue"));
+const ProjectView = lazy(() => import("../pages/ProjectView"));
+const IssueView = lazy(() => import("../pages/IssueView"));
 
 export type Routes = RoutesConfig[];
 
