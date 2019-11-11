@@ -10,7 +10,7 @@ type Props = IconButtonProps & {
 
 const BackButton: FC<Props> = ({ to }) => {
     return (
-        <Box clone mb={3}>
+        <Box clone mb={2}>
             <IconButton component={BaseRouterLink} color="primary" to={to}>
                 <BackIcon fontSize="small" />
             </IconButton>

@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
-import IssueEdit from "../components/Issue/IssueEdit";
+import EditDetails from "../components/EditDetails";
 
 type Params = {
     issueID: string;
@@ -23,7 +23,7 @@ const IssueView = () => {
 
     const { title, description, createdAt, closed, projects } = data.issue;
 
-    const renderProject = () => {
+    const renderProjects = () => {
         if (!projects.length) {
             return <Typography variant="caption">No Projects</Typography>;
         }
@@ -41,14 +41,18 @@ const IssueView = () => {
     return (
         <Fragment>
             <BackButton to="/d/issue" />
-            <Grid container justify="space-between" alignItems="center">
+            <Grid container justify="space-between">
                 <Grid item xs>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h5" gutterBottom>
                         {title}
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <IssueEdit defaultValue={{ title, description }} />
+                    <EditDetails
+                        key="edit-issue"
+                        title="Edit Issue"
+                        defaultValue={{ title, description }}
+                    />
                 </Grid>
             </Grid>
             <CreatedAt date={createdAt} mb={1} />
@@ -80,7 +84,7 @@ const IssueView = () => {
                                 <AddIcon fontSize="small" />
                             </IconButton>
                         </Box>
-                        {renderProject()}
+                        {renderProjects()}
                     </Grid>
                 </Hidden>
             </Grid>
