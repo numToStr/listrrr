@@ -43,4 +43,9 @@ export class Issue extends TitleAndDescSchema {
     updatedAt: Date;
 }
 
-export const IssueModel = getModelForClass(Issue);
+export const IssueModel = getModelForClass(Issue, {
+    schemaOptions: {
+        timestamps: true,
+        minimize: true,
+    },
+});
