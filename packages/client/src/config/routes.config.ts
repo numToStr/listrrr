@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Home from "../pages/Home";
 import Project from "../pages/Project";
 import Issue from "../pages/Issue";
+import ProjectView from "../pages/ProjectView";
 
 export type Routes = RoutesConfig[];
 
@@ -42,7 +43,13 @@ export const routesConfig: Routes = [
             {
                 path: "/d/project",
                 component: Project,
-                private: false
+                private: true,
+                exact: true
+            },
+            {
+                path: "/d/project/:projectID",
+                component: ProjectView,
+                private: true
             },
             {
                 path: "/d/issue",

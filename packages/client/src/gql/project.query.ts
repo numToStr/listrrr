@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { Project } from "../generated/graphql";
+import { Project, QueryProjectArgs, FindInput } from "../generated/graphql";
 
 const PROJECT_FRAGMENT = gql`
     fragment ProjectParts on Project {
@@ -31,4 +31,34 @@ export const useProjectsQuery = () => {
     const meta = useQuery<ProjectsQuery, {}>(PROJECTS);
 
     return meta;
+};
+
+const PROJECT = gql`
+    query Project($where: FindInput!) {
+        project(where: $where) {
+            ...ProjectParts
+            columns {
+                _id
+                title
+                issues {
+                    _id
+                    title
+                    updatedAt
+                }
+            }
+        }
+    }
+    ${PROJECT_FRAGMENT}
+`;
+
+type ProjectQuery = {
+    project: Project;
+};
+
+export const useProjectQuery = (variable: FindInput) => {
+    return useQuery<ProjectQuery, QueryProjectArgs>(PROJECT, {
+        variables: {
+            where: variable
+        }
+    });
 };
