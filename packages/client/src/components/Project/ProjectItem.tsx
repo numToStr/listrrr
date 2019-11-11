@@ -2,13 +2,13 @@ import React, { memo, useMemo, FC } from "react";
 import { Box, Typography, Link } from "@material-ui/core";
 
 import BaseBlockQuote from "../Base/BaseBlockQuote";
-import { ProjectParts } from "../../gql/project.query";
+import { ProjectFragment } from "../../gql/project.query";
 import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
 
 type Props = {
-    project: ProjectParts;
+    project: ProjectFragment;
 };
 
 const ProjectItem: FC<Props> = ({ project }) => {

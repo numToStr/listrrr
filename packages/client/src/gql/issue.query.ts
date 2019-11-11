@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Issue, QueryIssueArgs, FindInput } from "../generated/graphql";
 
 const ISSUE_FRAGMENT = gql`
-    fragment IssueParts on Issue {
+    fragment IssueFragment on Issue {
         _id
         title
         description
@@ -15,16 +15,16 @@ const ISSUE_FRAGMENT = gql`
 const ISSUES = gql`
     query Issues {
         issues {
-            ...IssueParts
+            ...IssueFragment
         }
     }
     ${ISSUE_FRAGMENT}
 `;
 
-export type IssueParts = Omit<Issue, "projects" | "createdBy">;
+export type IssueFragment = Omit<Issue, "projects" | "createdBy">;
 
 export type IssuesQuery = {
-    issues: IssueParts[];
+    issues: IssueFragment[];
 };
 
 export const useIssuesQuery = () => {
@@ -34,7 +34,7 @@ export const useIssuesQuery = () => {
 const ISSUE = gql`
     query Issue($where: FindInput!) {
         issue(where: $where) {
-            ...IssueParts
+            ...IssueFragment
             projects {
                 _id
                 title

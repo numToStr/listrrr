@@ -5,10 +5,10 @@ import BaseBlockQuote from "../Base/BaseBlockQuote";
 import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
-import { IssueParts } from "../../gql/issue.query";
+import { IssueFragment } from "../../gql/issue.query";
 
 type Props = {
-    issue: IssueParts;
+    issue: IssueFragment;
 };
 
 const IssueItem: FC<Props> = ({ issue }) => {

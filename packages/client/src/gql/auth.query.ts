@@ -9,23 +9,28 @@ import {
 import { MutationHook, HandleMutation } from "../@types/types";
 import { TokenUtil } from "../utils/token";
 import { useMyApolloContext } from "../components/ApolloContext";
+import { USER_FRAGMENT } from "./user.query";
 
-// const authKey: AuthResponse["__typename"] = "AuthResponse";
+const AUTH_FRAGMENT = gql`
+    fragment AuthFragment on AuthResponse {
+        user {
+            ...UserFragment
+        }
+        auth {
+            token
+            role
+        }
+    }
+    ${USER_FRAGMENT}
+`;
 
 const LOGIN = gql`
     mutation Login($data: LoginInput!) {
         login(data: $data) {
-            user {
-                _id
-                username
-                email
-            }
-            auth {
-                token
-                role
-            }
+            ...AuthFragment
         }
     }
+    ${AUTH_FRAGMENT}
 `;
 
 type LoginResponse = {
@@ -73,17 +78,10 @@ export const useLoginMutation: MutationHook<
 const SIGNUP = gql`
     mutation Signup($data: SignupInput!) {
         signup(data: $data) {
-            user {
-                _id
-                username
-                email
-            }
-            auth {
-                token
-                role
-            }
+            ...AuthFragment
         }
     }
+    ${AUTH_FRAGMENT}
 `;
 
 type SignupResponse = {
