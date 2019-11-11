@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { Issue } from "../generated/graphql";
+import { Issue, QueryIssueArgs, FindInput } from "../generated/graphql";
 
 const ISSUE_FRAGMENT = gql`
     fragment IssueParts on Issue {
@@ -29,4 +29,27 @@ export type IssuesQuery = {
 
 export const useIssuesQuery = () => {
     return useQuery<IssuesQuery, {}>(ISSUES);
+};
+
+const ISSUE = gql`
+    query Issue($where: FindInput!) {
+        issue(where: $where) {
+            ...IssueParts
+            projects {
+                _id
+                title
+            }
+        }
+    }
+    ${ISSUE_FRAGMENT}
+`;
+
+type IssueQuery = {
+    issue: Issue;
+};
+
+export const useIssueQuery = (where: FindInput) => {
+    return useQuery<IssueQuery, QueryIssueArgs>(ISSUE, {
+        variables: { where }
+    });
 };

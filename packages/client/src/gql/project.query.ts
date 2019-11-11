@@ -55,10 +55,8 @@ type ProjectQuery = {
     project: Project;
 };
 
-export const useProjectQuery = (variable: FindInput) => {
+export const useProjectQuery = (where: FindInput) => {
     return useQuery<ProjectQuery, QueryProjectArgs>(PROJECT, {
-        variables: {
-            where: variable
-        }
+        variables: { where }
     });
 };

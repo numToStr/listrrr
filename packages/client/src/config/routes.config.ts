@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import Project from "../pages/Project";
 import Issue from "../pages/Issue";
 import ProjectView from "../pages/ProjectView";
+import IssueView from "../pages/IssueView";
 
 export type Routes = RoutesConfig[];
 
@@ -54,7 +55,13 @@ export const routesConfig: Routes = [
             {
                 path: "/d/issue",
                 component: Issue,
-                private: false
+                private: true,
+                exact: true
+            },
+            {
+                path: "/d/issue/:issueID",
+                component: IssueView,
+                private: true
             }
         ]
     }
