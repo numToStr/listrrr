@@ -2,30 +2,19 @@ import React, { Suspense } from "react";
 import { hot } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
-import {
-    ApolloProvider,
-    ApolloClient,
-    HttpLink,
-    InMemoryCache
-} from "@apollo/client";
 import { theme } from "./config/theme.config";
 import RouteRenderer from "./components/Routes/RouteRenderer";
 import { routesConfig } from "./config/routes.config";
 import BaseLoader from "./components/Base/BaseLoader";
+import { MyApolloContext } from "./components/ApolloContext";
 
-const client = new ApolloClient({
-    link: new HttpLink({
-        uri: "/"
-    }),
-    cache: new InMemoryCache(),
-    connectToDevTools: true
-});
-
-const Root = hot(module)(() => <RouteRenderer routes={routesConfig} />);
+const Root = hot(module)(() => (
+    <RouteRenderer routes={routesConfig} defaultRedirect="/" />
+));
 
 const App: React.FC = () => {
     return (
-        <ApolloProvider client={client}>
+        <MyApolloContext>
             <BrowserRouter>
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
@@ -34,7 +23,7 @@ const App: React.FC = () => {
                     </Suspense>
                 </MuiThemeProvider>
             </BrowserRouter>
-        </ApolloProvider>
+        </MyApolloContext>
     );
 };
 

@@ -15,7 +15,7 @@ const Signup = () => {
 
     const [handleSignup] = useSignupMutation({
         onCompleted() {
-            push("/d");
+            push("/d/project");
         }
     });
 
@@ -27,7 +27,11 @@ const Signup = () => {
         <Fragment>
             <FormWrapper>
                 <FormikForm onSubmit={handleSubmit} initialValues={initValues}>
-                    <FormikTextField name="username" label="Username" />
+                    <FormikTextField
+                        name="username"
+                        label="Username"
+                        autoFocus
+                    />
                     <FormikTextField name="email" label="Email" type="email" />
                     <FormikTextField
                         name="password"

@@ -8,8 +8,9 @@ import {
 } from "../generated/graphql";
 import { MutationHook, HandleMutation } from "../@types/types";
 import { TokenUtil } from "../utils/token";
+import { useMyApolloContext } from "../components/ApolloContext";
 
-const authKey: AuthResponse["__typename"] = "AuthResponse";
+// const authKey: AuthResponse["__typename"] = "AuthResponse";
 
 const LOGIN = gql`
     mutation Login($data: LoginInput!) {
@@ -36,18 +37,21 @@ export const useLoginMutation: MutationHook<
     MutationLoginArgs,
     LoginInput
 > = options => {
+    const setHeaders = useMyApolloContext();
     const [mutation, meta] = useMutation<LoginResponse, MutationLoginArgs>(
         LOGIN,
         {
             update(cache, { data }) {
                 if (data) {
                     const d = data.login;
+                    const t = d.auth.token;
 
-                    TokenUtil.setToken(d.auth.token);
+                    TokenUtil.setToken(t);
                     cache.writeData({
-                        data: {
-                            [authKey]: d
-                        }
+                        data: d
+                    });
+                    setHeaders({
+                        authorization: t
                     });
                 }
             },
@@ -91,18 +95,22 @@ export const useSignupMutation: MutationHook<
     MutationSignupArgs,
     SignupInput
 > = options => {
+    const setHeaders = useMyApolloContext();
     const [mutation, meta] = useMutation<SignupResponse, MutationSignupArgs>(
         SIGNUP,
         {
             update(cache, { data }) {
                 if (data) {
                     const d = data.signup;
+                    const t = d.auth.token;
 
                     TokenUtil.setToken(d.auth.token);
                     cache.writeData({
-                        data: {
-                            [authKey]: d
-                        }
+                        data: d
+                    });
+
+                    setHeaders({
+                        authorization: t
                     });
                 }
             },

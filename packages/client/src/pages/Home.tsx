@@ -10,7 +10,7 @@ type Props = {
 const Home: FC<Props> = ({ routes = [] }) => {
     return (
         <BaseLayout>
-            <RouteRenderer routes={routes} />
+            <RouteRenderer routes={routes} defaultRedirect="/d/project" />
         </BaseLayout>
     );
 };
