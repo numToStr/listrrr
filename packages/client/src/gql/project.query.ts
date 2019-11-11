@@ -7,6 +7,8 @@ const PROJECT_FRAGMENT = gql`
         title
         description
         closed
+        createdAt
+        updatedAt
     }
 `;
 
@@ -19,10 +21,8 @@ const PROJECTS = gql`
     ${PROJECT_FRAGMENT}
 `;
 
-export type ProjectParts = Pick<
-    Project,
-    "_id" | "title" | "description" | "closed"
->;
+export type ProjectParts = Omit<Project, "columns" | "createdBy">;
+
 export type ProjectsQuery = {
     projects: ProjectParts[];
 };

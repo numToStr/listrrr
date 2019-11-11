@@ -35,6 +35,12 @@ export class Issue extends TitleAndDescSchema {
         nullable: "items",
     })
     projects?: Project[];
+
+    @Field()
+    createdAt: Date;
+
+    @Field()
+    updatedAt: Date;
 }
 
 export const IssueModel = getModelForClass(Issue);

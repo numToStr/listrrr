@@ -6,6 +6,8 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any,
   /** Mongo object id scalar type */
   ObjectId: any,
 };
@@ -54,6 +56,7 @@ export type CreateProjectInput = {
   templateID: Scalars['ObjectId'],
 };
 
+
 /** Roles for the authenticated users */
 export enum EntityType {
   Issue = 'ISSUE',
@@ -79,6 +82,8 @@ export type Issue = {
   closed: Scalars['Boolean'],
   createdBy: User,
   projects: Array<Maybe<Project>>,
+  createdAt: Scalars['DateTime'],
+  updatedAt: Scalars['DateTime'],
 };
 
 export type LoginInput = {
@@ -154,6 +159,8 @@ export type Project = {
   closed: Scalars['Boolean'],
   createdBy: User,
   columns: Array<Column>,
+  createdAt: Scalars['DateTime'],
+  updatedAt: Scalars['DateTime'],
 };
 
 export type Query = {

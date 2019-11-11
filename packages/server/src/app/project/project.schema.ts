@@ -37,6 +37,12 @@ export class Project extends TitleAndDescSchema {
 
     @Field(() => [Column])
     columns: Column[];
+
+    @Field()
+    createdAt: Date;
+
+    @Field()
+    updatedAt: Date;
 }
 
 export const ProjectModel = getModelForClass(Project, {
