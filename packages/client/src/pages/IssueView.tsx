@@ -34,8 +34,13 @@ const IssueView = () => {
         return projects.map(
             project =>
                 project && (
-                    <Typography variant="caption" key={project._id}>
-                        {project.title}
+                    <Typography
+                        key={project._id}
+                        variant="caption"
+                        component="p"
+                        gutterBottom
+                    >
+                        - {project.title}
                     </Typography>
                 )
         );
