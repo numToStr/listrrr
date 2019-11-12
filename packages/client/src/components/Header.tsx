@@ -11,12 +11,14 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/SearchTwoTone";
+import BaseRouterLink from "./Base/BaseRouterLink";
 
 type Props = {
     title: string;
+    goToCreate: string;
 };
 
-const Header: FC<Props> = ({ title }) => {
+const Header: FC<Props> = ({ title, goToCreate: goTo }) => {
     return (
         <Box clone mb={3}>
             <Grid container justify="space-between">
@@ -51,6 +53,8 @@ const Header: FC<Props> = ({ title }) => {
                                     size="small"
                                     variant="contained"
                                     color="primary"
+                                    component={BaseRouterLink}
+                                    to={goTo}
                                 >
                                     Create
                                 </Button>

@@ -17,7 +17,7 @@ const Issue = () => {
 
     return (
         <Fragment>
-            <Header title="Issues" />
+            <Header title="Issues" goToCreate="/d/issue/create" />
             {renderList()}
         </Fragment>
     );
