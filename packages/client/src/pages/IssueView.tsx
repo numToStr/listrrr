@@ -10,6 +10,7 @@ import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
 import { EntityType } from "../generated/graphql";
 import StatusIndicator from "../components/StatusIndicator";
+import IssueCommentForm from "../components/Issue/IssueCommentForm";
 
 type Params = {
     issueID: string;
@@ -63,7 +64,7 @@ const IssueView = () => {
                 <StatusIndicator closed={closed} />
                 <CreatedAt date={createdAt} mx={1} />
             </Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
                 <Grid item xs={12} sm={9}>
                     <Box mb={5}>
                         <BaseBlockQuote bgcolor="primary.main">
@@ -72,6 +73,7 @@ const IssueView = () => {
                             </Typography>
                         </BaseBlockQuote>
                     </Box>
+                    <IssueCommentForm issueID={_id} closed={closed} />
                 </Grid>
                 <Hidden xsDown>
                     <Grid item xs>

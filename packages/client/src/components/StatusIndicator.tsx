@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import OpenIcon from "@material-ui/icons/ErrorTwoTone";
 import ClosedIcon from "@material-ui/icons/CheckCircleTwoTone";
 import { Chip, makeStyles } from "@material-ui/core";
@@ -52,4 +52,4 @@ const StatusIndicator: FC<Props> = ({ closed, ...props }) => {
     );
 };
 
-export default StatusIndicator;
+export default memo(StatusIndicator);

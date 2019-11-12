@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Grid, Typography, Box } from "@material-ui/core";
+import { EntityType } from "../generated/graphql";
 import { useProjectQuery } from "../gql/project.query";
 import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
 import EditDetails from "../components/EditDetails";
-import { EntityType } from "../generated/graphql";
 import CreatedAt from "../components/Date/CreatedAt";
 import StatusIndicator from "../components/StatusIndicator";
 
@@ -30,6 +30,9 @@ const ProjectView = () => {
                 <Grid item xs>
                     <Typography variant="h5" gutterBottom>
                         {title}
+                    </Typography>
+                    <Typography variant="body1" color="textSecondary" paragraph>
+                        {description}
                     </Typography>
                 </Grid>
                 <Grid item>

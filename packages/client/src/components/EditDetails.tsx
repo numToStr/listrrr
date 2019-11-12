@@ -30,7 +30,10 @@ const EditDetails: FC<Props> = ({
     const handleDrawer = (val: boolean) => () => setOpen(val);
 
     const handleSubmit: SubmitHandler<TitleAndDescriptionInput> = values => {
-        handleEdit({ _id, type }, values);
+        handleEdit({
+            where: { _id, type },
+            data: values
+        });
     };
 
     return (
