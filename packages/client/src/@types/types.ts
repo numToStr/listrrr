@@ -7,9 +7,13 @@ export type SubmitHandler<Values> = (
 ) => unknown;
 
 // Used in custom query hooks
-export type HandleMutation<Params> = (values: Params) => void;
+export type HandleMutation<Variables> = (values: Variables) => void;
 
 // Used in custom query hooks
 export type MutationHook<Data, Variables, FnParams> = (
     options?: Omit<MutationHookOptions<Data, Variables>, "update">
 ) => [HandleMutation<FnParams>, MutationResult<Data>];
+
+export type MyMutationHook<Data, Var> = (
+    options?: MutationHookOptions<Data, Var>
+) => [HandleMutation<Var>, MutationResult<Data>];

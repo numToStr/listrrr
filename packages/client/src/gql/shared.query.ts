@@ -1,9 +1,4 @@
-import {
-    gql,
-    useMutation,
-    MutationResult,
-    MutationHookOptions
-} from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import {
     Mutation,
     MutationUpdateTitleAndDescriptionArgs,
@@ -11,6 +6,7 @@ import {
 } from "../generated/graphql";
 import { ISSUE_FRAGMENT } from "./issue.query";
 import { PROJECT_FRAGMENT } from "./project.query";
+import { MyMutationHook, HandleMutation } from "../@types/types";
 
 const EDIT_DETAILS = gql`
     mutation EditDetails(
@@ -26,15 +22,10 @@ const EDIT_DETAILS = gql`
     ${PROJECT_FRAGMENT}
 `;
 
-type Handler<V> = (variables: V) => void;
-type MutationHook<T, V> = (
-    options?: MutationHookOptions<T, V>
-) => [Handler<V>, MutationResult<T>];
-
 type EditDetailsMutation = {
     updateTitleAndDescription: Mutation["updateTitleAndDescription"];
 };
-export const useEditDetailsMutation: MutationHook<
+export const useEditDetailsMutation: MyMutationHook<
     EditDetailsMutation,
     MutationUpdateTitleAndDescriptionArgs
 > = options => {
@@ -43,7 +34,7 @@ export const useEditDetailsMutation: MutationHook<
         MutationUpdateTitleAndDescriptionArgs
     >(EDIT_DETAILS, options);
 
-    const handleMutation: Handler<
+    const handleMutation: HandleMutation<
         MutationUpdateTitleAndDescriptionArgs
     > = variables => {
         mutation({
@@ -69,7 +60,7 @@ type CloseOrOpen = {
     closeOrOpen: Mutation["closeOrOpen"];
 };
 
-export const useCloseOrOpenMutation: MutationHook<
+export const useCloseOrOpenMutation: MyMutationHook<
     CloseOrOpen,
     MutationCloseOrOpenArgs
 > = options => {
@@ -78,7 +69,9 @@ export const useCloseOrOpenMutation: MutationHook<
         options
     );
 
-    const handleMutation: Handler<MutationCloseOrOpenArgs> = variables => {
+    const handleMutation: HandleMutation<
+        MutationCloseOrOpenArgs
+    > = variables => {
         mutation({ variables });
     };
 

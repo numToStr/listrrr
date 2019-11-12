@@ -1,5 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
-import { Project, QueryProjectArgs, FindInput } from "../generated/graphql";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import {
+    Project,
+    QueryProjectArgs,
+    FindInput,
+    MutationCreateProjectArgs
+} from "../generated/graphql";
+import { MyMutationHook, HandleMutation } from "../@types/types";
 
 export const PROJECT_FRAGMENT = gql`
     fragment ProjectFragment on Project {
@@ -9,6 +15,18 @@ export const PROJECT_FRAGMENT = gql`
         closed
         createdAt
         updatedAt
+    }
+`;
+
+const COLUMN_FRAGMENT = gql`
+    fragment ColumnFragment on Column {
+        _id
+        title
+        issues {
+            _id
+            title
+            updatedAt
+        }
     }
 `;
 
@@ -28,9 +46,7 @@ export type ProjectsQuery = {
 };
 
 export const useProjectsQuery = () => {
-    const meta = useQuery<ProjectsQuery, {}>(PROJECTS);
-
-    return meta;
+    return useQuery<ProjectsQuery, {}>(PROJECTS);
 };
 
 const PROJECT = gql`
@@ -38,17 +54,12 @@ const PROJECT = gql`
         project(where: $where) {
             ...ProjectFragment
             columns {
-                _id
-                title
-                issues {
-                    _id
-                    title
-                    updatedAt
-                }
+                ...ColumnFragment
             }
         }
     }
     ${PROJECT_FRAGMENT}
+    ${COLUMN_FRAGMENT}
 `;
 
 type ProjectQuery = {
@@ -59,4 +70,47 @@ export const useProjectQuery = (where: FindInput) => {
     return useQuery<ProjectQuery, QueryProjectArgs>(PROJECT, {
         variables: { where }
     });
+};
+
+const CREATE_PROJECT = gql`
+    mutation CreateProject($data: CreateProjectInput!) {
+        createProject(data: $data) {
+            ...ProjectFragment
+            columns {
+                ...ColumnFragment
+            }
+        }
+    }
+    ${PROJECT_FRAGMENT}
+    ${COLUMN_FRAGMENT}
+`;
+
+type CreateProjectMutation = {
+    createProject: Project;
+};
+
+export const useCreateProjectMutation: MyMutationHook<
+    CreateProjectMutation,
+    MutationCreateProjectArgs
+> = options => {
+    const [mutation, meta] = useMutation<
+        CreateProjectMutation,
+        MutationCreateProjectArgs
+    >(CREATE_PROJECT, {
+        update(cache, { data }) {
+            cache.writeData({
+                // Cache is not updating | Do something
+                data: data!.createProject
+            });
+        },
+        ...options
+    });
+
+    const handleMutation: HandleMutation<
+        MutationCreateProjectArgs
+    > = variables => {
+        mutation({ variables });
+    };
+
+    return [handleMutation, meta];
 };
