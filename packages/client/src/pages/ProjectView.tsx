@@ -6,6 +6,7 @@ import BaseLoader from "../components/Base/BaseLoader";
 import { Grid, Typography } from "@material-ui/core";
 import EditDetails from "../components/EditDetails";
 import UpdatedAt from "../components/Date/UpdatedAt";
+import { EntityType } from "../generated/graphql";
 
 type Params = {
     projectID: string;
@@ -19,7 +20,7 @@ const ProjectView = () => {
         return <BaseLoader />;
     }
 
-    const { title, description, updatedAt } = data.project;
+    const { _id, title, description, updatedAt } = data.project;
 
     return (
         <Fragment>
@@ -40,7 +41,9 @@ const ProjectView = () => {
                 <Grid item>
                     <EditDetails
                         key="edit-project"
-                        title="Edit Project"
+                        _id={_id}
+                        type={EntityType.Project}
+                        formTitle="Edit Project"
                         defaultValue={{ title, description }}
                     />
                 </Grid>

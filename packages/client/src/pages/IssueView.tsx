@@ -8,6 +8,7 @@ import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
+import { EntityType } from "../generated/graphql";
 
 type Params = {
     issueID: string;
@@ -21,7 +22,7 @@ const IssueView = () => {
         return <BaseLoader />;
     }
 
-    const { title, description, createdAt, closed, projects } = data.issue;
+    const { _id, title, description, createdAt, closed, projects } = data.issue;
 
     const renderProjects = () => {
         if (!projects.length) {
@@ -50,7 +51,9 @@ const IssueView = () => {
                 <Grid item>
                     <EditDetails
                         key="edit-issue"
-                        title="Edit Issue"
+                        _id={_id}
+                        type={EntityType.Issue}
+                        formTitle="Edit Issue"
                         defaultValue={{ title, description }}
                     />
                 </Grid>

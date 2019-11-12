@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Project, QueryProjectArgs, FindInput } from "../generated/graphql";
 
-const PROJECT_FRAGMENT = gql`
+export const PROJECT_FRAGMENT = gql`
     fragment ProjectFragment on Project {
         _id
         title
