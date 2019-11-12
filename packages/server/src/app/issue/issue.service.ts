@@ -26,7 +26,11 @@ export class IssueService {
             };
         }
 
-        return new IssueDAL(query as Partial<Issue>).findAll();
+        return new IssueDAL(query as Partial<Issue>).findAll({
+            sort: {
+                createdAt: -1,
+            },
+        });
     }
 
     issue(_id: Types.ObjectId): Promise<Issue> {

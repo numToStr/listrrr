@@ -25,7 +25,11 @@ export class ProjectService {
             };
         }
 
-        return new ProjectDAL(query as Partial<Project>).findAll();
+        return new ProjectDAL(query as Partial<Project>).findAll({
+            sort: {
+                createdAt: -1,
+            },
+        });
     }
 
     project(_id: Types.ObjectId): Promise<Project> {

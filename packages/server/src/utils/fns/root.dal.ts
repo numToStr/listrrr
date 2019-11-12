@@ -5,6 +5,8 @@ import { DALOptions } from "../../@types/types";
 export abstract class RootDAL<SchemaType extends object> {
     private readonly select = "-__v";
 
+    private readonly sort = {};
+
     private readonly upsert = false;
 
     constructor(
@@ -16,7 +18,7 @@ export abstract class RootDAL<SchemaType extends object> {
         const newDoc = await this.Model.create(data);
         const doc = newDoc.toObject();
 
-        return deleteProps(doc, ["__v"]);
+        return deleteProps(doc, ["__v"]) as Promise<SchemaType>;
     }
 
     findOne(options: DALOptions = {}): Promise<SchemaType> {
@@ -25,16 +27,17 @@ export abstract class RootDAL<SchemaType extends object> {
         return this.Model.findOne(this.ctx)
             .select(select)
             .lean()
-            .exec();
+            .exec() as Promise<SchemaType>;
     }
 
     findAll(options: DALOptions = {}): Promise<SchemaType[]> {
-        const { select = this.select } = options;
+        const { select = this.select, sort = this.sort } = options;
 
         return this.Model.find(this.ctx)
             .select(select)
+            .sort(sort)
             .lean()
-            .exec();
+            .exec() as Promise<SchemaType[]>;
     }
 
     updateOne(
@@ -49,10 +52,10 @@ export abstract class RootDAL<SchemaType extends object> {
         })
             .select(select)
             .lean()
-            .exec();
+            .exec() as Promise<SchemaType>;
     }
 
-    updateMany(data: Partial<SchemaType>): Promise<SchemaType> {
+    updateMany(data: Partial<SchemaType>) {
         return this.Model.updateMany(this.ctx, data, { multi: true })
             .lean()
             .exec();
@@ -64,6 +67,6 @@ export abstract class RootDAL<SchemaType extends object> {
         return this.Model.findOneAndDelete(this.ctx)
             .select(select)
             .lean()
-            .exec();
+            .exec() as Promise<SchemaType>;
     }
 }
