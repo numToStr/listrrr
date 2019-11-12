@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
+import { Grid, Typography, Box } from "@material-ui/core";
 import { useProjectQuery } from "../gql/project.query";
 import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
-import { Grid, Typography } from "@material-ui/core";
 import EditDetails from "../components/EditDetails";
-import UpdatedAt from "../components/Date/UpdatedAt";
 import { EntityType } from "../generated/graphql";
+import CreatedAt from "../components/Date/CreatedAt";
+import StatusIndicator from "../components/StatusIndicator";
 
 type Params = {
     projectID: string;
@@ -20,7 +21,7 @@ const ProjectView = () => {
         return <BaseLoader />;
     }
 
-    const { _id, title, description, updatedAt } = data.project;
+    const { _id, title, description, createdAt, closed } = data.project;
 
     return (
         <Fragment>
@@ -29,13 +30,6 @@ const ProjectView = () => {
                 <Grid item xs>
                     <Typography variant="h5" gutterBottom>
                         {title}
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        gutterBottom
-                    >
-                        {description}
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -48,7 +42,10 @@ const ProjectView = () => {
                     />
                 </Grid>
             </Grid>
-            <UpdatedAt date={updatedAt} />
+            <Box display="flex" alignItems="center" mb={2}>
+                <StatusIndicator closed={closed} />
+                <CreatedAt date={createdAt} mx={1} />
+            </Box>
             {/* Draggable Columns */}
         </Fragment>
     );

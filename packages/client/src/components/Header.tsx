@@ -52,7 +52,7 @@ const Header: FC<Props> = ({ title }) => {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Add
+                                    Create
                                 </Button>
                             </Grid>
                         </Hidden>

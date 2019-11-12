@@ -1,5 +1,5 @@
 import React, { Fragment, useState, FC } from "react";
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton, Typography, Tooltip } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/EditTwoTone";
 import BaseEditDrawer from "./Base/BaseEditDrawer";
 import BaseEditForm from "./Base/BaseEditForm";
@@ -35,9 +35,11 @@ const EditDetails: FC<Props> = ({
 
     return (
         <Fragment>
-            <IconButton onClick={handleDrawer(true)}>
-                <EditIcon fontSize="small" />
-            </IconButton>
+            <Tooltip title={title}>
+                <IconButton onClick={handleDrawer(true)}>
+                    <EditIcon fontSize="small" />
+                </IconButton>
+            </Tooltip>
             <BaseEditDrawer open={open} onClose={handleDrawer(false)}>
                 <Typography variant="h6" paragraph>
                     {title}

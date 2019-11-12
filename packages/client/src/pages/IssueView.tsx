@@ -9,6 +9,7 @@ import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
 import { EntityType } from "../generated/graphql";
+import StatusIndicator from "../components/StatusIndicator";
 
 type Params = {
     issueID: string;
@@ -58,10 +59,10 @@ const IssueView = () => {
                     />
                 </Grid>
             </Grid>
-            <CreatedAt date={createdAt} mb={1} />
-            <Typography variant="body2" paragraph>
-                Issue is {closed ? "Closed" : "Open"}
-            </Typography>
+            <Box display="flex" alignItems="center" mb={2}>
+                <StatusIndicator closed={closed} />
+                <CreatedAt date={createdAt} mx={1} />
+            </Box>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={9}>
                     <Box mb={5}>
@@ -78,7 +79,7 @@ const IssueView = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            mb={1}
+                            mb={0.5}
                         >
                             <Typography variant="subtitle2">
                                 Projects

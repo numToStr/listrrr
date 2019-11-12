@@ -14,7 +14,7 @@ type Props = {
 const IssueItem: FC<Props> = ({ issue }) => {
     const { _id, title, description, closed, createdAt, updatedAt } = issue;
 
-    const color = useMemo(() => (closed ? "green" : "red"), [closed]);
+    const color = useMemo(() => (closed ? "red" : "green"), [closed]);
 
     return (
         <BaseBlockQuote bgcolor={color}>
@@ -33,8 +33,8 @@ const IssueItem: FC<Props> = ({ issue }) => {
                     {description}
                 </Typography>
                 <Box display="flex" justifyContent="space-between">
-                    <UpdatedAt date={updatedAt} />
                     <CreatedAt date={createdAt} />
+                    <UpdatedAt date={updatedAt} />
                 </Box>
             </Box>
         </BaseBlockQuote>

@@ -33,8 +33,8 @@ const ProjectItem: FC<Props> = ({ project }) => {
                     {description}
                 </Typography>
                 <Box display="flex" justifyContent="space-between">
-                    <UpdatedAt date={updatedAt} />
                     <CreatedAt date={createdAt} />
+                    <UpdatedAt date={updatedAt} />
                 </Box>
             </Box>
         </BaseBlockQuote>
