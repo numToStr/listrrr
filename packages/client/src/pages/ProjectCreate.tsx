@@ -55,7 +55,7 @@ const IssueCreate = () => {
         <Fragment>
             <BackButton to="/d/issue" />
             <Typography variant="h5" paragraph>
-                Create Project
+                New Project
             </Typography>
             <FormikForm onSubmit={handleSubmit} initialValues={initValues}>
                 <Grid container spacing={4}>
@@ -67,7 +67,7 @@ const IssueCreate = () => {
                         />
                         <Box display="flex" justifyContent="flex-end">
                             <FormikSubmitButton fullWidth={false}>
-                                Submit
+                                Create Project
                             </FormikSubmitButton>
                         </Box>
                     </Grid>

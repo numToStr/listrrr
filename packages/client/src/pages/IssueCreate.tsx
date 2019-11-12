@@ -7,23 +7,54 @@ import FormikTextArea from "../components/Form/FormikTextArea";
 import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import BackButton from "../components/BackButton";
 import FormikSelect from "../components/Form/FormikSelect";
+import { useProjectsQuery } from "../gql/project.query";
+import BaseLoader from "../components/Base/BaseLoader";
+import { useCreateIssueMutation } from "../gql/issue.query";
+import { useHistory } from "react-router-dom";
 
 const initValues = {
     title: "",
     description: "",
-    projects: []
+    projectIDs: []
 };
 
 const IssueCreate = () => {
+    const { push } = useHistory();
+    const { data, loading } = useProjectsQuery();
+    const [handleCreateIssue] = useCreateIssueMutation({
+        onCompleted() {
+            push("/d/issue");
+        }
+    });
+
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
-        console.log(values);
+        handleCreateIssue({ data: values });
+    };
+
+    if (loading) {
+        return <BaseLoader />;
+    }
+
+    const renderProjects = () => {
+        if (!data) {
+            return <Typography>Unable to get projects</Typography>;
+        }
+
+        return (
+            <FormikSelect
+                name="projectIDs"
+                label="Add to Projects"
+                multiple
+                options={data.projects}
+            />
+        );
     };
 
     return (
         <Fragment>
             <BackButton to="/d/issue" />
             <Typography variant="h5" paragraph>
-                Create Project
+                New Issue
             </Typography>
             <FormikForm onSubmit={handleSubmit} initialValues={initValues}>
                 <Grid container spacing={4}>
@@ -35,17 +66,12 @@ const IssueCreate = () => {
                         />
                         <Box display="flex" justifyContent="flex-end">
                             <FormikSubmitButton fullWidth={false}>
-                                Submit
+                                Create Issue
                             </FormikSubmitButton>
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                        <FormikSelect
-                            name="projects"
-                            label="Project Template"
-                            multiple
-                            options={[{ _id: "asdfa", title: "asdflajsdkf" }]}
-                        />
+                        {renderProjects()}
                     </Grid>
                 </Grid>
             </FormikForm>
