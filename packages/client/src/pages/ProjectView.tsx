@@ -8,6 +8,7 @@ import BaseLoader from "../components/Base/BaseLoader";
 import EditDetails from "../components/EditDetails";
 import CreatedAt from "../components/Date/CreatedAt";
 import StatusIndicator from "../components/StatusIndicator";
+import ColumnList from "../components/Project/ColumnList";
 
 type Params = {
     projectID: string;
@@ -21,7 +22,14 @@ const ProjectView = () => {
         return <BaseLoader />;
     }
 
-    const { _id, title, description, createdAt, closed } = data.project;
+    const {
+        _id,
+        title,
+        description,
+        createdAt,
+        closed,
+        columns
+    } = data.project;
 
     return (
         <Fragment>
@@ -45,10 +53,11 @@ const ProjectView = () => {
                     />
                 </Grid>
             </Grid>
-            <Box display="flex" alignItems="center" mb={2}>
+            <Box display="flex" alignItems="center" mb={4}>
                 <StatusIndicator closed={closed} />
                 <CreatedAt date={createdAt} mx={1} />
             </Box>
+            <ColumnList columns={columns} />
             {/* Draggable Columns */}
         </Fragment>
     );
