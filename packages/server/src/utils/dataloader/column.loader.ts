@@ -2,6 +2,7 @@ import Dataloader from "dataloader";
 import { Types } from "mongoose";
 import { ColumnDAL } from "../../app/column/column.dal";
 import { Column, ColumnList } from "../../app/column/column.schema";
+import { sortByPosition } from "../fns/object.util";
 
 type OID = Types.ObjectId;
 
@@ -12,14 +13,16 @@ const columnBatchFn: BatchFn = async IDs => {
         const response = await new ColumnDAL({
             _id: {
                 $in: IDs,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+            },
         }).findAll({ select: "columns" });
 
         const enitiyMap = new Map<string, Column[]>();
 
         response.forEach((entity: ColumnList) =>
-            enitiyMap.set(entity._id.toHexString(), entity.columns)
+            enitiyMap.set(
+                entity._id.toHexString(),
+                sortByPosition(entity.columns)
+            )
         );
 
         return IDs.map(_id => {

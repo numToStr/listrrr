@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { Column } from "../../app/column/column.schema";
 
 /**
  * For deleting properties from a object
@@ -31,4 +32,8 @@ export const normalizeLoader = <T extends { _id: Types.ObjectId }>(
             new Error(`Enitity not found for ID: ${_id}`)
         );
     });
+};
+
+export const sortByPosition = (columns: Column[]) => {
+    return columns.sort((colA, colB) => colA.position - colB.position);
 };

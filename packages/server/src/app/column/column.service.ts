@@ -5,16 +5,13 @@ import { Column } from "./column.schema";
 import { FindInput } from "../../utils/schema/schema";
 import { RearrangeColumnInput } from "./column.resolver";
 import { Context } from "../../network/context";
+import { sortByPosition } from "../../utils/fns/object.util";
 
 type RearrangeColumnQuery = {
     $gte?: number;
     $gt?: number;
     $lt?: number;
     $lte?: number;
-};
-
-const sortByPosition = (columns: Column[]) => {
-    return columns.sort((colA, colB) => colA.position - colB.position);
 };
 
 export class ColumnService {

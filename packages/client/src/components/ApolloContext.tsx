@@ -3,13 +3,13 @@ import React, {
     FC,
     useState,
     useContext,
-    Dispatch
+    Dispatch,
 } from "react";
 import {
     ApolloClient,
     HttpLink,
     InMemoryCache,
-    ApolloProvider
+    ApolloProvider,
 } from "@apollo/client";
 import { TokenUtil } from "../utils/token";
 
@@ -21,16 +21,16 @@ const Context = createContext<Dispatch<Header>>(() => {});
 
 export const MyApolloContext: FC = ({ children }) => {
     const [headers, setHeaders] = useState<Header>({
-        authorization: TokenUtil.getToken()!
+        authorization: TokenUtil.getToken()!,
     });
 
     const client = new ApolloClient({
         link: new HttpLink({
             uri: "/",
-            headers
+            headers,
         }),
         cache: new InMemoryCache(),
-        connectToDevTools: true
+        connectToDevTools: true,
     });
 
     return (

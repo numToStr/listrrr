@@ -3,7 +3,9 @@ import {
     Project,
     QueryProjectArgs,
     FindInput,
-    MutationCreateProjectArgs
+    MutationCreateProjectArgs,
+    Column,
+    MutationRearrangeColumnArgs,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -22,6 +24,7 @@ const COLUMN_FRAGMENT = gql`
     fragment ColumnFragment on Column {
         _id
         title
+        position
         issues {
             _id
             title
@@ -68,7 +71,7 @@ type ProjectQuery = {
 
 export const useProjectQuery = (where: FindInput) => {
     return useQuery<ProjectQuery, QueryProjectArgs>(PROJECT, {
-        variables: { where }
+        variables: { where },
     });
 };
 
@@ -100,16 +103,119 @@ export const useCreateProjectMutation: MyMutationHook<
         update(cache, { data }) {
             cache.writeData({
                 // Cache is not updating | Do something
-                data: data!.createProject
+                data: data!.createProject,
             });
         },
-        ...options
+        ...options,
     });
 
-    const handleMutation: HandleMutation<
-        MutationCreateProjectArgs
-    > = variables => {
+    const handleMutation: HandleMutation<MutationCreateProjectArgs> = variables => {
         mutation({ variables });
+    };
+
+    return [handleMutation, meta];
+};
+
+const REARRANGE_COLUMN = gql`
+    mutation RearrangeColumn($where: FindInput!, $data: RearrangeColumnInput!) {
+        rearrangeColumn(where: $where, data: $data) {
+            _id
+            position
+        }
+    }
+`;
+
+type RearrangeColumn = {
+    rearrangeColumn: Omit<Column, "issues" | "title">[];
+};
+
+type RearrangeColumnMutation = MutationRearrangeColumnArgs & {
+    projectID: string;
+};
+
+export const useRearrangeColumnMutation: MyMutationHook<
+    RearrangeColumn,
+    RearrangeColumnMutation
+> = options => {
+    const [mutation, meta] = useMutation(REARRANGE_COLUMN, options);
+
+    const handleMutation: HandleMutation<RearrangeColumnMutation> = variables => {
+        mutation({
+            variables,
+            optimisticResponse: {
+                rearrangeColumn: [
+                    {
+                        __typename: "Column",
+                        _id: variables.where._id,
+                        position: variables.data.finalPosition,
+                    },
+                ],
+            },
+            update(cache, { data }) {
+                if (data) {
+                    if (data.rearrangeColumn.length > 1) {
+                        return;
+                    }
+
+                    const [updatedColumn] = data.rearrangeColumn;
+
+                    const projectQuery: {
+                        project: Project;
+                    } | null = cache.readQuery({
+                        query: PROJECT,
+                        variables: {
+                            where: {
+                                _id: variables.projectID,
+                            },
+                        },
+                    });
+
+                    if (projectQuery) {
+                        const { columns } = projectQuery.project;
+                        const {
+                            initialPosition,
+                            finalPosition,
+                        } = variables.data;
+
+                        const updatedColumns = columns.map(column => {
+                            const c = { ...column };
+
+                            if (c._id === updatedColumn._id) {
+                                c.position = updatedColumn.position;
+                            } else {
+                                if (initialPosition > finalPosition) {
+                                    if (c.position >= finalPosition) {
+                                        c.position++;
+                                    }
+                                } else {
+                                    // initial < final
+                                    if (c.position <= finalPosition) {
+                                        c.position--;
+                                    }
+                                }
+                            }
+
+                            return c;
+                        });
+
+                        cache.writeQuery({
+                            query: PROJECT,
+                            variables: {
+                                where: {
+                                    _id: variables.projectID,
+                                },
+                            },
+                            data: {
+                                project: {
+                                    ...projectQuery.project,
+                                    columns: updatedColumns,
+                                },
+                            },
+                        });
+                    }
+                }
+            },
+        });
     };
 
     return [handleMutation, meta];

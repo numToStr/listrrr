@@ -16,49 +16,64 @@ type Params = {
 
 const ProjectView = () => {
     const { projectID } = useParams<Params>();
-    const { data } = useProjectQuery({ _id: projectID });
+    const { data, loading } = useProjectQuery({ _id: projectID });
 
-    if (!data) {
-        return <BaseLoader />;
-    }
+    const renderProject = () => {
+        if (loading) {
+            return <BaseLoader />;
+        }
 
-    const {
-        _id,
-        title,
-        description,
-        createdAt,
-        closed,
-        columns
-    } = data.project;
+        if (!data) {
+            return <Typography>No Project...</Typography>;
+        }
+
+        const {
+            _id,
+            title,
+            description,
+            createdAt,
+            closed,
+            columns,
+        } = data.project;
+
+        return (
+            <Fragment>
+                <Grid container justify="space-between">
+                    <Grid item xs>
+                        <Typography variant="h5" gutterBottom>
+                            {title}
+                        </Typography>
+                        <Typography
+                            variant="body1"
+                            color="textSecondary"
+                            paragraph
+                        >
+                            {description}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <EditDetails
+                            key="edit-project"
+                            _id={_id}
+                            type={EntityType.Project}
+                            formTitle="Edit Project"
+                            defaultValue={{ title, description }}
+                        />
+                    </Grid>
+                </Grid>
+                <Box display="flex" alignItems="center" mb={4}>
+                    <StatusIndicator closed={closed} />
+                    <CreatedAt date={createdAt} mx={1} />
+                </Box>
+                <ColumnList projectID={_id} columns={columns} />
+            </Fragment>
+        );
+    };
 
     return (
         <Fragment>
             <BackButton to="/d/project" />
-            <Grid container justify="space-between">
-                <Grid item xs>
-                    <Typography variant="h5" gutterBottom>
-                        {title}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary" paragraph>
-                        {description}
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <EditDetails
-                        key="edit-project"
-                        _id={_id}
-                        type={EntityType.Project}
-                        formTitle="Edit Project"
-                        defaultValue={{ title, description }}
-                    />
-                </Grid>
-            </Grid>
-            <Box display="flex" alignItems="center" mb={4}>
-                <StatusIndicator closed={closed} />
-                <CreatedAt date={createdAt} mx={1} />
-            </Box>
-            <ColumnList columns={columns} />
-            {/* Draggable Columns */}
+            {renderProject()}
         </Fragment>
     );
 };
