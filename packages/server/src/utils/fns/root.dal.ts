@@ -1,4 +1,5 @@
 import { ModelType } from "@typegoose/typegoose/lib/types";
+import { QueryFindOneAndUpdateOptions } from "mongoose";
 import { deleteProps } from "./object.util";
 import { DALOptions } from "../../@types/types";
 
@@ -41,15 +42,20 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     updateOne(
-        data: Partial<SchemaType>,
+        data: Partial<SchemaType> & Record<string, unknown>,
         options: DALOptions = {}
     ): Promise<SchemaType> {
-        const { select = this.select, upsert = this.upsert } = options;
+        const {
+            select = this.select,
+            upsert = this.upsert,
+            arrayFilters = [],
+        } = options;
 
         return this.Model.findOneAndUpdate(this.ctx, data, {
             new: true,
             upsert,
-        })
+            arrayFilters,
+        } as QueryFindOneAndUpdateOptions)
             .select(select)
             .lean()
             .exec() as Promise<SchemaType>;

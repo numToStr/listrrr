@@ -7,6 +7,7 @@ export interface DALOptions {
     select?: string;
     sort?: object;
     upsert?: boolean;
+    arrayFilters?: Array<Record<string, unknown>>;
 }
 
 export interface TokenPayload {
