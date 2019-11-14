@@ -53,9 +53,11 @@ export class ProjectDAL extends RootDAL<Project> {
             })
             .project({
                 _id: 0,
-                columnsID: 1,
+                columnID: {
+                    $arrayElemAt: ["$columnIDs", 0],
+                },
             });
 
-        return columnsArray.map(column => column.columnsID);
+        return columnsArray.map(column => column.columnID);
     }
 }

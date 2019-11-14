@@ -46,10 +46,10 @@ export class IssueService {
         });
 
         if (projectIDs && projectIDs.length) {
-            const columnsIDs = await ProjectDAL.columns(projectIDs);
+            const columnIDs = await ProjectDAL.columns(projectIDs);
 
-            if (columnsIDs && columnsIDs.length) {
-                await ColumnDAL.updateColumnWithIssue(columnsIDs, issue._id);
+            if (columnIDs && columnIDs.length) {
+                await ColumnDAL.updateColumnWithIssue(columnIDs, issue._id);
             }
         }
 

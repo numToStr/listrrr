@@ -17,14 +17,13 @@ export class ColumnDAL extends RootDAL<Column> {
     ) {
         return ColumnModel.updateMany(
             {
-                "_id": {
+                _id: {
                     $in: columnIds,
                 },
-                "columns.position": 0,
             },
             {
                 $push: {
-                    "columns.$.issueIDs": issueID,
+                    issueIDs: issueID,
                 },
             }
         );
