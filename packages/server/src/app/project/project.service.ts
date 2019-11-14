@@ -51,16 +51,19 @@ export class ProjectService {
             throw new Error("Template not found");
         }
 
-        const { _id: columnsID } = await new ColumnDAL().create({
-            columns: template.columns,
-        });
+        const newColumns = template.columns.map(c => ({
+            ...c,
+            userID: this.ID,
+        }));
+
+        const { insertedIds } = await new ColumnDAL().createMany(newColumns);
 
         return new ProjectDAL().create({
             title,
             description,
             userID: this.ID,
             templateID,
-            columnsID,
+            columnIDs: Object.values(insertedIds),
         });
     }
 }

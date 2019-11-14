@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
-import { ColumnList, ColumnModel } from "./column.schema";
+import { Column, ColumnModel } from "./column.schema";
 import { RootDAL } from "../../utils/fns/root.dal";
 
-export class ColumnDAL extends RootDAL<ColumnList> {
+export class ColumnDAL extends RootDAL<Column> {
     constructor(
         ctx: Partial<
-            ColumnList | Record<string, unknown | Record<string, unknown>>
+            Column | Record<string, unknown | Record<string, unknown>>
         > = {}
     ) {
         super(ColumnModel, ctx);

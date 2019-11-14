@@ -53,9 +53,9 @@ export class ProjectResolver {
     @FieldResolver(() => [Column])
     columns(
         @Ctx() ctx: Context,
-        @Root() { columnsID }: Project
+        @Root() { columnIDs }: Project
     ): Promise<Column[]> {
-        return ctx.columnLoader.load(columnsID as Types.ObjectId);
+        return ctx.columnLoader.loadMany(columnIDs as Types.ObjectId[]);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

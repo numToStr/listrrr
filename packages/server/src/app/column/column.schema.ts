@@ -3,12 +3,13 @@ import {
     prop,
     getModelForClass,
     modelOptions,
-    arrayProp,
     Ref,
+    arrayProp,
 } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { TitleSchema } from "../../utils/schema/schema";
 import { Issue } from "../issue/issue.schema";
+import { User } from "../user/user.schema";
 
 @ObjectType()
 @modelOptions({
@@ -18,6 +19,13 @@ import { Issue } from "../issue/issue.schema";
     },
 })
 export class Column extends TitleSchema {
+    @prop({
+        required: true,
+        ref: "User",
+        index: true,
+    })
+    userID: Ref<User>;
+
     @Field()
     @prop({
         required: true,
@@ -30,6 +38,9 @@ export class Column extends TitleSchema {
     })
     issues: Issue[];
 
+    @arrayProp({
+        items: Types.ObjectId,
+    })
     @prop({
         // ref is `string` to prevent circular dependencies
         ref: "Issue",
@@ -37,17 +48,7 @@ export class Column extends TitleSchema {
     issueIDs?: Ref<Issue>[];
 }
 
-export class ColumnList {
-    _id: Types.ObjectId;
-
-    @arrayProp({
-        required: true,
-        items: Column,
-    })
-    columns: Column[];
-}
-
-export const ColumnModel = getModelForClass(ColumnList, {
+export const ColumnModel = getModelForClass(Column, {
     schemaOptions: {
         timestamps: true,
         minimize: true,

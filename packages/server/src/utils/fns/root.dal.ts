@@ -1,7 +1,14 @@
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { QueryFindOneAndUpdateOptions } from "mongoose";
+import { QueryFindOneAndUpdateOptions, Types } from "mongoose";
 import { deleteProps } from "./object.util";
 import { DALOptions } from "../../@types/types";
+
+type InsertMany<T> = {
+    result: object;
+    ops: (Document & T)[];
+    insertedCount: number;
+    insertedIds: Record<string, Types.ObjectId>;
+};
 
 export abstract class RootDAL<SchemaType extends object> {
     private readonly select = "-__v";
@@ -20,6 +27,12 @@ export abstract class RootDAL<SchemaType extends object> {
         const doc = newDoc.toObject();
 
         return deleteProps(doc, ["__v"]) as Promise<SchemaType>;
+    }
+
+    createMany(data: Partial<SchemaType>[]): Promise<InsertMany<SchemaType>> {
+        return (this.Model.insertMany(data, {
+            rawResult: true,
+        }) as unknown) as Promise<InsertMany<SchemaType>>;
     }
 
     findOne(options: DALOptions = {}): Promise<SchemaType> {
