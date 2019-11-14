@@ -26,6 +26,24 @@ export class CreateProjectInput extends TitleAndDescSchema {
     templateID: Types.ObjectId;
 }
 
+@InputType()
+export class RearrangeColumnData {
+    @Field()
+    initialPosition: number;
+
+    @Field()
+    finalPosition: number;
+}
+
+@InputType()
+export class RearrangeColumnFindInput {
+    @Field()
+    columnID: Types.ObjectId;
+
+    @Field()
+    projectID: Types.ObjectId;
+}
+
 @Resolver(() => Project)
 export class ProjectResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
@@ -62,5 +80,17 @@ export class ProjectResolver {
     @Mutation(() => Project)
     createProject(@Ctx() ctx: Context, @Arg("data") data: CreateProjectInput) {
         return new ProjectService(ctx).createProject(data);
+    }
+
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Mutation(() => Project, {
+        nullable: true,
+    })
+    rearrangeColumn(
+        @Ctx() ctx: Context,
+        @Arg("where") where: RearrangeColumnFindInput,
+        @Arg("data") data: RearrangeColumnData
+    ) {
+        return new ProjectService(ctx).rearrangeColumn(where, data);
     }
 }

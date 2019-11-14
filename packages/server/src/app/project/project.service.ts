@@ -1,7 +1,12 @@
 import { Types } from "mongoose";
+import { UserInputError } from "apollo-server";
 import { ProjectDAL } from "./project.dal";
 import { Project } from "./project.schema";
-import { CreateProjectInput } from "./project.resolver";
+import {
+    CreateProjectInput,
+    RearrangeColumnFindInput,
+    RearrangeColumnData,
+} from "./project.resolver";
 import { Context } from "../../network/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
@@ -64,6 +69,48 @@ export class ProjectService {
             userID: this.ID,
             templateID,
             columnIDs: Object.values(insertedIds),
+        });
+    }
+
+    async rearrangeColumn(
+        { projectID, columnID }: RearrangeColumnFindInput,
+        { initialPosition, finalPosition }: RearrangeColumnData
+    ): Promise<Project> {
+        if (initialPosition === finalPosition) {
+            throw new UserInputError("Initial and Final position are equal :/");
+        }
+
+        /**
+         * Cases:
+         * 1. Column doesn't changed its position
+         * 2. Column changed its position
+         *  - It goes forward i.e. initial < final
+         *  - It goes backward i.e. initial > final
+         */
+
+        const dal = new ProjectDAL({
+            _id: projectID,
+            userID: this.ID,
+        });
+
+        // Removing the columnId from the columnIDs[]
+        await dal.updateOne(
+            {
+                $pull: {
+                    columnIDs: columnID,
+                },
+            },
+            { select: "_id" }
+        );
+
+        // Adding the columnId to its final position in columnIDs[]
+        return dal.updateOne({
+            $push: {
+                columnIDs: {
+                    $each: [columnID],
+                    $position: finalPosition,
+                },
+            },
         });
     }
 }
