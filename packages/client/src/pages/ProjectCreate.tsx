@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Typography, Grid, Box } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { SubmitHandler } from "../@types/types";
 import FormikForm from "../components/Form/FormikForm";
 import FormikTextField from "../components/Form/FormikTextField";
@@ -15,30 +15,21 @@ import { useCreateProjectMutation } from "../gql/project.query";
 const initValues = {
     title: "",
     description: "",
-    templateID: ""
+    templateID: "",
 };
 
 const IssueCreate = () => {
-    const { push } = useHistory();
-    const { data, loading } = useTemplatesQuery();
-    const [handleCreateProject] = useCreateProjectMutation({
-        onCompleted() {
-            push("/d/project");
-        }
-    });
+    const { data: td, loading } = useTemplatesQuery();
+    const [handleCreateProject, { data: pd }] = useCreateProjectMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
         handleCreateProject({
-            data: values
+            data: values,
         });
     };
 
-    if (loading) {
-        return <BaseLoader />;
-    }
-
     const renderTemplates = () => {
-        if (!data) {
+        if (!td) {
             return <Typography>Unable to get template</Typography>;
         }
 
@@ -46,10 +37,20 @@ const IssueCreate = () => {
             <FormikSelect
                 name="templateID"
                 label="Select a Template"
-                options={data.templates}
+                options={td.templates}
             />
         );
     };
+
+    if (loading) {
+        return <BaseLoader />;
+    }
+
+    if (pd) {
+        const { _id } = pd.createProject;
+
+        return <Redirect to={`/d/project/${_id}`} />;
+    }
 
     return (
         <Fragment>

@@ -100,9 +100,43 @@ export const useCreateProjectMutation: MyMutationHook<
         MutationCreateProjectArgs
     >(CREATE_PROJECT, {
         update(cache, { data }) {
-            cache.writeData({
-                // Cache is not updating | Do something
-                data: data!.createProject,
+            if (!data) {
+                return;
+            }
+
+            const { createProject: p } = data;
+
+            const cached = cache.readQuery<ProjectsQuery>({
+                query: PROJECTS,
+            });
+
+            if (!cached) {
+                return;
+            }
+
+            const projects = produce(cached.projects, draft => {
+                draft.unshift(p);
+            });
+
+            // Pushing to project list
+            cache.writeQuery({
+                query: PROJECTS,
+                data: {
+                    projects,
+                },
+            });
+
+            // Creating new cached query for the created project
+            cache.writeQuery<ProjectQuery, QueryProjectArgs>({
+                query: PROJECT,
+                variables: {
+                    where: {
+                        _id: p._id,
+                    },
+                },
+                data: {
+                    project: p,
+                },
             });
         },
         ...options,
