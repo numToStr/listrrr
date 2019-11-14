@@ -119,7 +119,7 @@ export const useCreateProjectMutation: MyMutationHook<
             });
 
             // Pushing to project list
-            cache.writeQuery({
+            cache.writeQuery<ProjectsQuery>({
                 query: PROJECTS,
                 data: {
                     projects,

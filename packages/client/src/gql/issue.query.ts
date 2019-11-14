@@ -1,9 +1,10 @@
 import { gql, useQuery, useMutation } from "@apollo/client";
+import produce from "immer";
 import {
     Issue,
     QueryIssueArgs,
     FindInput,
-    MutationCreateIssueArgs
+    MutationCreateIssueArgs,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -56,7 +57,7 @@ type IssueQuery = {
 
 export const useIssueQuery = (where: FindInput) => {
     return useQuery<IssueQuery, QueryIssueArgs>(ISSUE, {
-        variables: { where }
+        variables: { where },
     });
 };
 
@@ -85,15 +86,50 @@ export const useCreateIssueMutation: MyMutationHook<
         CreateIssueMutation,
         MutationCreateIssueArgs
     >(CREATE_ISSUE, {
-        update() {
-            // update the cache
+        update(cache, { data }) {
+            if (!data) {
+                return;
+            }
+
+            const { createIssue: i } = data;
+
+            const cached = cache.readQuery<IssuesQuery>({
+                query: ISSUES,
+            });
+
+            if (!cached) {
+                return;
+            }
+
+            const issues = produce(cached.issues, draft => {
+                draft.unshift(i);
+            });
+
+            // Pushing to project list
+            cache.writeQuery<IssuesQuery>({
+                query: ISSUES,
+                data: {
+                    issues,
+                },
+            });
+
+            // Creating new cached query for the created project
+            cache.writeQuery<IssueQuery, QueryIssueArgs>({
+                query: ISSUE,
+                variables: {
+                    where: {
+                        _id: i._id,
+                    },
+                },
+                data: {
+                    issue: i,
+                },
+            });
         },
-        ...options
+        ...options,
     });
 
-    const handleMutation: HandleMutation<
-        MutationCreateIssueArgs
-    > = variables => {
+    const handleMutation: HandleMutation<MutationCreateIssueArgs> = variables => {
         mutation({ variables });
     };
 

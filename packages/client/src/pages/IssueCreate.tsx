@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Typography, Grid, Box } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 import { SubmitHandler } from "../@types/types";
 import FormikForm from "../components/Form/FormikForm";
 import FormikTextField from "../components/Form/FormikTextField";
@@ -10,33 +11,23 @@ import FormikSelect from "../components/Form/FormikSelect";
 import { useProjectsQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
 import { useCreateIssueMutation } from "../gql/issue.query";
-import { useHistory } from "react-router-dom";
 
 const initValues = {
     title: "",
     description: "",
-    projectIDs: []
+    projectIDs: [],
 };
 
 const IssueCreate = () => {
-    const { push } = useHistory();
-    const { data, loading } = useProjectsQuery();
-    const [handleCreateIssue] = useCreateIssueMutation({
-        onCompleted() {
-            push("/d/issue");
-        }
-    });
+    const { data: pd, loading } = useProjectsQuery();
+    const [handleCreateIssue, { data: isd }] = useCreateIssueMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
         handleCreateIssue({ data: values });
     };
 
-    if (loading) {
-        return <BaseLoader />;
-    }
-
     const renderProjects = () => {
-        if (!data) {
+        if (!pd) {
             return <Typography>Unable to get projects</Typography>;
         }
 
@@ -45,10 +36,20 @@ const IssueCreate = () => {
                 name="projectIDs"
                 label="Add to Projects"
                 multiple
-                options={data.projects}
+                options={pd.projects}
             />
         );
     };
+
+    if (loading) {
+        return <BaseLoader />;
+    }
+
+    if (isd) {
+        const { _id } = isd.createIssue;
+
+        return <Redirect to={`/d/issue/${_id}`} />;
+    }
 
     return (
         <Fragment>
