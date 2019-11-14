@@ -26,13 +26,6 @@ export class Column extends TitleSchema {
     })
     userID: Ref<User>;
 
-    @Field()
-    @prop({
-        required: true,
-        min: 0,
-    })
-    position: number;
-
     @Field(() => [Issue], {
         nullable: "items",
     })

@@ -38,7 +38,6 @@ export type Column = {
    __typename?: 'Column',
   _id: Scalars['ID'],
   title: Scalars['String'],
-  position: Scalars['Float'],
   issues: Array<Maybe<Issue>>,
 };
 

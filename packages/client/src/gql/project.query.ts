@@ -24,7 +24,6 @@ const COLUMN_FRAGMENT = gql`
     fragment ColumnFragment on Column {
         _id
         title
-        position
         issues {
             _id
             title
