@@ -21,9 +21,9 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
 
                 if (i !== f) {
                     handleRearrangeColumn({
-                        projectID,
                         where: {
-                            _id: draggableId,
+                            projectID,
+                            columnID: draggableId,
                         },
                         data: {
                             initialPosition: i,
@@ -36,15 +36,9 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
         [handleRearrangeColumn, projectID]
     );
 
-    // console.log("asdfasdf", columns);
-
-    // Destructuring because of @apollo/client deep freeze, don't know why its happening
-    // Raise an issue
-    const list = [...columns]
-        .sort((colA, colB) => colA.position - colB.position)
-        .map((column, index) => (
-            <ColumnItem key={column._id} column={column} index={index} />
-        ));
+    const list = columns.map((column, index) => (
+        <ColumnItem key={column._id} column={column} index={index} />
+    ));
 
     return (
         <DragDropContext onDragEnd={handleDragEnd}>

@@ -1,10 +1,10 @@
 import { gql, useQuery, useMutation } from "@apollo/client";
+import { produce } from "immer";
 import {
     Project,
     QueryProjectArgs,
     FindInput,
     MutationCreateProjectArgs,
-    Column,
     MutationRearrangeColumnArgs,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
@@ -117,102 +117,65 @@ export const useCreateProjectMutation: MyMutationHook<
 };
 
 const REARRANGE_COLUMN = gql`
-    mutation RearrangeColumn($where: FindInput!, $data: RearrangeColumnInput!) {
-        rearrangeColumn(where: $where, data: $data) {
-            _id
-            position
-        }
+    mutation RearrangeColumn(
+        $where: RearrangeColumnFindInput!
+        $data: RearrangeColumnData!
+    ) {
+        rearrangeColumn(where: $where, data: $data)
     }
 `;
 
 type RearrangeColumn = {
-    rearrangeColumn: Omit<Column, "issues" | "title">[];
-};
-
-type RearrangeColumnMutation = MutationRearrangeColumnArgs & {
-    projectID: string;
+    rearrangeColumn: boolean;
 };
 
 export const useRearrangeColumnMutation: MyMutationHook<
     RearrangeColumn,
-    RearrangeColumnMutation
+    MutationRearrangeColumnArgs
 > = options => {
     const [mutation, meta] = useMutation(REARRANGE_COLUMN, options);
 
-    const handleMutation: HandleMutation<RearrangeColumnMutation> = variables => {
+    const handleMutation: HandleMutation<MutationRearrangeColumnArgs> = variables => {
+        const { projectID } = variables.where;
+        const { initialPosition, finalPosition } = variables.data;
         mutation({
             variables,
             optimisticResponse: {
-                rearrangeColumn: [
-                    {
-                        __typename: "Column",
-                        _id: variables.where._id,
-                        position: variables.data.finalPosition,
-                    },
-                ],
+                rearrangeColumn: true,
             },
             update(cache, { data }) {
-                if (data) {
-                    if (data.rearrangeColumn.length > 1) {
-                        return;
-                    }
+                // if rearrangeColumn is false => return, means update is not successful
+                if (!data!.rearrangeColumn) {
+                    return;
+                }
 
-                    const [updatedColumn] = data.rearrangeColumn;
+                const projectQuery = cache.readQuery<ProjectQuery>({
+                    query: PROJECT,
+                    variables: {
+                        where: {
+                            _id: projectID,
+                        },
+                    },
+                });
 
-                    const projectQuery: {
-                        project: Project;
-                    } | null = cache.readQuery({
+                if (projectQuery) {
+                    const project = produce(projectQuery.project, draft => {
+                        const [deleted] = draft.columns.splice(
+                            initialPosition,
+                            1
+                        );
+                        draft.columns.splice(finalPosition, 0, deleted);
+                    });
+
+                    cache.writeQuery<ProjectQuery>({
                         query: PROJECT,
                         variables: {
                             where: {
-                                _id: variables.projectID,
+                                _id: projectID,
                             },
                         },
+                        data: { project },
                     });
-
-                    if (projectQuery) {
-                        const { columns } = projectQuery.project;
-                        const {
-                            initialPosition,
-                            finalPosition,
-                        } = variables.data;
-
-                        const updatedColumns = columns.map(column => {
-                            const c = { ...column };
-
-                            if (c._id === updatedColumn._id) {
-                                c.position = updatedColumn.position;
-                            } else {
-                                if (initialPosition > finalPosition) {
-                                    if (c.position >= finalPosition) {
-                                        c.position++;
-                                    }
-                                } else {
-                                    // initial < final
-                                    if (c.position <= finalPosition) {
-                                        c.position--;
-                                    }
-                                }
-                            }
-
-                            return c;
-                        });
-
-                        cache.writeQuery({
-                            query: PROJECT,
-                            variables: {
-                                where: {
-                                    _id: variables.projectID,
-                                },
-                            },
-                            data: {
-                                project: {
-                                    ...projectQuery.project,
-                                    columns: updatedColumns,
-                                },
-                            },
-                        });
-                    }
                 }
             },
         });

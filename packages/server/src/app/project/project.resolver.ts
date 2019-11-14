@@ -83,9 +83,7 @@ export class ProjectResolver {
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Project, {
-        nullable: true,
-    })
+    @Mutation(() => Boolean)
     rearrangeColumn(
         @Ctx() ctx: Context,
         @Arg("where") where: RearrangeColumnFindInput,

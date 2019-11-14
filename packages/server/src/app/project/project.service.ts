@@ -75,7 +75,7 @@ export class ProjectService {
     async rearrangeColumn(
         { projectID, columnID }: RearrangeColumnFindInput,
         { initialPosition, finalPosition }: RearrangeColumnData
-    ): Promise<Project> {
+    ): Promise<boolean> {
         if (initialPosition === finalPosition) {
             throw new UserInputError("Initial and Final position are equal :/");
         }
@@ -104,13 +104,18 @@ export class ProjectService {
         );
 
         // Adding the columnId to its final position in columnIDs[]
-        return dal.updateOne({
-            $push: {
-                columnIDs: {
-                    $each: [columnID],
-                    $position: finalPosition,
+        const updated = await dal.updateOne(
+            {
+                $push: {
+                    columnIDs: {
+                        $each: [columnID],
+                        $position: finalPosition,
+                    },
                 },
             },
-        });
+            { select: "_id" }
+        );
+
+        return !!updated;
     }
 }
