@@ -1,8 +1,9 @@
 import React, { FC } from "react";
+import { Grid, Typography } from "@material-ui/core";
 import { Droppable } from "react-beautiful-dnd";
 import { Issue, Maybe } from "../../generated/graphql";
 import ColumnIssueItem from "./ColumnIssueItem";
-import { Grid, Typography } from "@material-ui/core";
+import { RearrangeType } from "../../@types/types";
 
 type Props = {
     droppableId: string;
@@ -31,7 +32,7 @@ const ColumnIssueList: FC<Props> = ({ issues = [], droppableId }) => {
         <Droppable
             droppableId={droppableId}
             direction="vertical"
-            type="PROJECT_COLUMN_ISSUE"
+            type={RearrangeType.PROJECT_COLUMN_ISSUE}
         >
             {provided => (
                 <Grid container spacing={1} innerRef={provided.innerRef}>

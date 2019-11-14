@@ -17,3 +17,8 @@ export type MutationHook<Data, Variables, FnParams> = (
 export type MyMutationHook<Data, Var> = (
     options?: MutationHookOptions<Data, Var>
 ) => [HandleMutation<Var>, MutationResult<Data>];
+
+export enum RearrangeType {
+    PROJECT_COLUMN = "PROJECT_COLUMN",
+    PROJECT_COLUMN_ISSUE = "PROJECT_COLUMN_ISSUE",
+}

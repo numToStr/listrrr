@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { Column } from "../../generated/graphql";
 import ColumnItem from "./ColumnItem";
 import { useRearrangeColumnMutation } from "../../gql/project.query";
+import { RearrangeType } from "../../@types/types";
 
 type Props = {
     projectID: string;
@@ -13,7 +14,7 @@ type Props = {
 const ColumnList: FC<Props> = ({ projectID, columns }) => {
     const [handleRearrangeColumn] = useRearrangeColumnMutation();
 
-    const handleDragEnd = useCallback(
+    const columnRearrange = useCallback(
         ({ draggableId, source, destination }: DropResult) => {
             if (destination) {
                 const i = source.index;
@@ -36,6 +37,15 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
         [handleRearrangeColumn, projectID]
     );
 
+    const handleDragEnd = useCallback(
+        (dropResult: DropResult) => {
+            if (dropResult.type === RearrangeType.PROJECT_COLUMN) {
+                return columnRearrange(dropResult);
+            }
+        },
+        [columnRearrange]
+    );
+
     const list = columns.map((column, index) => (
         <ColumnItem key={column._id} column={column} index={index} />
     ));
@@ -45,7 +55,7 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
             <Droppable
                 droppableId="project-column"
                 direction="horizontal"
-                type="PROJECT_COLUMN"
+                type={RearrangeType.PROJECT_COLUMN}
             >
                 {provided => {
                     return (
