@@ -1,0 +1,61 @@
+{
+    "name": "@listrrr/client",
+    "description": "React.js app for the listrrr",
+    "version": "0.1.0",
+    "private": true,
+    "proxy": "http://localhost:5000",
+    "dependencies": {
+        "@apollo/client": "^3.0.0-beta.9",
+        "@material-ui/core": "^4.6.1",
+        "@material-ui/icons": "^4.5.1",
+        "@material-ui/styles": "^4.6.0",
+        "@types/jest": "24.0.23",
+        "@types/node": "12.12.7",
+        "@types/react": "16.9.11",
+        "@types/react-beautiful-dnd": "^11.0.3",
+        "@types/react-dom": "16.9.4",
+        "@types/react-router-dom": "^5.1.2",
+        "date-fns": "^2.7.0",
+        "formik": "^2.0.4",
+        "graphql": "^14.5.8",
+        "immer": "^5.0.0",
+        "query-string": "^6.9.0",
+        "react": "^16.12.0",
+        "react-app-rewire-hot-loader": "^2.0.1",
+        "react-app-rewired": "^2.1.5",
+        "react-beautiful-dnd": "^12.1.0",
+        "react-dom": "npm:@hot-loader/react-dom",
+        "react-hot-loader": "^4.12.17",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.2.0",
+        "typescript": "3.7.2"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject",
+        "gql:init": "graphql-codegen init",
+        "gql:gen": "graphql-codegen --config codegen.yml"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "^1.8.3",
+        "@graphql-codegen/typescript": "1.8.3",
+        "@graphql-codegen/typescript-operations": "1.8.3"
+    }
+}

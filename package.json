@@ -1,0 +1,26 @@
+{
+    "name": "listrrr",
+    "private": true,
+    "description": "Issue and Project tracker build w/ NodeJs, GraphQl & React. Wrapped with Docker.",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "engines": {
+        "node": "^10.15.0 || ^12.13.0",
+        "npm": "^6.10.0",
+        "yarn": "^1.9.0"
+    },
+    "scripts": {
+        "client": "yarn --cwd packages/client start",
+        "server": "yarn --cwd packages/server dev",
+        "build:client": "yarn --cwd packages/client build",
+        "build:server": "yarn --cwd packages/server build",
+        "build": "yarn build:server && yarn build:client",
+        "gql:gen": "yarn --cwd packages/client gql:gen"
+    },
+    "repository": "https://github.com/vkasraj/listrrr.git",
+    "author": "vkasraj <vikasraj1911@gmail.com>",
+    "license": "MIT",
+    "workspaces": [
+        "packages/*"
+    ]
+}

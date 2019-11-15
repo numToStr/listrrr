@@ -1,0 +1,47 @@
+{
+    "name": "@listrrr/server",
+    "description": "GraphQl server for the listrrr app",
+    "private": false,
+    "version": "1.0.0",
+    "main": "src/bin/www.ts",
+    "scripts": {
+        "start": "yarn build && yarn prod",
+        "prod": "NODE_ENV=production NODE_DEBUG=www node src/bin/www.js",
+        "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json --ignore generated -r dotenv/config src/bin/www.ts",
+        "build": "NODE_ENV=production tsc",
+        "lint": "eslint --ext .js,.ts --fix --fix-type suggestion ."
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@typegoose/typegoose": "^6.1.2",
+        "apollo-server": "^2.9.9",
+        "bcryptjs": "^2.4.3",
+        "dataloader": "^1.4.0",
+        "graphql": "^14.5.8",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.7.11",
+        "reflect-metadata": "^0.1.13",
+        "type-graphql": "^0.17.5",
+        "typeorm": "^0.2.20"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/graphql": "^14.5.0",
+        "@types/jsonwebtoken": "^8.3.4",
+        "@types/mongoose": "^5.5.31",
+        "@types/node": "^12.12.7",
+        "@typescript-eslint/eslint-plugin": "^2.7.0",
+        "@typescript-eslint/parser": "^2.7.0",
+        "dotenv": "^8.1.0",
+        "eslint": "^6.5.1",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^10.0.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "nodemon": "^1.19.3",
+        "prettier": "^1.19.1",
+        "ts-node": "^8.5.2",
+        "typescript": "^3.7.2"
+    }
+}
