@@ -1,7 +1,7 @@
 import produce from "immer";
 import { normalizeLevel1 } from "../json.normalizr";
 import {
-    PROJECT_ADD_SUCCESS,
+    // PROJECT_ADD_SUCCESS,
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
     PROJECT_CLEAR,
@@ -13,13 +13,13 @@ import {
 const initialState = {
     list: null,
     counts: {},
-    current: null,
-    lastCreated: null
+    current: null
+    // lastCreated: null
 };
 
-const onProjectAdd = (state, { project }) => {
-    state.lastCreated = project;
-};
+// const onProjectAdd = (state, { project }) => {
+//     state.lastCreated = project;
+// };
 
 const onProjectList = (state, { projects, counts }) => {
     state.list = normalizeLevel1(projects, { entity: "projects" });
@@ -105,8 +105,8 @@ const onProjectUpdate = (state, { project }) => {
 
 export default produce((state = initialState, { type, data }) => {
     switch (type) {
-        case PROJECT_ADD_SUCCESS:
-            return onProjectAdd(state, data);
+        // case PROJECT_ADD_SUCCESS:
+        //     return onProjectAdd(state, data);
         case PROJECT_LIST_SUCCESS:
             return onProjectList(state, data);
         case PROJECT_GET_SUCCESS:

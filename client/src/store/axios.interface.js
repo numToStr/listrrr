@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiInterface = axios.create({
     baseURL: "/api",
-    timeout: 2000,
+    // timeout: 2000,
     // `withCredentials` indicates whether or not cross-site Access-Control requests
     // should be made using credentials
     withCredentials: false,

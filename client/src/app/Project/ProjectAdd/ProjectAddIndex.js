@@ -4,21 +4,32 @@ import Grid from "@material-ui/core/Grid";
 
 import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 import ProjectAddForm from "./ProjectAddForm";
+import { projectAdd } from "../../../store/requests/project.request";
 
-const ProjectAddIndex = () => (
-    <Fragment>
-        <Grid container justify="space-between" alignItems="center">
-            <Grid item xs={12}>
-                <HeaderBackButton to="/d/projects/list" />
+const ProjectAddIndex = ({ history }) => {
+    const handleSubmit = async (values, formikBag) => {
+        await projectAdd(values);
+
+        formikBag.setSubmitting(false);
+
+        history.push("/d/projects");
+    };
+
+    return (
+        <Fragment>
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item xs={12}>
+                    <HeaderBackButton to="/d/projects/list" />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h5" gutterBottom>
+                        New Project
+                    </Typography>
+                </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <Typography variant="h5" gutterBottom>
-                    New Project
-                </Typography>
-            </Grid>
-        </Grid>
-        <ProjectAddForm />
-    </Fragment>
-);
+            <ProjectAddForm onSubmit={handleSubmit} history={history} />
+        </Fragment>
+    );
+};
 
 export default ProjectAddIndex;

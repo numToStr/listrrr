@@ -12,14 +12,15 @@ const FormButton = ({ loading, children, fullWidth = true, ...props }) => {
                 color="primary"
                 variant="contained"
                 {...props}
+                startIcon={
+                    loading && (
+                        <Fade in={loading} unmountOnExit>
+                            <CircularProgress size={22} thickness={4} />
+                        </Fade>
+                    )
+                }
             >
-                {loading ? (
-                    <Fade in={loading} unmountOnExit>
-                        <CircularProgress size={22} thickness={4} />
-                    </Fade>
-                ) : (
-                    children
-                )}
+                {children}
             </Button>
         </FormControl>
     );

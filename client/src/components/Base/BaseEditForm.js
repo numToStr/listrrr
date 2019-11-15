@@ -5,11 +5,11 @@ import FormLayout from "../Form/FormLayout";
 import InputField from "../Form/FormFields/FormTextField";
 import FormButton from "../Form/FormFields/FormButton";
 
-const BaseEditForm = ({ initialValues, loading, onSubmit }) => (
+const BaseEditForm = ({ initialValues, onSubmit }) => (
     <FormLayout
         onSubmit={onSubmit}
         initialValues={initialValues}
-        render={({ dirty }) => (
+        render={({ dirty, isSubmitting }) => (
             <Form>
                 <Field
                     name="title"
@@ -26,8 +26,8 @@ const BaseEditForm = ({ initialValues, loading, onSubmit }) => (
                     component={InputField}
                 />
                 <FormButton
-                    disabled={!dirty || loading}
-                    loading={loading}
+                    disabled={!dirty || isSubmitting}
+                    loading={isSubmitting}
                     variant="outlined"
                 >
                     Submit

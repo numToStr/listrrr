@@ -11,16 +11,17 @@ import HeaderBackButton from "../../../components/Header/HeaderBackButton";
 import {
     issueGet,
     issueClear,
-    issueUpdate
+    issueUpdateSuccess
 } from "../../../store/actions/index.action";
 import IssueCommentForm from "./IssueCommentForm";
 import IssueEditIndex from "../IssueEdit/IssueEditIndex";
+import { issueUpdate } from "../../../store/requests/issue.request";
 
 const IssueViewIndex = ({
     match: { params },
     $issueGet,
     $issueClear,
-    $issueUpdate,
+    $issueUpdateSuccess,
     _currentIssue
 }) => {
     const $$issueGet = useCallback(() => {
@@ -29,8 +30,12 @@ const IssueViewIndex = ({
 
     const $$issueClear = useCallback($issueClear);
 
-    const issueClose = () => {
-        $issueUpdate(params.issueId, { isOpen: !_currentIssue.isOpen });
+    const issueClose = async () => {
+        const data = await issueUpdate(params.issueId, {
+            isOpen: !_currentIssue.isOpen
+        });
+
+        $issueUpdateSuccess(data);
     };
 
     const onComment = val => console.log(val);
@@ -103,7 +108,7 @@ const mapStateToProps = ({ issue }) => ({
 const mapDispatchToProps = {
     $issueGet: issueGet,
     $issueClear: issueClear,
-    $issueUpdate: issueUpdate
+    $issueUpdateSuccess: issueUpdateSuccess
 };
 
 export default connect(

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -6,18 +6,23 @@ import IconButton from "@material-ui/core/IconButton";
 import BaseEditForm from "../../../components/Base/BaseEditForm";
 import BaseEditDrawer from "../../../components/Base/BaseEditDrawer";
 import IconEdit from "../../../components/Icons/IconEdit";
-
-import { projectUpdate } from "../../../store/actions/index.action";
+import { projectUpdate } from "../../../store/requests/project.request";
+import { projectUpdateSuccess } from "../../../store/actions/project.action";
 
 const ProjectEditIndex = ({
     project: { _id, title, description },
-    $projectUpdate,
-    _loading
+    $projectUpdateSuccess
 }) => {
     const [editDrawer, setEditDrawer] = useState(false);
     const handleEditDrawer = () => setEditDrawer(val => !val);
 
-    const onSubmit = val => $projectUpdate(_id, val);
+    const handleSubmit = useCallback(async values => {
+        const data = await projectUpdate(_id, values);
+
+        handleEditDrawer();
+
+        $projectUpdateSuccess(data);
+    }, [$projectUpdateSuccess, _id]);
 
     const initValues = { title, description };
     return (
@@ -32,8 +37,7 @@ const ProjectEditIndex = ({
                     </Typography>
                     <BaseEditForm
                         initialValues={initValues}
-                        onSubmit={onSubmit}
-                        loading={_loading}
+                        onSubmit={handleSubmit}
                     />
                 </Fragment>
             </BaseEditDrawer>
@@ -41,15 +45,11 @@ const ProjectEditIndex = ({
     );
 };
 
-const mapStateToProps = ({ http: { request } }) => ({
-    _loading: request.projectUpdate
-});
-
 const mapDispatchToProps = {
-    $projectUpdate: projectUpdate
+    $projectUpdateSuccess: projectUpdateSuccess
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(ProjectEditIndex);

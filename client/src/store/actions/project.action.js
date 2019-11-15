@@ -1,6 +1,6 @@
 import {
-    PROJECT_ADD,
-    PROJECT_ADD_SUCCESS,
+    // PROJECT_ADD,
+    // PROJECT_ADD_SUCCESS,
     PROJECT_LIST,
     PROJECT_LIST_SUCCESS,
     PROJECT_GET_SUCCESS,
@@ -12,28 +12,28 @@ import {
     PROJECT_ISSUE_REARRANGE,
     PROJECT_ISSUE_REARRANGE_SUCCESS,
     PROJECT_ISSUE_REARRANGE_UPDATE,
-    PROJECT_UPDATE,
+    // PROJECT_UPDATE,
     PROJECT_UPDATE_SUCCESS
 } from "../action.types";
 
-const projectAddSuccess = data => ({
-    type: PROJECT_ADD_SUCCESS,
-    data
-});
+// const projectAddSuccess = data => ({
+//     type: PROJECT_ADD_SUCCESS,
+//     data
+// });
 
-export const projectAdd = data => ({
-    type: PROJECT_ADD,
-    http: true,
-    payload: {
-        method: "POST",
-        url: "/project",
-        data
-    },
-    success: projectAddSuccess,
-    meta: {
-        label: "projectAdd"
-    }
-});
+// export const projectAdd = data => ({
+//     type: PROJECT_ADD,
+//     http: true,
+//     payload: {
+//         method: "POST",
+//         url: "/project",
+//         data
+//     },
+//     success: projectAddSuccess,
+//     meta: {
+//         label: "projectAdd"
+//     }
+// });
 
 const projectListSuccess = data => ({
     type: PROJECT_LIST_SUCCESS,
@@ -164,21 +164,21 @@ export const projectIssueRearrangeUpdate = (
     }
 });
 
-const projectUpdateSuccess = data => ({
+export const projectUpdateSuccess = data => ({
     type: PROJECT_UPDATE_SUCCESS,
     data
 });
 
-export const projectUpdate = (projectId, data) => ({
-    type: PROJECT_UPDATE,
-    http: true,
-    payload: {
-        method: "PATCH",
-        url: `/project/${projectId}`,
-        data
-    },
-    success: projectUpdateSuccess,
-    meta: {
-        label: "projectUpdate"
-    }
-});
+// export const projectUpdate = (projectId, data) => ({
+//     type: PROJECT_UPDATE,
+//     http: true,
+//     payload: {
+//         method: "PATCH",
+//         url: `/project/${projectId}`,
+//         data
+//     },
+//     success: projectUpdateSuccess,
+//     meta: {
+//         label: "projectUpdate"
+//     }
+// });
