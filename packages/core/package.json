@@ -6,10 +6,9 @@
     "main": "src/index.js",
     "license": "MIT",
     "scripts": {
-        "build": "rimraf ./dist && tsc"
+        "build": "tsc --build tsconfig.json"
     },
     "devDependencies": {
-        "rimraf": "^3.0.0",
         "typescript": "^3.7.2"
     }
 }

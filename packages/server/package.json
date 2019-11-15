@@ -8,7 +8,7 @@
         "start": "yarn build && yarn prod",
         "prod": "NODE_ENV=production NODE_DEBUG=www node src/bin/www.js",
         "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json --ignore generated -r dotenv/config src/bin/www.ts",
-        "build": "NODE_ENV=production tsc",
+        "build": "NODE_ENV=production tsc --build tsconfig.json",
         "lint": "eslint --ext .js,.ts --fix --fix-type suggestion ."
     },
     "license": "MIT",
