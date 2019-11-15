@@ -12,6 +12,7 @@
     "scripts": {
         "client": "yarn --cwd packages/client start",
         "server": "yarn --cwd packages/server dev",
+        "build:core": "yarn --cwd packages/core build",
         "build:client": "yarn --cwd packages/client build",
         "build:server": "yarn --cwd packages/server build",
         "build": "yarn build:server && yarn build:client",

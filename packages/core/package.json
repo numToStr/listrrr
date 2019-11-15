@@ -3,6 +3,13 @@
     "description": "Core functions shared accross listrrr packages",
     "private": false,
     "version": "1.0.0",
-    "main": "src/index.ts",
-    "license": "MIT"
+    "main": "src/index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "rimraf ./dist && tsc"
+    },
+    "devDependencies": {
+        "rimraf": "^3.0.0",
+        "typescript": "^3.7.2"
+    }
 }
