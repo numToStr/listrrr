@@ -55,7 +55,7 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     updateOne(
-        data: Partial<SchemaType> & Record<string, unknown>,
+        data: Partial<SchemaType | Record<string, unknown>>,
         options: DALOptions = {}
     ): Promise<SchemaType> {
         const {
