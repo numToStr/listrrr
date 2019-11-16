@@ -96,6 +96,7 @@ export type Mutation = {
   login: AuthResponse,
   /** For signing up new users */
   signup: AuthResponse,
+  rearrangeIssue: Scalars['Boolean'],
   createIssue: Issue,
   updateIssueProjects?: Maybe<Issue>,
   deleteIssue?: Maybe<Issue>,
@@ -115,6 +116,12 @@ export type MutationLoginArgs = {
 
 export type MutationSignupArgs = {
   data: SignupInput
+};
+
+
+export type MutationRearrangeIssueArgs = {
+  data: RearrangeIssueInput,
+  where: RearrangeIssueFindInput
 };
 
 
@@ -140,7 +147,7 @@ export type MutationCreateProjectArgs = {
 
 
 export type MutationRearrangeColumnArgs = {
-  data: RearrangeColumnData,
+  data: RearrangeColumnInput,
   where: RearrangeColumnFindInput
 };
 
@@ -189,14 +196,25 @@ export type QueryProjectArgs = {
   where: FindInput
 };
 
-export type RearrangeColumnData = {
+export type RearrangeColumnFindInput = {
+  columnID: Scalars['ObjectId'],
+  projectID: Scalars['ObjectId'],
+};
+
+export type RearrangeColumnInput = {
   initialPosition: Scalars['Float'],
   finalPosition: Scalars['Float'],
 };
 
-export type RearrangeColumnFindInput = {
+export type RearrangeIssueFindInput = {
   columnID: Scalars['ObjectId'],
-  projectID: Scalars['ObjectId'],
+  issueID: Scalars['ObjectId'],
+};
+
+export type RearrangeIssueInput = {
+  initialPosition: Scalars['Float'],
+  finalPosition: Scalars['Float'],
+  destinationColumnID: Scalars['ObjectId'],
 };
 
 export type SignupInput = {

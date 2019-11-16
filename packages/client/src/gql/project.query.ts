@@ -6,6 +6,8 @@ import {
     FindInput,
     MutationCreateProjectArgs,
     MutationRearrangeColumnArgs,
+    MutationRearrangeIssueArgs,
+    Column,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -152,7 +154,7 @@ export const useCreateProjectMutation: MyMutationHook<
 const REARRANGE_COLUMN = gql`
     mutation RearrangeColumn(
         $where: RearrangeColumnFindInput!
-        $data: RearrangeColumnData!
+        $data: RearrangeColumnInput!
     ) {
         rearrangeColumn(where: $where, data: $data)
     }
@@ -166,7 +168,10 @@ export const useRearrangeColumnMutation: MyMutationHook<
     RearrangeColumn,
     MutationRearrangeColumnArgs
 > = options => {
-    const [mutation, meta] = useMutation(REARRANGE_COLUMN, options);
+    const [mutation, meta] = useMutation<
+        RearrangeColumn,
+        MutationRearrangeColumnArgs
+    >(REARRANGE_COLUMN, options);
 
     const handleMutation: HandleMutation<MutationRearrangeColumnArgs> = variables => {
         const { projectID } = variables.where;
@@ -193,11 +198,8 @@ export const useRearrangeColumnMutation: MyMutationHook<
 
                 if (projectQuery) {
                     const project = produce(projectQuery.project, draft => {
-                        const [deleted] = draft.columns.splice(
-                            initialPosition,
-                            1
-                        );
-                        draft.columns.splice(finalPosition, 0, deleted);
+                        const [f] = draft.columns.splice(initialPosition, 1);
+                        draft.columns.splice(finalPosition, 0, f);
                     });
 
                     cache.writeQuery<ProjectQuery>({
@@ -210,6 +212,121 @@ export const useRearrangeColumnMutation: MyMutationHook<
                         data: { project },
                     });
                 }
+            },
+        });
+    };
+
+    return [handleMutation, meta];
+};
+
+const REARRANGE_ISSUE = gql`
+    mutation RearrangeIssue(
+        $where: RearrangeIssueFindInput!
+        $data: RearrangeIssueInput!
+    ) {
+        rearrangeIssue(where: $where, data: $data)
+    }
+`;
+
+type RearrangeIssue = {
+    rearrangeIssue: boolean;
+};
+
+export const useRearrangeIssueMutation: MyMutationHook<
+    RearrangeIssue,
+    MutationRearrangeIssueArgs
+> = options => {
+    const [mutation, meta] = useMutation<
+        RearrangeIssue,
+        MutationRearrangeIssueArgs
+    >(REARRANGE_ISSUE, options);
+
+    const handleMutation: HandleMutation<MutationRearrangeIssueArgs> = variables => {
+        mutation({
+            variables,
+            optimisticResponse: {
+                rearrangeIssue: true,
+            },
+            update(cache, { data }) {
+                /**
+                 * Cases:
+                 *
+                 * 1. changes its columns
+                 *      -> columnID !== destinationColumnID
+                 * 2. changes its position in the same column
+                 *      -> columnID === destinationColumnID && initialPosition !== finalPosition
+                 * 3. doesn't changes its position
+                 *      -> columnID === destinationColumnID && initialPosition === finalPosition
+                 */
+
+                if (!data!.rearrangeIssue) {
+                    return false;
+                }
+
+                const {
+                    where: { columnID },
+                    data: {
+                        destinationColumnID,
+                        initialPosition,
+                        finalPosition,
+                    },
+                } = variables;
+
+                const initColumn = cache.readFragment<Column>({
+                    fragment: COLUMN_FRAGMENT,
+                    id: `Column:${columnID}`,
+                });
+
+                if (!initColumn) {
+                    return false;
+                }
+
+                if (columnID !== destinationColumnID) {
+                    const destColumn = cache.readFragment<Column>({
+                        fragment: COLUMN_FRAGMENT,
+                        id: `Column:${destinationColumnID}`,
+                    });
+
+                    const updatedInitColumn = produce(initColumn, draft => {
+                        draft.issues.splice(initialPosition, 1);
+                    });
+
+                    const updatedDestColumn = produce(destColumn, draft => {
+                        const f = initColumn.issues[initialPosition];
+                        draft!.issues.splice(finalPosition, 0, f);
+                    });
+
+                    cache.writeFragment<Column>({
+                        fragment: COLUMN_FRAGMENT,
+                        id: `Column:${columnID}`,
+                        data: updatedInitColumn,
+                    });
+
+                    cache.writeFragment<Column>({
+                        fragment: COLUMN_FRAGMENT,
+                        id: `Column:${destinationColumnID}`,
+                        data: updatedDestColumn!,
+                    });
+
+                    return true;
+                }
+
+                if (initialPosition !== finalPosition) {
+                    const updatedColumn = produce(initColumn, draft => {
+                        const [f] = draft.issues.splice(initialPosition, 1);
+                        draft.issues.splice(finalPosition, 0, f);
+                    });
+
+                    cache.writeFragment<Column>({
+                        fragment: COLUMN_FRAGMENT,
+                        id: `Column:${columnID}`,
+                        data: updatedColumn,
+                    });
+
+                    return true;
+                }
+
+                return false;
             },
         });
     };

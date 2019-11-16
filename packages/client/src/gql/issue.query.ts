@@ -1,5 +1,5 @@
 import { gql, useQuery, useMutation } from "@apollo/client";
-import produce from "immer";
+import { produce } from "immer";
 import {
     Issue,
     QueryIssueArgs,

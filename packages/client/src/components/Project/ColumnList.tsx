@@ -3,7 +3,10 @@ import { Grid } from "@material-ui/core";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { Column } from "../../generated/graphql";
 import ColumnItem from "./ColumnItem";
-import { useRearrangeColumnMutation } from "../../gql/project.query";
+import {
+    useRearrangeColumnMutation,
+    useRearrangeIssueMutation,
+} from "../../gql/project.query";
 import { RearrangeType } from "../../@types/types";
 
 type Props = {
@@ -13,6 +16,7 @@ type Props = {
 
 const ColumnList: FC<Props> = ({ projectID, columns }) => {
     const [handleRearrangeColumn] = useRearrangeColumnMutation();
+    const [handleRearrangeIssue] = useRearrangeIssueMutation();
 
     const columnRearrange = useCallback(
         ({ draggableId, source, destination }: DropResult) => {
@@ -35,6 +39,30 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
         [handleRearrangeColumn, projectID]
     );
 
+    const issueRearrange = useCallback(
+        ({ draggableId: isID, source, destination }: DropResult) => {
+            const { index: ip, droppableId: cID } = source;
+            const { index: fp, droppableId: dID } = destination!;
+
+            if (cID === dID && ip === fp) {
+                return;
+            }
+
+            handleRearrangeIssue({
+                where: {
+                    issueID: isID,
+                    columnID: cID,
+                },
+                data: {
+                    destinationColumnID: dID,
+                    initialPosition: ip,
+                    finalPosition: fp,
+                },
+            });
+        },
+        [handleRearrangeIssue]
+    );
+
     const handleDragEnd = useCallback(
         (dropResult: DropResult) => {
             if (!dropResult.destination) {
@@ -44,8 +72,10 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
             if (dropResult.type === RearrangeType.PROJECT_COLUMN) {
                 return columnRearrange(dropResult);
             }
+
+            return issueRearrange(dropResult);
         },
-        [columnRearrange]
+        [columnRearrange, issueRearrange]
     );
 
     const list = columns.map((column, index) => (
