@@ -1,18 +1,20 @@
 import "reflect-metadata";
 import { PORT, MONGO_URI } from "../config/keys";
-import { server } from "../network/server";
+import { app } from "../network/server";
 import { db } from "../network/db";
 import debug from "../utils/fns/debug";
 
 db(MONGO_URI)
-    .then(async () => {
+    .then(() => {
         debug.www("[MONGO] >> Connected");
 
-        const { url } = await server({
-            port: PORT,
-        });
+        // const { url } = await server({
+        //     port: PORT,
+        // });
 
-        debug.www(`[SERVER] >> Connected ~ ${url}`);
+        app.listen(PORT, () => {
+            debug.www(`[SERVER] >> Connected`);
+        });
     })
     .catch((error: Error) => {
         throw error;

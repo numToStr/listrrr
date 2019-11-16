@@ -26,7 +26,7 @@ export const MyApolloContext: FC = ({ children }) => {
 
     const client = new ApolloClient({
         link: new HttpLink({
-            uri: "/",
+            uri: "/gql",
             headers,
         }),
         cache: new InMemoryCache(),
