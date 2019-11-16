@@ -1,6 +1,8 @@
 import { join } from "path";
 import express, { Request, Response, NextFunction } from "express";
 import { ApolloServer } from "apollo-server-express";
+import compression from "compression";
+import helmet from "helmet";
 import { buildSchema } from "type-graphql";
 import { Types } from "mongoose";
 import { Context } from "./context";
@@ -14,6 +16,12 @@ export const app = express();
 const staticFilesPath = join(__dirname, "../..", "static");
 
 const gqlPath = "/gql";
+
+// Adding compression
+app.use(compression());
+
+// For securing headers
+app.use(helmet());
 
 if (isProd) {
     // Serving build files if production
