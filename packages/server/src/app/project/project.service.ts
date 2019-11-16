@@ -5,12 +5,12 @@ import { Project } from "./project.schema";
 import {
     CreateProjectInput,
     RearrangeColumnFindInput,
-    RearrangeColumnData,
 } from "./project.resolver";
 import { Context } from "../../network/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { DALQuery } from "../../@types/types";
+import { RearrangeColumnInput } from "../../utils/schema/schema";
 
 export class ProjectService {
     constructor(private ctx: Context) {}
@@ -74,7 +74,7 @@ export class ProjectService {
 
     async rearrangeColumn(
         { projectID, columnID }: RearrangeColumnFindInput,
-        { initialPosition, finalPosition }: RearrangeColumnData
+        { initialPosition, finalPosition }: RearrangeColumnInput
     ): Promise<boolean> {
         if (initialPosition === finalPosition) {
             throw new UserInputError("Initial and Final position are equal :/");
@@ -104,7 +104,7 @@ export class ProjectService {
         );
 
         // Adding the columnId to its final position in columnIDs[]
-        const updated = await dal.updateOne(
+        const isUpdated = await dal.updateOne(
             {
                 $push: {
                     columnIDs: {
@@ -116,6 +116,6 @@ export class ProjectService {
             { select: "_id" }
         );
 
-        return !!updated;
+        return !!isUpdated;
     }
 }

@@ -16,7 +16,12 @@ import { ProjectService } from "./project.service";
 import { User, AuthRolesEnum } from "../user/user.schema";
 import { Context } from "../../network/context";
 import { Column } from "../column/column.schema";
-import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
+import {
+    FindInput,
+    TitleAndDescSchema,
+    RearrangeColumnInput,
+    ColumnIDInput,
+} from "../../utils/schema/schema";
 
 @InputType()
 export class CreateProjectInput extends TitleAndDescSchema {
@@ -27,19 +32,7 @@ export class CreateProjectInput extends TitleAndDescSchema {
 }
 
 @InputType()
-export class RearrangeColumnData {
-    @Field()
-    initialPosition: number;
-
-    @Field()
-    finalPosition: number;
-}
-
-@InputType()
-export class RearrangeColumnFindInput {
-    @Field()
-    columnID: Types.ObjectId;
-
+export class RearrangeColumnFindInput extends ColumnIDInput {
     @Field()
     projectID: Types.ObjectId;
 }
@@ -87,7 +80,7 @@ export class ProjectResolver {
     rearrangeColumn(
         @Ctx() ctx: Context,
         @Arg("where") where: RearrangeColumnFindInput,
-        @Arg("data") data: RearrangeColumnData
+        @Arg("data") data: RearrangeColumnInput
     ) {
         return new ProjectService(ctx).rearrangeColumn(where, data);
     }

@@ -45,3 +45,20 @@ export abstract class TitleAndDescSchema extends TitleSchema {
     })
     description: string;
 }
+
+@InputType()
+export class RearrangeColumnInput {
+    @Field()
+    initialPosition: number;
+
+    @Field()
+    finalPosition: number;
+}
+
+@InputType({
+    isAbstract: true,
+})
+export class ColumnIDInput {
+    @Field()
+    columnID: Types.ObjectId;
+}
