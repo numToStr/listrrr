@@ -18,24 +18,22 @@ const IssueItem: FC<Props> = ({ issue }) => {
 
     return (
         <BaseBlockQuote bgcolor={color}>
-            <Box display="flex" flexDirection="column">
-                <Link
-                    noWrap
-                    variant="h6"
-                    color="textPrimary"
-                    href="#!"
-                    component={BaseRouterLink}
-                    to={`/d/issue/${_id}`}
-                >
-                    {title}
-                </Link>
-                <Typography variant="body2" gutterBottom>
-                    {description}
-                </Typography>
-                <Box display="flex" justifyContent="space-between">
-                    <CreatedAt date={createdAt} />
-                    <UpdatedAt date={updatedAt} />
-                </Box>
+            <Link
+                noWrap
+                variant="h6"
+                color="textPrimary"
+                href="#!"
+                component={BaseRouterLink}
+                to={`/d/issue/${_id}`}
+            >
+                {title}
+            </Link>
+            <Typography variant="body2" gutterBottom>
+                {description}
+            </Typography>
+            <Box display="flex" justifyContent="space-between">
+                <CreatedAt date={createdAt} />
+                <UpdatedAt date={updatedAt} />
             </Box>
         </BaseBlockQuote>
     );

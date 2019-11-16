@@ -14,28 +14,26 @@ type Props = {
 const ProjectItem: FC<Props> = ({ project }) => {
     const { _id, title, description, closed, createdAt, updatedAt } = project;
 
-    const color = useMemo(() => (closed ? "green" : "red"), [closed]);
+    const color = useMemo(() => (closed ? "red" : "green"), [closed]);
 
     return (
         <BaseBlockQuote bgcolor={color}>
-            <Box display="flex" flexDirection="column">
-                <Link
-                    noWrap
-                    variant="h6"
-                    color="textPrimary"
-                    href="#!"
-                    component={BaseRouterLink}
-                    to={`/d/project/${_id}`}
-                >
-                    {title}
-                </Link>
-                <Typography variant="body2" gutterBottom>
-                    {description}
-                </Typography>
-                <Box display="flex" justifyContent="space-between">
-                    <CreatedAt date={createdAt} />
-                    <UpdatedAt date={updatedAt} />
-                </Box>
+            <Link
+                noWrap
+                variant="h6"
+                color="textPrimary"
+                href="#!"
+                component={BaseRouterLink}
+                to={`/d/project/${_id}`}
+            >
+                {title}
+            </Link>
+            <Typography variant="body2" gutterBottom>
+                {description}
+            </Typography>
+            <Box display="flex" justifyContent="space-between">
+                <CreatedAt date={createdAt} />
+                <UpdatedAt date={updatedAt} />
             </Box>
         </BaseBlockQuote>
     );
