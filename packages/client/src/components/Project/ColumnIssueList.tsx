@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import React, { FC, useCallback, memo } from "react";
+import { Grid, Typography, Box } from "@material-ui/core";
 import { Droppable } from "react-beautiful-dnd";
 import { Issue, Maybe } from "../../generated/graphql";
 import ColumnIssueItem from "./ColumnIssueItem";
@@ -11,22 +11,33 @@ type Props = {
 };
 
 const ColumnIssueList: FC<Props> = ({ issues = [], droppableId }) => {
-    const renderIssueList = () => {
-        if (!issues.length) {
-            return <Typography variant="caption">No Issue...</Typography>;
-        }
+    const renderIssueList = useCallback(
+        (dragging: boolean) => {
+            if (!issues.length) {
+                return (
+                    !dragging && (
+                        <Grid item xs={12}>
+                            <Typography variant="caption">
+                                No Issue...
+                            </Typography>
+                        </Grid>
+                    )
+                );
+            }
 
-        return issues.map(
-            (issue, index) =>
-                issue && (
-                    <ColumnIssueItem
-                        key={issue._id}
-                        issue={issue}
-                        index={index}
-                    />
-                )
-        );
-    };
+            return issues.map(
+                (issue, index) =>
+                    issue && (
+                        <ColumnIssueItem
+                            key={issue._id}
+                            issue={issue}
+                            index={index}
+                        />
+                    )
+            );
+        },
+        [issues]
+    );
 
     return (
         <Droppable
@@ -34,14 +45,33 @@ const ColumnIssueList: FC<Props> = ({ issues = [], droppableId }) => {
             direction="vertical"
             type={RearrangeType.PROJECT_COLUMN_ISSUE}
         >
-            {provided => (
-                <Grid container spacing={1} innerRef={provided.innerRef}>
-                    {renderIssueList()}
-                    {provided.placeholder}
-                </Grid>
-            )}
+            {(provided, { isDraggingOver }) => {
+                const bgColor = isDraggingOver
+                    ? "secondary.light"
+                    : "background.paper";
+
+                return (
+                    <Box
+                        clone
+                        style={{
+                            transition: "all 0.3s ease-in-out",
+                        }}
+                        borderRadius="borderRadius"
+                        bgcolor={bgColor}
+                    >
+                        <Grid
+                            container
+                            spacing={1}
+                            innerRef={provided.innerRef}
+                        >
+                            {renderIssueList(isDraggingOver)}
+                            {provided.placeholder}
+                        </Grid>
+                    </Box>
+                );
+            }}
         </Droppable>
     );
 };
 
-export default ColumnIssueList;
+export default memo(ColumnIssueList);

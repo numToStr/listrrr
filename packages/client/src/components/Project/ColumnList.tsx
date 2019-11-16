@@ -16,22 +16,20 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
 
     const columnRearrange = useCallback(
         ({ draggableId, source, destination }: DropResult) => {
-            if (destination) {
-                const i = source.index;
-                const f = destination.index;
+            const i = source.index;
+            const f = destination!.index;
 
-                if (i !== f) {
-                    handleRearrangeColumn({
-                        where: {
-                            projectID,
-                            columnID: draggableId,
-                        },
-                        data: {
-                            initialPosition: i,
-                            finalPosition: f,
-                        },
-                    });
-                }
+            if (i !== f) {
+                handleRearrangeColumn({
+                    where: {
+                        projectID,
+                        columnID: draggableId,
+                    },
+                    data: {
+                        initialPosition: i,
+                        finalPosition: f,
+                    },
+                });
             }
         },
         [handleRearrangeColumn, projectID]
@@ -39,6 +37,10 @@ const ColumnList: FC<Props> = ({ projectID, columns }) => {
 
     const handleDragEnd = useCallback(
         (dropResult: DropResult) => {
+            if (!dropResult.destination) {
+                return;
+            }
+
             if (dropResult.type === RearrangeType.PROJECT_COLUMN) {
                 return columnRearrange(dropResult);
             }
