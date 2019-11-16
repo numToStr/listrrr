@@ -14,7 +14,7 @@ USER node
 # Can get an error when installing packages in workspaces other than core
 # Other workspace need to know about @listrrr/core package which will not be available
 # If we install packages in parallel in different workspaces
-# Have to make sure that, @listrrr/core should be built first [To be fixed/changed]
+# Have to make sure that, @listrrr/core should be built first
 
 COPY --chown=node:node ./package.json .
 COPY --chown=node:node ./yarn.lock .
@@ -22,7 +22,7 @@ COPY --chown=node:node ./packages/core/package.json ./packages/core/
 COPY --chown=node:node ./packages/client/package.json ./packages/client/
 COPY --chown=node:node ./packages/server/package.json ./packages/server/
 
-RUN yarn install --prod
+RUN yarn install --production
 
 # ---------------------------------------------
 
@@ -49,7 +49,8 @@ ENV NODE_ENV=production
 
 RUN rm -rf ./packages/
 
-COPY --chown=node:node --from=builder-env /usr/src/app/packages/core/build/ ./packages/core/
+COPY --chown=node:node --from=builder-env /usr/src/app/packages/core/ ./packages/core/
 COPY --chown=node:node --from=builder-env /usr/src/app/packages/server/build/ ./packages/server/
 COPY --chown=node:node --from=builder-env /usr/src/app/packages/client/build/ ./packages/server/static
 
+CMD [ "yarn", "start" ]

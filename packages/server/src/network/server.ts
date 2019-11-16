@@ -12,7 +12,7 @@ interface ServerOptions {
 
 export const server = async (options: ServerOptions) => {
     const schema = await buildSchema({
-        resolvers: [join(__dirname, "..", "/**/*.resolver.ts")],
+        resolvers: [join(__dirname, "..", "app/**/*.resolver.*")],
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,

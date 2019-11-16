@@ -5,6 +5,7 @@
     "private": true,
     "proxy": "http://localhost:5000",
     "dependencies": {
+        "@listrrr/core": "^1.0.0",
         "@apollo/client": "^3.0.0-beta.9",
         "@material-ui/core": "^4.6.1",
         "@material-ui/icons": "^4.5.1",
