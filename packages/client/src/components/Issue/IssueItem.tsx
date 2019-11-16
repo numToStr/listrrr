@@ -1,4 +1,4 @@
-import React, { memo, useMemo, FC } from "react";
+import React, { memo, FC } from "react";
 import { Box, Typography, Link } from "@material-ui/core";
 
 import BaseBlockQuote from "../Base/BaseBlockQuote";
@@ -6,6 +6,7 @@ import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
 import { IssueFragment } from "../../gql/issue.query";
+import { useStausColor } from "../../utils/hooks/useStatusColor";
 
 type Props = {
     issue: IssueFragment;
@@ -14,7 +15,7 @@ type Props = {
 const IssueItem: FC<Props> = ({ issue }) => {
     const { _id, title, description, closed, createdAt, updatedAt } = issue;
 
-    const color = useMemo(() => (closed ? "red" : "green"), [closed]);
+    const color = useStausColor(closed);
 
     return (
         <BaseBlockQuote bgcolor={color}>

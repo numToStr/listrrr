@@ -1,51 +1,54 @@
-import React, { FC, memo } from "react";
+import React, { FC, memo, useMemo } from "react";
+import { makeStyles, createStyles } from "@material-ui/core";
+import Chip, { ChipProps } from "@material-ui/core/Chip";
 import OpenIcon from "@material-ui/icons/ErrorTwoTone";
 import ClosedIcon from "@material-ui/icons/CheckCircleTwoTone";
-import { Chip, makeStyles } from "@material-ui/core";
-import { ChipProps } from "@material-ui/core/Chip";
+import { useStausColor } from "../utils/hooks/useStatusColor";
 
 type Props = ChipProps & {
     closed: boolean;
 };
 
+type StyleProps = {
+    color: string;
+};
+
 const useStyles = makeStyles(() => {
-    return {
-        open: {
-            backgroundColor: "#269f42",
-            color: "#fff"
-        },
-        closed: {
-            backgroundColor: "#f00c1d",
-            color: "#fff"
-        },
+    return createStyles({
+        chip: ({ color }: StyleProps) => ({
+            backgroundColor: color,
+            color: "#fff",
+        }),
         icon: {
-            color: "#fff"
-        }
-    };
+            color: "#fff",
+        },
+    });
 });
 
 const StatusIndicator: FC<Props> = ({ closed, ...props }) => {
-    const styles = useStyles();
+    const color = useStausColor(closed);
+    const styles = useStyles({ color });
 
-    return closed ? (
+    const status = useMemo(() => {
+        return closed
+            ? {
+                  label: "Closed",
+                  icon: <ClosedIcon fontSize="small" color="inherit" />,
+              }
+            : {
+                  label: "Open",
+                  icon: <OpenIcon fontSize="small" />,
+              };
+    }, [closed]);
+
+    return (
         <Chip
-            label="Closed"
-            icon={<ClosedIcon fontSize="small" color="inherit" />}
+            label={status.label}
+            icon={status.icon}
             size="small"
             classes={{
-                root: styles.closed,
-                icon: styles.icon
-            }}
-            {...props}
-        />
-    ) : (
-        <Chip
-            label="Open"
-            icon={<OpenIcon fontSize="small" />}
-            size="small"
-            classes={{
-                root: styles.open,
-                icon: styles.icon
+                root: styles.chip,
+                icon: styles.icon,
             }}
             {...props}
         />
