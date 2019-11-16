@@ -1,8 +1,9 @@
 import React, { FC, memo } from "react";
-import { Box, Typography, Grid } from "@material-ui/core";
+import { Box, Grid, Link } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import { Issue } from "../../generated/graphql";
 import UpdatedAt from "../Date/UpdatedAt";
+import BaseRouterLink from "../Base/BaseRouterLink";
 
 type Props = {
     issue: Issue;
@@ -31,7 +32,14 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                         }
                         boxShadow={isDragging ? 5 : 1}
                     >
-                        <Typography gutterBottom>{issue.title}</Typography>
+                        <Link
+                            color="textPrimary"
+                            component={BaseRouterLink}
+                            to={`/d/issue/${issue._id}`}
+                            variant="body1"
+                        >
+                            {issue.title}
+                        </Link>
                         <UpdatedAt date={issue.updatedAt} />
                     </Box>
                     {provided.placeholder}
