@@ -1,15 +1,15 @@
 import { useMutation, gql } from "@apollo/client";
 import {
     MutationLoginArgs,
-    LoginInput,
     AuthResponse,
     MutationSignupArgs,
-    SignupInput
+    User,
+    AuthInfo,
 } from "../generated/graphql";
-import { MutationHook, HandleMutation } from "../@types/types";
+import { HandleMutation, MyMutationHook } from "../@types/types";
 import { TokenUtil } from "../utils/token";
 import { useMyApolloContext } from "../components/ApolloContext";
-import { USER_FRAGMENT } from "./user.query";
+import { USER_FRAGMENT, ME } from "./user.query";
 
 const AUTH_FRAGMENT = gql`
     fragment AuthFragment on AuthResponse {
@@ -37,10 +37,9 @@ type LoginResponse = {
     login: AuthResponse;
 };
 
-export const useLoginMutation: MutationHook<
+export const useLoginMutation: MyMutationHook<
     LoginResponse,
-    MutationLoginArgs,
-    LoginInput
+    MutationLoginArgs
 > = options => {
     const setHeaders = useMyApolloContext();
     const [mutation, meta] = useMutation<LoginResponse, MutationLoginArgs>(
@@ -48,28 +47,32 @@ export const useLoginMutation: MutationHook<
         {
             update(cache, { data }) {
                 if (data) {
-                    const d = data.login;
-                    const t = d.auth.token;
+                    const { user, auth } = data.login;
 
-                    TokenUtil.setToken(t);
-                    cache.writeData({
-                        data: d
+                    TokenUtil.setToken(auth.token);
+
+                    cache.writeQuery<User>({
+                        query: ME,
+                        data: user,
                     });
+
+                    cache.writeData<{ auth: AuthInfo }>({
+                        data: {
+                            auth,
+                        },
+                    });
+
                     setHeaders({
-                        authorization: t
+                        authorization: auth.token,
                     });
                 }
             },
-            ...options
+            ...options,
         }
     );
 
-    const handleLogin: HandleMutation<LoginInput> = values => {
-        mutation({
-            variables: {
-                data: values
-            }
-        });
+    const handleLogin: HandleMutation<MutationLoginArgs> = variables => {
+        mutation({ variables });
     };
 
     return [handleLogin, meta];
@@ -88,10 +91,9 @@ type SignupResponse = {
     signup: AuthResponse;
 };
 
-export const useSignupMutation: MutationHook<
+export const useSignupMutation: MyMutationHook<
     SignupResponse,
-    MutationSignupArgs,
-    SignupInput
+    MutationSignupArgs
 > = options => {
     const setHeaders = useMyApolloContext();
     const [mutation, meta] = useMutation<SignupResponse, MutationSignupArgs>(
@@ -99,29 +101,32 @@ export const useSignupMutation: MutationHook<
         {
             update(cache, { data }) {
                 if (data) {
-                    const d = data.signup;
-                    const t = d.auth.token;
+                    const { user, auth } = data.signup;
 
-                    TokenUtil.setToken(d.auth.token);
-                    cache.writeData({
-                        data: d
+                    TokenUtil.setToken(auth.token);
+
+                    cache.writeQuery<User>({
+                        query: ME,
+                        data: user,
+                    });
+
+                    cache.writeData<{ auth: AuthInfo }>({
+                        data: {
+                            auth,
+                        },
                     });
 
                     setHeaders({
-                        authorization: t
+                        authorization: auth.token,
                     });
                 }
             },
-            ...options
+            ...options,
         }
     );
 
-    const handleLogin: HandleMutation<SignupInput> = values => {
-        mutation({
-            variables: {
-                data: values
-            }
-        });
+    const handleLogin: HandleMutation<MutationSignupArgs> = variables => {
+        mutation({ variables });
     };
 
     return [handleLogin, meta];

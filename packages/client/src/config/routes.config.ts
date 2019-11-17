@@ -50,7 +50,6 @@ export const routesConfig: Routes = [
         path: "/login",
         component: Login,
         private: false,
-        exact: true,
     },
     {
         path: "/signup",

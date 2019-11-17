@@ -6,21 +6,16 @@ import FormikForm from "../components/Form/FormikForm";
 import FormWrapper from "../components/Form/FormWrapper";
 import FormCaption from "../components/Form/FormCaption";
 import { useSignupMutation } from "../gql/auth.query";
-import { useHistory } from "react-router-dom";
 
 const initValues = { username: "", email: "", password: "" };
 
 const Signup = () => {
-    const { push } = useHistory();
-
-    const [handleSignup] = useSignupMutation({
-        onCompleted() {
-            push("/d/project");
-        }
-    });
+    const [handleSignup] = useSignupMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
-        handleSignup(values);
+        handleSignup({
+            data: values,
+        });
     };
 
     return (
