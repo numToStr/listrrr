@@ -1,4 +1,4 @@
-import React, { FC, memo } from "react";
+import React, { FC } from "react";
 import { Box } from "@material-ui/core";
 import IssueItem from "./IssueItem";
 import { IssuesQuery } from "../../gql/issue.query";
@@ -13,4 +13,4 @@ const IssueList: FC<Props> = ({ issues }) => {
     return <Box mb={5}>{list}</Box>;
 };
 
-export default memo(IssueList);
+export default IssueList;
