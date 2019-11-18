@@ -11,6 +11,7 @@ import { PORT, MONGO_URI } from "../config/keys";
 import { app } from "../network/server";
 import { db } from "../network/db";
 import debug from "../utils/fns/debug";
+import { ErrorHandler } from "../@types/types";
 
 db(MONGO_URI)
     .then(() => {
@@ -24,7 +25,7 @@ db(MONGO_URI)
         throw error;
     });
 
-const errorHandler = (error: Error | null, event: string): never => {
+const errorHandler: ErrorHandler = (error, event) => {
     if (error) {
         throw error;
     }

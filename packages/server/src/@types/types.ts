@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { AuthRolesEnum } from "../app/user/user.schema";
 
-export type AnyObject = { [key: string]: unknown };
+export type ErrorHandler = (error: Error | null, event: string) => never;
 
 export interface DALOptions {
     select?: string;
