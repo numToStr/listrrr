@@ -1,4 +1,12 @@
 import "reflect-metadata";
+import { setGlobalOptions } from "@typegoose/typegoose";
+
+setGlobalOptions({
+    globalOptions: {
+        useNewEnum: true,
+    },
+});
+
 import { PORT, MONGO_URI } from "../config/keys";
 import { app } from "../network/server";
 import { db } from "../network/db";
@@ -8,10 +16,6 @@ db(MONGO_URI)
     .then(() => {
         debug.www("[MONGO] >> Connected");
 
-        // const { url } = await server({
-        //     port: PORT,
-        // });
-
         app.listen(PORT, () => {
             debug.www(`[SERVER] >> Connected`);
         });
@@ -20,10 +24,7 @@ db(MONGO_URI)
         throw error;
     });
 
-const errorHandler = (
-    error: {} | Error | undefined | null,
-    event: string
-): never => {
+const errorHandler = (error: Error | null, event: string): never => {
     if (error) {
         throw error;
     }
@@ -35,7 +36,7 @@ process.on("beforeExit", () => errorHandler(null, "beforeExit"));
 process.on("exit", () => errorHandler(null, "exit"));
 
 process.on("unhandledRejection", error => {
-    errorHandler(error, "unhandledRejection");
+    errorHandler(error as Error, "unhandledRejection");
 });
 process.on("uncaughtException", error =>
     errorHandler(error, "uncaughtException")
