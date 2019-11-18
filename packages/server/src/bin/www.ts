@@ -2,6 +2,11 @@ import "reflect-metadata";
 import { setGlobalOptions } from "@typegoose/typegoose";
 
 setGlobalOptions({
+    schemaOptions: {
+        timestamps: true,
+        minimize: true,
+        id: false,
+    },
     globalOptions: {
         useNewEnum: true,
     },

@@ -1,5 +1,5 @@
 import { ObjectType, Field, registerEnumType } from "type-graphql";
-import { prop, getModelForClass } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 import { IDSchema } from "../../utils/schema/schema";
 
 // don't extract this enum from this file
@@ -9,6 +9,7 @@ export enum AuthRolesEnum {
 }
 
 @ObjectType()
+@modelOptions({})
 export class User extends IDSchema {
     @Field()
     @prop({
@@ -46,9 +47,4 @@ registerEnumType(AuthRolesEnum, {
     description: "Roles for the authenticated users",
 });
 
-export const UserModel = getModelForClass(User, {
-    schemaOptions: {
-        timestamps: true,
-        minimize: true,
-    },
-});
+export const UserModel = getModelForClass(User);

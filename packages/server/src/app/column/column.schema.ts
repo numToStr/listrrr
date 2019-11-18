@@ -12,12 +12,7 @@ import { Issue } from "../issue/issue.schema";
 import { User } from "../user/user.schema";
 
 @ObjectType()
-@modelOptions({
-    schemaOptions: {
-        minimize: true,
-        timestamps: true,
-    },
-})
+@modelOptions({})
 export class Column extends TitleSchema {
     @prop({
         required: true,
@@ -41,9 +36,4 @@ export class Column extends TitleSchema {
     issueIDs?: Ref<Issue>[];
 }
 
-export const ColumnModel = getModelForClass(Column, {
-    schemaOptions: {
-        timestamps: true,
-        minimize: true,
-    },
-});
+export const ColumnModel = getModelForClass(Column);

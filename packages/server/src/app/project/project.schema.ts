@@ -1,5 +1,11 @@
 import { ObjectType, Field } from "type-graphql";
-import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
+import {
+    prop,
+    getModelForClass,
+    Ref,
+    arrayProp,
+    modelOptions,
+} from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
@@ -7,6 +13,7 @@ import { Column } from "../column/column.schema";
 import { TitleAndDescSchema } from "../../utils/schema/schema";
 
 @ObjectType()
+@modelOptions({})
 export class Project extends TitleAndDescSchema {
     @Field()
     @prop({
@@ -49,9 +56,4 @@ export class Project extends TitleAndDescSchema {
     updatedAt: Date;
 }
 
-export const ProjectModel = getModelForClass(Project, {
-    schemaOptions: {
-        minimize: true,
-        timestamps: true,
-    },
-});
+export const ProjectModel = getModelForClass(Project);
