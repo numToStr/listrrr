@@ -53,6 +53,27 @@ export const useProjectsQuery = () => {
     return useQuery<ProjectsQuery, {}>(PROJECTS);
 };
 
+const PROJECTS_FILTER = gql`
+    query ProjectsFilter {
+        projects {
+            _id
+            title
+            value: _id
+        }
+    }
+`;
+
+type ProjectsFilterQuery = {
+    projects: Array<{
+        title: string;
+        value: string;
+    }>;
+};
+
+export const useProjectsFilterQuery = () => {
+    return useQuery<ProjectsFilterQuery, {}>(PROJECTS_FILTER);
+};
+
 const PROJECT = gql`
     query Project($where: FindInput!) {
         project(where: $where) {

@@ -3,6 +3,9 @@ import { useProjectsQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
 import Header from "../components/Header";
 import ProjectList from "../components/Project/ProjectList";
+import SortFilter from "../components/Filters/SortFilter";
+import StatusFilter from "../components/Filters/StatusFilter";
+import BaseFilterBox from "../components/Base/BaseFilterBox";
 
 const Project = () => {
     const { data } = useProjectsQuery();
@@ -18,6 +21,10 @@ const Project = () => {
     return (
         <Fragment>
             <Header title="Projects" goToCreate="/d/project/create" />
+            <BaseFilterBox>
+                <StatusFilter />
+                <SortFilter />
+            </BaseFilterBox>
             {renderList()}
         </Fragment>
     );

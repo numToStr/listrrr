@@ -1,39 +1,29 @@
 import React, { FC, memo, useMemo } from "react";
-import { makeStyles, createStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Chip, { ChipProps } from "@material-ui/core/Chip";
 import OpenIcon from "@material-ui/icons/ErrorTwoTone";
 import ClosedIcon from "@material-ui/icons/CheckCircleTwoTone";
-import { useStausColor } from "../utils/hooks/useStatusColor";
+import { useStatusClasses } from "../utils/hooks/useStatusColor";
 
 type Props = ChipProps & {
     closed: boolean;
 };
 
-type StyleProps = {
-    color: string;
-};
-
-const useStyles = makeStyles(() => {
-    return createStyles({
-        chip: ({ color }: StyleProps) => ({
-            backgroundColor: color,
-            color: "#fff",
-        }),
-        icon: {
-            color: "#fff",
-        },
-    });
-});
+const useStyles = makeStyles(() => ({
+    icon: {
+        color: "#fff",
+    },
+}));
 
 const StatusIndicator: FC<Props> = ({ closed, ...props }) => {
-    const color = useStausColor(closed);
-    const styles = useStyles({ color });
+    const styles = useStyles();
+    const classes = useStatusClasses(closed);
 
     const status = useMemo(() => {
         return closed
             ? {
                   label: "Closed",
-                  icon: <ClosedIcon fontSize="small" color="inherit" />,
+                  icon: <ClosedIcon fontSize="small" />,
               }
             : {
                   label: "Open",
@@ -47,7 +37,7 @@ const StatusIndicator: FC<Props> = ({ closed, ...props }) => {
             icon={status.icon}
             size="small"
             classes={{
-                root: styles.chip,
+                root: classes.bgColor,
                 icon: styles.icon,
             }}
             {...props}

@@ -18,3 +18,15 @@ export enum RearrangeType {
     PROJECT_COLUMN = "PROJECT_COLUMN",
     PROJECT_COLUMN_ISSUE = "PROJECT_COLUMN_ISSUE",
 }
+
+export type FilterOption = {
+    title: string;
+    value: string;
+};
+
+export enum FilterType {
+    STATUS = "status",
+    SORT = "sort",
+    PROJECT = "project",
+    LABEL = "label",
+}

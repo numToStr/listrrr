@@ -3,6 +3,9 @@ import { useIssuesQuery } from "../gql/issue.query";
 import Header from "../components/Header";
 import BaseLoader from "../components/Base/BaseLoader";
 import IssueList from "../components/Issue/IssueList";
+import BaseFilterBox from "../components/Base/BaseFilterBox";
+import StatusFilter from "../components/Filters/StatusFilter";
+import SortFilter from "../components/Filters/SortFilter";
 
 const Issue = () => {
     const { data } = useIssuesQuery();
@@ -18,6 +21,10 @@ const Issue = () => {
     return (
         <Fragment>
             <Header title="Issues" goToCreate="/d/issue/create" />
+            <BaseFilterBox>
+                <StatusFilter />
+                <SortFilter />
+            </BaseFilterBox>
             {renderList()}
         </Fragment>
     );

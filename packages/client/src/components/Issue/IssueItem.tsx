@@ -6,7 +6,7 @@ import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
 import { IssueFragment } from "../../gql/issue.query";
-import { useStausColor } from "../../utils/hooks/useStatusColor";
+import { useStatusColor } from "../../utils/hooks/useStatusColor";
 
 type Props = {
     issue: IssueFragment;
@@ -15,7 +15,7 @@ type Props = {
 const IssueItem: FC<Props> = ({ issue }) => {
     const { _id, title, description, closed, createdAt, updatedAt } = issue;
 
-    const color = useStausColor(closed);
+    const color = useStatusColor(closed);
 
     return (
         <BaseBlockQuote bgcolor={color}>

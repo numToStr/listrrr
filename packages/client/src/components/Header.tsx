@@ -7,7 +7,7 @@ import {
     TextField,
     InputAdornment,
     IconButton,
-    Hidden
+    Hidden,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/SearchTwoTone";
@@ -20,7 +20,7 @@ type Props = {
 
 const Header: FC<Props> = ({ title, goToCreate: goTo }) => {
     return (
-        <Box clone mb={3}>
+        <Box clone mb={2}>
             <Grid container justify="space-between">
                 <Grid item>
                     <Typography variant="h5">#{title}</Typography>
@@ -42,7 +42,7 @@ const Header: FC<Props> = ({ title, goToCreate: goTo }) => {
                                                 <SearchIcon fontSize="small" />
                                             </IconButton>
                                         </InputAdornment>
-                                    )
+                                    ),
                                 }}
                             />
                         </Grid>
