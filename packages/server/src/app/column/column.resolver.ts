@@ -15,7 +15,7 @@ import { Issue } from "../issue/issue.schema";
 import { Context } from "../../network/context";
 import { AuthRolesEnum } from "../user/user.schema";
 import { ColumnService } from "./column.service";
-import { ColumnIDInput, RearrangeColumnInput } from "../../utils/schema/schema";
+import { ColumnIDInput, RearrangeColumnInput } from "../shared/shared.schema";
 
 @InputType()
 export class RearrangeIssueFindInput extends ColumnIDInput {

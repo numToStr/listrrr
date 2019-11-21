@@ -9,7 +9,7 @@ import {
 import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
-import { TitleAndDescSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "../shared/shared.schema";
 
 @ObjectType()
 @modelOptions({})

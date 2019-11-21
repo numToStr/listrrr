@@ -10,7 +10,7 @@ import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
 import { Column } from "../column/column.schema";
-import { TitleAndDescSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "../shared/shared.schema";
 
 @ObjectType()
 @modelOptions({})

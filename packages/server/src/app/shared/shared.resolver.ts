@@ -12,7 +12,7 @@ import {
 import { AuthRolesEnum } from "../user/user.schema";
 import { Issue } from "../issue/issue.schema";
 import { Context } from "../../network/context";
-import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
+import { FindInput, TitleAndDescSchema } from "./shared.schema";
 import { Project } from "../project/project.schema";
 import { SharedService } from "./shared.service";
 

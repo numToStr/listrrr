@@ -7,7 +7,7 @@ import {
     arrayProp,
 } from "@typegoose/typegoose";
 import { Types } from "mongoose";
-import { TitleSchema } from "../../utils/schema/schema";
+import { TitleSchema } from "../shared/shared.schema";
 import { Issue } from "../issue/issue.schema";
 import { User } from "../user/user.schema";
 

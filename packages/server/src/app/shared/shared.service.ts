@@ -8,7 +8,7 @@ import {
 } from "./shared.resolver";
 import { IssueDAL } from "../issue/issue.dal";
 import { ProjectDAL } from "../project/project.dal";
-import { TitleAndDescSchema } from "../../utils/schema/schema";
+import { TitleAndDescSchema } from "./shared.schema";
 
 export class SharedService {
     constructor(private ctx: Context) {}

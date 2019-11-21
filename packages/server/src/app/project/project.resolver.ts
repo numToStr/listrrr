@@ -22,7 +22,7 @@ import {
     RearrangeColumnInput,
     ColumnIDInput,
     Filters,
-} from "../../utils/schema/schema";
+} from "../shared/shared.schema";
 
 @InputType()
 export class CreateProjectInput extends TitleAndDescSchema {

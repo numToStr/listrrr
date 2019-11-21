@@ -5,7 +5,7 @@ import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
 import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { FindInput, Filters } from "../../utils/schema/schema";
+import { FindInput, Filters } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 
 export class IssueService {

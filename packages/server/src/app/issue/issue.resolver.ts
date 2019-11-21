@@ -18,7 +18,7 @@ import {
     FindInput,
     TitleAndDescSchema,
     Filters,
-} from "../../utils/schema/schema";
+} from "../shared/shared.schema";
 import { Context } from "../../network/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
 

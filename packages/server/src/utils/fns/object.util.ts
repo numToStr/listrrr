@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Filters, Sort, Status } from "../schema/schema";
+import { Filters, Sort, Status } from "../../app/shared/shared.schema";
 
 /**
  * For deleting properties from a object

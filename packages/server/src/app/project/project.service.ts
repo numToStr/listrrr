@@ -9,7 +9,7 @@ import {
 import { Context } from "../../network/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { RearrangeColumnInput, Filters } from "../../utils/schema/schema";
+import { RearrangeColumnInput, Filters } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 
 export class ProjectService {
