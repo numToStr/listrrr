@@ -64,6 +64,11 @@ export enum EntityType {
 
 export type EntityUnion = Issue | Project;
 
+export type Filters = {
+  sort?: Maybe<Sort>,
+  status?: Maybe<Status>,
+};
+
 export type FindEntityInput = {
   _id: Scalars['ObjectId'],
   type: EntityType,
@@ -187,8 +192,18 @@ export type Query = {
 };
 
 
+export type QueryIssuesArgs = {
+  filters: Filters
+};
+
+
 export type QueryIssueArgs = {
   where: FindInput
+};
+
+
+export type QueryProjectsArgs = {
+  filters: Filters
 };
 
 
@@ -222,6 +237,19 @@ export type SignupInput = {
   password: Scalars['String'],
   username: Scalars['String'],
 };
+
+/** For specifying sorting options */
+export enum Sort {
+  CreatedAsc = 'CREATED_ASC',
+  CreatedDesc = 'CREATED_DESC',
+  UpdatedDesc = 'UPDATED_DESC'
+}
+
+/** For specifying a enitity status */
+export enum Status {
+  Open = 'OPEN',
+  Closed = 'CLOSED'
+}
 
 export type Template = {
    __typename?: 'Template',

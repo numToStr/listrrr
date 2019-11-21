@@ -11,6 +11,7 @@ import FormikSelect from "../components/Form/FormikSelect";
 import { useProjectsQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
 import { useCreateIssueMutation } from "../gql/issue.query";
+import { Sort, Status } from "../generated/graphql";
 
 const initValues = {
     title: "",
@@ -19,8 +20,13 @@ const initValues = {
 };
 
 const IssueCreate = () => {
-    const { data: pd, loading } = useProjectsQuery();
     const [handleCreateIssue, { data: isd }] = useCreateIssueMutation();
+    const { data: pd, loading } = useProjectsQuery({
+        filters: {
+            sort: Sort.CreatedDesc,
+            status: Status.Open,
+        },
+    });
 
     const handleSubmit: SubmitHandler<typeof initValues> = values => {
         handleCreateIssue({ data: values });

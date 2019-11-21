@@ -5,6 +5,7 @@ import {
     QueryIssueArgs,
     FindInput,
     MutationCreateIssueArgs,
+    QueryProjectsArgs,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -20,8 +21,8 @@ export const ISSUE_FRAGMENT = gql`
 `;
 
 const ISSUES = gql`
-    query Issues {
-        issues {
+    query Issues($filters: Filters!) {
+        issues(filters: $filters) {
             ...IssueFragment
         }
     }
@@ -34,8 +35,10 @@ export type IssuesQuery = {
     issues: IssueFragment[];
 };
 
-export const useIssuesQuery = () => {
-    return useQuery<IssuesQuery, {}>(ISSUES);
+export const useIssuesQuery = (variables: QueryProjectsArgs) => {
+    return useQuery<IssuesQuery, QueryProjectsArgs>(ISSUES, {
+        variables,
+    });
 };
 
 const ISSUE = gql`

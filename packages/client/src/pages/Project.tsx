@@ -6,9 +6,15 @@ import ProjectList from "../components/Project/ProjectList";
 import SortFilter from "../components/Filters/SortFilter";
 import StatusFilter from "../components/Filters/StatusFilter";
 import BaseFilterBox from "../components/Base/BaseFilterBox";
+import { Sort, Status } from "../generated/graphql";
 
 const Project = () => {
-    const { data } = useProjectsQuery();
+    const { data } = useProjectsQuery({
+        filters: {
+            sort: Sort.CreatedDesc,
+            status: Status.Open,
+        },
+    });
 
     const renderList = useCallback(() => {
         if (!data) {

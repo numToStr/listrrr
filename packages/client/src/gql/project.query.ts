@@ -8,6 +8,7 @@ import {
     MutationRearrangeColumnArgs,
     MutationRearrangeIssueArgs,
     Column,
+    QueryProjectsArgs,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -35,8 +36,8 @@ const COLUMN_FRAGMENT = gql`
 `;
 
 const PROJECTS = gql`
-    query Projects {
-        projects {
+    query Projects($filters: Filters!) {
+        projects(filters: $filters) {
             ...ProjectFragment
         }
     }
@@ -49,13 +50,15 @@ export type ProjectsQuery = {
     projects: ProjectFragment[];
 };
 
-export const useProjectsQuery = () => {
-    return useQuery<ProjectsQuery, {}>(PROJECTS);
+export const useProjectsQuery = (variables: QueryProjectsArgs) => {
+    return useQuery<ProjectsQuery, QueryProjectsArgs>(PROJECTS, {
+        variables,
+    });
 };
 
 const PROJECTS_FILTER = gql`
-    query ProjectsFilter {
-        projects {
+    query ProjectsFilter($filters: Filters!) {
+        projects(filters: $filters) {
             _id
             title
             value: _id
@@ -70,8 +73,10 @@ type ProjectsFilterQuery = {
     }>;
 };
 
-export const useProjectsFilterQuery = () => {
-    return useQuery<ProjectsFilterQuery, {}>(PROJECTS_FILTER);
+export const useProjectsFilterQuery = (variables: QueryProjectsArgs) => {
+    return useQuery<ProjectsFilterQuery, QueryProjectsArgs>(PROJECTS_FILTER, {
+        variables,
+    });
 };
 
 const PROJECT = gql`

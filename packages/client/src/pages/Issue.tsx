@@ -6,9 +6,15 @@ import IssueList from "../components/Issue/IssueList";
 import BaseFilterBox from "../components/Base/BaseFilterBox";
 import StatusFilter from "../components/Filters/StatusFilter";
 import SortFilter from "../components/Filters/SortFilter";
+import { Sort, Status } from "../generated/graphql";
 
 const Issue = () => {
-    const { data } = useIssuesQuery();
+    const { data } = useIssuesQuery({
+        filters: {
+            sort: Sort.CreatedDesc,
+            status: Status.Open,
+        },
+    });
 
     const renderList = useCallback(() => {
         if (!data) {
