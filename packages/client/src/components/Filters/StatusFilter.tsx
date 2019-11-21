@@ -3,12 +3,13 @@ import { Button, Box } from "@material-ui/core";
 import OpenIcon from "@material-ui/icons/ErrorTwoTone";
 import ClosedIcon from "@material-ui/icons/CheckCircleTwoTone";
 import { usePushSearch } from "../../utils/hooks/useSearch";
+import { Status } from "../../generated/graphql";
 
 const StatusFilter = () => {
     const pushSearch = usePushSearch();
 
-    const handleStatus = (type: string) => () => {
-        pushSearch({ status: type });
+    const handleStatus = (status: Status) => () => {
+        pushSearch({ status });
     };
 
     return (
@@ -17,7 +18,7 @@ const StatusFilter = () => {
                 <Button
                     size="small"
                     startIcon={<OpenIcon fontSize="small" />}
-                    onClick={handleStatus("open")}
+                    onClick={handleStatus(Status.Open)}
                 >
                     Open
                 </Button>
@@ -26,7 +27,7 @@ const StatusFilter = () => {
                 <Button
                     size="small"
                     startIcon={<ClosedIcon fontSize="small" />}
-                    onClick={handleStatus("closed")}
+                    onClick={handleStatus(Status.Closed)}
                 >
                     Closed
                 </Button>

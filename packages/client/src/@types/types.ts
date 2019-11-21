@@ -19,9 +19,9 @@ export enum RearrangeType {
     PROJECT_COLUMN_ISSUE = "PROJECT_COLUMN_ISSUE",
 }
 
-export type FilterOption = {
+export type FilterOption<V> = {
     title: string;
-    value: string;
+    value: V;
 };
 
 export enum FilterType {

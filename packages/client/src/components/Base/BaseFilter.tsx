@@ -19,7 +19,7 @@ import { FilterOption, FilterType } from "../../@types/types";
 type Props = {
     title: string;
     type: FilterType;
-    options: FilterOption[];
+    options: FilterOption<any>[];
     icon?: JSX.Element;
 };
 

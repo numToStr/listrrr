@@ -2,19 +2,20 @@ import React from "react";
 import SortIcon from "@material-ui/icons/SortTwoTone";
 import { FilterOption, FilterType } from "../../@types/types";
 import BaseFilter from "../Base/BaseFilter";
+import { Sort } from "../../generated/graphql";
 
-const options: FilterOption[] = [
+const options: FilterOption<Sort>[] = [
     {
         title: "Newest",
-        value: "created-desc",
+        value: Sort.CreatedDesc,
     },
     {
         title: "Oldest",
-        value: "created-asc",
+        value: Sort.CreatedAsc,
     },
     {
         title: "Recently updated",
-        value: "updated-desc",
+        value: Sort.UpdatedDesc,
     },
 ];
 
