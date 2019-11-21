@@ -13,8 +13,7 @@ const issueBatchFn: BatchFn = async IDs => {
         const response = await new IssueDAL({
             _id: {
                 $in: IDs,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+            },
         }).findAll();
 
         return normalizeLoader<Issue>(IDs, response);

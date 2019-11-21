@@ -5,7 +5,6 @@ import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
 import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { DALQuery } from "../../@types/types";
 import { FindInput } from "../../utils/schema/schema";
 
 export class IssueService {
@@ -15,18 +14,10 @@ export class IssueService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    issues(_ids?: Types.ObjectId[]): Promise<Issue[]> {
-        const query: DALQuery = {
+    issues(): Promise<Issue[]> {
+        return new IssueDAL({
             userID: this.ID,
-        };
-
-        if (_ids) {
-            query._id = {
-                $in: _ids,
-            };
-        }
-
-        return new IssueDAL(query as Partial<Issue>).findAll({
+        }).findAll({
             sort: {
                 createdAt: -1,
             },

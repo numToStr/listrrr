@@ -9,7 +9,6 @@ import {
 import { Context } from "../../network/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { DALQuery } from "../../@types/types";
 import { RearrangeColumnInput } from "../../utils/schema/schema";
 
 export class ProjectService {
@@ -19,18 +18,10 @@ export class ProjectService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    projects(_ids?: Types.ObjectId[]): Promise<Project[]> {
-        const query: DALQuery = {
+    projects(): Promise<Project[]> {
+        return new ProjectDAL({
             userID: this.ID,
-        };
-
-        if (_ids) {
-            query._id = {
-                $in: _ids,
-            };
-        }
-
-        return new ProjectDAL(query as Partial<Project>).findAll({
+        }).findAll({
             sort: {
                 createdAt: -1,
             },

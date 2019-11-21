@@ -13,8 +13,7 @@ const projectBatchFn: BatchFn = async IDs => {
         const response = await new ProjectDAL({
             _id: {
                 $in: IDs,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+            },
         }).findAll();
 
         return normalizeLoader<Project>(IDs, response);
