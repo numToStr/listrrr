@@ -1,4 +1,4 @@
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { produce } from "immer";
 import {
     Project,
@@ -54,6 +54,10 @@ export const useProjectsQuery = (variables: QueryProjectsArgs) => {
     return useQuery<ProjectsQuery, QueryProjectsArgs>(PROJECTS, {
         variables,
     });
+};
+
+export const useProjectsLazyQuery = () => {
+    return useLazyQuery<ProjectsQuery, QueryProjectsArgs>(PROJECTS);
 };
 
 const PROJECTS_FILTER = gql`

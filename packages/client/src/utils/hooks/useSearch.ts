@@ -1,5 +1,6 @@
 import { useLocation, useHistory } from "react-router-dom";
 import { parse, stringify } from "query-string";
+import { useMemo } from "react";
 
 export const useMergeSearch = () => {
     const { search } = useLocation();
@@ -23,6 +24,14 @@ export const usePushSearch = () => {
 
         return push(`?${s}`);
     };
+};
+
+export const useParseSearch = (search: string) => {
+    return useMemo(() => {
+        const s = search === "" ? `?status=OPEN` : search;
+
+        return parse(s);
+    }, [search]);
 };
 
 // const filters = {
