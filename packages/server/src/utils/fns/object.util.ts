@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { Filters, Sort, Status } from "../schema/schema";
 
 /**
  * For deleting properties from a object
@@ -31,4 +32,23 @@ export const normalizeLoader = <T extends { _id: Types.ObjectId }>(
             new Error(`Enitity not found for ID: ${_id}`)
         );
     });
+};
+
+const SortMap: Map<Sort, Record<string, unknown>> = new Map([
+    // Sorting on _id will be faster than createdAt
+    [Sort.CREATED_ASC, { _id: 1 }],
+    [Sort.CREATED_DESC, { _id: -1 }],
+    [Sort.UPDATED_DESC, { updatedAt: -1 }],
+]);
+
+const StatusMap: Map<Status, boolean> = new Map([
+    [Status.OPEN, false],
+    [Status.CLOSED, true],
+]);
+
+export const parseQueryFilters = (filters: Filters) => {
+    const sort = SortMap.get(filters.sort);
+    const closed = StatusMap.get(filters.status);
+
+    return { sort, closed };
 };

@@ -14,7 +14,11 @@ import { Types } from "mongoose";
 import { Issue } from "./issue.schema";
 import { IssueService } from "./issue.service";
 import { Project } from "../project/project.schema";
-import { FindInput, TitleAndDescSchema } from "../../utils/schema/schema";
+import {
+    FindInput,
+    TitleAndDescSchema,
+    Filters,
+} from "../../utils/schema/schema";
 import { Context } from "../../network/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
 
@@ -41,8 +45,11 @@ export class IssueResolver {
     @Query(() => [Issue], {
         nullable: "items",
     })
-    issues(@Ctx() ctx: Context): Promise<Issue[]> {
-        return new IssueService(ctx).issues();
+    issues(
+        @Ctx() ctx: Context,
+        @Arg("filters") filters: Filters
+    ): Promise<Issue[]> {
+        return new IssueService(ctx).issues(filters);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

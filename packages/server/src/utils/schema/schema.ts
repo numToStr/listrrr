@@ -1,4 +1,10 @@
-import { InputType, Field, ID, ObjectType } from "type-graphql";
+import {
+    InputType,
+    Field,
+    ID,
+    ObjectType,
+    registerEnumType,
+} from "type-graphql";
 import { Types } from "mongoose";
 import { prop } from "@typegoose/typegoose";
 
@@ -62,3 +68,36 @@ export class ColumnIDInput {
     @Field()
     columnID: Types.ObjectId;
 }
+
+export enum Sort {
+    CREATED_ASC = "created-asc",
+    CREATED_DESC = "created-desc",
+    UPDATED_DESC = "updated-desc",
+}
+
+export enum Status {
+    OPEN = "open",
+    CLOSED = "closed",
+}
+@InputType()
+export class Filters {
+    @Field(() => Sort, {
+        defaultValue: Sort.CREATED_DESC,
+    })
+    sort: Sort;
+
+    @Field(() => Status, {
+        defaultValue: Status.OPEN,
+    })
+    status: Status;
+}
+
+registerEnumType(Sort, {
+    name: "Sort",
+    description: "For specifying sorting options",
+});
+
+registerEnumType(Status, {
+    name: "Status",
+    description: "For specifying a enitity status",
+});

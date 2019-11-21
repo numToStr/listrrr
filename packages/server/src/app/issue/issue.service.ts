@@ -5,7 +5,8 @@ import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
 import { Context } from "../../network/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { FindInput } from "../../utils/schema/schema";
+import { FindInput, Filters } from "../../utils/schema/schema";
+import { parseQueryFilters } from "../../utils/fns/object.util";
 
 export class IssueService {
     constructor(private ctx: Context) {}
@@ -14,14 +15,10 @@ export class IssueService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    issues(): Promise<Issue[]> {
-        return new IssueDAL({
-            userID: this.ID,
-        }).findAll({
-            sort: {
-                createdAt: -1,
-            },
-        });
+    issues(filters: Filters): Promise<Issue[]> {
+        const { closed, sort } = parseQueryFilters(filters);
+
+        return new IssueDAL({ userID: this.ID, closed }).findAll({ sort });
     }
 
     issue(_id: Types.ObjectId): Promise<Issue> {

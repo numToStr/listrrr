@@ -9,7 +9,8 @@ import {
 import { Context } from "../../network/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { RearrangeColumnInput } from "../../utils/schema/schema";
+import { RearrangeColumnInput, Filters } from "../../utils/schema/schema";
+import { parseQueryFilters } from "../../utils/fns/object.util";
 
 export class ProjectService {
     constructor(private ctx: Context) {}
@@ -18,14 +19,10 @@ export class ProjectService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    projects(): Promise<Project[]> {
-        return new ProjectDAL({
-            userID: this.ID,
-        }).findAll({
-            sort: {
-                createdAt: -1,
-            },
-        });
+    projects(filters: Filters): Promise<Project[]> {
+        const { sort, closed } = parseQueryFilters(filters);
+
+        return new ProjectDAL({ userID: this.ID, closed }).findAll({ sort });
     }
 
     project(_id: Types.ObjectId): Promise<Project> {

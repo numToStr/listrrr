@@ -21,6 +21,7 @@ import {
     TitleAndDescSchema,
     RearrangeColumnInput,
     ColumnIDInput,
+    Filters,
 } from "../../utils/schema/schema";
 
 @InputType()
@@ -43,8 +44,11 @@ export class ProjectResolver {
     @Query(() => [Project], {
         nullable: "items",
     })
-    projects(@Ctx() ctx: Context): Promise<Project[]> {
-        return new ProjectService(ctx).projects();
+    projects(
+        @Ctx() ctx: Context,
+        @Arg("filters") filters: Filters
+    ): Promise<Project[]> {
+        return new ProjectService(ctx).projects(filters);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
