@@ -37,7 +37,7 @@ export class ColumnResolver {
     issues(
         @Ctx() ctx: Context,
         @Root() { issueIDs = [] }: Column
-    ): Promise<Issue[]> {
+    ): Promise<(Issue | Error)[]> {
         return ctx.issueLoader.loadMany(issueIDs as Types.ObjectId[]);
     }
 

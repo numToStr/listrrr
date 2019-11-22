@@ -19,7 +19,7 @@ export function deleteProps<T extends object>(target: T, props: string[]): T {
  * For normalizing the values for the dataloader to be in sequence with IDs
  */
 export const normalizeLoader = <T extends { _id: Types.ObjectId }>(
-    IDs: Array<Types.ObjectId>,
+    IDs: readonly Types.ObjectId[],
     response: T[]
 ) => {
     const enitiyMap = new Map<string, T>();

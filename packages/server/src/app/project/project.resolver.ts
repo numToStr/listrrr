@@ -69,7 +69,7 @@ export class ProjectResolver {
     columns(
         @Ctx() ctx: Context,
         @Root() { columnIDs }: Project
-    ): Promise<Column[]> {
+    ): Promise<(Column | Error)[]> {
         return ctx.columnLoader.loadMany(columnIDs as Types.ObjectId[]);
     }
 

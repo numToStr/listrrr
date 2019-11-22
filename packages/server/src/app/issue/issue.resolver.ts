@@ -69,7 +69,7 @@ export class IssueResolver {
     projects(
         @Root() { projectIDs }: Issue,
         @Ctx() ctx: Context
-    ): Promise<Project[]> {
+    ): Promise<(Project | Error)[]> {
         return ctx.projectLoader.loadMany(projectIDs as Array<Types.ObjectId>);
     }
 

@@ -9,7 +9,8 @@
         "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json --ignore generated -r dotenv/config src/bin/www.ts",
         "build": "NODE_ENV=production rimraf build && tsc --build tsconfig.json",
         "lint": "eslint --ext .js,.ts --fix --fix-type suggestion .",
-        "start:build": "yarn build && yarn prod"
+        "start:build": "yarn build && yarn prod",
+        "format": "prettier --write \"./**/*.ts\""
     },
     "license": "MIT",
     "dependencies": {

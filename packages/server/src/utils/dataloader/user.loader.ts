@@ -1,4 +1,4 @@
-import Dataloader from "dataloader";
+import Dataloader, { BatchLoadFn } from "dataloader";
 import { Types } from "mongoose";
 import { User } from "../../app/user/user.schema";
 import { UserDAL } from "../../app/user/user.dal";
@@ -6,9 +6,7 @@ import { normalizeLoader } from "../fns/object.util";
 
 type OID = Types.ObjectId;
 
-type BatchFn = (IDs: Array<OID>) => Promise<(User | Error)[]>;
-
-const userBatchFn: BatchFn = async IDs => {
+const userBatchFn: BatchLoadFn<OID, User> = async IDs => {
     if (IDs.length) {
         const response = await new UserDAL({
             _id: {
