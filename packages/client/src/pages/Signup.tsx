@@ -13,7 +13,7 @@ const Signup = () => {
     const [handleSignup] = useSignupMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
-        handleSignup({
+        await handleSignup({
             data: values,
         });
     };

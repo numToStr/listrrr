@@ -7,7 +7,7 @@ export type SubmitHandler<Values> = (
 ) => Promise<any>;
 
 // Used in custom query hooks
-export type HandleMutation<Variables> = (values: Variables) => void;
+export type HandleMutation<Variables> = (values: Variables) => Promise<any>;
 
 // Used in custom query hooks
 export type MyMutationHook<Data, Var> = (

@@ -29,7 +29,7 @@ const IssueCreate = () => {
     });
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
-        handleCreateIssue({ data: values });
+        await handleCreateIssue({ data: values });
     };
 
     const renderProjects = () => {

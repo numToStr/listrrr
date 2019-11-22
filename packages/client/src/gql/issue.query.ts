@@ -137,7 +137,7 @@ export const useCreateIssueMutation: MyMutationHook<
     });
 
     const handleMutation: HandleMutation<MutationCreateIssueArgs> = variables => {
-        mutation({ variables });
+        return mutation({ variables });
     };
 
     return [handleMutation, meta];

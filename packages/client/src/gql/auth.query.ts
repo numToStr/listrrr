@@ -72,7 +72,7 @@ export const useLoginMutation: MyMutationHook<
     );
 
     const handleLogin: HandleMutation<MutationLoginArgs> = variables => {
-        mutation({ variables });
+        return mutation({ variables });
     };
 
     return [handleLogin, meta];
@@ -126,7 +126,7 @@ export const useSignupMutation: MyMutationHook<
     );
 
     const handleLogin: HandleMutation<MutationSignupArgs> = variables => {
-        mutation({ variables });
+        return mutation({ variables });
     };
 
     return [handleLogin, meta];

@@ -175,7 +175,7 @@ export const useCreateProjectMutation: MyMutationHook<
     });
 
     const handleMutation: HandleMutation<MutationCreateProjectArgs> = variables => {
-        mutation({ variables });
+        return mutation({ variables });
     };
 
     return [handleMutation, meta];
@@ -206,7 +206,8 @@ export const useRearrangeColumnMutation: MyMutationHook<
     const handleMutation: HandleMutation<MutationRearrangeColumnArgs> = variables => {
         const { projectID } = variables.where;
         const { initialPosition, finalPosition } = variables.data;
-        mutation({
+
+        return mutation({
             variables,
             optimisticResponse: {
                 rearrangeColumn: true,
@@ -272,7 +273,7 @@ export const useRearrangeIssueMutation: MyMutationHook<
     >(REARRANGE_ISSUE, options);
 
     const handleMutation: HandleMutation<MutationRearrangeIssueArgs> = variables => {
-        mutation({
+        return mutation({
             variables,
             optimisticResponse: {
                 rearrangeIssue: true,
