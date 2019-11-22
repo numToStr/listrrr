@@ -17,19 +17,19 @@ const IssueCommentForm: FC<Props> = ({ issueID, closed }) => {
 
     const btnText = closed ? "Reopen Issue" : "Close Issue";
 
-    const handleSubmit: SubmitHandler<{ comment: string }> = values => {
+    const handleSubmit: SubmitHandler<{ comment: string }> = async values => {
         console.log(values);
     };
 
     const handleCloseOrOpen = () => {
         closeOrOpen({
             data: {
-                closed: !closed
+                closed: !closed,
             },
             where: {
                 _id: issueID,
-                type: EntityType.Issue
-            }
+                type: EntityType.Issue,
+            },
         });
     };
 

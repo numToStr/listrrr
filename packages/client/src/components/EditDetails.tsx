@@ -18,21 +18,21 @@ const EditDetails: FC<Props> = ({
     _id,
     defaultValue,
     formTitle: title,
-    type
+    type,
 }) => {
     const [open, setOpen] = useState(false);
     const [handleEdit] = useEditDetailsMutation({
         onCompleted() {
             setOpen(false);
-        }
+        },
     });
 
     const handleDrawer = (val: boolean) => () => setOpen(val);
 
-    const handleSubmit: SubmitHandler<TitleAndDescriptionInput> = values => {
+    const handleSubmit: SubmitHandler<TitleAndDescriptionInput> = async values => {
         handleEdit({
             where: { _id, type },
-            data: values
+            data: values,
         });
     };
 

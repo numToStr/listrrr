@@ -12,7 +12,7 @@ const initValues = { username: "", email: "", password: "" };
 const Signup = () => {
     const [handleSignup] = useSignupMutation();
 
-    const handleSubmit: SubmitHandler<typeof initValues> = values => {
+    const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         handleSignup({
             data: values,
         });

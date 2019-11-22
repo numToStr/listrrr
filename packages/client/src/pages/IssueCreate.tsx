@@ -28,7 +28,7 @@ const IssueCreate = () => {
         },
     });
 
-    const handleSubmit: SubmitHandler<typeof initValues> = values => {
+    const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         handleCreateIssue({ data: values });
     };
 

@@ -4,7 +4,7 @@ import { MutationHookOptions, MutationResult } from "@apollo/client";
 export type SubmitHandler<Values> = (
     values: Values,
     bag: FormikHelpers<Values>
-) => unknown;
+) => Promise<any>;
 
 // Used in custom query hooks
 export type HandleMutation<Variables> = (values: Variables) => void;

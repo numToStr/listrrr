@@ -22,7 +22,7 @@ const IssueCreate = () => {
     const { data: td, loading } = useTemplatesQuery();
     const [handleCreateProject, { data: pd }] = useCreateProjectMutation();
 
-    const handleSubmit: SubmitHandler<typeof initValues> = values => {
+    const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         handleCreateProject({
             data: values,
         });
