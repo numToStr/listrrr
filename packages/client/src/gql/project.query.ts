@@ -9,6 +9,7 @@ import {
     MutationRearrangeIssueArgs,
     Column,
     QueryProjectsArgs,
+    Status,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -138,8 +139,15 @@ export const useCreateProjectMutation: MyMutationHook<
 
             const { createProject: p } = data;
 
-            const cached = cache.readQuery<ProjectsQuery>({
+            const variables = {
+                filters: {
+                    status: Status.Open,
+                },
+            };
+
+            const cached = cache.readQuery<ProjectsQuery, QueryProjectsArgs>({
                 query: PROJECTS,
+                variables,
             });
 
             if (!cached) {
@@ -151,11 +159,12 @@ export const useCreateProjectMutation: MyMutationHook<
             });
 
             // Pushing to project list
-            cache.writeQuery<ProjectsQuery>({
+            cache.writeQuery<ProjectsQuery, QueryProjectsArgs>({
                 query: PROJECTS,
                 data: {
                     projects,
                 },
+                variables,
             });
 
             // Creating new cached query for the created project
