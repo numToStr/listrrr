@@ -1,0 +1,69 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "airbnb-base",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier",
+        "prettier/@typescript-eslint",
+        "plugin:node/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "project": "packages/server/tsconfig.json"
+    },
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "max-classes-per-file": ["error", 10],
+        "newline-before-return": "error",
+        "class-methods-use-this": "off",
+        "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-empty-function": [
+            "error",
+            { "allow": ["constructors"] }
+        ],
+        "import/no-cycle": "off",
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/no-useless-constructor": "off",
+        "@typescript-eslint/explicit-function-return-type": [
+            "off",
+            { "allowExpression": true }
+        ],
+        "node/prefer-global/buffer": ["error", "always"],
+        "node/prefer-global/console": ["error", "always"],
+        "node/prefer-global/process": ["error", "always"],
+        "node/prefer-global/url-search-params": ["error", "always"],
+        "node/prefer-global/url": ["error", "always"],
+        "node/no-deprecated-api": "error",
+        "node/no-extraneous-require": "error",
+        "node/no-missing-require": "error",
+        "node/no-missing-import": [
+            "error",
+            {
+                "tryExtensions": [".js", ".json", ".node", ".ts"]
+            }
+        ],
+        "node/no-unpublished-bin": "error",
+        "node/no-unpublished-require": "error",
+        "node/no-unsupported-features/es-builtins": "error",
+        "node/no-unsupported-features/es-syntax": "off",
+        "node/no-unsupported-features/node-builtins": "error",
+        "node/process-exit-as-throw": "error",
+        "node/shebang": 0
+    }
+}

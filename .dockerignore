@@ -89,6 +89,7 @@ coverage
 
 # production
 build
+**/build/**/*
 
 # misc
 .DS_Store
@@ -96,24 +97,25 @@ build
 .env.development.local
 .env.test.local
 .env.production.local
+pre-workspace
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.gitignore/
-.git/
+.gitignore
+.git/**/*
 LICENSE
 nginx-proxy/
 docker-compose.yml
 README.md
 
-server/node_modules
-server/.env
-server/.eslint*
-server/Dockerfile
+packages/server/node_modules
+packages/server/.env
+packages/server/.eslint*
+packages/server/Dockerfile
 
-client/node_modules
-client/Dockerfile
-client/README.md
-client/build
+packages/client/node_modules
+packages/client/Dockerfile
+packages/client/README.md
+packages/client/build

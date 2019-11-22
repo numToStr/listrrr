@@ -1,0 +1,17 @@
+{
+    "name": "@listrrr/core",
+    "description": "Core functions shared accross listrrr packages",
+    "private": false,
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "typings": "build/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "rimraf build && tsc --build tsconfig.json",
+        "build:watch": "rimraf build && tsc --watch --build tsconfig.json"
+    },
+    "devDependencies": {
+        "rimraf": "^3.0.0",
+        "typescript": "^3.7.2"
+    }
+}

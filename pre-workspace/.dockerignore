@@ -1,9 +1,7 @@
 # IDE files
 .vscode
 .idea
-.DS_Store
 package-lock.json
-
 
 # Logs
 logs
@@ -91,7 +89,6 @@ coverage
 
 # production
 build
-dist
 
 # misc
 .DS_Store
@@ -103,3 +100,20 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.gitignore/
+.git/
+LICENSE
+nginx-proxy/
+docker-compose.yml
+README.md
+
+server/node_modules
+server/.env
+server/.eslint*
+server/Dockerfile
+
+client/node_modules
+client/Dockerfile
+client/README.md
+client/build
