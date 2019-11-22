@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 import "reflect-metadata";
 import { setGlobalOptions } from "@typegoose/typegoose";
 

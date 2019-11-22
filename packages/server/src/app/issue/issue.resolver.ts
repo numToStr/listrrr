@@ -45,7 +45,7 @@ export class IssueResolver {
     @Query(() => [Issue], {
         nullable: "items",
     })
-    issues(
+    async issues(
         @Ctx() ctx: Context,
         @Arg("filters") filters: Filters
     ): Promise<Issue[]> {
@@ -56,17 +56,23 @@ export class IssueResolver {
     @Query(() => Issue, {
         nullable: true,
     })
-    issue(@Ctx() ctx: Context, @Arg("where") { _id }: FindInput) {
+    async issue(
+        @Ctx() ctx: Context,
+        @Arg("where") { _id }: FindInput
+    ): Promise<Issue> {
         return new IssueService(ctx).issue(_id);
     }
 
     @FieldResolver(() => User)
-    createdBy(@Ctx() ctx: Context, @Root() { userID }: Project): Promise<User> {
+    async createdBy(
+        @Ctx() ctx: Context,
+        @Root() { userID }: Project
+    ): Promise<User> {
         return ctx.userLoader.load(userID as Types.ObjectId);
     }
 
     @FieldResolver(() => Project)
-    projects(
+    async projects(
         @Root() { projectIDs }: Issue,
         @Ctx() ctx: Context
     ): Promise<(Project | Error)[]> {
@@ -75,7 +81,10 @@ export class IssueResolver {
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Issue)
-    createIssue(@Ctx() ctx: Context, @Arg("data") data: CreateIssueInput) {
+    async createIssue(
+        @Ctx() ctx: Context,
+        @Arg("data") data: CreateIssueInput
+    ): Promise<Issue> {
         return new IssueService(ctx).createIssue(data);
     }
 
@@ -83,11 +92,11 @@ export class IssueResolver {
     @Mutation(() => Issue, {
         nullable: true,
     })
-    updateIssueProjects(
+    async updateIssueProjects(
         @Ctx() ctx: Context,
         @Arg("where") where: FindInput,
         @Arg("data") data: UpdateIssueProjectInput
-    ) {
+    ): Promise<Issue> {
         return new IssueService(ctx).updateIssueProjects(where, data);
     }
 
@@ -95,7 +104,7 @@ export class IssueResolver {
     @Mutation(() => Issue, {
         nullable: true,
     })
-    deleteIssue(
+    async deleteIssue(
         @Ctx() ctx: Context,
         @Arg("where") where: FindInput
     ): Promise<Issue> {

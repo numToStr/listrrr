@@ -15,17 +15,21 @@ export class IssueService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    issues(filters: Filters): Promise<Issue[]> {
+    async issues(filters: Filters): Promise<Issue[]> {
         const { closed, sort } = parseQueryFilters(filters);
 
         return new IssueDAL({ userID: this.ID, closed }).findAll({ sort });
     }
 
-    issue(_id: Types.ObjectId): Promise<Issue> {
+    async issue(_id: Types.ObjectId): Promise<Issue> {
         return new IssueDAL({ _id, userID: this.ID }).findOne();
     }
 
-    async createIssue({ projectIDs, title, description }: CreateIssueInput) {
+    async createIssue({
+        projectIDs,
+        title,
+        description,
+    }: CreateIssueInput): Promise<Issue> {
         const issue = await new IssueDAL().create({
             title,
             description,
@@ -44,10 +48,10 @@ export class IssueService {
         return issue;
     }
 
-    updateIssueProjects(
+    async updateIssueProjects(
         { _id }: FindInput,
         { projectIDs }: UpdateIssueProjectInput
-    ) {
+    ): Promise<Issue> {
         return new IssueDAL({
             _id,
             userID: this.ID,
@@ -56,7 +60,7 @@ export class IssueService {
         });
     }
 
-    async deleteIssue({ _id }: FindInput) {
+    async deleteIssue({ _id }: FindInput): Promise<Issue> {
         const isDeleted = await new IssueDAL({
             _id,
             userID: this.ID,

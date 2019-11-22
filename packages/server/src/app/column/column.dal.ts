@@ -11,7 +11,7 @@ export class ColumnDAL extends RootDAL<Column> {
         super(ColumnModel, ctx);
     }
 
-    static updateColumnWithIssue(
+    static async updateColumnWithIssue(
         columnIds: Array<Types.ObjectId>,
         issueID: Types.ObjectId
     ) {
@@ -29,7 +29,7 @@ export class ColumnDAL extends RootDAL<Column> {
         );
     }
 
-    static removeIssueFromColumns(issueID: Types.ObjectId) {
+    static async removeIssueFromColumns(issueID: Types.ObjectId) {
         return ColumnModel.updateMany(
             {
                 "columns.issueIDs": issueID,

@@ -47,14 +47,14 @@ export class AuthResolver {
     @Mutation(() => AuthResponse, {
         description: "For logging in user",
     })
-    login(@Arg("data") data: LoginInput) {
+    async login(@Arg("data") data: LoginInput): Promise<AuthResponse> {
         return AuthService.login(data);
     }
 
     @Mutation(() => AuthResponse, {
         description: "For signing up new users",
     })
-    signup(@Arg("data") data: SignupInput) {
+    async signup(@Arg("data") data: SignupInput): Promise<AuthResponse> {
         return AuthService.signup(data);
     }
 }

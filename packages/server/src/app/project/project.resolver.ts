@@ -44,7 +44,7 @@ export class ProjectResolver {
     @Query(() => [Project], {
         nullable: "items",
     })
-    projects(
+    async projects(
         @Ctx() ctx: Context,
         @Arg("filters") filters: Filters
     ): Promise<Project[]> {
@@ -55,18 +55,24 @@ export class ProjectResolver {
     @Query(() => Project, {
         nullable: true,
     })
-    project(@Ctx() ctx: Context, @Arg("where") { _id }: FindInput) {
+    async project(
+        @Ctx() ctx: Context,
+        @Arg("where") { _id }: FindInput
+    ): Promise<Project> {
         return new ProjectService(ctx).project(_id);
     }
 
     @FieldResolver(() => User)
-    createdBy(@Ctx() ctx: Context, @Root() { userID }: Project): Promise<User> {
+    async createdBy(
+        @Ctx() ctx: Context,
+        @Root() { userID }: Project
+    ): Promise<User> {
         return ctx.userLoader.load(userID as Types.ObjectId);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @FieldResolver(() => [Column])
-    columns(
+    async columns(
         @Ctx() ctx: Context,
         @Root() { columnIDs }: Project
     ): Promise<(Column | Error)[]> {
@@ -75,17 +81,20 @@ export class ProjectResolver {
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Project)
-    createProject(@Ctx() ctx: Context, @Arg("data") data: CreateProjectInput) {
+    async createProject(
+        @Ctx() ctx: Context,
+        @Arg("data") data: CreateProjectInput
+    ): Promise<Project> {
         return new ProjectService(ctx).createProject(data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
-    rearrangeColumn(
+    async rearrangeColumn(
         @Ctx() ctx: Context,
         @Arg("where") where: RearrangeColumnFindInput,
         @Arg("data") data: RearrangeColumnInput
-    ) {
+    ): Promise<boolean> {
         return new ProjectService(ctx).rearrangeColumn(where, data);
     }
 }

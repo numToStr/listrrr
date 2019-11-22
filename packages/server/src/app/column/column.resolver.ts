@@ -34,7 +34,7 @@ export class ColumnResolver {
     @FieldResolver(() => [Issue], {
         nullable: "items",
     })
-    issues(
+    async issues(
         @Ctx() ctx: Context,
         @Root() { issueIDs = [] }: Column
     ): Promise<(Issue | Error)[]> {
@@ -43,11 +43,11 @@ export class ColumnResolver {
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
-    rearrangeIssue(
+    async rearrangeIssue(
         @Ctx() ctx: Context,
         @Arg("where") where: RearrangeIssueFindInput,
         @Arg("data") data: RearrangeIssueInput
-    ) {
+    ): Promise<boolean> {
         return new ColumnService(ctx).rearrangeIssue(where, data);
     }
 }

@@ -19,13 +19,13 @@ export class ProjectService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    projects(filters: Filters): Promise<Project[]> {
+    async projects(filters: Filters): Promise<Project[]> {
         const { sort, closed } = parseQueryFilters(filters);
 
         return new ProjectDAL({ userID: this.ID, closed }).findAll({ sort });
     }
 
-    project(_id: Types.ObjectId): Promise<Project> {
+    async project(_id: Types.ObjectId): Promise<Project> {
         return new ProjectDAL({ _id, userID: this.ID }).findOne();
     }
 
