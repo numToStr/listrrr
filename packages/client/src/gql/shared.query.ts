@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import {
     Mutation,
     MutationUpdateTitleAndDescriptionArgs,
-    MutationCloseOrOpenArgs
+    MutationCloseOrOpenArgs,
 } from "../generated/graphql";
 import { ISSUE_FRAGMENT } from "./issue.query";
 import { PROJECT_FRAGMENT } from "./project.query";
@@ -34,11 +34,9 @@ export const useEditDetailsMutation: MyMutationHook<
         MutationUpdateTitleAndDescriptionArgs
     >(EDIT_DETAILS, options);
 
-    const handleMutation: HandleMutation<
-        MutationUpdateTitleAndDescriptionArgs
-    > = variables => {
-        mutation({
-            variables
+    const handleMutation: HandleMutation<MutationUpdateTitleAndDescriptionArgs> = variables => {
+        return mutation({
+            variables,
         });
     };
 
@@ -69,10 +67,8 @@ export const useCloseOrOpenMutation: MyMutationHook<
         options
     );
 
-    const handleMutation: HandleMutation<
-        MutationCloseOrOpenArgs
-    > = variables => {
-        mutation({ variables });
+    const handleMutation: HandleMutation<MutationCloseOrOpenArgs> = variables => {
+        return mutation({ variables });
     };
 
     return [handleMutation, meta];

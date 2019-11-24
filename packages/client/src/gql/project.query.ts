@@ -9,6 +9,7 @@ import {
     MutationRearrangeIssueArgs,
     Column,
     QueryProjectsArgs,
+    Status,
 } from "../generated/graphql";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
@@ -138,8 +139,15 @@ export const useCreateProjectMutation: MyMutationHook<
 
             const { createProject: p } = data;
 
-            const cached = cache.readQuery<ProjectsQuery>({
+            const variables = {
+                filters: {
+                    status: Status.Open,
+                },
+            };
+
+            const cached = cache.readQuery<ProjectsQuery, QueryProjectsArgs>({
                 query: PROJECTS,
+                variables,
             });
 
             if (!cached) {
@@ -151,11 +159,12 @@ export const useCreateProjectMutation: MyMutationHook<
             });
 
             // Pushing to project list
-            cache.writeQuery<ProjectsQuery>({
+            cache.writeQuery<ProjectsQuery, QueryProjectsArgs>({
                 query: PROJECTS,
                 data: {
                     projects,
                 },
+                variables,
             });
 
             // Creating new cached query for the created project
@@ -175,7 +184,7 @@ export const useCreateProjectMutation: MyMutationHook<
     });
 
     const handleMutation: HandleMutation<MutationCreateProjectArgs> = variables => {
-        mutation({ variables });
+        return mutation({ variables });
     };
 
     return [handleMutation, meta];
@@ -206,7 +215,8 @@ export const useRearrangeColumnMutation: MyMutationHook<
     const handleMutation: HandleMutation<MutationRearrangeColumnArgs> = variables => {
         const { projectID } = variables.where;
         const { initialPosition, finalPosition } = variables.data;
-        mutation({
+
+        return mutation({
             variables,
             optimisticResponse: {
                 rearrangeColumn: true,
@@ -272,7 +282,7 @@ export const useRearrangeIssueMutation: MyMutationHook<
     >(REARRANGE_ISSUE, options);
 
     const handleMutation: HandleMutation<MutationRearrangeIssueArgs> = variables => {
-        mutation({
+        return mutation({
             variables,
             optimisticResponse: {
                 rearrangeIssue: true,

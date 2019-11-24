@@ -23,7 +23,7 @@ const IssueCreate = () => {
     const [handleCreateProject, { data: pd }] = useCreateProjectMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
-        handleCreateProject({
+        await handleCreateProject({
             data: values,
         });
     };

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { makeStyles, createStyles } from "@material-ui/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 
 const closeColor = "#f00c1d";
 const openColor = "#269f42";

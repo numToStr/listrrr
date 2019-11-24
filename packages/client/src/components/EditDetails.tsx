@@ -30,7 +30,7 @@ const EditDetails: FC<Props> = ({
     const handleDrawer = (val: boolean) => () => setOpen(val);
 
     const handleSubmit: SubmitHandler<TitleAndDescriptionInput> = async values => {
-        handleEdit({
+        await handleEdit({
             where: { _id, type },
             data: values,
         });
