@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
+import { DrawerType } from "../../@types/types";
 
 const items = [
     {
@@ -23,11 +24,6 @@ const items = [
         path: "/d/issue",
     },
 ];
-
-export enum DrawerType {
-    DESKTOP,
-    MOBILE,
-}
 
 type Props = {
     onTap?(): void;

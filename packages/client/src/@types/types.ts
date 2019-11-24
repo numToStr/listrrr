@@ -19,6 +19,11 @@ export enum RearrangeType {
     PROJECT_COLUMN_ISSUE = "PROJECT_COLUMN_ISSUE",
 }
 
+export enum DrawerType {
+    DESKTOP,
+    MOBILE,
+}
+
 export type FilterOption<V> = {
     title: string;
     value: V;

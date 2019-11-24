@@ -1,19 +1,20 @@
 import React, { memo } from "react";
 import { Drawer, Box, makeStyles } from "@material-ui/core";
-import DrawerList, { DrawerType } from "./DrawerList";
+import DrawerList from "./DrawerList";
+import { DrawerType } from "../../@types/types";
 
 const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
     const drawerWidth = spacing(30);
     return {
         drawerRoot: {
             width: drawerWidth,
-            flexShrink: 0
+            flexShrink: 0,
         },
         drawerBg: {
             background: primary.main,
             color: primary.contrastText,
-            width: drawerWidth
-        }
+            width: drawerWidth,
+        },
     };
 });
 
@@ -26,7 +27,7 @@ const DrawerDesktop = () => {
             anchor="left"
             classes={{
                 root: classes.drawerRoot,
-                paper: classes.drawerBg
+                paper: classes.drawerBg,
             }}
         >
             <Box p={3} pt={5}>
