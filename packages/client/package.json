@@ -3,7 +3,7 @@
     "description": "React.js app for the listrrr",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:6000",
+    "proxy": "http://localhost:5000",
     "dependencies": {
         "@apollo/client": "^3.0.0-beta.11",
         "@listrrr/core": "^1.0.0",
