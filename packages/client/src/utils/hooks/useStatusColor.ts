@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const closeColor = "#f00c1d";
 const openColor = "#269f42";
@@ -8,16 +8,14 @@ type StyleProps = {
     color: string;
 };
 
-const useStyles = makeStyles(() => {
-    return createStyles({
-        bgColor: ({ color }: StyleProps) => ({
-            backgroundColor: color,
-            color: "#fff",
-        }),
-        color: ({ color }: StyleProps) => ({
-            color,
-        }),
-    });
+const useStyles = makeStyles({
+    bgColor: ({ color }: StyleProps) => ({
+        backgroundColor: color,
+        color: "#fff",
+    }),
+    color: ({ color }: StyleProps) => ({
+        color,
+    }),
 });
 
 export const useStatusColor = (closed: boolean) => {
