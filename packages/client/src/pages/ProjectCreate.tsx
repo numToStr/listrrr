@@ -54,7 +54,7 @@ const IssueCreate = () => {
 
     return (
         <Fragment>
-            <BackButton to="/d/issue" />
+            <BackButton to="/d/project" />
             <Typography variant="h5" paragraph>
                 New Project
             </Typography>
