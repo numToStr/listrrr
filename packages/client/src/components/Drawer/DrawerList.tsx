@@ -6,41 +6,44 @@ import {
     ListItemIcon,
     ListItemText,
     Typography,
-    Box
 } from "@material-ui/core";
-// import HomeIcon from "@material-ui/icons/HomeTwoTone";
+import { makeStyles } from "@material-ui/core/styles";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
+import { DrawerType } from "../../@types/types";
 
 const items = [
-    // {
-    //     text: "Dashboard",
-    //     icon: HomeIcon,
-    //     path: "/d/login"
-    // },
     {
         text: "Projects",
         icon: ProjectIcon,
-        path: "/d/project"
+        path: "/d/project",
     },
     {
         text: "Issues",
         icon: IssuesIcon,
-        path: "/d/issue"
-    }
+        path: "/d/issue",
+    },
 ];
-
-export enum DrawerType {
-    DESKTOP,
-    MOBILE
-}
 
 type Props = {
     onTap?(): void;
     type: DrawerType;
 };
 
+const useStyles = makeStyles(
+    ({ palette: { primary }, shape: { borderRadius }, spacing }) => ({
+        icon: {
+            color: primary.contrastText,
+        },
+        listItem: {
+            borderRadius,
+            marginBottom: spacing(0.25),
+        },
+    })
+);
+
 const DrawerList: FC<Props> = ({ onTap, type }) => {
+    const styles = useStyles();
     const { pathname } = useLocation();
     const { push } = useHistory();
 
@@ -53,25 +56,27 @@ const DrawerList: FC<Props> = ({ onTap, type }) => {
     };
 
     const list = items.map(({ text, icon: Icon, path }) => {
+        const isSelected = pathname.startsWith(path);
+
         return (
-            <Box clone key={path} borderRadius="borderRadius">
-                <ListItem
-                    button
-                    selected={path === pathname}
-                    onClick={handleLinkClick(path)}
+            <ListItem
+                key={path}
+                button
+                selected={isSelected}
+                onClick={handleLinkClick(path)}
+                className={styles.listItem}
+            >
+                <ListItemIcon
+                    classes={{
+                        root: styles.icon,
+                    }}
                 >
-                    <ListItemIcon>
-                        <Box clone color="primary.contrastText">
-                            <Icon fontSize="small" />
-                        </Box>
-                    </ListItemIcon>
-                    <ListItemText
-                        primary={
-                            <Typography color="inherit">{text}</Typography>
-                        }
-                    />
-                </ListItem>
-            </Box>
+                    <Icon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText
+                    primary={<Typography color="inherit">{text}</Typography>}
+                />
+            </ListItem>
         );
     });
 

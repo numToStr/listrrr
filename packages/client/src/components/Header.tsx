@@ -20,7 +20,7 @@ type Props = {
 
 const Header: FC<Props> = ({ title, goToCreate: goTo }) => {
     return (
-        <Box clone mb={2}>
+        <Box mb={2}>
             <Grid container justify="space-between">
                 <Grid item>
                     <Typography variant="h5">#{title}</Typography>
