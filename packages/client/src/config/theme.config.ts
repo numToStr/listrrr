@@ -1,13 +1,13 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core";
 import { red, grey } from "@material-ui/core/colors";
 
-export const theme = createMuiTheme({
+const base = createMuiTheme({
     palette: {
         primary: red,
         secondary: grey,
         background: {
-            default: "#fff"
-        }
+            default: "#fff",
+        },
     },
     typography: {
         fontFamily: [
@@ -22,7 +22,9 @@ export const theme = createMuiTheme({
             "sans-serif",
             '"Apple Color Emoji"',
             '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"'
-        ].join(",")
-    }
+            '"Segoe UI Symbol"',
+        ].join(","),
+    },
 });
+
+export const theme = responsiveFontSizes(base);
