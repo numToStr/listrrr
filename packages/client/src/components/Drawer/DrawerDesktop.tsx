@@ -4,7 +4,7 @@ import DrawerList from "./DrawerList";
 import { DrawerType } from "../../@types/types";
 
 const useStyles = makeStyles(({ palette: { primary }, spacing }) => {
-    const drawerWidth = spacing(30);
+    const drawerWidth = spacing(42);
     return {
         drawerRoot: {
             width: drawerWidth,

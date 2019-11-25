@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 import { DrawerType } from "../../@types/types";
+import DrawerUserItem from "./DrawerUserItem";
 
 const items = [
     {
@@ -37,7 +38,7 @@ const useStyles = makeStyles(
         },
         listItem: {
             borderRadius,
-            marginBottom: spacing(0.25),
+            marginTop: spacing(0.25),
         },
     })
 );
@@ -80,7 +81,12 @@ const DrawerList: FC<Props> = ({ onTap, type }) => {
         );
     });
 
-    return <List disablePadding>{list}</List>;
+    return (
+        <List disablePadding>
+            <DrawerUserItem />
+            {list}
+        </List>
+    );
 };
 
 export default DrawerList;
