@@ -47,3 +47,8 @@ export type ThemeBgColor = {
     color: string;
     title: string;
 };
+
+export type AppTheme = {
+    baseColor: ThemeColor;
+    baseBgColor: Omit<ThemeBgColor, "title">;
+};

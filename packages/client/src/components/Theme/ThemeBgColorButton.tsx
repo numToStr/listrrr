@@ -2,6 +2,7 @@ import React, { FC, memo } from "react";
 import { Box, makeStyles, FormControlLabel, Radio } from "@material-ui/core";
 import { BoxProps } from "@material-ui/core/Box";
 import { ThemeBgColor } from "../../@types/types";
+import { useAppBgColor } from "./ThemeContext";
 
 const useStyles = makeStyles(({ palette: { getContrastText } }) => ({
     btn: ({ color }: ThemeBgColor) => ({
@@ -21,7 +22,10 @@ type Props = BoxProps & {
 };
 
 const ThemeBgColorButton: FC<Props> = ({ themeColor, ...props }) => {
+    const { bg, changeBg } = useAppBgColor();
     const styles = useStyles(themeColor);
+
+    const handleClick = () => changeBg(themeColor);
 
     return (
         <Box
@@ -32,6 +36,8 @@ const ThemeBgColorButton: FC<Props> = ({ themeColor, ...props }) => {
             {...props}
         >
             <FormControlLabel
+                checked={themeColor.key === bg.key}
+                onClick={handleClick}
                 control={
                     <Radio
                         color="default"
@@ -41,7 +47,7 @@ const ThemeBgColorButton: FC<Props> = ({ themeColor, ...props }) => {
                         }}
                     />
                 }
-                value={themeColor}
+                value={themeColor.color}
                 label={themeColor.title}
             />
         </Box>

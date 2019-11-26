@@ -6,6 +6,7 @@ import {
     red,
     deepPurple,
     yellow,
+    blue,
 } from "@material-ui/core/colors";
 import { BoxProps } from "@material-ui/core/Box";
 import ThemeColorButton from "./ThemeColorButton";
@@ -15,6 +16,10 @@ const colors: ThemeColor[] = [
     {
         color: red,
         key: "red",
+    },
+    {
+        color: blue,
+        key: "blue",
     },
     {
         color: yellow,
