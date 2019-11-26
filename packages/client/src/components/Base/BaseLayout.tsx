@@ -5,8 +5,8 @@ import BaseLoader from "./BaseLoader";
 
 const useStyles = makeStyles({
     container: {
-        height: "100%"
-    }
+        height: "100%",
+    },
 });
 
 const BaseLayout: FC = ({ children }) => {
@@ -14,7 +14,7 @@ const BaseLayout: FC = ({ children }) => {
 
     return (
         <Grid container className={classes.container}>
-            <Grid item>
+            <Grid item xs="auto">
                 <DrawerIndex />
             </Grid>
             {/* Don't remove the xs prop, otherwise will break the layout */}
@@ -22,7 +22,7 @@ const BaseLayout: FC = ({ children }) => {
                 <Box
                     p={{
                         xs: 3,
-                        md: 5
+                        md: 5,
                     }}
                     flexGrow={1}
                     component="main"

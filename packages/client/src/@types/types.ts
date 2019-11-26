@@ -1,5 +1,6 @@
 import { FormikHelpers } from "formik";
 import { MutationHookOptions, MutationResult } from "@apollo/client";
+import { Color } from "@material-ui/core";
 
 export type SubmitHandler<Values> = (
     values: Values,
@@ -35,3 +36,19 @@ export enum FilterType {
     PROJECT = "project",
     LABEL = "label",
 }
+
+export type ThemeColor = {
+    key: string;
+    color: Color;
+};
+
+export type ThemeBgColor = {
+    key: string;
+    color: string;
+    title: string;
+};
+
+export type AppTheme = {
+    baseColor: ThemeColor;
+    baseBgColor: Omit<ThemeBgColor, "title">;
+};
