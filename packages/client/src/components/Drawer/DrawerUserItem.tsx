@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/SettingsTwoTone";
 import { useMeQuery } from "../../gql/user.query";
+import ThemeColorList from "../Theme/ThemeColorList";
+import ThemeBgColorList from "../Theme/ThemeBgColorList";
 
 const useStyles = makeStyles(({ palette: { background, text } }) => ({
     avatar: {
@@ -71,13 +73,21 @@ const DrawerUserItem = () => {
                 </ListItemSecondaryAction>
             </ListItem>
             <Dialog
+                fullWidth
                 open={open}
                 onClose={handleOpen}
                 aria-labelledby="user-settings-dailog"
             >
-                <DialogTitle id="user-setting-title">Settings</DialogTitle>
+                <DialogTitle id="user-setting-title" disableTypography>
+                    <Typography variant="h6" align="center">
+                        Customize your view
+                    </Typography>
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Edit Details</DialogContentText>
+                    <DialogContentText>Color</DialogContentText>
+                    <ThemeColorList />
+                    <DialogContentText>Background</DialogContentText>
+                    <ThemeBgColorList />
                 </DialogContent>
             </Dialog>
         </Fragment>
