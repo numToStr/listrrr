@@ -23,7 +23,7 @@ const ColumnItem: FC<Props> = ({ column, index }) => {
                     >
                         <Box
                             p={2}
-                            bgcolor="#fff"
+                            bgcolor="background.paper"
                             height="100%"
                             borderRadius="borderRadius"
                             boxShadow={isDragging ? 5 : 1}

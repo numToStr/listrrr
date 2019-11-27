@@ -20,7 +20,7 @@ const useStyles = makeStyles(
     ({ palette: { secondary, background }, shape: { borderRadius } }) => {
         return {
             grid: ({ dragging }: P) => ({
-                background: dragging ? secondary.light : background.paper,
+                background: dragging ? secondary.light : "none",
                 borderRadius,
                 transition: "all 0.3s ease-in-out",
             }),

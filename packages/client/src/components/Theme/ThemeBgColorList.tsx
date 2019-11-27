@@ -17,7 +17,7 @@ const colors: ThemeBgColor[] = [
     },
     {
         key: "so-dark",
-        color: "#000",
+        color: "#111",
         title: "So Dark",
     },
 ];

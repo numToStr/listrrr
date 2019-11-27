@@ -24,12 +24,10 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                     <Box
                         p={2}
                         mb={1}
-                        bgcolor="#fff"
+                        bgcolor="background.paper"
                         borderRadius="borderRadius"
                         border={isDragging ? 2 : 1}
-                        borderColor={
-                            isDragging ? "secondary.main" : "primary.main"
-                        }
+                        borderColor={isDragging ? "inherit" : "primary.main"}
                         boxShadow={isDragging ? 5 : 1}
                     >
                         <Link

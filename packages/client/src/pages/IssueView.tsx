@@ -48,7 +48,7 @@ const IssueView = () => {
                         mb={0.5}
                     >
                         <Typography variant="subtitle2">Projects</Typography>
-                        <IconButton size="small">
+                        <IconButton size="small" color="inherit">
                             <AddIcon fontSize="small" />
                         </IconButton>
                     </Box>
