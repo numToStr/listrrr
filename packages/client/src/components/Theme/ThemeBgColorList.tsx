@@ -12,26 +12,26 @@ const colors: ThemeBgColor[] = [
     },
     {
         key: "dim",
-        color: "#333",
+        color: "#3d3d3d",
         title: "Dim",
     },
     {
         key: "so-dark",
-        color: "#111",
+        color: "#212121",
         title: "So Dark",
     },
 ];
 
 const ThemeBgColorList: FC<BoxProps> = props => {
     const list = colors.map((color, index) => (
-        <Grid key={index} item xs>
+        <Grid key={index} item xs={12} md>
             <ThemeBgColorButton themeColor={color} />
         </Grid>
     ));
 
     return (
         <Box mb={2} {...props}>
-            <Grid container justify="center" spacing={2}>
+            <Grid container justify="center" spacing={1}>
                 {list}
             </Grid>
         </Box>
