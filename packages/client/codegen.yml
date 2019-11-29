@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:6000/gql"
+schema: "http://localhost:8000/gql"
 documents: "src/**/*.{gql,graphql}"
 generates:
   src/generated/graphql.tsx:
@@ -16,5 +16,5 @@ generates:
       withComponent: false
       namingConvention: 
         typeNames: "change-case#pascalCase"
-        # enumValues: "keep"
+        enumValues: "keep"
         transformUnderscore: false

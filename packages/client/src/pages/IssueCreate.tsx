@@ -23,8 +23,8 @@ const IssueCreate = () => {
     const [handleCreateIssue, { data: isd }] = useCreateIssueMutation();
     const { data: pd, loading } = useProjectsQuery({
         filters: {
-            sort: Sort.CreatedDesc,
-            status: Status.Open,
+            sort: Sort.CREATED_DESC,
+            status: Status.OPEN,
         },
     });
 

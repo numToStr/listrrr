@@ -141,7 +141,7 @@ export const useCreateProjectMutation: MyMutationHook<
 
             const variables = {
                 filters: {
-                    status: Status.Open,
+                    status: Status.OPEN,
                 },
             };
 

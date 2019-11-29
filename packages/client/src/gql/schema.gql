@@ -4,6 +4,28 @@ fragment UserFragment on User {
     email
 }
 
+fragment AuthFragment on AuthResponse {
+    user {
+        ...UserFragment
+    }
+    auth {
+        token
+        role
+    }
+}
+
+mutation Login($data: LoginInput!) {
+    login(data: $data) {
+        ...AuthFragment
+    }
+}
+
+mutation Signup($data: SignupInput!) {
+    signup(data: $data) {
+        ...AuthFragment
+    }
+}
+
 query Me {
     me {
         ...UserFragment

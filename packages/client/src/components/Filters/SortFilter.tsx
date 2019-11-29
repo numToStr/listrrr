@@ -7,15 +7,15 @@ import { Sort } from "../../generated/graphql";
 const options: FilterOption<Sort>[] = [
     {
         title: "Newest",
-        value: Sort.CreatedDesc,
+        value: Sort.CREATED_DESC,
     },
     {
         title: "Oldest",
-        value: Sort.CreatedAsc,
+        value: Sort.CREATED_ASC,
     },
     {
         title: "Recently updated",
-        value: Sort.UpdatedDesc,
+        value: Sort.UPDATED_DESC,
     },
 ];
 

@@ -55,7 +55,7 @@ const ProjectView = () => {
                         <EditDetails
                             key="edit-project"
                             _id={_id}
-                            type={EntityType.Project}
+                            type={EntityType.PROJECT}
                             formTitle="Edit Project"
                             defaultValue={{ title, description }}
                         />

@@ -8,8 +8,8 @@ import { Sort, Status } from "../../generated/graphql";
 const ProjectFilter = () => {
     const { data } = useProjectsFilterQuery({
         filters: {
-            sort: Sort.CreatedDesc,
-            status: Status.Open,
+            sort: Sort.CREATED_DESC,
+            status: Status.OPEN,
         },
     });
 

@@ -28,7 +28,7 @@ const IssueCommentForm: FC<Props> = ({ issueID, closed }) => {
             },
             where: {
                 _id: issueID,
-                type: EntityType.Issue,
+                type: EntityType.ISSUE,
             },
         });
     };

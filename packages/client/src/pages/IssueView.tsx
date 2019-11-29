@@ -89,7 +89,7 @@ const IssueView = () => {
                         <EditDetails
                             key="edit-issue"
                             _id={_id}
-                            type={EntityType.Issue}
+                            type={EntityType.ISSUE}
                             formTitle="Edit Issue"
                             defaultValue={{ title, description }}
                         />
