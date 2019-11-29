@@ -2,7 +2,7 @@ import React, { Fragment, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Grid, Typography, Box, Hidden, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/AddTwoTone";
-import { useIssueQuery } from "../gql/issue.query";
+import { useIIssueQuery } from "../gql/issue.query";
 import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
@@ -18,11 +18,15 @@ type Params = {
 
 const IssueView = () => {
     const { issueID } = useParams<Params>();
-    const { loading, data } = useIssueQuery({ _id: issueID });
+    const { loading, data } = useIIssueQuery({
+        where: {
+            _id: issueID,
+        },
+    });
 
     const renderIssueProjects = useCallback(
-        (projects: Maybe<Project>[] = []) => {
-            if (!projects.length) {
+        (projects: Maybe<Pick<Project, "_id" | "title">>[]) => {
+            if (projects.length) {
                 return (
                     <Typography variant="caption">No Projects...</Typography>
                 );
@@ -64,7 +68,7 @@ const IssueView = () => {
             return <BaseLoader />;
         }
 
-        if (!data) {
+        if (!data || !data.issue) {
             return <Typography>No Issue...</Typography>;
         }
 

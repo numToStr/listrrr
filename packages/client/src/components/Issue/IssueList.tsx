@@ -1,16 +1,20 @@
 import React, { FC } from "react";
-import { Box } from "@material-ui/core";
+import Box, { BoxProps } from "@material-ui/core/Box";
 import IssueItem from "./IssueItem";
-import { IssuesQuery } from "../../gql/issue.query";
+import { IssuesQuery } from "../../generated/graphql";
 
-type Props = IssuesQuery;
+type Props = IssuesQuery & BoxProps;
 
-const IssueList: FC<Props> = ({ issues }) => {
-    const list = issues.map(issue => {
-        return <IssueItem key={issue._id} issue={issue} />;
+const IssueList: FC<Props> = ({ issues, ...props }) => {
+    const list = issues.map(i => {
+        return i && <IssueItem key={i._id} issue={i} />;
     });
 
-    return <Box mb={5}>{list}</Box>;
+    return (
+        <Box mb={5} {...props}>
+            {list}
+        </Box>
+    );
 };
 
 export default IssueList;

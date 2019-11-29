@@ -10,7 +10,7 @@ import BackButton from "../components/BackButton";
 import FormikSelect from "../components/Form/FormikSelect";
 import { useProjectsQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
-import { useCreateIssueMutation } from "../gql/issue.query";
+import { useICreateIssueMutation } from "../gql/issue.query";
 import { Sort, Status } from "../generated/graphql";
 
 const initValues = {
@@ -20,7 +20,7 @@ const initValues = {
 };
 
 const IssueCreate = () => {
-    const [handleCreateIssue, { data: isd }] = useCreateIssueMutation();
+    const [handleCreateIssue, { data: isd }] = useICreateIssueMutation();
     const { data: pd, loading } = useProjectsQuery({
         filters: {
             sort: Sort.CREATED_DESC,
@@ -29,7 +29,9 @@ const IssueCreate = () => {
     });
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
-        await handleCreateIssue({ data: values });
+        await handleCreateIssue({
+            variables: { data: values },
+        });
     };
 
     const renderProjects = () => {

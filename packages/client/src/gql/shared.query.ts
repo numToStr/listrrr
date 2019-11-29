@@ -4,7 +4,7 @@ import {
     MutationUpdateTitleAndDescriptionArgs,
     MutationCloseOrOpenArgs,
 } from "../generated/graphql";
-import { ISSUE_FRAGMENT } from "./issue.query";
+import { ISSUE_FRAGMENT } from "./_issue.query";
 import { PROJECT_FRAGMENT } from "./project.query";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
