@@ -5,16 +5,16 @@ import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import FormikForm from "../components/Form/FormikForm";
 import FormWrapper from "../components/Form/FormWrapper";
 import FormCaption from "../components/Form/FormCaption";
-import { useSignupMutation } from "../gql/auth.query";
+import { useISignupMutation } from "../gql/auth.query";
 
 const initValues = { username: "", email: "", password: "" };
 
 const Signup = () => {
-    const [handleSignup] = useSignupMutation();
+    const [handleSignup] = useISignupMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         await handleSignup({
-            data: values,
+            variables: { data: values },
         });
     };
 
