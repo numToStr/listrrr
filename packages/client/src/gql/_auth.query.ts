@@ -9,7 +9,7 @@ import {
 import { HandleMutation, MyMutationHook } from "../@types/types";
 import { TokenUtil } from "../utils/token";
 import { useMyApolloContext } from "../components/ApolloContext";
-import { USER_FRAGMENT, ME } from "./user.query";
+import { USER_FRAGMENT, ME } from "./_user.query";
 
 const AUTH_FRAGMENT = gql`
     fragment AuthFragment on AuthResponse {

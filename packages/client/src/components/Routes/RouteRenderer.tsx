@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Switch, Redirect } from "react-router-dom";
-import { useMeQuery } from "../../gql/user.query";
+import { useIMeQuery } from "../../gql/user.query";
 import { Routes } from "../../config/routes.config";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const RouteRenderer: FC<Props> = ({ routes, defaultRedirect: redirect }) => {
-    const { loading, data } = useMeQuery();
+    const { loading, data } = useIMeQuery();
 
     if (loading && !data) {
         return <BaseLoader />;
