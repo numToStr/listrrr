@@ -1,3 +1,6 @@
+import { gql } from '@apollo/client';
+import * as ApolloReactCommon from '@apollo/client';
+import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -13,13 +16,11 @@ export type Scalars = {
 };
 
 export type AuthInfo = {
-   __typename?: 'AuthInfo',
   token: Scalars['String'],
   role: AuthRoles,
 };
 
 export type AuthResponse = {
-   __typename?: 'AuthResponse',
   user: User,
   auth: AuthInfo,
 };
@@ -35,7 +36,6 @@ export type ClosedInput = {
 };
 
 export type Column = {
-   __typename?: 'Column',
   _id: Scalars['ID'],
   title: Scalars['String'],
   issues: Array<Maybe<Issue>>,
@@ -79,7 +79,6 @@ export type FindInput = {
 };
 
 export type Issue = {
-   __typename?: 'Issue',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -96,7 +95,6 @@ export type LoginInput = {
 };
 
 export type Mutation = {
-   __typename?: 'Mutation',
   /** For logging in user */
   login: AuthResponse,
   /** For signing up new users */
@@ -170,7 +168,6 @@ export type MutationUpdateTitleAndDescriptionArgs = {
 
 
 export type Project = {
-   __typename?: 'Project',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -182,7 +179,6 @@ export type Project = {
 };
 
 export type Query = {
-   __typename?: 'Query',
   issues: Array<Maybe<Issue>>,
   issue?: Maybe<Issue>,
   projects: Array<Maybe<Project>>,
@@ -252,7 +248,6 @@ export enum Status {
 }
 
 export type Template = {
-   __typename?: 'Template',
   _id: Scalars['ID'],
   title: Scalars['String'],
   description: Scalars['String'],
@@ -269,10 +264,55 @@ export type UpdateIssueProjectInput = {
 };
 
 export type User = {
-   __typename?: 'User',
   _id: Scalars['ID'],
   username: Scalars['String'],
   email: Scalars['String'],
   role: AuthRoles,
 };
 
+export type UserFragmentFragment = Pick<User, '_id' | 'username' | 'email'>;
+
+export type MeQueryVariables = {};
+
+
+export type MeQuery = { me: UserFragmentFragment };
+
+export const UserFragmentFragmentDoc = gql`
+    fragment UserFragment on User {
+  _id
+  username
+  email
+}
+    `;
+export const MeDocument = gql`
+    query Me {
+  me {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+      }
+export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
