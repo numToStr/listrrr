@@ -4,33 +4,37 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    FormHelperText
+    FormHelperText,
 } from "@material-ui/core";
 import { FieldConfig, useField } from "formik";
 import { SelectProps } from "@material-ui/core/Select";
+import { Maybe } from "../../generated/graphql";
 
 type Props = FieldConfig &
     SelectProps & {
-        options: Array<{
+        options: Maybe<{
             _id: string;
             title: string;
-        }>;
+        }>[];
         label: string;
     };
 
 const FormikSelect: FC<Props> = ({ name, options, ...props }) => {
     const [{ onChange, onBlur }, { value, touched, error }] = useField({
-        name
+        name,
     });
 
     const isError = touched && !!error;
 
     const items = useMemo(() => {
-        return options.map(({ _id, title }) => (
-            <MenuItem key={_id} value={_id} dense>
-                {title}
-            </MenuItem>
-        ));
+        return options.map(
+            d =>
+                d && (
+                    <MenuItem key={d._id} value={d._id} dense>
+                        {d.title}
+                    </MenuItem>
+                )
+        );
     }, [options]);
 
     return (
