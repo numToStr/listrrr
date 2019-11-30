@@ -5,7 +5,7 @@ import {
     MutationCloseOrOpenArgs,
 } from "../generated/graphql";
 import { ISSUE_FRAGMENT } from "./_issue.query";
-import { PROJECT_FRAGMENT } from "./project.query";
+import { PROJECT_FRAGMENT } from "./_project.query";
 import { MyMutationHook, HandleMutation } from "../@types/types";
 
 const EDIT_DETAILS = gql`

@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { useProjectsLazyQuery } from "../gql/project.query";
+import { useIProjectsLazyQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
 import Header from "../components/Header";
 import ProjectList from "../components/Project/ProjectList";
@@ -13,7 +13,7 @@ import { useParseSearch } from "../utils/hooks/useSearch";
 const Project = () => {
     const { search } = useLocation();
     const filters = useParseSearch(search);
-    const [getProjects, { data, loading }] = useProjectsLazyQuery();
+    const [getProjects, { data, loading }] = useIProjectsLazyQuery();
 
     useEffect(() => {
         getProjects({

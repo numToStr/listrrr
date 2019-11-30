@@ -8,7 +8,7 @@ import FormikTextArea from "../components/Form/FormikTextArea";
 import FormikSubmitButton from "../components/Form/FormikSubmitButton";
 import BackButton from "../components/BackButton";
 import FormikSelect from "../components/Form/FormikSelect";
-import { useProjectsQuery } from "../gql/project.query";
+import { useIProjectsQuery } from "../gql/project.query";
 import BaseLoader from "../components/Base/BaseLoader";
 import { useICreateIssueMutation } from "../gql/issue.query";
 import { Sort, Status } from "../generated/graphql";
@@ -21,7 +21,7 @@ const initValues = {
 
 const IssueCreate = () => {
     const [handleCreateIssue, { data: isd }] = useICreateIssueMutation();
-    const { data: pd, loading } = useProjectsQuery({
+    const { data: pd, loading } = useIProjectsQuery({
         filters: {
             sort: Sort.CREATED_DESC,
             status: Status.OPEN,

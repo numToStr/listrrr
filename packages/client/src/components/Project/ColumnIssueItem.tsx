@@ -6,7 +6,7 @@ import UpdatedAt from "../Date/UpdatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
 
 type Props = {
-    issue: Issue;
+    issue: Pick<Issue, "_id" | "title" | "updatedAt">;
     index: number;
 };
 

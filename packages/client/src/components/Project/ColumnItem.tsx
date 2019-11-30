@@ -1,11 +1,11 @@
 import React, { FC, memo } from "react";
 import { Grid, Box, Typography } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
-import { Column } from "../../generated/graphql";
+import { ColumnFragmentFragment } from "../../generated/graphql";
 import ColumnIssueList from "./ColumnIssueList";
 
 type Props = {
-    column: Column;
+    column: ColumnFragmentFragment;
     index: number;
 };
 

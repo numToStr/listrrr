@@ -15,11 +15,12 @@ import React, { Fragment, useState, ReactEventHandler, FC } from "react";
 import { Button, Popover, MenuItem, MenuList } from "@material-ui/core";
 import { usePushSearch } from "../../utils/hooks/useSearch";
 import { FilterOption, FilterType } from "../../@types/types";
+import { Maybe } from "../../generated/graphql";
 
 type Props = {
     title: string;
     type: FilterType;
-    options: FilterOption<any>[];
+    options: Maybe<FilterOption<any>>[];
     icon?: JSX.Element;
 };
 
@@ -38,11 +39,19 @@ const BaseFilter: FC<Props> = ({ title, options, type, icon }) => {
         handleClose();
     };
 
-    const items = options.map(({ title, value }) => (
-        <MenuItem key={value} dense color="inherit" onClick={goTo(value)}>
-            {title}
-        </MenuItem>
-    ));
+    const items = options.map(
+        d =>
+            d && (
+                <MenuItem
+                    key={d.value}
+                    dense
+                    color="inherit"
+                    onClick={goTo(d.value)}
+                >
+                    {d.title}
+                </MenuItem>
+            )
+    );
 
     return (
         <Fragment>

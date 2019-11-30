@@ -10,7 +10,7 @@ import BackButton from "../components/BackButton";
 import FormikSelect from "../components/Form/FormikSelect";
 import { useITemplatesQuery } from "../gql/template.query";
 import BaseLoader from "../components/Base/BaseLoader";
-import { useCreateProjectMutation } from "../gql/project.query";
+import { useICreateProjectMutation } from "../gql/project.query";
 
 const initValues = {
     title: "",
@@ -20,11 +20,13 @@ const initValues = {
 
 const IssueCreate = () => {
     const { data: td, loading } = useITemplatesQuery();
-    const [handleCreateProject, { data: pd }] = useCreateProjectMutation();
+    const [handleCreateProject, { data: pd }] = useICreateProjectMutation();
 
     const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         await handleCreateProject({
-            data: values,
+            variables: {
+                data: values,
+            },
         });
     };
 

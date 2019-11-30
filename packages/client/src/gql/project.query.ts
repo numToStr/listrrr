@@ -1,137 +1,50 @@
-import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { produce } from "immer";
+import produce from "immer";
 import {
-    Project,
-    QueryProjectArgs,
-    FindInput,
-    MutationCreateProjectArgs,
-    MutationRearrangeColumnArgs,
-    MutationRearrangeIssueArgs,
-    Column,
-    QueryProjectsArgs,
+    useProjectsQuery,
+    useProjectsLazyQuery,
+    ProjectsQueryVariables,
+    useProjectsFilterQuery,
+    useProjectQuery,
+    ProjectQueryVariables,
+    useCreateProjectMutation,
     Status,
+    ProjectsQuery,
+    ProjectsDocument,
+    ProjectQuery,
+    ProjectDocument,
+    useRearrangeColumnMutation,
+    RearrangeColumnMutationFn,
+    useRearrangeIssueMutation,
+    RearrangeIssueMutationFn,
+    ColumnFragmentFragment,
+    ColumnFragmentFragmentDoc,
+    RearrangeColumnMutationHookResult,
+    RearrangeIssueMutationHookResult,
 } from "../generated/graphql";
-import { MyMutationHook, HandleMutation } from "../@types/types";
 
-export const PROJECT_FRAGMENT = gql`
-    fragment ProjectFragment on Project {
-        _id
-        title
-        description
-        closed
-        createdAt
-        updatedAt
-    }
-`;
-
-const COLUMN_FRAGMENT = gql`
-    fragment ColumnFragment on Column {
-        _id
-        title
-        issues {
-            _id
-            title
-            updatedAt
-        }
-    }
-`;
-
-const PROJECTS = gql`
-    query Projects($filters: Filters!) {
-        projects(filters: $filters) {
-            ...ProjectFragment
-        }
-    }
-    ${PROJECT_FRAGMENT}
-`;
-
-export type ProjectFragment = Omit<Project, "columns" | "createdBy">;
-
-export type ProjectsQuery = {
-    projects: ProjectFragment[];
-};
-
-export const useProjectsQuery = (variables: QueryProjectsArgs) => {
-    return useQuery<ProjectsQuery, QueryProjectsArgs>(PROJECTS, {
+export const useIProjectsQuery = (variables: ProjectsQueryVariables) => {
+    return useProjectsQuery({
         variables,
     });
 };
 
-export const useProjectsLazyQuery = () => {
-    return useLazyQuery<ProjectsQuery, QueryProjectsArgs>(PROJECTS);
+export const useIProjectsLazyQuery = () => {
+    return useProjectsLazyQuery();
 };
 
-const PROJECTS_FILTER = gql`
-    query ProjectsFilter($filters: Filters!) {
-        projects(filters: $filters) {
-            _id
-            title
-            value: _id
-        }
-    }
-`;
-
-type ProjectsFilterQuery = {
-    projects: Array<{
-        title: string;
-        value: string;
-    }>;
+export const useIProjectsFilterQuery = (variables: ProjectsQueryVariables) => {
+    return useProjectsFilterQuery({
+        variables,
+    });
 };
-
-export const useProjectsFilterQuery = (variables: QueryProjectsArgs) => {
-    return useQuery<ProjectsFilterQuery, QueryProjectsArgs>(PROJECTS_FILTER, {
+export const useIProjectQuery = (variables: ProjectQueryVariables) => {
+    return useProjectQuery({
         variables,
     });
 };
 
-const PROJECT = gql`
-    query Project($where: FindInput!) {
-        project(where: $where) {
-            ...ProjectFragment
-            columns {
-                ...ColumnFragment
-            }
-        }
-    }
-    ${PROJECT_FRAGMENT}
-    ${COLUMN_FRAGMENT}
-`;
-
-type ProjectQuery = {
-    project: Project;
-};
-
-export const useProjectQuery = (where: FindInput) => {
-    return useQuery<ProjectQuery, QueryProjectArgs>(PROJECT, {
-        variables: { where },
-    });
-};
-
-const CREATE_PROJECT = gql`
-    mutation CreateProject($data: CreateProjectInput!) {
-        createProject(data: $data) {
-            ...ProjectFragment
-            columns {
-                ...ColumnFragment
-            }
-        }
-    }
-    ${PROJECT_FRAGMENT}
-    ${COLUMN_FRAGMENT}
-`;
-
-type CreateProjectMutation = {
-    createProject: Project;
-};
-
-export const useCreateProjectMutation: MyMutationHook<
-    CreateProjectMutation,
-    MutationCreateProjectArgs
-> = options => {
-    const [mutation, meta] = useMutation<
-        CreateProjectMutation,
-        MutationCreateProjectArgs
-    >(CREATE_PROJECT, {
+export const useICreateProjectMutation = () => {
+    return useCreateProjectMutation({
         update(cache, { data }) {
             if (!data) {
                 return;
@@ -145,8 +58,11 @@ export const useCreateProjectMutation: MyMutationHook<
                 },
             };
 
-            const cached = cache.readQuery<ProjectsQuery, QueryProjectsArgs>({
-                query: PROJECTS,
+            const cached = cache.readQuery<
+                ProjectsQuery,
+                ProjectsQueryVariables
+            >({
+                query: ProjectsDocument,
                 variables,
             });
 
@@ -159,8 +75,8 @@ export const useCreateProjectMutation: MyMutationHook<
             });
 
             // Pushing to project list
-            cache.writeQuery<ProjectsQuery, QueryProjectsArgs>({
-                query: PROJECTS,
+            cache.writeQuery<ProjectsQuery, ProjectsQueryVariables>({
+                query: ProjectsDocument,
                 data: {
                     projects,
                 },
@@ -168,8 +84,8 @@ export const useCreateProjectMutation: MyMutationHook<
             });
 
             // Creating new cached query for the created project
-            cache.writeQuery<ProjectQuery, QueryProjectArgs>({
-                query: PROJECT,
+            cache.writeQuery<ProjectQuery, ProjectQueryVariables>({
+                query: ProjectDocument,
                 variables: {
                     where: {
                         _id: p._id,
@@ -180,55 +96,31 @@ export const useCreateProjectMutation: MyMutationHook<
                 },
             });
         },
-        ...options,
     });
-
-    const handleMutation: HandleMutation<MutationCreateProjectArgs> = variables => {
-        return mutation({ variables });
-    };
-
-    return [handleMutation, meta];
 };
 
-const REARRANGE_COLUMN = gql`
-    mutation RearrangeColumn(
-        $where: RearrangeColumnFindInput!
-        $data: RearrangeColumnInput!
-    ) {
-        rearrangeColumn(where: $where, data: $data)
-    }
-`;
+export const useIRearrangeColumnMutation = (): RearrangeColumnMutationHookResult => {
+    const [mutation, meta] = useRearrangeColumnMutation();
 
-type RearrangeColumn = {
-    rearrangeColumn: boolean;
-};
-
-export const useRearrangeColumnMutation: MyMutationHook<
-    RearrangeColumn,
-    MutationRearrangeColumnArgs
-> = options => {
-    const [mutation, meta] = useMutation<
-        RearrangeColumn,
-        MutationRearrangeColumnArgs
-    >(REARRANGE_COLUMN, options);
-
-    const handleMutation: HandleMutation<MutationRearrangeColumnArgs> = variables => {
-        const { projectID } = variables.where;
-        const { initialPosition, finalPosition } = variables.data;
-
+    const handleMutation: RearrangeColumnMutationFn = options => {
         return mutation({
-            variables,
+            ...options,
             optimisticResponse: {
                 rearrangeColumn: true,
             },
             update(cache, { data }) {
                 // if rearrangeColumn is false => return, means update is not successful
-                if (!data!.rearrangeColumn) {
+                if (!data!.rearrangeColumn || !options) {
                     return;
                 }
 
+                const {
+                    where: { projectID },
+                    data: { initialPosition, finalPosition },
+                } = options.variables!;
+
                 const projectQuery = cache.readQuery<ProjectQuery>({
-                    query: PROJECT,
+                    query: ProjectDocument,
                     variables: {
                         where: {
                             _id: projectID,
@@ -238,12 +130,12 @@ export const useRearrangeColumnMutation: MyMutationHook<
 
                 if (projectQuery) {
                     const project = produce(projectQuery.project, draft => {
-                        const [f] = draft.columns.splice(initialPosition, 1);
-                        draft.columns.splice(finalPosition, 0, f);
+                        const [f] = draft!.columns.splice(initialPosition, 1);
+                        draft!.columns.splice(finalPosition, 0, f);
                     });
 
                     cache.writeQuery<ProjectQuery>({
-                        query: PROJECT,
+                        query: ProjectDocument,
                         variables: {
                             where: {
                                 _id: projectID,
@@ -259,31 +151,12 @@ export const useRearrangeColumnMutation: MyMutationHook<
     return [handleMutation, meta];
 };
 
-const REARRANGE_ISSUE = gql`
-    mutation RearrangeIssue(
-        $where: RearrangeIssueFindInput!
-        $data: RearrangeIssueInput!
-    ) {
-        rearrangeIssue(where: $where, data: $data)
-    }
-`;
+export const useIRearrangeIssueMutation = (): RearrangeIssueMutationHookResult => {
+    const [mutation, meta] = useRearrangeIssueMutation();
 
-type RearrangeIssue = {
-    rearrangeIssue: boolean;
-};
-
-export const useRearrangeIssueMutation: MyMutationHook<
-    RearrangeIssue,
-    MutationRearrangeIssueArgs
-> = options => {
-    const [mutation, meta] = useMutation<
-        RearrangeIssue,
-        MutationRearrangeIssueArgs
-    >(REARRANGE_ISSUE, options);
-
-    const handleMutation: HandleMutation<MutationRearrangeIssueArgs> = variables => {
+    const handleMutation: RearrangeIssueMutationFn = options => {
         return mutation({
-            variables,
+            ...options,
             optimisticResponse: {
                 rearrangeIssue: true,
             },
@@ -299,7 +172,7 @@ export const useRearrangeIssueMutation: MyMutationHook<
                  *      -> columnID === destinationColumnID && initialPosition === finalPosition
                  */
 
-                if (!data!.rearrangeIssue) {
+                if (!data!.rearrangeIssue || !options) {
                     return false;
                 }
 
@@ -310,10 +183,10 @@ export const useRearrangeIssueMutation: MyMutationHook<
                         initialPosition,
                         finalPosition,
                     },
-                } = variables;
+                } = options.variables!;
 
-                const initColumn = cache.readFragment<Column>({
-                    fragment: COLUMN_FRAGMENT,
+                const initColumn = cache.readFragment<ColumnFragmentFragment>({
+                    fragment: ColumnFragmentFragmentDoc,
                     id: `Column:${columnID}`,
                 });
 
@@ -322,8 +195,10 @@ export const useRearrangeIssueMutation: MyMutationHook<
                 }
 
                 if (columnID !== destinationColumnID) {
-                    const destColumn = cache.readFragment<Column>({
-                        fragment: COLUMN_FRAGMENT,
+                    const destColumn = cache.readFragment<
+                        ColumnFragmentFragment
+                    >({
+                        fragment: ColumnFragmentFragmentDoc,
                         id: `Column:${destinationColumnID}`,
                     });
 
@@ -336,14 +211,14 @@ export const useRearrangeIssueMutation: MyMutationHook<
                         draft!.issues.splice(finalPosition, 0, f);
                     });
 
-                    cache.writeFragment<Column>({
-                        fragment: COLUMN_FRAGMENT,
+                    cache.writeFragment<ColumnFragmentFragment>({
+                        fragment: ColumnFragmentFragmentDoc,
                         id: `Column:${columnID}`,
                         data: updatedInitColumn,
                     });
 
-                    cache.writeFragment<Column>({
-                        fragment: COLUMN_FRAGMENT,
+                    cache.writeFragment<ColumnFragmentFragment>({
+                        fragment: ColumnFragmentFragmentDoc,
                         id: `Column:${destinationColumnID}`,
                         data: updatedDestColumn!,
                     });
@@ -357,8 +232,8 @@ export const useRearrangeIssueMutation: MyMutationHook<
                         draft.issues.splice(finalPosition, 0, f);
                     });
 
-                    cache.writeFragment<Column>({
-                        fragment: COLUMN_FRAGMENT,
+                    cache.writeFragment<ColumnFragmentFragment>({
+                        fragment: ColumnFragmentFragmentDoc,
                         id: `Column:${columnID}`,
                         data: updatedColumn,
                     });

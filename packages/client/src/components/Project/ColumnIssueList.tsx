@@ -9,7 +9,7 @@ import { RearrangeType } from "../../@types/types";
 
 type Props = {
     droppableId: string;
-    issues: Maybe<Issue>[];
+    issues: Maybe<Pick<Issue, "_id" | "title" | "updatedAt">>[];
 };
 
 type P = {
@@ -17,7 +17,7 @@ type P = {
 };
 
 const useStyles = makeStyles(
-    ({ palette: { secondary, background }, shape: { borderRadius } }) => {
+    ({ palette: { secondary }, shape: { borderRadius } }) => {
         return {
             grid: ({ dragging }: P) => ({
                 background: dragging ? secondary.light : "none",
