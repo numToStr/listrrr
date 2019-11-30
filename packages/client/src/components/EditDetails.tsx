@@ -5,7 +5,7 @@ import BaseEditDrawer from "./Base/BaseEditDrawer";
 import BaseEditForm from "./Base/BaseEditForm";
 import { TitleAndDescriptionInput, EntityType } from "../generated/graphql";
 import { SubmitHandler } from "../@types/types";
-import { useEditDetailsMutation } from "../gql/shared.query";
+import { useIEditDetailsMutation } from "../gql/shared.query";
 
 type Props = {
     _id: string;
@@ -21,7 +21,7 @@ const EditDetails: FC<Props> = ({
     type,
 }) => {
     const [open, setOpen] = useState(false);
-    const [handleEdit] = useEditDetailsMutation({
+    const [handleEdit] = useIEditDetailsMutation({
         onCompleted() {
             setOpen(false);
         },
@@ -31,15 +31,17 @@ const EditDetails: FC<Props> = ({
 
     const handleSubmit: SubmitHandler<TitleAndDescriptionInput> = async values => {
         await handleEdit({
-            where: { _id, type },
-            data: values,
+            variables: {
+                where: { _id, type },
+                data: values,
+            },
         });
     };
 
     return (
         <Fragment>
             <Tooltip title={title}>
-                <IconButton onClick={handleDrawer(true)}>
+                <IconButton onClick={handleDrawer(true)} color="inherit">
                     <EditIcon fontSize="small" />
                 </IconButton>
             </Tooltip>

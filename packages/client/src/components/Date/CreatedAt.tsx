@@ -19,11 +19,7 @@ const CreatedAt: FC<Props> = ({ date, ...props }) => {
 
     return (
         <Box display="flex" alignItems="center" {...props}>
-            <CreatedAtIcon
-                className={styles.icon}
-                fontSize="inherit"
-                color="disabled"
-            />
+            <CreatedAtIcon className={styles.icon} fontSize="inherit" />
             <Typography variant="caption" color="textSecondary">
                 created {formatDate(date)}
             </Typography>

@@ -1,100 +1,36 @@
-import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { produce } from "immer";
 import {
-    Issue,
-    QueryIssueArgs,
-    FindInput,
-    MutationCreateIssueArgs,
-    QueryProjectsArgs,
-    QueryIssuesArgs,
+    useIssuesQuery,
+    useIssuesLazyQuery,
+    useIssueQuery,
+    useCreateIssueMutation,
     Status,
+    IssuesQuery,
+    IssuesQueryVariables,
+    IssuesDocument,
+    IssueQueryVariables,
+    IssueQuery,
+    IssueDocument,
 } from "../generated/graphql";
-import { MyMutationHook, HandleMutation } from "../@types/types";
+import produce from "immer";
 
-export const ISSUE_FRAGMENT = gql`
-    fragment IssueFragment on Issue {
-        _id
-        title
-        description
-        closed
-        createdAt
-        updatedAt
-    }
-`;
-
-const ISSUES = gql`
-    query Issues($filters: Filters!) {
-        issues(filters: $filters) {
-            ...IssueFragment
-        }
-    }
-    ${ISSUE_FRAGMENT}
-`;
-
-export type IssueFragment = Omit<Issue, "projects" | "createdBy">;
-
-export type IssuesQuery = {
-    issues: IssueFragment[];
-};
-
-export const useIssuesQuery = (variables: QueryProjectsArgs) => {
-    return useQuery<IssuesQuery, QueryProjectsArgs>(ISSUES, {
+export const useIIssuesQuery = (variables: IssuesQueryVariables) => {
+    return useIssuesQuery({
         variables,
     });
 };
 
-export const useIssuesLazyQuery = () => {
-    return useLazyQuery<IssuesQuery, QueryProjectsArgs>(ISSUES);
+export const useIIssuesLazyQuery = () => {
+    return useIssuesLazyQuery();
 };
 
-const ISSUE = gql`
-    query Issue($where: FindInput!) {
-        issue(where: $where) {
-            ...IssueFragment
-            projects {
-                _id
-                title
-            }
-        }
-    }
-    ${ISSUE_FRAGMENT}
-`;
-
-type IssueQuery = {
-    issue: Issue;
-};
-
-export const useIssueQuery = (where: FindInput) => {
-    return useQuery<IssueQuery, QueryIssueArgs>(ISSUE, {
-        variables: { where },
+export const useIIssueQuery = (variables: IssueQueryVariables) => {
+    return useIssueQuery({
+        variables,
     });
 };
 
-const CREATE_ISSUE = gql`
-    mutation CreateIssue($data: CreateIssueInput!) {
-        createIssue(data: $data) {
-            ...IssueFragment
-            projects {
-                _id
-                title
-            }
-        }
-    }
-    ${ISSUE_FRAGMENT}
-`;
-
-type CreateIssueMutation = {
-    createIssue: Issue;
-};
-
-export const useCreateIssueMutation: MyMutationHook<
-    CreateIssueMutation,
-    MutationCreateIssueArgs
-> = options => {
-    const [mutation, meta] = useMutation<
-        CreateIssueMutation,
-        MutationCreateIssueArgs
-    >(CREATE_ISSUE, {
+export const useICreateIssueMutation = () => {
+    return useCreateIssueMutation({
         update(cache, { data }) {
             if (!data) {
                 return;
@@ -104,12 +40,12 @@ export const useCreateIssueMutation: MyMutationHook<
 
             const variables = {
                 filters: {
-                    status: Status.Open,
+                    status: Status.OPEN,
                 },
             };
 
-            const cached = cache.readQuery<IssuesQuery, QueryProjectsArgs>({
-                query: ISSUES,
+            const cached = cache.readQuery<IssuesQuery, IssuesQueryVariables>({
+                query: IssuesDocument,
                 variables,
             });
 
@@ -122,8 +58,8 @@ export const useCreateIssueMutation: MyMutationHook<
             });
 
             // Pushing to project list
-            cache.writeQuery<IssuesQuery, QueryIssuesArgs>({
-                query: ISSUES,
+            cache.writeQuery<IssuesQuery, IssuesQueryVariables>({
+                query: IssuesDocument,
                 data: {
                     issues,
                 },
@@ -131,8 +67,8 @@ export const useCreateIssueMutation: MyMutationHook<
             });
 
             // Creating new cached query for the created project
-            cache.writeQuery<IssueQuery, QueryIssueArgs>({
-                query: ISSUE,
+            cache.writeQuery<IssueQuery, IssueQueryVariables>({
+                query: IssueDocument,
                 variables: {
                     where: {
                         _id: i._id,
@@ -143,12 +79,5 @@ export const useCreateIssueMutation: MyMutationHook<
                 },
             });
         },
-        ...options,
     });
-
-    const handleMutation: HandleMutation<MutationCreateIssueArgs> = variables => {
-        return mutation({ variables });
-    };
-
-    return [handleMutation, meta];
 };

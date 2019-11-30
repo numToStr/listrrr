@@ -18,11 +18,7 @@ const UpdatedAt: FC<Props> = ({ date, ...props }) => {
     const styles = useStyles();
     return (
         <Box display="flex" alignItems="center" {...props}>
-            <UpdatedAtIcon
-                className={styles.icon}
-                fontSize="inherit"
-                color="disabled"
-            />
+            <UpdatedAtIcon className={styles.icon} fontSize="inherit" />
             <Typography variant="caption" color="textSecondary">
                 updated {formatDate(date)}
             </Typography>

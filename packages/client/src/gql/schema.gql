@@ -1,0 +1,156 @@
+fragment UserFragment on User {
+    _id
+    username
+    email
+}
+
+fragment AuthFragment on AuthResponse {
+    user {
+        ...UserFragment
+    }
+    auth {
+        token
+        role
+    }
+}
+
+mutation Login($data: LoginInput!) {
+    login(data: $data) {
+        ...AuthFragment
+    }
+}
+
+mutation Signup($data: SignupInput!) {
+    signup(data: $data) {
+        ...AuthFragment
+    }
+}
+
+query Me {
+    me {
+        ...UserFragment
+    }
+}
+
+fragment IssueFragment on Issue {
+    _id
+    title
+    description
+    closed
+    createdAt
+    updatedAt
+}
+
+query Issues($filters: Filters!) {
+    issues(filters: $filters) {
+        ...IssueFragment
+    }
+}
+query Issue($where: FindInput!) {
+    issue(where: $where) {
+        ...IssueFragment
+        projects {
+            _id
+            title
+        }
+    }
+}
+
+mutation CreateIssue($data: CreateIssueInput!) {
+    createIssue(data: $data) {
+        ...IssueFragment
+        projects {
+            _id
+            title
+        }
+    }
+}
+
+fragment ProjectFragment on Project {
+    _id
+    title
+    description
+    closed
+    createdAt
+    updatedAt
+}
+
+fragment ColumnFragment on Column {
+    _id
+    title
+    issues {
+        _id
+        title
+        updatedAt
+    }
+}
+
+query Projects($filters: Filters!) {
+    projects(filters: $filters) {
+        ...ProjectFragment
+    }
+}
+
+query ProjectsFilter($filters: Filters!) {
+    projects(filters: $filters) {
+        _id
+        title
+        value: _id
+    }
+}
+
+query Project($where: FindInput!) {
+    project(where: $where) {
+        ...ProjectFragment
+        columns {
+            ...ColumnFragment
+        }
+    }
+}
+
+mutation CreateProject($data: CreateProjectInput!) {
+    createProject(data: $data) {
+        ...ProjectFragment
+        columns {
+            ...ColumnFragment
+        }
+    }
+}
+
+mutation RearrangeColumn(
+    $where: RearrangeColumnFindInput!
+    $data: RearrangeColumnInput!
+) {
+    rearrangeColumn(where: $where, data: $data)
+}
+
+mutation RearrangeIssue(
+    $where: RearrangeIssueFindInput!
+    $data: RearrangeIssueInput!
+) {
+    rearrangeIssue(where: $where, data: $data)
+}
+
+mutation EditDetails(
+    $where: FindEntityInput!
+    $data: TitleAndDescriptionInput!
+) {
+    updateTitleAndDescription(where: $where, data: $data) {
+        ...ProjectFragment
+        ...IssueFragment
+    }
+}
+
+mutation CloseOrOpen($where: FindEntityInput!, $data: ClosedInput!) {
+    closeOrOpen(where: $where, data: $data) {
+        ...ProjectFragment
+        ...IssueFragment
+    }
+}
+
+query Templates {
+    templates {
+        _id
+        title
+    }
+}

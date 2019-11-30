@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Grid, Typography, Box } from "@material-ui/core";
 import { EntityType } from "../generated/graphql";
-import { useProjectQuery } from "../gql/project.query";
+import { useIProjectQuery } from "../gql/project.query";
 import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
 import EditDetails from "../components/EditDetails";
@@ -16,14 +16,16 @@ type Params = {
 
 const ProjectView = () => {
     const { projectID } = useParams<Params>();
-    const { data, loading } = useProjectQuery({ _id: projectID });
+    const { data, loading } = useIProjectQuery({
+        where: { _id: projectID },
+    });
 
     const renderProject = () => {
         if (loading) {
             return <BaseLoader />;
         }
 
-        if (!data) {
+        if (!data || !data.project) {
             return <Typography>No Project...</Typography>;
         }
 
@@ -55,7 +57,7 @@ const ProjectView = () => {
                         <EditDetails
                             key="edit-project"
                             _id={_id}
-                            type={EntityType.Project}
+                            type={EntityType.PROJECT}
                             formTitle="Edit Project"
                             defaultValue={{ title, description }}
                         />

@@ -1,15 +1,14 @@
 import React, { memo, FC } from "react";
 import { Box, Typography, Link } from "@material-ui/core";
-
+import { IssueFragmentFragment } from "../../generated/graphql";
 import BaseBlockQuote from "../Base/BaseBlockQuote";
 import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
-import { IssueFragment } from "../../gql/issue.query";
 import { useStatusColor } from "../../utils/hooks/useStatusColor";
 
 type Props = {
-    issue: IssueFragment;
+    issue: IssueFragmentFragment;
 };
 
 const IssueItem: FC<Props> = ({ issue }) => {

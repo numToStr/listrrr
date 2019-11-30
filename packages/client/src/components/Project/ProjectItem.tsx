@@ -2,14 +2,14 @@ import React, { memo, FC } from "react";
 import { Box, Typography, Link } from "@material-ui/core";
 
 import BaseBlockQuote from "../Base/BaseBlockQuote";
-import { ProjectFragment } from "../../gql/project.query";
+import { ProjectFragmentFragment } from "../../generated/graphql";
 import UpdatedAt from "../Date/UpdatedAt";
 import CreatedAt from "../Date/CreatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
 import { useStatusColor } from "../../utils/hooks/useStatusColor";
 
 type Props = {
-    project: ProjectFragment;
+    project: ProjectFragmentFragment;
 };
 
 const ProjectItem: FC<Props> = ({ project }) => {

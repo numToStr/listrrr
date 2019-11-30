@@ -25,7 +25,7 @@ const StatusFilter = () => {
                 className={styles.icon}
                 size="small"
                 startIcon={<OpenIcon fontSize="small" />}
-                onClick={handleStatus(Status.Open)}
+                onClick={handleStatus(Status.OPEN)}
             >
                 Open
             </Button>
@@ -33,7 +33,7 @@ const StatusFilter = () => {
                 className={styles.icon}
                 size="small"
                 startIcon={<ClosedIcon fontSize="small" />}
-                onClick={handleStatus(Status.Closed)}
+                onClick={handleStatus(Status.CLOSED)}
             >
                 Closed
             </Button>

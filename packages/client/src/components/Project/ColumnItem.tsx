@@ -1,11 +1,11 @@
 import React, { FC, memo } from "react";
 import { Grid, Box, Typography } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
-import { Column } from "../../generated/graphql";
+import { ColumnFragmentFragment } from "../../generated/graphql";
 import ColumnIssueList from "./ColumnIssueList";
 
 type Props = {
-    column: Column;
+    column: ColumnFragmentFragment;
     index: number;
 };
 
@@ -23,7 +23,7 @@ const ColumnItem: FC<Props> = ({ column, index }) => {
                     >
                         <Box
                             p={2}
-                            bgcolor="#fff"
+                            bgcolor="background.paper"
                             height="100%"
                             borderRadius="borderRadius"
                             boxShadow={isDragging ? 5 : 1}

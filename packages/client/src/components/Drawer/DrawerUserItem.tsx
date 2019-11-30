@@ -14,7 +14,7 @@ import {
     DialogContentText,
 } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/SettingsTwoTone";
-import { useMeQuery } from "../../gql/user.query";
+import { useIMeQuery } from "../../gql/user.query";
 import ThemeColorList from "../Theme/ThemeColorList";
 import ThemeBgColorList from "../Theme/ThemeBgColorList";
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(({ palette: { background, text } }) => ({
 const DrawerUserItem = () => {
     const styles = useStyles();
     const [open, setOpen] = useState<boolean>(false);
-    const { data } = useMeQuery();
+    const { data } = useIMeQuery();
 
     const handleOpen = () => setOpen(v => !v);
 

@@ -1,133 +1,64 @@
-import { useMutation, gql } from "@apollo/client";
 import {
-    MutationLoginArgs,
-    AuthResponse,
-    MutationSignupArgs,
-    User,
-    AuthInfo,
+    useLoginMutation,
+    AuthFragmentFragment,
+    MeDocument,
+    useSignupMutation,
 } from "../generated/graphql";
-import { HandleMutation, MyMutationHook } from "../@types/types";
 import { TokenUtil } from "../utils/token";
 import { useMyApolloContext } from "../components/ApolloContext";
-import { USER_FRAGMENT, ME } from "./user.query";
 
-const AUTH_FRAGMENT = gql`
-    fragment AuthFragment on AuthResponse {
-        user {
-            ...UserFragment
-        }
-        auth {
-            token
-            role
-        }
-    }
-    ${USER_FRAGMENT}
-`;
-
-const LOGIN = gql`
-    mutation Login($data: LoginInput!) {
-        login(data: $data) {
-            ...AuthFragment
-        }
-    }
-    ${AUTH_FRAGMENT}
-`;
-
-type LoginResponse = {
-    login: AuthResponse;
-};
-
-export const useLoginMutation: MyMutationHook<
-    LoginResponse,
-    MutationLoginArgs
-> = options => {
+export const useILoginMutation = () => {
     const setHeaders = useMyApolloContext();
-    const [mutation, meta] = useMutation<LoginResponse, MutationLoginArgs>(
-        LOGIN,
-        {
-            update(cache, { data }) {
-                if (data) {
-                    const { user, auth } = data.login;
+    return useLoginMutation({
+        update(cache, { data }) {
+            if (data) {
+                const { user, auth } = data.login;
 
-                    TokenUtil.setToken(auth.token);
+                TokenUtil.setToken(auth.token);
 
-                    cache.writeQuery<User>({
-                        query: ME,
-                        data: user,
-                    });
+                setHeaders({
+                    authorization: auth.token,
+                });
 
-                    cache.writeData<{ auth: AuthInfo }>({
-                        data: {
-                            auth,
-                        },
-                    });
+                cache.writeQuery<AuthFragmentFragment["user"]>({
+                    query: MeDocument,
+                    data: user,
+                });
 
-                    setHeaders({
-                        authorization: auth.token,
-                    });
-                }
-            },
-            ...options,
-        }
-    );
-
-    const handleLogin: HandleMutation<MutationLoginArgs> = variables => {
-        return mutation({ variables });
-    };
-
-    return [handleLogin, meta];
+                cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
+                    data: {
+                        auth,
+                    },
+                });
+            }
+        },
+    });
 };
 
-const SIGNUP = gql`
-    mutation Signup($data: SignupInput!) {
-        signup(data: $data) {
-            ...AuthFragment
-        }
-    }
-    ${AUTH_FRAGMENT}
-`;
-
-type SignupResponse = {
-    signup: AuthResponse;
-};
-
-export const useSignupMutation: MyMutationHook<
-    SignupResponse,
-    MutationSignupArgs
-> = options => {
+export const useISignupMutation = () => {
     const setHeaders = useMyApolloContext();
-    const [mutation, meta] = useMutation<SignupResponse, MutationSignupArgs>(
-        SIGNUP,
-        {
-            update(cache, { data }) {
-                if (data) {
-                    const { user, auth } = data.signup;
+    return useSignupMutation({
+        update(cache, { data }) {
+            if (data) {
+                const { user, auth } = data.signup;
 
-                    TokenUtil.setToken(auth.token);
+                TokenUtil.setToken(auth.token);
 
-                    cache.writeQuery<User>({
-                        query: ME,
-                        data: user,
-                    });
+                setHeaders({
+                    authorization: auth.token,
+                });
 
-                    cache.writeData<{ auth: AuthInfo }>({
-                        data: {
-                            auth,
-                        },
-                    });
+                cache.writeQuery<AuthFragmentFragment["user"]>({
+                    query: MeDocument,
+                    data: user,
+                });
 
-                    setHeaders({
-                        authorization: auth.token,
-                    });
-                }
-            },
-            ...options,
-        }
-    );
-
-    const handleLogin: HandleMutation<MutationSignupArgs> = variables => {
-        return mutation({ variables });
-    };
-
-    return [handleLogin, meta];
+                cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
+                    data: {
+                        auth,
+                    },
+                });
+            }
+        },
+    });
 };

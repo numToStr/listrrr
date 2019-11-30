@@ -24,7 +24,7 @@ db(MONGO_URI)
         debug.www("[MONGO] >> Connected");
 
         app.listen(PORT, () => {
-            debug.www(`[SERVER] >> Connected`);
+            debug.www(`[SERVER]:${PORT} >> Connected`);
         });
     })
     .catch((error: Error) => {

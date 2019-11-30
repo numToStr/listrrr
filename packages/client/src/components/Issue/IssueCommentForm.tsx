@@ -4,7 +4,7 @@ import FormikForm from "../Form/FormikForm";
 import FormikTextArea from "../Form/FormikTextArea";
 import { SubmitHandler } from "../../@types/types";
 import FormikSubmitButton from "../Form/FormikSubmitButton";
-import { useCloseOrOpenMutation } from "../../gql/shared.query";
+import { useICloseOrOpenMutation } from "../../gql/shared.query";
 import { EntityType } from "../../generated/graphql";
 
 type Props = {
@@ -12,29 +12,33 @@ type Props = {
     closed: boolean;
 };
 
+const initValues = { comment: "" };
+
 const IssueCommentForm: FC<Props> = ({ issueID, closed }) => {
-    const [closeOrOpen] = useCloseOrOpenMutation();
+    const [closeOrOpen] = useICloseOrOpenMutation();
 
     const btnText = closed ? "Reopen Issue" : "Close Issue";
 
-    const handleSubmit: SubmitHandler<{ comment: string }> = async values => {
+    const handleSubmit: SubmitHandler<typeof initValues> = async values => {
         console.log(values);
     };
 
     const handleCloseOrOpen = () => {
         closeOrOpen({
-            data: {
-                closed: !closed,
-            },
-            where: {
-                _id: issueID,
-                type: EntityType.Issue,
+            variables: {
+                data: {
+                    closed: !closed,
+                },
+                where: {
+                    _id: issueID,
+                    type: EntityType.ISSUE,
+                },
             },
         });
     };
 
     return (
-        <FormikForm onSubmit={handleSubmit} initialValues={{ comment: "" }}>
+        <FormikForm onSubmit={handleSubmit} initialValues={initValues}>
             <FormikTextArea name="comment" label="Leave a comment" />
             <Box display="flex" justifyContent="flex-end" alignItems="center">
                 <Box mr={1}>

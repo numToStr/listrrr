@@ -15,7 +15,7 @@
     "license": "MIT",
     "dependencies": {
         "@listrrr/core": "^1.0.0",
-        "@typegoose/typegoose": "^6.1.5",
+        "@typegoose/typegoose": "^6.1.6",
         "apollo-server": "^2.9.12",
         "apollo-server-express": "^2.9.12",
         "bcryptjs": "^2.4.3",
@@ -25,7 +25,7 @@
         "graphql": "^14.5.8",
         "helmet": "^3.21.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.7.12",
+        "mongoose": "^5.7.13",
         "reflect-metadata": "^0.1.13",
         "type-graphql": "^0.17.5"
     },
@@ -37,11 +37,11 @@
         "@types/helmet": "^0.0.45",
         "@types/jsonwebtoken": "^8.3.4",
         "@types/mongoose": "^5.5.32",
-        "@types/node": "^12.12.12",
-        "@typescript-eslint/eslint-plugin": "^2.8.0",
-        "@typescript-eslint/parser": "^2.8.0",
+        "@types/node": "^12.12.14",
+        "@typescript-eslint/eslint-plugin": "^2.9.0",
+        "@typescript-eslint/parser": "^2.9.0",
         "dotenv": "^8.1.0",
-        "eslint": "^6.7.0",
+        "eslint": "^6.7.1",
         "eslint-config-airbnb-base": "^14.0.0",
         "eslint-config-prettier": "^6.7.0",
         "eslint-plugin-import": "^2.18.2",
@@ -50,7 +50,7 @@
         "nodemon": "^2.0.1",
         "prettier": "^1.19.1",
         "rimraf": "^3.0.0",
-        "ts-node": "^8.5.2",
+        "ts-node": "^8.5.4",
         "typescript": "^3.7.2"
     }
 }

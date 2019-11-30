@@ -1,19 +1,10 @@
 import { FormikHelpers } from "formik";
-import { MutationHookOptions, MutationResult } from "@apollo/client";
 import { Color } from "@material-ui/core";
 
 export type SubmitHandler<Values> = (
     values: Values,
     bag: FormikHelpers<Values>
 ) => Promise<any>;
-
-// Used in custom query hooks
-export type HandleMutation<Variables> = (values: Variables) => Promise<any>;
-
-// Used in custom query hooks
-export type MyMutationHook<Data, Var> = (
-    options?: MutationHookOptions<Data, Var>
-) => [HandleMutation<Var>, MutationResult<Data>];
 
 export enum RearrangeType {
     PROJECT_COLUMN = "PROJECT_COLUMN",
