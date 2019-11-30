@@ -15,7 +15,7 @@
     "license": "MIT",
     "dependencies": {
         "@listrrr/core": "^1.0.0",
-        "@typegoose/typegoose": "^6.1.5",
+        "@typegoose/typegoose": "^6.1.6",
         "apollo-server": "^2.9.12",
         "apollo-server-express": "^2.9.12",
         "bcryptjs": "^2.4.3",
@@ -25,7 +25,7 @@
         "graphql": "^14.5.8",
         "helmet": "^3.21.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.7.12",
+        "mongoose": "^5.7.13",
         "reflect-metadata": "^0.1.13",
         "type-graphql": "^0.17.5"
     },
