@@ -41,7 +41,7 @@ const EditDetails: FC<Props> = ({
     return (
         <Fragment>
             <Tooltip title={title}>
-                <IconButton onClick={handleDrawer(true)} color="inherit">
+                <IconButton onClick={handleDrawer(true)}>
                     <EditIcon fontSize="small" />
                 </IconButton>
             </Tooltip>

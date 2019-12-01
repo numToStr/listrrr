@@ -1,26 +1,11 @@
 import React, { memo, FC } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { BoxProps } from "@material-ui/core/Box";
-import { ThemeBgColor } from "../../@types/types";
+import { ThemeBgColorType } from "../../@types/types";
 import ThemeBgColorButton from "./ThemeBgColorButton";
+import { ThemeBgColorsMap } from "../../utils/theme";
 
-const colors: ThemeBgColor[] = [
-    {
-        key: "light-up",
-        color: "#fff",
-        title: "Light Up",
-    },
-    {
-        key: "dim",
-        color: "#3d3d3d",
-        title: "Dim",
-    },
-    {
-        key: "so-dark",
-        color: "#212121",
-        title: "So Dark",
-    },
-];
+const colors: ThemeBgColorType[] = Object.values(ThemeBgColorsMap);
 
 const ThemeBgColorList: FC<BoxProps> = props => {
     const list = colors.map((color, index) => (

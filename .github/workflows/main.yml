@@ -63,3 +63,21 @@ jobs:
                   args: container:release web -a $HEROKU_APP
               env:
                   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+
+
+# name: pr-status
+# on:
+#     pull_request:
+#         branches:
+#             - master
+# env:
+#     APP_NAME: listrrr
+# jobs:
+#     build:
+#         name: build-docker
+#         runs-on: ubuntu-latest
+#         steps:
+#             - uses: actions/checkout@master
+#             - name: Build the Docker image
+#               run: docker build --rm --file Dockerfile --tag $APP_NAME .

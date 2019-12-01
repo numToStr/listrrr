@@ -11,7 +11,7 @@ import {
     InMemoryCache,
     ApolloProvider,
 } from "@apollo/client";
-import { TokenUtil } from "../utils/token";
+import StorageUtil from "../utils/storage";
 
 type Header = {
     authorization?: string;
@@ -20,8 +20,10 @@ type Header = {
 const Context = createContext<Dispatch<Header>>(() => {});
 
 export const MyApolloContext: FC = ({ children }) => {
+    const t = new StorageUtil().getToken() || "";
+
     const [headers, setHeaders] = useState<Header>({
-        authorization: TokenUtil.getToken()!,
+        authorization: t,
     });
 
     const client = new ApolloClient({

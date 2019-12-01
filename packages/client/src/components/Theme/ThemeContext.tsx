@@ -4,26 +4,25 @@ import React, {
     FC,
     Dispatch,
     useContext,
+    useEffect,
 } from "react";
-import { red } from "@material-ui/core/colors";
-import { ThemeBgColor, ThemeColor } from "../../@types/types";
+import {
+    Bg,
+    ThemeColorType,
+    ThemeBgColors,
+    ThemeColors,
+} from "../../@types/types";
 import { InitialTheme } from "./InitialTheme";
+import { ThemeBgColorsMap, ThemeColorsMap } from "../../utils/theme";
+import StorageUtil from "../../utils/storage";
 
-const defaultColor = {
-    key: "red",
-    color: red,
-};
+const defaultColor = ThemeColorsMap[ThemeColors.RED];
 
-const defaultBg = {
-    key: "light-up",
-    color: "#fff",
-};
-
-type Bg = Omit<ThemeBgColor, "title">;
+const defaultBg = ThemeBgColorsMap[ThemeBgColors.LIGHT_UP];
 
 const AppColorContext = createContext<{
-    color: ThemeColor;
-    changeColor: Dispatch<ThemeColor>;
+    color: ThemeColorType;
+    changeColor: Dispatch<ThemeColorType>;
 }>({ color: defaultColor, changeColor() {} });
 
 const AppBgColorContext = createContext<{ bg: Bg; changeBg: Dispatch<Bg> }>({
@@ -33,7 +32,19 @@ const AppBgColorContext = createContext<{ bg: Bg; changeBg: Dispatch<Bg> }>({
 
 export const ThemeContext: FC = ({ children }) => {
     const [bg, changeBg] = useState<Bg>(defaultBg);
-    const [color, changeColor] = useState<ThemeColor>(defaultColor);
+    const [color, changeColor] = useState<ThemeColorType>(defaultColor);
+
+    useEffect(() => {
+        const t = StorageUtil.getTheme();
+        if (t) {
+            changeBg(t.bg);
+            changeColor(t.color);
+        }
+    }, []);
+
+    useEffect(() => {
+        StorageUtil.setTheme({ bg, color });
+    }, [bg, color]);
 
     return (
         <AppBgColorContext.Provider value={{ bg, changeBg }}>

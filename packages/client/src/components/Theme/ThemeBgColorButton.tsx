@@ -1,15 +1,15 @@
 import React, { FC, memo } from "react";
 import { Box, makeStyles, FormControlLabel, Radio } from "@material-ui/core";
 import { BoxProps } from "@material-ui/core/Box";
-import { ThemeBgColor } from "../../@types/types";
+import { ThemeBgColorType } from "../../@types/types";
 import { useAppBgColor } from "./ThemeContext";
 
 const useStyles = makeStyles(({ palette: { getContrastText } }) => ({
-    btn: ({ color }: ThemeBgColor) => ({
+    btn: ({ color }: ThemeBgColorType) => ({
         background: color,
         color: getContrastText(color),
     }),
-    radio: ({ color }: ThemeBgColor) => ({
+    radio: ({ color }: ThemeBgColorType) => ({
         color: getContrastText(color),
     }),
     label: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(({ palette: { getContrastText } }) => ({
 }));
 
 type Props = BoxProps & {
-    themeColor: ThemeBgColor;
+    themeColor: ThemeBgColorType;
 };
 
 const ThemeBgColorButton: FC<Props> = ({ themeColor, ...props }) => {

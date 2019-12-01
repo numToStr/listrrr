@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 import { RoutesConfig } from "../../config/routes.config";
+import ErrorBoundary from "../ErrorBoundary";
 
 type Props = Omit<RoutesConfig, "private"> & {
     authorized: boolean;
@@ -16,7 +17,9 @@ const PublicRoute: FC<Props> = props => {
 
     return (
         <Route {...route}>
-            {authorized ? <Redirect to={from} /> : <C routes={routes} />}
+            <ErrorBoundary>
+                {authorized ? <Redirect to={from} /> : <C routes={routes} />}
+            </ErrorBoundary>
         </Route>
     );
 };

@@ -4,7 +4,7 @@ import {
     MeDocument,
     useSignupMutation,
 } from "../generated/graphql";
-import { TokenUtil } from "../utils/token";
+import StorageUtil from "../utils/storage";
 import { useMyApolloContext } from "../components/ApolloContext";
 
 export const useILoginMutation = () => {
@@ -14,7 +14,7 @@ export const useILoginMutation = () => {
             if (data) {
                 const { user, auth } = data.login;
 
-                TokenUtil.setToken(auth.token);
+                new StorageUtil().setToken(auth.token);
 
                 setHeaders({
                     authorization: auth.token,
@@ -42,7 +42,7 @@ export const useISignupMutation = () => {
             if (data) {
                 const { user, auth } = data.signup;
 
-                TokenUtil.setToken(auth.token);
+                new StorageUtil().setToken(auth.token);
 
                 setHeaders({
                     authorization: auth.token,

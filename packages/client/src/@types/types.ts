@@ -28,18 +28,36 @@ export enum FilterType {
     LABEL = "label",
 }
 
-export type ThemeColor = {
-    key: string;
+export enum ThemeColors {
+    RED = "RED",
+    BLUE = "BLUE",
+    YELLOW = "YELLOW",
+    GREEN = "GREEN",
+    PURPLE = "PURPLE",
+    ORANGE = "ORANGE",
+}
+
+export enum ThemeBgColors {
+    LIGHT_UP = "LIGHT_UP",
+    DIM = "DIM",
+    SO_DARK = "SO_DARK",
+}
+
+export type ThemeColorType = {
+    key: ThemeColors;
     color: Color;
 };
 
-export type ThemeBgColor = {
-    key: string;
+export type ThemeBgColorType = {
+    key: ThemeBgColors;
     color: string;
     title: string;
+    type: "dark" | "light";
 };
 
+export type Bg = Omit<ThemeBgColorType, "title">;
+
 export type AppTheme = {
-    baseColor: ThemeColor;
-    baseBgColor: Omit<ThemeBgColor, "title">;
+    baseColor: ThemeColorType;
+    baseBgColor: Omit<ThemeBgColorType, "title">;
 };

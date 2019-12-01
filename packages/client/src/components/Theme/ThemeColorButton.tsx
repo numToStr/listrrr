@@ -2,11 +2,11 @@ import React, { FC, memo } from "react";
 import { makeStyles, useMediaQuery, Theme } from "@material-ui/core";
 import Fab, { FabProps } from "@material-ui/core/Fab";
 import SelectedIcon from "@material-ui/icons/CheckTwoTone";
-import { ThemeColor } from "../../@types/types";
+import { ThemeColorType } from "../../@types/types";
 import { useAppColor } from "./ThemeContext";
 
 type P = {
-    themeColor: ThemeColor;
+    themeColor: ThemeColorType;
 };
 
 const useStyles = makeStyles(({ palette: { getContrastText } }) => ({
