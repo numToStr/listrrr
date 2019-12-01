@@ -55,6 +55,8 @@ export type ThemeBgColorType = {
     type: "dark" | "light";
 };
 
+export type Bg = Omit<ThemeBgColorType, "title">;
+
 export type AppTheme = {
     baseColor: ThemeColorType;
     baseBgColor: Omit<ThemeBgColorType, "title">;

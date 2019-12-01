@@ -4,21 +4,21 @@ import React, {
     FC,
     Dispatch,
     useContext,
+    useEffect,
 } from "react";
 import {
-    ThemeBgColorType,
+    Bg,
     ThemeColorType,
     ThemeBgColors,
     ThemeColors,
 } from "../../@types/types";
 import { InitialTheme } from "./InitialTheme";
 import { ThemeBgColorsMap, ThemeColorsMap } from "../../utils/theme";
+import StorageUtil from "../../utils/storage";
 
 const defaultColor = ThemeColorsMap[ThemeColors.RED];
 
 const defaultBg = ThemeBgColorsMap[ThemeBgColors.LIGHT_UP];
-
-type Bg = Omit<ThemeBgColorType, "title">;
 
 const AppColorContext = createContext<{
     color: ThemeColorType;
@@ -33,6 +33,18 @@ const AppBgColorContext = createContext<{ bg: Bg; changeBg: Dispatch<Bg> }>({
 export const ThemeContext: FC = ({ children }) => {
     const [bg, changeBg] = useState<Bg>(defaultBg);
     const [color, changeColor] = useState<ThemeColorType>(defaultColor);
+
+    useEffect(() => {
+        const t = StorageUtil.getTheme();
+        if (t) {
+            changeBg(t.bg);
+            changeColor(t.color);
+        }
+    }, []);
+
+    useEffect(() => {
+        StorageUtil.setTheme({ bg, color });
+    }, [bg, color]);
 
     return (
         <AppBgColorContext.Provider value={{ bg, changeBg }}>
