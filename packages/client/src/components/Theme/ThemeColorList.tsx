@@ -1,43 +1,11 @@
 import React, { memo, FC } from "react";
 import { Box } from "@material-ui/core";
-import {
-    green,
-    orange,
-    red,
-    deepPurple,
-    yellow,
-    blue,
-} from "@material-ui/core/colors";
 import { BoxProps } from "@material-ui/core/Box";
 import ThemeColorButton from "./ThemeColorButton";
-import { ThemeColor } from "../../@types/types";
+import { ThemeColorType } from "../../@types/types";
+import { ThemeColorsMap } from "../../utils/theme";
 
-const colors: ThemeColor[] = [
-    {
-        color: red,
-        key: "red",
-    },
-    {
-        color: blue,
-        key: "blue",
-    },
-    {
-        color: yellow,
-        key: "yellow",
-    },
-    {
-        color: green,
-        key: "green",
-    },
-    {
-        color: deepPurple,
-        key: "deepPurple",
-    },
-    {
-        color: orange,
-        key: "orange",
-    },
-];
+const colors: ThemeColorType[] = Object.values(ThemeColorsMap);
 
 const ThemeColorList: FC<BoxProps> = props => {
     const list = colors.map((color, index) => (

@@ -26,7 +26,7 @@ const IssueView = () => {
 
     const renderIssueProjects = useCallback(
         (projects: Maybe<Pick<Project, "_id" | "title">>[]) => {
-            if (projects.length) {
+            if (!projects.length) {
                 return (
                     <Typography variant="caption">No Projects...</Typography>
                 );
@@ -52,7 +52,7 @@ const IssueView = () => {
                         mb={0.5}
                     >
                         <Typography variant="subtitle2">Projects</Typography>
-                        <IconButton size="small" color="inherit">
+                        <IconButton size="small">
                             <AddIcon fontSize="small" />
                         </IconButton>
                     </Box>

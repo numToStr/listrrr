@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import {
-    lighten,
     MuiThemeProvider,
-    useTheme,
-    Theme,
     responsiveFontSizes,
     createMuiTheme,
 } from "@material-ui/core/styles";
@@ -15,23 +12,13 @@ export const InitialTheme: FC<AppTheme> = ({
     baseBgColor,
     children,
 }) => {
-    const {
-        palette: { getContrastText },
-    } = useTheme<Theme>();
-
-    const tPrimary = getContrastText(baseBgColor.color);
-
     const base = createMuiTheme({
         palette: {
+            type: baseBgColor.type,
             primary: baseColor.color,
             secondary: grey,
-            text: {
-                primary: tPrimary,
-                secondary: lighten(tPrimary, 0.05),
-            },
             background: {
                 default: baseBgColor.color,
-                paper: lighten(baseBgColor.color, 0.05),
             },
         },
         typography: {
