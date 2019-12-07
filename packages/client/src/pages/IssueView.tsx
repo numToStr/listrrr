@@ -1,16 +1,17 @@
 import React, { Fragment, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, Typography, Box, Hidden, IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/AddTwoTone";
+import { Grid, Typography, Box, Hidden } from "@material-ui/core";
 import { useIIssueQuery } from "../gql/issue.query";
 import BackButton from "../components/BackButton";
 import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
-import { EntityType, Project, Maybe } from "../generated/graphql";
+import { EntityType, Project, Maybe, Sort, Status } from "../generated/graphql";
 import StatusIndicator from "../components/StatusIndicator";
 import IssueCommentForm from "../components/Issue/IssueCommentForm";
+import { useIProjectsFilterQuery } from "../gql/project.query";
+import ListSelection from "../components/ListSelection";
 
 type Params = {
     issueID: string;
@@ -21,6 +22,12 @@ const IssueView = () => {
     const { loading, data } = useIIssueQuery({
         where: {
             _id: issueID,
+        },
+    });
+    const { data: p } = useIProjectsFilterQuery({
+        filters: {
+            sort: Sort.CREATED_DESC,
+            status: Status.OPEN,
         },
     });
 
@@ -34,33 +41,24 @@ const IssueView = () => {
 
             const list = projects.map(project => (
                 <Typography
-                    key={project!._id}
+                    key={project?._id}
                     variant="caption"
                     component="p"
                     gutterBottom
                 >
-                    - {project!.title}
+                    - {project?.title}
                 </Typography>
             ));
 
             return (
                 <Grid item xs>
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        mb={0.5}
-                    >
-                        <Typography variant="subtitle2">Projects</Typography>
-                        <IconButton size="small">
-                            <AddIcon fontSize="small" />
-                        </IconButton>
-                    </Box>
-                    {list}
+                    <ListSelection list={p?.projects ?? []}>
+                        {list}
+                    </ListSelection>
                 </Grid>
             );
         },
-        []
+        [p]
     );
 
     const renderIssue = () => {
@@ -68,7 +66,7 @@ const IssueView = () => {
             return <BaseLoader />;
         }
 
-        if (!data || !data.issue) {
+        if (!data?.issue) {
             return <Typography>No Issue...</Typography>;
         }
 

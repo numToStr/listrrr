@@ -6,7 +6,7 @@ type Props = FieldConfig & TextFieldProps;
 
 const FormikTextField: FC<Props> = ({ name, ...props }) => {
     const [{ onChange, onBlur }, { value, touched, error }] = useField({
-        name
+        name,
     });
 
     return (
