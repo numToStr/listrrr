@@ -13,6 +13,8 @@ import {
 } from "@apollo/client";
 import StorageUtil from "../utils/storage";
 
+const URI = [process.env.BASE_URI, '/gql'].join('')
+
 type Header = {
     authorization?: string;
 };
@@ -28,7 +30,7 @@ export const MyApolloContext: FC = ({ children }) => {
 
     const client = new ApolloClient({
         link: new HttpLink({
-            uri: "/gql",
+            uri: URI, 
             headers,
         }),
         cache: new InMemoryCache(),
