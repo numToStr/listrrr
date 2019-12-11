@@ -24,23 +24,19 @@ RUN yarn install --production --no-lockfile
 # Client dependencies will be installed in this stage as it does not require in core-env 
 FROM core-env AS builder-env
 
-COPY --chown=node:node packages/client/package.json packages/client/
-
 RUN yarn install --no-lockfile
 
 COPY --chown=node:node packages/core packages/core
-COPY --chown=node:node packages/client packages/client
 COPY --chown=node:node packages/server packages/server
 
 ENV NODE_ENV=production
-ENV GENERATE_SOURCEMAP=false
 
 # Can get an error when installing packages in workspaces other than core
 # Other workspace need to know about @listrrr/core package which will not be available
 # If we install packages in parallel in different workspaces
 # Have to make sure that, @listrrr/core should be built first
 
-RUN yarn build:core && yarn build:client && yarn build:server
+RUN yarn build:core && yarn build:server
 
 # ---------------------------------------------
 # This stage is the final app which will be run on our server
@@ -53,7 +49,6 @@ RUN rm -rf packages/
 
 COPY --chown=node:node --from=builder-env /usr/src/app/packages/core/ packages/core/
 COPY --chown=node:node --from=builder-env /usr/src/app/packages/server/build/ packages/server/
-COPY --chown=node:node --from=builder-env /usr/src/app/packages/client/build/ packages/server/static
 
 EXPOSE 5000
 

@@ -115,7 +115,4 @@ packages/server/.env
 packages/server/.eslint*
 packages/server/Dockerfile
 
-packages/client/node_modules
-packages/client/Dockerfile
-packages/client/README.md
-packages/client/build
+packages/client
