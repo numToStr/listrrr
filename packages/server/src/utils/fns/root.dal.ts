@@ -1,5 +1,5 @@
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { QueryFindOneAndUpdateOptions, Types } from "mongoose";
+import { QueryFindOneAndUpdateOptions, Types, Document } from "mongoose";
 import { deleteProps } from "./object.util";
 import { DALOptions } from "../../@types/types";
 
