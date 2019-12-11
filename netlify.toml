@@ -3,9 +3,8 @@
     publish = "packages/client/build"
     command = "yarn build:client"
     ignore = "git diff --quiet HEAD^ HEAD packages/server/"
-    
-[build.environment]
-   BASE_URI = "https://listrrr.herokuapp.com"
+    [build.environment]
+        REACT_APP_BASE_URI = "https://listrrr.herokuapp.com"
 
 # The following redirect is intended for use with most SPAs that handle
 # routing internally.
@@ -15,7 +14,7 @@
     status = 200
 
 [[redirects]]
-  from = "https://listrrr.netlify.com"
-  to = "https://listrrr.vikasraj.dev"
-  status = 301
-  force = true
+    from = "https://listrrr.netlify.com"
+    to = "https://listrrr.vikasraj.dev"
+    status = 301
+    force = true
