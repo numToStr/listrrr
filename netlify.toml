@@ -3,6 +3,7 @@
     publish = "packages/client/build"
     command = "yarn build:client"
     ignore = "git diff --quiet HEAD^ HEAD packages/server/"
+    environment = { BASE_URI = "https://listrrr.herokuapp.com" }
 
 # The following redirect is intended for use with most SPAs that handle
 # routing internally.
