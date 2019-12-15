@@ -9,9 +9,10 @@ import {
     Field,
     InputType,
     Authorized,
+    Args,
 } from "type-graphql";
 import { Types } from "mongoose";
-import { Project } from "./project.schema";
+import { Project, ProjectConnection } from "./project.schema";
 import { ProjectService } from "./project.service";
 import { User, AuthRolesEnum } from "../user/user.schema";
 import { Context } from "../../network/context";
@@ -23,6 +24,7 @@ import {
     ColumnIDInput,
     Filters,
 } from "../shared/shared.schema";
+import { ConnectionArgsType } from "../../utils/schema/connection";
 
 @InputType()
 export class CreateProjectInput extends TitleAndDescSchema {
@@ -38,30 +40,22 @@ export class RearrangeColumnFindInput extends ColumnIDInput {
     projectID: Types.ObjectId;
 }
 
+@Resolver(() => ProjectConnection)
+export class ProjectConnectionResolver {
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Query(() => ProjectConnection)
+    async projectConnections(
+        @Ctx() ctx: Context,
+        @Args() args: ConnectionArgsType,
+        @Arg("filters") filters: Filters
+    ) {
+        return new ProjectService(ctx).filters(filters).paginated(args);
+    }
+}
+
 @Resolver(() => Project)
 export class ProjectResolver {
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Query(() => [Project], {
-        nullable: "items",
-    })
-    async projects(
-        @Ctx() ctx: Context,
-        @Arg("filters") filters: Filters
-    ): Promise<Project[]> {
-        return new ProjectService(ctx).projects(filters);
-    }
-
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Query(() => Project, {
-        nullable: true,
-    })
-    async project(
-        @Ctx() ctx: Context,
-        @Arg("where") { _id }: FindInput
-    ): Promise<Project> {
-        return new ProjectService(ctx).project(_id);
-    }
-
+    // Field Resolvers ==========================================================
     @FieldResolver(() => User)
     async createdBy(
         @Ctx() ctx: Context,
@@ -77,6 +71,29 @@ export class ProjectResolver {
         @Root() { columnIDs }: Project
     ): Promise<(Column | Error)[]> {
         return ctx.columnLoader.loadMany(columnIDs as Types.ObjectId[]);
+    }
+
+    // Resolvers ==========================================================
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Query(() => [Project], {
+        nullable: "items",
+    })
+    async projects(
+        @Ctx() ctx: Context,
+        @Arg("filters") filters: Filters
+    ): Promise<Project[]> {
+        return new ProjectService(ctx).filters(filters).projects();
+    }
+
+    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Query(() => Project, {
+        nullable: true,
+    })
+    async project(
+        @Ctx() ctx: Context,
+        @Arg("where") { _id }: FindInput
+    ): Promise<Project> {
+        return new ProjectService(ctx).project(_id);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])

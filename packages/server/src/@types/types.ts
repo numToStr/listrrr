@@ -8,6 +8,8 @@ export interface DALOptions {
     sort?: object;
     upsert?: boolean;
     arrayFilters?: Array<Record<string, unknown>>;
+    limit?: number;
+    skip?: number;
 }
 
 export interface TokenPayload {

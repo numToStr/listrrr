@@ -1,7 +1,8 @@
 import { Types } from "mongoose";
 import { UserInputError } from "apollo-server";
+import { connectionFromArraySlice, Connection } from "graphql-relay";
 import { ProjectDAL } from "./project.dal";
-import { Project } from "./project.schema";
+import { Project, ProjectConnection } from "./project.schema";
 import {
     CreateProjectInput,
     RearrangeColumnFindInput,
@@ -11,21 +12,57 @@ import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { RearrangeColumnInput, Filters } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
+import { ConnectionArgsType } from "../../utils/schema/connection";
 
 export class ProjectService {
+    private fltr: Filters;
     constructor(private ctx: Context) {}
 
     private get ID() {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    async projects(filters: Filters): Promise<Project[]> {
-        const { sort, closed } = parseQueryFilters(filters);
+    private parseF() {
+        return parseQueryFilters(this.fltr);
+    }
+
+    filters(f: Filters) {
+        this.fltr = f;
+
+        return this;
+    }
+
+    async paginated(
+        args: ConnectionArgsType
+    ): Promise<Connection<Project> | ProjectConnection> {
+        const { offset, limit } = args.pagingParams();
+        const { sort, closed } = this.parseF();
+
+        const dal = new ProjectDAL({ userID: this.ID, closed });
+
+        const [data, count] = await Promise.all([
+            dal.findAll({ sort, limit, skip: offset }),
+            dal.count(),
+        ]);
+
+        const pages = connectionFromArraySlice(data, args, {
+            arrayLength: count,
+            sliceStart: offset,
+        });
+
+        return {
+            ...pages,
+            totalCount: count,
+        };
+    }
+
+    projects(): Promise<Project[]> {
+        const { sort, closed } = this.parseF();
 
         return new ProjectDAL({ userID: this.ID, closed }).findAll({ sort });
     }
 
-    async project(_id: Types.ObjectId): Promise<Project> {
+    project(_id: Types.ObjectId): Promise<Project> {
         return new ProjectDAL({ _id, userID: this.ID }).findOne();
     }
 
