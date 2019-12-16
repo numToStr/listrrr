@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { UserInputError } from "apollo-server";
+import { GraphQLResolveInfo } from "graphql";
 import { connectionFromArraySlice, Connection } from "graphql-relay";
 import { ProjectDAL } from "./project.dal";
 import { Project, ProjectConnection } from "./project.schema";
@@ -13,14 +14,16 @@ import { ColumnDAL } from "../column/column.dal";
 import { RearrangeColumnInput, Filters } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 import { ConnectionArgsType } from "../../utils/schema/connection";
+import { RootService } from "../../utils/fns/root.service";
 
-export class ProjectService {
-    private fltr: Filters;
-    constructor(private ctx: Context) {}
-
-    private get ID() {
-        return Types.ObjectId(this.ctx.USER.ID);
+export class ProjectService extends RootService {
+    constructor(ctx: Context, info: GraphQLResolveInfo) {
+        super(ctx, info);
     }
+
+    private fltr: Filters;
+
+    private readonly aliases = { createdBy: "userID" };
 
     private parseF() {
         return parseQueryFilters(this.fltr);
@@ -41,9 +44,16 @@ export class ProjectService {
         const dal = new ProjectDAL({ userID: this.ID, closed });
 
         const [data, count] = await Promise.all([
-            dal.findAll({ sort, limit, skip: offset }),
+            dal.findAll({
+                sort,
+                limit,
+                skip: offset,
+                select: this.selections(this.aliases),
+            }),
             dal.count(),
         ]);
+
+        // console.log(this.selections(this.aliases));
 
         const pages = connectionFromArraySlice(data, args, {
             arrayLength: count,
@@ -59,11 +69,16 @@ export class ProjectService {
     projects(): Promise<Project[]> {
         const { sort, closed } = this.parseF();
 
-        return new ProjectDAL({ userID: this.ID, closed }).findAll({ sort });
+        return new ProjectDAL({ userID: this.ID, closed }).findAll({
+            select: this.selections(this.aliases),
+            sort,
+        });
     }
 
     project(_id: Types.ObjectId): Promise<Project> {
-        return new ProjectDAL({ _id, userID: this.ID }).findOne();
+        return new ProjectDAL({ _id, userID: this.ID }).findOne({
+            select: this.selections(this.aliases),
+        });
     }
 
     async createProject({
@@ -81,8 +96,8 @@ export class ProjectService {
             throw new Error("Template not found");
         }
 
-        const newColumns = template.columns.map(c => ({
-            ...c,
+        const newColumns = template.columns.map(col => ({
+            ...col,
             userID: this.ID,
         }));
 

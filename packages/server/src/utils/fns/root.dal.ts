@@ -10,15 +10,17 @@ type InsertMany<T> = {
     insertedIds: Record<string, Types.ObjectId>;
 };
 
+const opt: DALOptions = {
+    select: "-__v",
+    sort: {},
+    upsert: false,
+    skip: 0,
+    limit: 0,
+    arrayFilters: [],
+};
+
 export abstract class RootDAL<SchemaType extends object> {
-    protected readonly options: DALOptions = {
-        select: "-__v",
-        sort: {},
-        upsert: false,
-        skip: 0,
-        limit: 0,
-        arrayFilters: [],
-    };
+    protected readonly options: DALOptions = opt;
 
     constructor(
         private readonly Model: ModelType<SchemaType>,

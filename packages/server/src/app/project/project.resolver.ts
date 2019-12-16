@@ -10,7 +10,9 @@ import {
     InputType,
     Authorized,
     Args,
+    Info,
 } from "type-graphql";
+import { GraphQLResolveInfo } from "graphql";
 import { Types } from "mongoose";
 import { Project, ProjectConnection } from "./project.schema";
 import { ProjectService } from "./project.service";
@@ -46,10 +48,11 @@ export class ProjectConnectionResolver {
     @Query(() => ProjectConnection)
     async projectConnections(
         @Ctx() ctx: Context,
+        @Info() info: GraphQLResolveInfo,
         @Args() args: ConnectionArgsType,
         @Arg("filters") filters: Filters
     ) {
-        return new ProjectService(ctx).filters(filters).paginated(args);
+        return new ProjectService(ctx, info).filters(filters).paginated(args);
     }
 }
 
@@ -80,9 +83,10 @@ export class ProjectResolver {
     })
     async projects(
         @Ctx() ctx: Context,
+        @Info() info: GraphQLResolveInfo,
         @Arg("filters") filters: Filters
     ): Promise<Project[]> {
-        return new ProjectService(ctx).filters(filters).projects();
+        return new ProjectService(ctx, info).filters(filters).projects();
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
@@ -91,27 +95,30 @@ export class ProjectResolver {
     })
     async project(
         @Ctx() ctx: Context,
+        @Info() info: GraphQLResolveInfo,
         @Arg("where") { _id }: FindInput
     ): Promise<Project> {
-        return new ProjectService(ctx).project(_id);
+        return new ProjectService(ctx, info).project(_id);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Project)
     async createProject(
         @Ctx() ctx: Context,
+        @Info() info: GraphQLResolveInfo,
         @Arg("data") data: CreateProjectInput
     ): Promise<Project> {
-        return new ProjectService(ctx).createProject(data);
+        return new ProjectService(ctx, info).createProject(data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async rearrangeColumn(
         @Ctx() ctx: Context,
+        @Info() info: GraphQLResolveInfo,
         @Arg("where") where: RearrangeColumnFindInput,
         @Arg("data") data: RearrangeColumnInput
     ): Promise<boolean> {
-        return new ProjectService(ctx).rearrangeColumn(where, data);
+        return new ProjectService(ctx, info).rearrangeColumn(where, data);
     }
 }
