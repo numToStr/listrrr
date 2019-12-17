@@ -23,7 +23,10 @@ export class ProjectService extends RootService {
 
     private fltr: Filters;
 
-    private readonly aliases = { createdBy: "userID" };
+    private readonly aliases = {
+        createdBy: "userID",
+        columns: "columnIDs",
+    };
 
     private parseF() {
         return parseQueryFilters(this.fltr);
