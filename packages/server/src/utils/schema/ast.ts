@@ -1,18 +1,26 @@
-import { SelectionNode } from "graphql";
-import { Aliases, GqlAstMongo, GqlNormalAstMongo } from "../../@types/types";
+import {
+    Aliases,
+    GqlAstMongoSelect,
+    GqlNormalAstMongoSelect,
+    GqlNode,
+} from "../../@types/types";
 
 const getKey = (aliases: Aliases, name: string) => {
     return aliases[name] ?? name;
 };
 
-export const gqlNormalAstToMongoSelect: GqlNormalAstMongo = (
+export const gqlNormalAstToMongoSelect: GqlNormalAstMongoSelect = (
     aliases,
     gqlAst,
     nodes = gqlAst.fieldNodes
 ) => {
-    const selections = nodes.reduce<SelectionNode[]>((acc, s) => {
-        return [...acc, ...(s.selectionSet?.selections ?? [])];
-    }, []);
+    const selections = nodes.flatMap<GqlNode>(s => {
+        if (s.kind === "FragmentSpread") {
+            return [];
+        }
+
+        return s.selectionSet?.selections ?? [];
+    });
 
     return selections.reduce((acc, selection) => {
         switch (selection.kind) {
@@ -39,15 +47,33 @@ export const gqlNormalAstToMongoSelect: GqlNormalAstMongo = (
     }, {});
 };
 
-export const gqlConnectionAstToMongoSelect: GqlAstMongo = (aliases, gqlAst) => {
+const makeNode = (edge?: GqlNode) => {
+    if (edge?.kind !== "Field") {
+        return [];
+    }
+
+    return edge.selectionSet?.selections.filter(
+        s => s.kind === "Field" && s.name.value === "node"
+    );
+};
+
+export const gqlConnectionAstToMongoSelect: GqlAstMongoSelect = (
+    aliases,
+    gqlAst
+) => {
     // pick only the edges of the connection;
     // traverse edges to get only the node;
     // pass it as the third argument
+    const edge = gqlAst.fieldNodes
+        .flatMap<GqlNode>(s => s.selectionSet?.selections ?? [])
+        .find(s => s?.kind === "Field" && s.name.value === "edges");
 
-    return gqlNormalAstToMongoSelect(aliases, gqlAst);
+    const node = makeNode(edge);
+
+    return gqlNormalAstToMongoSelect(aliases, gqlAst, node);
 };
 
-export const gqlAstToMongoSelect: GqlAstMongo = (aliases, gqlAst) => {
+export const gqlAstToMongoSelect: GqlAstMongoSelect = (aliases, gqlAst) => {
     const isConnection = gqlAst.operation.name?.value.includes("Connection");
 
     if (isConnection) {

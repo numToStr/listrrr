@@ -56,8 +56,6 @@ export class ProjectService extends RootService {
             dal.count(),
         ]);
 
-        // console.log(this.selections(this.aliases));
-
         const pages = connectionFromArraySlice(data, args, {
             arrayLength: count,
             sliceStart: offset,

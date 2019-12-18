@@ -4,6 +4,7 @@ import {
     FragmentDefinitionNode,
     InlineFragmentNode,
     GraphQLResolveInfo,
+    FragmentSpreadNode,
 } from "graphql";
 import { AuthRolesEnum } from "../app/user/user.schema";
 
@@ -11,19 +12,19 @@ export type ErrorHandler = (error: Error | null, event: string) => never;
 
 export type Aliases = Record<string, string>;
 export type MongoSelectionSet = Record<string, boolean>;
-export type Nodes = readonly (
+export type GqlNode =
     | FieldNode
     | FragmentDefinitionNode
     | InlineFragmentNode
-)[];
+    | FragmentSpreadNode;
 
-export type GqlNormalAstMongo = (
+export type GqlNormalAstMongoSelect = (
     aliases: Aliases,
     gqlAst: GraphQLResolveInfo,
-    nodes?: Nodes
+    nodes?: ReadonlyArray<GqlNode>
 ) => MongoSelectionSet;
 
-export type GqlAstMongo = (
+export type GqlAstMongoSelect = (
     aliases: Aliases,
     gqlAst: GraphQLResolveInfo
 ) => MongoSelectionSet;
