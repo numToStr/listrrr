@@ -1,9 +1,10 @@
 import { join } from "path";
+import { createReadStream } from "fs";
 import express, { Request, Response, NextFunction } from "express";
 import { ApolloServer } from "apollo-server-express";
 import compression from "compression";
 import helmet from "helmet";
-import { buildSchema } from "type-graphql";
+import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
 import { Context } from "./context";
 import { authChecker } from "../utils/fns/authChecker";
@@ -15,6 +16,7 @@ export const app = express();
 // This path will be available after docker image is build
 // const staticFilesPath = join(__dirname, "../..", "static");
 
+const schemaFilePath = join(__dirname, "../..", "schema.gql");
 const gqlPath = "/gql";
 
 // Adding compression
@@ -28,6 +30,10 @@ app.use(helmet());
 //     app.use(express.static(staticFilesPath));
 // }
 
+app.get("/schema.gql", (_, res) => {
+    return createReadStream(schemaFilePath).pipe(res);
+});
+
 // Handler for redirecting request to server static files or graphql api
 app.use((req, res, next) => {
     try {
@@ -39,7 +45,7 @@ app.use((req, res, next) => {
             return next();
         }
 
-        return res.sendStatus(404)
+        return res.sendStatus(404);
 
         // return res.sendFile("index.html", {
         //     root: staticFilesPath,
@@ -68,10 +74,11 @@ app.use((req, res, next) => {
         ],
     });
 
+    await emitSchemaDefinitionFile(schemaFilePath, schema);
+
     return new ApolloServer({
         schema,
         context: (ctx): Context => new Context(ctx),
-        introspection: true,
     }).applyMiddleware({ app, path: gqlPath });
 })();
 
