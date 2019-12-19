@@ -74,7 +74,7 @@ export const gqlConnectionAstToMongoSelect: GqlAstMongoSelect = (
 };
 
 export const gqlAstToMongoSelect: GqlAstMongoSelect = (aliases, gqlAst) => {
-    const isConnection = gqlAst.operation.name?.value.includes("Connection");
+    const isConnection = gqlAst.returnType.toString().includes("Connection");
 
     if (isConnection) {
         return gqlConnectionAstToMongoSelect(aliases, gqlAst);
