@@ -10,12 +10,17 @@ type InsertMany<T> = {
     insertedIds: Record<string, Types.ObjectId>;
 };
 
+const opt: DALOptions = {
+    select: "-__v",
+    sort: {},
+    upsert: false,
+    skip: 0,
+    limit: 0,
+    arrayFilters: [],
+};
+
 export abstract class RootDAL<SchemaType extends object> {
-    private readonly select = "-__v";
-
-    private readonly sort = {};
-
-    private readonly upsert = false;
+    protected readonly options: DALOptions = opt;
 
     constructor(
         private readonly Model: ModelType<SchemaType>,
@@ -36,33 +41,40 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     findOne(options: DALOptions = {}): Promise<SchemaType> {
-        const { select = this.select } = options;
+        const { select } = {
+            ...this.options,
+            ...options,
+        };
 
         return this.Model.findOne(this.ctx)
             .select(select)
             .lean()
-            .exec() as Promise<SchemaType>;
+            .exec();
     }
 
     findAll(options: DALOptions = {}): Promise<SchemaType[]> {
-        const { select = this.select, sort = this.sort } = options;
+        const { select, sort, limit, skip } = {
+            ...this.options,
+            ...options,
+        };
 
         return this.Model.find(this.ctx)
             .select(select)
             .sort(sort)
+            .skip(Number(skip))
+            .limit(Number(limit))
             .lean()
-            .exec() as Promise<SchemaType[]>;
+            .exec();
     }
 
     updateOne(
         data: Partial<SchemaType | Record<string, unknown>>,
         options: DALOptions = {}
     ): Promise<SchemaType> {
-        const {
-            select = this.select,
-            upsert = this.upsert,
-            arrayFilters = [],
-        } = options;
+        const { select, upsert, arrayFilters } = {
+            ...this.options,
+            ...options,
+        };
 
         return this.Model.findOneAndUpdate(this.ctx, data, {
             new: true,
@@ -71,7 +83,7 @@ export abstract class RootDAL<SchemaType extends object> {
         } as QueryFindOneAndUpdateOptions)
             .select(select)
             .lean()
-            .exec() as Promise<SchemaType>;
+            .exec();
     }
 
     updateMany(data: Partial<SchemaType>) {
@@ -81,11 +93,22 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     deleteOne(options: DALOptions = {}): Promise<SchemaType> {
-        const { select = this.select } = options;
+        const { select } = {
+            ...this.options,
+            ...options,
+        };
 
         return this.Model.findOneAndDelete(this.ctx)
             .select(select)
             .lean()
-            .exec() as Promise<SchemaType>;
+            .exec();
+    }
+
+    count() {
+        return this.Model.countDocuments(this.ctx);
+    }
+
+    totalCount() {
+        return this.Model.estimatedDocumentCount();
     }
 }

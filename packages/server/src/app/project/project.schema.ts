@@ -11,6 +11,7 @@ import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
 import { Column } from "../column/column.schema";
 import { TitleAndDescSchema } from "../shared/shared.schema";
+import { RawEdgeType, RawConnectionType } from "../../utils/schema/connection";
 
 @ObjectType()
 @modelOptions({})
@@ -54,6 +55,15 @@ export class Project extends TitleAndDescSchema {
 
     @Field()
     updatedAt: Date;
+}
+
+@ObjectType()
+export class ProjectEdge extends RawEdgeType(Project) {}
+
+@ObjectType()
+export class ProjectConnection extends RawConnectionType(ProjectEdge) {
+    @Field()
+    totalCount: number;
 }
 
 export const ProjectModel = getModelForClass(Project);

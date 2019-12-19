@@ -5,19 +5,18 @@ import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 type Props = FieldConfig & TextFieldProps;
 
 const FormikTextField: FC<Props> = ({ name, ...props }) => {
-    const [{ onChange, onBlur }, { value, touched, error }] = useField({
+    const [field, { touched, error }] = useField({
         name,
     });
+
+    const isError = Boolean(touched && error);
 
     return (
         <TextField
             {...props}
-            name={name}
-            value={value}
-            onChange={onChange(name)}
-            onBlur={onBlur(name)}
-            error={touched && error ? true : false}
-            helperText={touched && error ? `- ${error}` : null}
+            {...field}
+            error={isError}
+            helperText={isError ? `- ${error}` : null}
             variant="outlined"
             margin="dense"
             fullWidth

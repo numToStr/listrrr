@@ -28,7 +28,6 @@ export class User extends IDSchema {
     })
     email: string;
 
-    @Field(() => AuthRolesEnum)
     @prop({
         required: true,
         enum: AuthRolesEnum,

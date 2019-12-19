@@ -1,4 +1,5 @@
-import { Resolver, Query, Ctx, Authorized } from "type-graphql";
+import { Resolver, Query, Ctx, Authorized, Info } from "type-graphql";
+import { GraphQLResolveInfo } from "graphql";
 import { User, AuthRolesEnum } from "./user.schema";
 import { Context } from "../../network/context";
 import { UserService } from "./user.service";
@@ -7,7 +8,7 @@ import { UserService } from "./user.service";
 export class UserResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER, AuthRolesEnum.ADMIN])
     @Query(() => User)
-    me(@Ctx() ctx: Context): Promise<User> {
-        return new UserService(ctx).me();
+    me(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo): Promise<User> {
+        return new UserService(ctx, info).me();
     }
 }
