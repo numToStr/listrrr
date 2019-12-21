@@ -4,6 +4,11 @@
     "private": false,
     "version": "1.0.0",
     "main": "src/bin/www.ts",
+    "engines": {
+        "node": "^12.13.0 || ^10.15.0",
+        "npm": "^6.10.0",
+        "yarn": "^1.9.0"
+    },
     "scripts": {
         "start": "NODE_ENV=production NODE_DEBUG=www node src/bin/www.js",
         "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json --ignore generated -r dotenv/config src/bin/www.ts",
