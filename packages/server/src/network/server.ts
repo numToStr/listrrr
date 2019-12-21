@@ -1,5 +1,7 @@
 import { join } from "path";
+import { pipeline } from "stream";
 import { createReadStream } from "fs";
+import { promisify } from "util";
 import express, { Request, Response, NextFunction } from "express";
 import { ApolloServer } from "apollo-server-express";
 import compression from "compression";
@@ -9,14 +11,11 @@ import { Types } from "mongoose";
 import { Context } from "./context";
 import { authChecker } from "../utils/fns/authChecker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
-// import { isProd } from "../config/keys";
 
 export const app = express();
 
-// This path will be available after docker image is build
-// const staticFilesPath = join(__dirname, "../..", "static");
-
-const schemaFilePath = join(__dirname, "../..", "schema.gql");
+const pipelineAsync = promisify(pipeline);
+const schemaFilePath = join(__dirname, "..", "..", "schema.gql");
 const gqlPath = "/gql";
 
 // Adding compression
@@ -25,13 +24,18 @@ app.use(compression());
 // For securing headers
 app.use(helmet());
 
-// if (isProd) {
-//     // Serving build files if production
-//     app.use(express.static(staticFilesPath));
-// }
+app.get("/schema.gql", async (_, res, next) => {
+    try {
+        const fileStream = createReadStream(schemaFilePath, {
+            encoding: "utf-8",
+        });
 
-app.get("/schema.gql", (_, res) => {
-    return createReadStream(schemaFilePath).pipe(res);
+        res.header("Content-Type", "text/plain");
+
+        await pipelineAsync(fileStream, res);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Handler for redirecting request to server static files or graphql api
@@ -46,21 +50,12 @@ app.use((req, res, next) => {
         }
 
         return res.sendStatus(404);
-
-        // return res.sendFile("index.html", {
-        //     root: staticFilesPath,
-        //     dotfiles: "deny",
-        //     maxAge: "2d",
-        //     headers: {
-        //         "x-whoami": "Vikas Raj",
-        //     },
-        // });
     } catch (error) {
         return next(error);
     }
 });
 
-(async () => {
+(async function bootstrap() {
     const schema = await buildSchema({
         resolvers: [join(__dirname, "..", "app/**/*.resolver.*")],
         dateScalarMode: "isoDate",
@@ -83,7 +78,7 @@ app.use((req, res, next) => {
 })();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
+app.use((error: Error, _: Request, res: Response, _next: NextFunction) => {
     const { message = "Oops! Something went wrong" } = error;
 
     return res.status(400).json({

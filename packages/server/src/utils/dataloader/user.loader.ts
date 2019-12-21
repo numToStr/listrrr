@@ -11,9 +11,10 @@ const userBatchFn: BatchLoadFn<OID, User> = async IDs => {
         const response = await new UserDAL({
             _id: {
                 $in: IDs,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
-        }).findAll();
+            },
+        }).findAll({
+            select: "_id username email",
+        });
 
         return normalizeLoader<User>(IDs, response);
     }
