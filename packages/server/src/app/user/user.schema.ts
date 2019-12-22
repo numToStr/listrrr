@@ -8,7 +8,9 @@ export enum AuthRolesEnum {
     ADMIN = "ADMIN",
 }
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 @modelOptions({})
 export class User extends IDSchema {
     @Field()

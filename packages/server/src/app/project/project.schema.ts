@@ -13,7 +13,9 @@ import { Column } from "../column/column.schema";
 import { TitleAndDescSchema } from "../shared/shared.schema";
 import { RawEdgeType, RawConnectionType } from "../../utils/schema/connection";
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 @modelOptions({})
 export class Project extends TitleAndDescSchema {
     @Field()
@@ -57,10 +59,14 @@ export class Project extends TitleAndDescSchema {
     updatedAt: Date;
 }
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 export class ProjectEdge extends RawEdgeType(Project) {}
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 export class ProjectConnection extends RawConnectionType(ProjectEdge) {
     @Field()
     totalCount: number;

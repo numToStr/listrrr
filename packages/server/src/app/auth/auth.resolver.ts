@@ -24,7 +24,9 @@ export class SignupInput extends LoginInput implements Partial<User> {
     username: string;
 }
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 class AuthInfo {
     @Field()
     token: string;
@@ -33,7 +35,9 @@ class AuthInfo {
     role: AuthRolesEnum;
 }
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 export class AuthResponse {
     @Field()
     user: User;

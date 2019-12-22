@@ -67,7 +67,6 @@ export class ProjectResolver {
         return ctx.userLoader.load(userID as Types.ObjectId);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @FieldResolver(() => [Column])
     async columns(
         @Ctx() ctx: Context,

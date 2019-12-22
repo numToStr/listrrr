@@ -11,7 +11,9 @@ import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
 import { TitleAndDescSchema } from "../shared/shared.schema";
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 @modelOptions({})
 export class Issue extends TitleAndDescSchema {
     @Field()
