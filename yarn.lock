@@ -1968,12 +1968,12 @@
     "@types/mongodb" "*"
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^12.6.2":
+"@types/node@*":
   version "12.12.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.14.tgz#1c1d6e3c75dba466e0326948d56e8bd72a1903d2"
   integrity sha512-u/SJDyXwuihpwjXy7hOOghagLEV1KdAST6syfnOk6QZAMzZuWZqXy5aYYZbh8Jdpd4escVFP0MvftHNDb9pruA==
 
-"@types/node@12.12.21", "@types/node@^12.12.21":
+"@types/node@12.12.21", "@types/node@^12.12.21", "@types/node@^12.12.5":
   version "12.12.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.21.tgz#aa44a6363291c7037111c47e4661ad210aded23f"
   integrity sha512-8sRGhbpU+ck1n0PGAUgVrWrWdjSW2aqNeyC15W88GRsMpSwzv6RJGlLhE7s2RhVSOdyDmxbqlWSeThq4/7xqlA==
@@ -2057,7 +2057,7 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/semver@^6.0.1":
+"@types/semver@^6.0.2":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-6.2.0.tgz#d688d574400d96c5b0114968705366f431831e1a"
   integrity sha512-1OzrNb4RuAzIT7wHSsgZRlMBlNsJl+do6UblR7JMW4oB7bbR+uBEYtUh7gEc/jM84GGilh68lSOokyM/zNUlBA==
@@ -6342,10 +6342,10 @@ graphql-import@0.7.1:
     lodash "^4.17.4"
     resolve-from "^4.0.0"
 
-graphql-query-complexity@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/graphql-query-complexity/-/graphql-query-complexity-0.3.0.tgz#71a44e124b7591a185d9d8cde55205aa57680c5d"
-  integrity sha512-JVqHT81Eh9O17iOjs1r1qzsh5YY2upfA3zoUsQGggT4d+1hajWitk4GQQY5SZtq5eul7y6jMsM9qRUSOAKhDJQ==
+graphql-query-complexity@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/graphql-query-complexity/-/graphql-query-complexity-0.4.1.tgz#06ad49de617da0d74c8196fb4a641349f104552d"
+  integrity sha512-Uo87hNlnJ5jwoWBkVYITbJpTrlCVwgfG5Wrfel0K1/42G+3xvud31CpsprAwiSpFIP+gCqttAx7OVmw4eTqLQQ==
   dependencies:
     lodash.get "^4.4.2"
 
@@ -12857,19 +12857,19 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
-type-graphql@^0.17.5:
-  version "0.17.5"
-  resolved "https://registry.yarnpkg.com/type-graphql/-/type-graphql-0.17.5.tgz#7f2f189ff7b9faef33537291ef333ff9adbee21c"
-  integrity sha512-wscr63K0j9UKcX/nBTySamLd7nMZeYKmADk8A9sVmcPh+clNJUAw96784dg2VZn/sUdmN1y2AeKzmTjCfVB5sA==
+type-graphql@^0.18.0-beta.8:
+  version "0.18.0-beta.8"
+  resolved "https://registry.yarnpkg.com/type-graphql/-/type-graphql-0.18.0-beta.8.tgz#78c18bcfceb6a5fed29900821d7ac459bc6111b9"
+  integrity sha512-4SYYD4EeMaTjWi1JubKG3+Q8Pc2VHigjiEGSjDbYGNXFZ0G5m8c25iJ69l7TgutLlKLJTfmJEUysj/oqVn2ahA==
   dependencies:
     "@types/glob" "^7.1.1"
-    "@types/node" "^12.6.2"
-    "@types/semver" "^6.0.1"
+    "@types/node" "^12.12.5"
+    "@types/semver" "^6.0.2"
     class-validator ">=0.9.1"
     glob "^7.1.4"
-    graphql-query-complexity "^0.3.0"
+    graphql-query-complexity "^0.4.1"
     graphql-subscriptions "^1.1.0"
-    semver "^6.2.0"
+    semver "^6.3.0"
     tslib "^1.10.0"
 
 type-is@^1.6.16, type-is@~1.6.17, type-is@~1.6.18:
