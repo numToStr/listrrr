@@ -21,6 +21,8 @@ type Header = {
 
 const Context = createContext<Dispatch<Header>>(() => {});
 
+const cache = new InMemoryCache();
+
 export const MyApolloContext: FC = ({ children }) => {
     const t = new StorageUtil().getToken() || "";
 
@@ -33,7 +35,7 @@ export const MyApolloContext: FC = ({ children }) => {
             uri: URI,
             headers,
         }),
-        cache: new InMemoryCache(),
+        cache,
         connectToDevTools: true,
     });
 

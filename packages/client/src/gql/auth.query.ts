@@ -16,19 +16,24 @@ export const useILoginMutation = () => {
 
                 new StorageUtil().setToken(auth.token);
 
-                setHeaders({
-                    authorization: auth.token,
-                });
-
-                cache.writeQuery<AuthFragmentFragment["user"]>({
+                cache.writeQuery<{ me: AuthFragmentFragment["user"] }>({
                     query: MeDocument,
-                    data: user,
+                    data: {
+                        me: user,
+                    },
                 });
 
                 cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
                     data: {
                         auth,
                     },
+                });
+
+                // This should be in the end,
+                // otherwise cache will be reset without setting the user
+                // and the client will refetch the user from the server
+                setHeaders({
+                    authorization: auth.token,
                 });
             }
         },
@@ -44,19 +49,24 @@ export const useISignupMutation = () => {
 
                 new StorageUtil().setToken(auth.token);
 
-                setHeaders({
-                    authorization: auth.token,
-                });
-
-                cache.writeQuery<AuthFragmentFragment["user"]>({
+                cache.writeQuery<{ me: AuthFragmentFragment["user"] }>({
                     query: MeDocument,
-                    data: user,
+                    data: {
+                        me: user,
+                    },
                 });
 
                 cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
                     data: {
                         auth,
                     },
+                });
+
+                // This should be in the end,
+                // otherwise cache will be reset without setting the user
+                // and the client will refetch the user from the server
+                setHeaders({
+                    authorization: auth.token,
                 });
             }
         },
