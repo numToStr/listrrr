@@ -8,7 +8,7 @@ import StorageUtil from "../utils/storage";
 import { useMyApolloContext } from "../components/ApolloContext";
 
 export const useILoginMutation = () => {
-    const setHeaders = useMyApolloContext();
+    const { setHeaders } = useMyApolloContext();
     return useLoginMutation({
         update(cache, { data }) {
             if (data) {
@@ -32,7 +32,7 @@ export const useILoginMutation = () => {
                 // This should be in the end,
                 // otherwise cache will be reset without setting the user
                 // and the client will refetch the user from the server
-                setHeaders({
+                setHeaders?.({
                     authorization: auth.token,
                 });
             }
@@ -41,7 +41,7 @@ export const useILoginMutation = () => {
 };
 
 export const useISignupMutation = () => {
-    const setHeaders = useMyApolloContext();
+    const { setHeaders } = useMyApolloContext();
     return useSignupMutation({
         update(cache, { data }) {
             if (data) {
@@ -65,10 +65,27 @@ export const useISignupMutation = () => {
                 // This should be in the end,
                 // otherwise cache will be reset without setting the user
                 // and the client will refetch the user from the server
-                setHeaders({
+                setHeaders?.({
                     authorization: auth.token,
                 });
             }
         },
     });
+};
+
+export const useILogout = () => {
+    const { client } = useMyApolloContext();
+
+    return function logout() {
+        client?.writeQuery<{ me: null }>({
+            query: MeDocument,
+            data: {
+                me: null,
+            },
+        });
+
+        // This is not working
+        // Github issue: https://github.com/apollographql/apollo-client/issues/5725
+        client?.clearStore();
+    };
 };

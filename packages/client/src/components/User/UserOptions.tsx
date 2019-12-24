@@ -22,6 +22,7 @@ import MenuIcon from "@material-ui/icons/MoreVertTwoTone";
 import SettingsIcon from "@material-ui/icons/SettingsTwoTone";
 import ThemeIcon from "@material-ui/icons/ColorLensTwoTone";
 import LogoutIcon from "@material-ui/icons/ArrowBackTwoTone";
+import { useILogout } from "../../gql/auth.query";
 
 const ThemeDailog = lazy(() =>
     import(/* webpackChunkName: "ThemeDailog" */ "../Theme/ThemeDailog")
@@ -42,6 +43,7 @@ const StyledItem = styled(ListItemIcon)(({ theme: { mixins } }) => {
 });
 
 const UserOptions = () => {
+    const logout = useILogout();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(false);
 
@@ -66,10 +68,10 @@ const UserOptions = () => {
             {
                 title: "Logout",
                 icon: LogoutIcon,
-                onClick: onTapItem(() => {}),
+                onClick: onTapItem(logout),
             },
         ],
-        [toggleDailog]
+        [toggleDailog, logout]
     );
 
     const handleOpen = (e: MouseEvent<HTMLButtonElement>) => {

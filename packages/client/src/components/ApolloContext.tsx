@@ -15,11 +15,16 @@ import StorageUtil from "../utils/storage";
 
 const URI = [process.env.REACT_APP_BASE_URI, "/gql"].join("");
 
-type Header = {
+interface Header {
     authorization?: string;
-};
+}
 
-const Context = createContext<Dispatch<Header>>(() => {});
+interface ContextValue {
+    setHeaders?: Dispatch<Header>;
+    client?: ApolloClient<{}>;
+}
+
+const Context = createContext<ContextValue>({});
 
 const cache = new InMemoryCache();
 
@@ -40,13 +45,13 @@ export const MyApolloContext: FC = ({ children }) => {
     });
 
     return (
-        <Context.Provider value={setHeaders}>
+        <Context.Provider value={{ setHeaders, client }}>
             <ApolloProvider client={client}>{children}</ApolloProvider>
         </Context.Provider>
     );
 };
 
-export const useMyApolloContext = (): Dispatch<Header> => {
+export const useMyApolloContext = (): ContextValue => {
     const ctx = useContext(Context);
 
     if (!ctx) {
