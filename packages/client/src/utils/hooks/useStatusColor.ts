@@ -1,9 +1,6 @@
 import { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-const closeColor = "#f00c1d";
-const openColor = "#269f42";
-
 type StyleProps = {
     color: string;
 };
@@ -19,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 export const useStatusColor = (closed: boolean) => {
-    return useMemo(() => (closed ? closeColor : openColor), [closed]);
+    return useMemo(() => (closed ? "#f00c1d" : "#269f42"), [closed]);
 };
 
 export const useStatusClasses = (boolean: boolean) => {
