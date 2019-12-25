@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Switch, Redirect } from "react-router-dom";
-import { useIMeQuery } from "../../gql/user.query";
 import { Routes } from "../../config/routes.config";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import BaseLoader from "../Base/BaseLoader";
+import { useIsLoggedIn } from "../../gql/auth.query";
 
 type Props = {
     routes: Routes;
@@ -12,13 +12,13 @@ type Props = {
 };
 
 const RouteRenderer: FC<Props> = ({ routes, defaultRedirect: redirect }) => {
-    const { loading, data } = useIMeQuery();
+    const { loading, data } = useIsLoggedIn();
 
     if (loading && !data) {
         return <BaseLoader />;
     }
 
-    const authorized = Boolean(data && data.me);
+    const authorized = !!data?.isLoggedIn;
 
     const allRoutes = routes.map(route => {
         return route.private ? (
