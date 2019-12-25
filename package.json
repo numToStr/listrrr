@@ -19,6 +19,7 @@
         "build": "yarn build:server && yarn build:client",
         "gql:gen": "yarn --cwd packages/client gql:gen"
     },
+    "homepage": "https://listrrr.vikasraj.dev",
     "repository": "https://github.com/vkasraj/listrrr.git",
     "author": "vkasraj <vikasraj1911@gmail.com>",
     "license": "MIT",

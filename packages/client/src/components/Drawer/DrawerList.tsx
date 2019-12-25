@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ProjectIcon from "@material-ui/icons/AssignmentTwoTone";
 import IssuesIcon from "@material-ui/icons/BugReportTwoTone";
 import { DrawerType } from "../../@types/types";
-import DrawerUserItem from "./DrawerUserItem";
+import UserDetails from "../User/UserDetails";
 
 const items = [
     {
@@ -83,7 +83,7 @@ const DrawerList: FC<Props> = ({ onTap, type }) => {
 
     return (
         <List disablePadding>
-            <DrawerUserItem />
+            <UserDetails />
             {list}
         </List>
     );

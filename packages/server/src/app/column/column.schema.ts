@@ -11,7 +11,9 @@ import { TitleSchema } from "../shared/shared.schema";
 import { Issue } from "../issue/issue.schema";
 import { User } from "../user/user.schema";
 
-@ObjectType()
+@ObjectType({
+    simpleResolvers: true,
+})
 @modelOptions({})
 export class Column extends TitleSchema {
     @prop({

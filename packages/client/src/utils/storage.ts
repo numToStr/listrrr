@@ -4,16 +4,16 @@ const themeKey = "APP_THEME";
 
 type T = { bg: Bg; color: ThemeColorType };
 
+const storage = window.sessionStorage || window.localStorage;
+
 // Utility for setting and getting auth token
 export default class StorageUtil {
-    private readonly storage = window.sessionStorage || window.localStorage;
-
-    getToken(): string | null {
-        return this.storage.getItem(tokenKey);
+    static getToken(): string | null {
+        return storage.getItem(tokenKey);
     }
 
-    setToken(token: string): any {
-        return this.storage.setItem(tokenKey, token);
+    static setToken(token: string): any {
+        return storage.setItem(tokenKey, token);
     }
 
     static getTheme(): T | null {

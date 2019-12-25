@@ -26,13 +26,12 @@ app.use(helmet());
 
 app.get("/schema.gql", async (_, res, next) => {
     try {
-        const fileStream = createReadStream(schemaFilePath, {
-            encoding: "utf-8",
-        });
-
-        res.header("Content-Type", "text/plain");
-
-        await pipelineAsync(fileStream, res);
+        await pipelineAsync(
+            createReadStream(schemaFilePath, {
+                encoding: "utf-8",
+            }),
+            res.header("Content-Type", "text/plain")
+        );
     } catch (error) {
         next(error);
     }
@@ -49,7 +48,7 @@ app.use((req, res, next) => {
             return next();
         }
 
-        return res.sendStatus(404);
+        return res.sendStatus(200);
     } catch (error) {
         return next(error);
     }

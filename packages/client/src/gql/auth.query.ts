@@ -6,29 +6,47 @@ import {
 } from "../generated/graphql";
 import StorageUtil from "../utils/storage";
 import { useMyApolloContext } from "../components/ApolloContext";
+import { useQuery, gql } from "@apollo/client";
+
+interface IIsLoggedIn {
+    isLoggedIn: boolean;
+}
+
+interface IMe {
+    me: AuthFragmentFragment["user"];
+}
+
+interface IAuth {
+    auth: AuthFragmentFragment["auth"];
+}
 
 export const useILoginMutation = () => {
-    const setHeaders = useMyApolloContext();
+    const { setHeaders } = useMyApolloContext();
     return useLoginMutation({
         update(cache, { data }) {
             if (data) {
                 const { user, auth } = data.login;
 
-                new StorageUtil().setToken(auth.token);
+                StorageUtil.setToken(auth.token);
 
-                setHeaders({
-                    authorization: auth.token,
-                });
-
-                cache.writeQuery<AuthFragmentFragment["user"]>({
+                cache.writeQuery<IMe>({
                     query: MeDocument,
-                    data: user,
+                    data: {
+                        me: user,
+                    },
                 });
 
-                cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
+                cache.writeData<IAuth>({
                     data: {
                         auth,
                     },
+                });
+
+                // This should be in the end,
+                // otherwise cache will be reset without setting the user
+                // and the client will refetch the user from the server
+                setHeaders?.({
+                    authorization: auth.token,
                 });
             }
         },
@@ -36,29 +54,67 @@ export const useILoginMutation = () => {
 };
 
 export const useISignupMutation = () => {
-    const setHeaders = useMyApolloContext();
+    const { setHeaders } = useMyApolloContext();
     return useSignupMutation({
         update(cache, { data }) {
             if (data) {
                 const { user, auth } = data.signup;
 
-                new StorageUtil().setToken(auth.token);
+                StorageUtil.setToken(auth.token);
 
-                setHeaders({
-                    authorization: auth.token,
-                });
-
-                cache.writeQuery<AuthFragmentFragment["user"]>({
+                cache.writeQuery<IMe>({
                     query: MeDocument,
-                    data: user,
+                    data: {
+                        me: user,
+                    },
                 });
 
-                cache.writeData<{ auth: AuthFragmentFragment["auth"] }>({
+                cache.writeData<IAuth>({
                     data: {
                         auth,
                     },
                 });
+
+                // This should be in the end,
+                // otherwise cache will be reset without setting the user
+                // and the client will refetch the user from the server
+                setHeaders?.({
+                    authorization: auth.token,
+                });
             }
         },
     });
+};
+
+const IsLoggedIn = gql`
+    query IsLoggedIn {
+        isLoggedIn @client
+    }
+`;
+
+export const useIsLoggedIn = () => {
+    return useQuery<IIsLoggedIn>(IsLoggedIn);
+};
+
+export const useILogout = () => {
+    const { client, setHeaders } = useMyApolloContext();
+
+    return function logout() {
+        StorageUtil.setToken("");
+
+        // This will redirect the user to login screen
+        client?.writeData<IIsLoggedIn & { me: null }>({
+            data: {
+                isLoggedIn: false,
+                me: null,
+            },
+        });
+
+        // Setting headers = {}, to make sure there is no token of previous user
+        setHeaders?.({});
+
+        // This is not working
+        // Github issue: https://github.com/apollographql/apollo-client/issues/5725
+        client?.clearStore();
+    };
 };

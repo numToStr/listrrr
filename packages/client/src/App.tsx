@@ -7,10 +7,17 @@ import { routesConfig } from "./config/routes.config";
 import BaseLoader from "./components/Base/BaseLoader";
 import { MyApolloContext } from "./components/ApolloContext";
 import { ThemeContext } from "./components/Theme/ThemeContext";
+import { useIMeQuery } from "./gql/user.query";
 
-const Root = hot(module)(() => (
-    <RouteRenderer routes={routesConfig} defaultRedirect="/" />
-));
+const Root = hot(module)(() => {
+    const { loading } = useIMeQuery();
+
+    if (loading) {
+        return <BaseLoader />;
+    }
+
+    return <RouteRenderer routes={routesConfig} defaultRedirect="/" />;
+});
 
 const App: React.FC = () => {
     return (
