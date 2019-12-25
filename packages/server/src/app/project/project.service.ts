@@ -159,4 +159,12 @@ export class ProjectService extends RootService {
 
         return !!isUpdated;
     }
+
+    closedCount() {
+        return new ProjectDAL({ userID: this.ID, closed: true }).count();
+    }
+
+    openCount() {
+        return new ProjectDAL({ userID: this.ID, closed: false }).count();
+    }
 }
