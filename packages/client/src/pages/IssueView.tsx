@@ -7,11 +7,10 @@ import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
-import { EntityType, Project, Maybe, Sort, Status } from "../generated/graphql";
+import { EntityType, Project, Maybe } from "../generated/graphql";
 import StatusIndicator from "../components/StatusIndicator";
 import IssueCommentForm from "../components/Issue/IssueCommentForm";
-import { useIProjectsFilterQuery } from "../gql/project.query";
-import ListSelection from "../components/ListSelection";
+import ProjectSelection from "../components/Project/ProjectSelection";
 
 type Params = {
     issueID: string;
@@ -24,44 +23,18 @@ const IssueView = () => {
             _id: issueID,
         },
     });
-    const { data: p } = useIProjectsFilterQuery({
-        filters: {
-            sort: Sort.CREATED_DESC,
-            status: Status.OPEN,
-        },
-    });
 
-    const renderIssueProjects = useCallback(
-        (projects: Maybe<Pick<Project, "_id" | "title">>[]) => {
-            if (!projects.length) {
-                return (
-                    <Typography variant="caption">No Projects...</Typography>
-                );
-            }
+    const renderIssueProjects = (
+        projects: Maybe<Pick<Project, "_id" | "title">>[]
+    ) => {
+        if (!projects.length) {
+            return <Typography variant="caption">No Projects...</Typography>;
+        }
 
-            const list = projects.map(project => (
-                <Typography
-                    key={project?._id}
-                    variant="caption"
-                    component="p"
-                    gutterBottom
-                >
-                    - {project?.title}
-                </Typography>
-            ));
+        return <ProjectSelection projects={projects} />;
+    };
 
-            return (
-                <Grid item xs>
-                    <ListSelection list={p?.projects ?? []}>
-                        {list}
-                    </ListSelection>
-                </Grid>
-            );
-        },
-        [p]
-    );
-
-    const renderIssue = () => {
+    const renderIssue = useCallback(() => {
         if (loading) {
             return <BaseLoader />;
         }
@@ -112,11 +85,15 @@ const IssueView = () => {
                         </Box>
                         <IssueCommentForm issueID={_id} closed={closed} />
                     </Grid>
-                    <Hidden xsDown>{renderIssueProjects(projects)}</Hidden>
+                    <Hidden xsDown>
+                        <Grid item xs>
+                            {renderIssueProjects(projects)}
+                        </Grid>
+                    </Hidden>
                 </Grid>
             </Fragment>
         );
-    };
+    }, [loading, data]);
 
     return (
         <Fragment>

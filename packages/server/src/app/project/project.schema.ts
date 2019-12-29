@@ -70,6 +70,12 @@ export class ProjectEdge extends RawEdgeType(Project) {}
 export class ProjectConnection extends RawConnectionType(ProjectEdge) {
     @Field()
     totalCount: number;
+
+    @Field()
+    closedCount: number;
+
+    @Field()
+    openCount: number;
 }
 
 export const ProjectModel = getModelForClass(Project);

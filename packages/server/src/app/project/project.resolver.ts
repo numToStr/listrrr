@@ -44,6 +44,18 @@ export class RearrangeColumnFindInput extends ColumnIDInput {
 
 @Resolver(() => ProjectConnection)
 export class ProjectConnectionResolver {
+    // Field Resolvers ==========================================================
+    @FieldResolver(() => Number)
+    closedCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+        return new ProjectService(ctx, info).closedCount();
+    }
+
+    @FieldResolver(() => Number)
+    openCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+        return new ProjectService(ctx, info).openCount();
+    }
+
+    // Resolvers ==========================================================
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => ProjectConnection)
     async projectConnections(
