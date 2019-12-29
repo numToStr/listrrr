@@ -10,6 +10,7 @@ import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
 import { TitleAndDescSchema } from "../shared/shared.schema";
+import { RawEdgeType, RawConnectionType } from "../../utils/schema/connection";
 
 @ObjectType({
     simpleResolvers: true,
@@ -50,6 +51,21 @@ export class Issue extends TitleAndDescSchema {
 
     @Field()
     updatedAt: Date;
+}
+
+@ObjectType({ simpleResolvers: true })
+export class IssueEdge extends RawEdgeType(Issue) {}
+
+@ObjectType({ simpleResolvers: true })
+export class IssueConnection extends RawConnectionType(IssueEdge) {
+    @Field()
+    totalCount: number;
+
+    @Field()
+    closedCount: number;
+
+    @Field()
+    openCount: number;
 }
 
 export const IssueModel = getModelForClass(Issue);
