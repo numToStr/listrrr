@@ -24,7 +24,7 @@ app.use(compression());
 // For securing headers
 app.use(helmet());
 
-app.get("/schema.gql", async (_, res, next) => {
+app.get("/schema.gql", async (_, res: Response, next: NextFunction) => {
     try {
         await pipelineAsync(
             createReadStream(schemaFilePath, {
@@ -38,7 +38,7 @@ app.get("/schema.gql", async (_, res, next) => {
 });
 
 // Handler for redirecting request to server static files or graphql api
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     try {
         const isGQL = req.url.startsWith(gqlPath);
 
