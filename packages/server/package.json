@@ -31,9 +31,9 @@
         "graphql-relay": "^0.6.0",
         "helmet": "^3.21.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.8.3",
+        "mongoose": "^5.8.4",
         "reflect-metadata": "^0.1.13",
-        "type-graphql": "^0.18.0-beta.8"
+        "type-graphql": "^0.17.6"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
@@ -43,10 +43,10 @@
         "@types/graphql-relay": "^0.4.11",
         "@types/helmet": "^0.0.45",
         "@types/jsonwebtoken": "^8.3.4",
-        "@types/mongoose": "^5.5.36",
-        "@types/node": "^13.1.1",
-        "@typescript-eslint/eslint-plugin": "^2.13.0",
-        "@typescript-eslint/parser": "^2.13.0",
+        "@types/mongoose": "^5.5.38",
+        "@types/node": "^13.1.4",
+        "@typescript-eslint/eslint-plugin": "^2.14.0",
+        "@typescript-eslint/parser": "^2.14.0",
         "dotenv": "^8.1.0",
         "eslint": "^6.8.0",
         "eslint-config-airbnb-base": "^14.0.0",
