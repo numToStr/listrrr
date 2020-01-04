@@ -8,7 +8,7 @@ import {
     CreateProjectInput,
     RearrangeColumnFindInput,
 } from "./project.resolver";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { RearrangeColumnInput, Filters } from "../shared/shared.schema";
@@ -17,7 +17,7 @@ import { ConnectionArgsType } from "../../utils/schema/connection";
 import { RootService } from "../../utils/fns/root.service";
 
 export class ProjectService extends RootService {
-    constructor(ctx: Context, info: GraphQLResolveInfo) {
+    constructor(ctx: AppContext, info: GraphQLResolveInfo) {
         super(ctx, info);
     }
 

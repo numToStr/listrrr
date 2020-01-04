@@ -11,7 +11,7 @@ import {
 } from "type-graphql";
 import { AuthRolesEnum } from "../user/user.schema";
 import { Issue } from "../issue/issue.schema";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { FindInput, TitleAndDescSchema } from "./shared.schema";
 import { Project } from "../project/project.schema";
 import { SharedService } from "./shared.service";
@@ -53,7 +53,7 @@ export class SharedResolver {
         description: "For closing/reopening a particular issue/project",
     })
     closeOrOpen(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Arg("where") where: FindEntityInput,
         @Arg("data") data: ClosedInput
     ) {
@@ -67,7 +67,7 @@ export class SharedResolver {
             "For updating title and description of a particular issue/project",
     })
     updateTitleAndDescription(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Arg("where") where: FindEntityInput,
         @Arg("data") data: TitleAndDescSchema
     ) {

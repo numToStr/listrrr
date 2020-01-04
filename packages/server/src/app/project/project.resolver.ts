@@ -17,7 +17,7 @@ import { Types } from "mongoose";
 import { Project, ProjectConnection } from "./project.schema";
 import { ProjectService } from "./project.service";
 import { User, AuthRolesEnum } from "../user/user.schema";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { Column } from "../column/column.schema";
 import {
     FindInput,
@@ -46,12 +46,12 @@ export class RearrangeColumnFindInput extends ColumnIDInput {
 export class ProjectConnectionResolver {
     // Field Resolvers ==========================================================
     @FieldResolver(() => Number)
-    closedCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+    closedCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
         return new ProjectService(ctx, info).closedCount();
     }
 
     @FieldResolver(() => Number)
-    openCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+    openCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
         return new ProjectService(ctx, info).openCount();
     }
 
@@ -59,7 +59,7 @@ export class ProjectConnectionResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => ProjectConnection)
     async projectConnections(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Args() args: ConnectionArgsType,
         @Arg("filters") filters: Filters
@@ -73,7 +73,7 @@ export class ProjectResolver {
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
     async createdBy(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Root() { userID }: Project
     ): Promise<User> {
         return ctx.userLoader.load(userID as Types.ObjectId);
@@ -81,7 +81,7 @@ export class ProjectResolver {
 
     @FieldResolver(() => [Column])
     async columns(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Root() { columnIDs }: Project
     ): Promise<(Column | Error)[]> {
         return ctx.columnLoader.loadMany(columnIDs as Types.ObjectId[]);
@@ -93,7 +93,7 @@ export class ProjectResolver {
         nullable: "items",
     })
     async projects(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("filters") filters: Filters
     ): Promise<Project[]> {
@@ -105,7 +105,7 @@ export class ProjectResolver {
         nullable: true,
     })
     async project(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") { _id }: FindInput
     ): Promise<Project> {
@@ -115,7 +115,7 @@ export class ProjectResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Project)
     async createProject(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("data") data: CreateProjectInput
     ): Promise<Project> {
@@ -125,7 +125,7 @@ export class ProjectResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async rearrangeColumn(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") where: RearrangeColumnFindInput,
         @Arg("data") data: RearrangeColumnInput

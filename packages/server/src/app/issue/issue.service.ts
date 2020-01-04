@@ -4,7 +4,7 @@ import { Connection, connectionFromArraySlice } from "graphql-relay";
 import { IssueDAL } from "./issue.dal";
 import { Issue, IssueConnection } from "./issue.schema";
 import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { FindInput, Filters } from "../shared/shared.schema";
@@ -13,7 +13,7 @@ import { ConnectionArgsType } from "../../utils/schema/connection";
 import { RootService } from "../../utils/fns/root.service";
 
 export class IssueService extends RootService {
-    constructor(ctx: Context, info: GraphQLResolveInfo) {
+    constructor(ctx: AppContext, info: GraphQLResolveInfo) {
         super(ctx, info);
     }
 

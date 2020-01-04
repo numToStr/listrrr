@@ -1,10 +1,10 @@
 import { AuthChecker } from "type-graphql";
 import { ForbiddenError, AuthenticationError } from "apollo-server";
-import { Context } from "../../network/context";
+import { AppContext } from "../schema/context";
 import TokenUtil from "./token.util";
 import { AuthRolesEnum } from "../../app/user/user.schema";
 
-export const authChecker: AuthChecker<Context, AuthRolesEnum> = (
+export const authChecker: AuthChecker<AppContext, AuthRolesEnum> = (
     { context },
     roles
 ): boolean => {

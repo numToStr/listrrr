@@ -1,15 +1,15 @@
 import { IncomingMessage } from "http";
-import { TokenPayload } from "../@types/types";
-import { userLoader } from "../utils/dataloader/user.loader";
-import { projectLoader } from "../utils/dataloader/project.loader";
-import { columnLoader } from "../utils/dataloader/column.loader";
-import { issueLoader } from "../utils/dataloader/issue.loader";
+import { TokenPayload } from "../../@types/types";
+import { userLoader } from "../dataloader/user.loader";
+import { projectLoader } from "../dataloader/project.loader";
+import { columnLoader } from "../dataloader/column.loader";
+import { issueLoader } from "../dataloader/issue.loader";
 
 interface ApolloContext {
     req: IncomingMessage;
 }
 
-export class Context {
+export class AppContext {
     private me: TokenPayload;
 
     userLoader = userLoader();
@@ -28,6 +28,10 @@ export class Context {
 
     get USER(): TokenPayload {
         return this.me;
+    }
+
+    set USER(user) {
+        this.me = user;
     }
 
     setUser(payload: TokenPayload) {

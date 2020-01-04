@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import {
     RearrangeIssueFindInput,
     RearrangeIssueInput,
@@ -7,7 +7,7 @@ import {
 import { ColumnDAL } from "./column.dal";
 
 export class ColumnService {
-    constructor(private ctx: Context) {}
+    constructor(private ctx: AppContext) {}
 
     private get ID() {
         return Types.ObjectId(this.ctx.USER.ID);

@@ -8,7 +8,7 @@ import compression from "compression";
 import helmet from "helmet";
 import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
-import { Context } from "./context";
+import { AppContext } from "../utils/schema/context";
 import { authChecker } from "../utils/fns/authChecker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
 
@@ -72,7 +72,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
     return new ApolloServer({
         schema,
-        context: (ctx): Context => new Context(ctx),
+        context: (ctx): AppContext => new AppContext(ctx),
     }).applyMiddleware({ app, path: gqlPath });
 })();
 

@@ -12,7 +12,7 @@ import {
 import { Types } from "mongoose";
 import { Column } from "./column.schema";
 import { Issue } from "../issue/issue.schema";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { AuthRolesEnum } from "../user/user.schema";
 import { ColumnService } from "./column.service";
 import { ColumnIDInput, RearrangeColumnInput } from "../shared/shared.schema";
@@ -35,7 +35,7 @@ export class ColumnResolver {
         nullable: "items",
     })
     async issues(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Root() { issueIDs = [] }: Column
     ): Promise<(Issue | Error)[]> {
         return ctx.issueLoader.loadMany(issueIDs as Types.ObjectId[]);
@@ -44,7 +44,7 @@ export class ColumnResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async rearrangeIssue(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Arg("where") where: RearrangeIssueFindInput,
         @Arg("data") data: RearrangeIssueInput
     ): Promise<boolean> {
