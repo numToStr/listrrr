@@ -22,7 +22,7 @@ import {
     TitleAndDescSchema,
     Filters,
 } from "../shared/shared.schema";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
 
@@ -47,12 +47,12 @@ export class UpdateIssueProjectInput {
 export class IssueConnectionResolver {
     // Field Resolvers ==========================================================
     @FieldResolver(() => Number)
-    closedCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+    closedCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
         return new IssueService(ctx, info).closedCount();
     }
 
     @FieldResolver(() => Number)
-    openCount(@Ctx() ctx: Context, @Info() info: GraphQLResolveInfo) {
+    openCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
         return new IssueService(ctx, info).openCount();
     }
 
@@ -60,7 +60,7 @@ export class IssueConnectionResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => IssueConnection)
     async issueConnection(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Args() args: ConnectionArgsType,
         @Arg("filters") filters: Filters
@@ -74,7 +74,7 @@ export class IssueResolver {
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
     async createdBy(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Root() { userID }: Project
     ): Promise<User> {
         return ctx.userLoader.load(userID as Types.ObjectId);
@@ -83,7 +83,7 @@ export class IssueResolver {
     @FieldResolver(() => Project)
     async projects(
         @Root() { projectIDs }: Issue,
-        @Ctx() ctx: Context
+        @Ctx() ctx: AppContext
     ): Promise<(Project | Error)[]> {
         return ctx.projectLoader.loadMany(projectIDs as Array<Types.ObjectId>);
     }
@@ -94,7 +94,7 @@ export class IssueResolver {
         nullable: "items",
     })
     async issues(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("filters") filters: Filters
     ): Promise<Issue[]> {
@@ -106,7 +106,7 @@ export class IssueResolver {
         nullable: true,
     })
     async issue(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") { _id }: FindInput
     ): Promise<Issue> {
@@ -116,7 +116,7 @@ export class IssueResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Issue)
     async createIssue(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("data") data: CreateIssueInput
     ): Promise<Issue> {
@@ -128,7 +128,7 @@ export class IssueResolver {
         nullable: true,
     })
     async updateIssueProjects(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") where: FindInput,
         @Arg("data") data: UpdateIssueProjectInput
@@ -141,7 +141,7 @@ export class IssueResolver {
         nullable: true,
     })
     async deleteIssue(
-        @Ctx() ctx: Context,
+        @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") where: FindInput
     ): Promise<Issue> {

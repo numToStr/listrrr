@@ -11,7 +11,7 @@
     },
     "scripts": {
         "start": "NODE_ENV=production NODE_DEBUG=www node src/bin/www.js",
-        "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json --ignore generated -r dotenv/config src/bin/www.ts",
+        "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json -r dotenv/config src/bin/www.ts",
         "build": "NODE_ENV=production rimraf build && tsc --build tsconfig.json",
         "lint": "eslint --ext .js,.ts --fix --fix-type suggestion .",
         "start:build": "yarn build && yarn prod",
@@ -21,19 +21,19 @@
     "dependencies": {
         "@listrrr/core": "^1.0.0",
         "@typegoose/typegoose": "^6.2.0",
-        "apollo-server": "^2.9.15",
-        "apollo-server-express": "^2.9.15",
+        "apollo-server": "^2.9.16",
+        "apollo-server-fastify": "^2.9.16",
         "bcryptjs": "^2.4.3",
-        "compression": "^1.7.4",
         "dataloader": "^2.0.0",
-        "express": "^4.17.1",
+        "fastify": "^2.11.0",
+        "fastify-compress": "^2.0.0",
+        "fastify-helmet": "^3.0.2",
         "graphql": "^14.5.8",
         "graphql-relay": "^0.6.0",
-        "helmet": "^3.21.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.8.3",
+        "mongoose": "^5.8.4",
         "reflect-metadata": "^0.1.13",
-        "type-graphql": "^0.18.0-beta.8"
+        "type-graphql": "^0.17.6"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
@@ -42,11 +42,11 @@
         "@types/graphql": "^14.5.0",
         "@types/graphql-relay": "^0.4.11",
         "@types/helmet": "^0.0.45",
-        "@types/jsonwebtoken": "^8.3.4",
-        "@types/mongoose": "^5.5.36",
-        "@types/node": "^13.1.1",
-        "@typescript-eslint/eslint-plugin": "^2.13.0",
-        "@typescript-eslint/parser": "^2.13.0",
+        "@types/jsonwebtoken": "^8.3.6",
+        "@types/mongoose": "^5.5.38",
+        "@types/node": "^13.1.7",
+        "@typescript-eslint/eslint-plugin": "^2.16.0",
+        "@typescript-eslint/parser": "^2.16.0",
         "dotenv": "^8.1.0",
         "eslint": "^6.8.0",
         "eslint-config-airbnb-base": "^14.0.0",
@@ -57,7 +57,7 @@
         "nodemon": "^2.0.2",
         "prettier": "^1.19.1",
         "rimraf": "^3.0.0",
-        "ts-node": "^8.5.4",
-        "typescript": "^3.7.4"
+        "ts-node": "^8.6.2",
+        "typescript": "^3.7.5"
     }
 }

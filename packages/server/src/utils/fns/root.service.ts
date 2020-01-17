@@ -1,11 +1,11 @@
 import { GraphQLResolveInfo } from "graphql";
 import { Types } from "mongoose";
-import { Context } from "../../network/context";
+import { AppContext } from "../schema/context";
 import { gqlAstToMongoSelect } from "../schema/ast";
 
 export abstract class RootService {
     constructor(
-        private readonly ctx: Context,
+        private readonly ctx: AppContext,
         private readonly info: GraphQLResolveInfo
     ) {}
 

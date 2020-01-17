@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Context } from "../../network/context";
+import { AppContext } from "../../utils/schema/context";
 import {
     FindEntityInput,
     ClosedInput,
@@ -11,7 +11,7 @@ import { ProjectDAL } from "../project/project.dal";
 import { TitleAndDescSchema } from "./shared.schema";
 
 export class SharedService {
-    constructor(private ctx: Context) {}
+    constructor(private ctx: AppContext) {}
 
     private get ID() {
         return Types.ObjectId(this.ctx.USER.ID);
