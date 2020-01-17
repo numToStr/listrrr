@@ -17,27 +17,29 @@ import { PORT, MONGO_URI } from "../config/keys";
 import { app } from "../network/server";
 import { db } from "../network/db";
 import debug from "../utils/fns/debug";
-import { ErrorHandler } from "../@types/types";
 
-db(MONGO_URI)
-    .then(() => {
-        debug.www("[MONGO] >> Connected");
+// Responsible for bootstrapping the server and db connections
+async function bootstrapApp() {
+    await db(MONGO_URI);
+    debug.www("[MONGO] >> Connected");
 
-        app.listen(PORT, () => {
-            debug.www(`[SERVER]:${PORT} >> Connected`);
-        });
-    })
-    .catch((error: Error) => {
-        throw error;
-    });
+    await app.listen(PORT);
+    debug.www(`[SERVER]:${PORT} >> Connected`);
 
-const errorHandler: ErrorHandler = (error, event) => {
+    debug.www(`>> Playground: http://localhost:${PORT}/playground`);
+}
+
+// Common Error handler for common interruptions
+function errorHandler(error: Error | null, event: string) {
     if (error) {
         throw error;
     }
 
     throw new Error(`${event} caught`);
-};
+}
+
+// This will connect to db and start-up the server
+bootstrapApp();
 
 process.on("beforeExit", () => errorHandler(null, "beforeExit"));
 process.on("exit", () => errorHandler(null, "exit"));

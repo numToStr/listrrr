@@ -1,12 +1,12 @@
-import { IncomingMessage } from "http";
+import { FastifyRequest } from "fastify";
 import { TokenPayload } from "../../@types/types";
 import { userLoader } from "../dataloader/user.loader";
 import { projectLoader } from "../dataloader/project.loader";
 import { columnLoader } from "../dataloader/column.loader";
 import { issueLoader } from "../dataloader/issue.loader";
 
-interface ApolloContext {
-    req: IncomingMessage;
+export interface GQLContext {
+    request: FastifyRequest;
 }
 
 export class AppContext {
@@ -20,10 +20,10 @@ export class AppContext {
 
     issueLoader = issueLoader();
 
-    constructor(private ctx: ApolloContext) {}
+    constructor(private ctx: GQLContext) {}
 
     get token(): string | undefined {
-        return this.ctx.req.headers.authorization;
+        return this.ctx.request.headers.authorization;
     }
 
     get USER(): TokenPayload {
