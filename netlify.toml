@@ -4,6 +4,7 @@
     command = "yarn build:client"
     ignore = "git diff --quiet HEAD^ HEAD packages/server/"
     [build.environment]
+        NODE_ENV = "production"
         REACT_APP_BASE_URI = "https://listrrr.herokuapp.com"
 
 # The following redirect is intended for use with most SPAs that handle
