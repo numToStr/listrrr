@@ -23,10 +23,11 @@ async function bootstrapApp() {
     await db(MONGO_URI);
     debug.www("[MONGO] >> Connected");
 
-    await app.listen(PORT);
+    // When deploying to a Docker (or other type of) container using 0.0.0.0 or :: would be the easiest method for exposing the application.
+    await app.listen(Number(PORT), "::");
     debug.www(`[SERVER]:${PORT} >> Connected`);
 
-    debug.www(`>> Playground: http://localhost:${PORT}/gql`);
+    debug.www(`[PLAYGROUND] >> http://localhost:${PORT}/gql`);
 }
 
 // Common Error handler for common interruptions
