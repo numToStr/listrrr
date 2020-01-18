@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { hot } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import RouteRenderer from "./components/Routes/RouteRenderer";
@@ -9,7 +8,7 @@ import { MyApolloContext } from "./components/ApolloContext";
 import { ThemeContext } from "./components/Theme/ThemeContext";
 import { useIMeQuery } from "./gql/user.query";
 
-const Root = hot(module)(() => {
+const Root = () => {
     const { loading } = useIMeQuery();
 
     if (loading) {
@@ -17,7 +16,7 @@ const Root = hot(module)(() => {
     }
 
     return <RouteRenderer routes={routesConfig} defaultRedirect="/" />;
-});
+};
 
 const App: React.FC = () => {
     return (

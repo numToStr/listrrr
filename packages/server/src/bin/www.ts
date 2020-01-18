@@ -26,7 +26,7 @@ async function bootstrapApp() {
     await app.listen(PORT);
     debug.www(`[SERVER]:${PORT} >> Connected`);
 
-    debug.www(`>> Playground: http://localhost:${PORT}/playground`);
+    debug.www(`>> Playground: http://localhost:${PORT}/gql`);
 }
 
 // Common Error handler for common interruptions
