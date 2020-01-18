@@ -28,9 +28,9 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
+        "build": "react-scripts build",
         "test": "react-app-rewired test",
-        "eject": "react-app-rewired eject",
+        "eject": "react-scripts eject",
         "gql:init": "graphql-codegen init",
         "gql:gen": "graphql-codegen --config codegen.yml"
     },
