@@ -1,7 +1,9 @@
-const rewireReactHotLoader = require("react-app-rewire-hot-loader");
+const { override } = require("customize-cra");
+const { addReactRefresh } = require("customize-cra-react-refresh");
 
 /* config-overrides.js */
-module.exports = function override(config, env) {
-    config = rewireReactHotLoader(config, env);
-    return config;
-};
+module.exports = override(
+    addReactRefresh({
+        disableRefreshCheck: true,
+    })
+);
