@@ -115,6 +115,7 @@ export const useILogout = () => {
 
         // This is not working
         // Github issue: https://github.com/apollographql/apollo-client/issues/5725
-        client?.clearStore();
+        // NOW FIXED ===
+        return client?.clearStore();
     };
 };
