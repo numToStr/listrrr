@@ -2737,7 +2737,7 @@ apollo-server-env@^2.4.3:
     node-fetch "^2.1.2"
     util.promisify "^1.0.0"
 
-apollo-server-errors@^2.0.2:
+apollo-server-errors@^2.0.2, apollo-server-errors@^2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.3.4.tgz#b70ef01322f616cbcd876f3e0168a1a86b82db34"
   integrity sha512-Y0PKQvkrb2Kd18d1NPlHdSqmlr8TgqJ7JQcNIfhNDgdb45CnqZlxL1abuIRhr8tiw8OhVOcFxz2KyglBi8TKdA==

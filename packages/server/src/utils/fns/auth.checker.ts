@@ -1,5 +1,5 @@
 import { AuthChecker } from "type-graphql";
-import { ForbiddenError, AuthenticationError } from "apollo-server";
+import { ForbiddenError, AuthenticationError } from "apollo-server-errors";
 import { AppContext } from "../schema/context";
 import { AuthRolesEnum } from "../../app/user/user.schema";
 import TokenUtil from "./token.util";
