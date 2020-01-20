@@ -14,7 +14,7 @@ import {
 import StorageUtil from "../utils/storage";
 import { MeDocument } from "../generated/graphql";
 
-const URI = [process.env.REACT_APP_BASE_URI, "/gql"].join("");
+const URI = [process.env.REACT_APP_BASE_URI, "/graphql"].join("");
 
 interface Header {
     authorization?: string;
