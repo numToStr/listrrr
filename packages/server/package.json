@@ -21,8 +21,6 @@
     "dependencies": {
         "@listrrr/core": "^1.0.0",
         "@typegoose/typegoose": "^6.2.0",
-        "apollo-server": "^2.9.16",
-        "apollo-server-fastify": "^2.9.16",
         "bcryptjs": "^2.4.3",
         "dataloader": "^2.0.0",
         "fastify": "^2.11.0",
