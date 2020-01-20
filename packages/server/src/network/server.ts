@@ -1,13 +1,13 @@
 import { join } from "path";
 import { createReadStream } from "fs";
 import fastify, { FastifyRequest } from "fastify";
-import { ApolloServer } from "apollo-server-fastify";
+import fastifyGQL from "fastify-gql";
 import fastifyHelmet from "fastify-helmet";
 import fastifyCompress from "fastify-compress";
 import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
 import { AppContext } from "../utils/schema/context";
-import { authChecker } from "../utils/fns/authChecker";
+import { authChecker } from "../utils/fns/auth.checker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
 
 export const app = fastify();
@@ -38,21 +38,21 @@ app.register(fastifyHelmet);
 // Adding compression
 app.register(fastifyCompress);
 
-bootstrapSchema().then(schema => {
-    const server = new ApolloServer({
-        schema,
-        context: (request: FastifyRequest) => new AppContext({ request }),
-    });
-
-    server.createHandler({
-        path: "/gql",
-    })(app);
-});
-
 app.get("/schema.gql", (_, reply) => {
     const rawSchema = createReadStream(schemaFilePath, {
         encoding: "utf-8",
     });
 
     reply.header("Content-Type", "text/plain").send(rawSchema);
+});
+
+bootstrapSchema().then(schema => {
+    app.register(fastifyGQL, {
+        schema,
+        routes: true,
+        graphiql: "playground",
+        path: "/graphql",
+        jit: 1,
+        context: (request: FastifyRequest) => new AppContext(request),
+    });
 });
