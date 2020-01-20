@@ -3,6 +3,7 @@ import { createReadStream } from "fs";
 import fastify, { FastifyRequest } from "fastify";
 import fastifyGQL from "fastify-gql";
 import fastifyHelmet from "fastify-helmet";
+import fastifyCORS from "fastify-cors";
 import fastifyCompress from "fastify-compress";
 import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
@@ -34,9 +35,10 @@ async function bootstrapSchema() {
 }
 // For securing headers
 app.register(fastifyHelmet);
-
 // Adding compression
 app.register(fastifyCompress);
+// Adding CORS
+app.register(fastifyCORS);
 
 app.get("/schema.gql", (_, reply) => {
     const rawSchema = createReadStream(schemaFilePath, {
