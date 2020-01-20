@@ -48,9 +48,9 @@ const UserOptions = () => {
     const [open, setOpen] = useState(false);
 
     const toggleDailog = useCallback(() => setOpen(v => !v), [setOpen]);
-    const onTapItem = (fn: Function) => () => {
-        fn();
+    const onTapItem = (fn: Function) => async () => {
         setAnchorEl(null);
+        await fn();
     };
 
     const lists = useMemo<MenuList[]>(

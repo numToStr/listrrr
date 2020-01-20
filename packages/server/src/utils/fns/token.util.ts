@@ -1,5 +1,5 @@
-import { AuthenticationError } from "apollo-server";
 import jwt from "jsonwebtoken";
+import { AuthenticationError } from "apollo-server-errors";
 import { TokenPayload } from "../../@types/types";
 import { TOKEN_KEY, TOKEN_EXP } from "../../config/keys";
 

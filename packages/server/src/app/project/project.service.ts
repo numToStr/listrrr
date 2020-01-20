@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { UserInputError } from "apollo-server";
+import { UserInputError } from "apollo-server-errors";
 import { GraphQLResolveInfo } from "graphql";
 import { connectionFromArraySlice, Connection } from "graphql-relay";
 import { ProjectDAL } from "./project.dal";

@@ -1,8 +1,8 @@
 import { AuthChecker } from "type-graphql";
-import { ForbiddenError, AuthenticationError } from "apollo-server";
+import { ForbiddenError, AuthenticationError } from "apollo-server-errors";
 import { AppContext } from "../schema/context";
-import TokenUtil from "./token.util";
 import { AuthRolesEnum } from "../../app/user/user.schema";
+import TokenUtil from "./token.util";
 
 export const authChecker: AuthChecker<AppContext, AuthRolesEnum> = (
     { context },
@@ -14,17 +14,16 @@ export const authChecker: AuthChecker<AppContext, AuthRolesEnum> = (
         throw new ForbiddenError("Authentication required! Please login.");
     }
 
-    const decodedToken = TokenUtil.verify(token);
+    const decoded = TokenUtil.verify(token);
 
-    const rolesSet = new Set(roles);
-
-    if (!rolesSet.has(decodedToken.ROLE)) {
+    if (!roles.includes(decoded.ROLE)) {
         throw new AuthenticationError(
             "You are not authorized to perform this action."
         );
     }
 
-    context.setUser(decodedToken);
+    // eslint-disable-next-line no-param-reassign
+    context.USER = decoded;
 
     return true;
 };

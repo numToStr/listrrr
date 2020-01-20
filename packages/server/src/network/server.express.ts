@@ -9,7 +9,7 @@ import helmet from "helmet";
 import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
 import { AppContext, GQLContext } from "../utils/schema/context";
-import { authChecker } from "../utils/fns/authChecker";
+import { authChecker } from "../utils/fns/auth.checker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
 
 export const app = express();
