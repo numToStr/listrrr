@@ -40,7 +40,6 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                         </Link>
                         <UpdatedAt date={issue.updatedAt} />
                     </Box>
-                    {provided.placeholder}
                 </Grid>
             )}
         </Draggable>

@@ -37,7 +37,6 @@ const ColumnItem: FC<Props> = ({ column, index }) => {
                                 issues={column.issues}
                             />
                         </Box>
-                        {provided.placeholder}
                     </Grid>
                 );
             }}
