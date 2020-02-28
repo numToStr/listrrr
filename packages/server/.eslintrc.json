@@ -39,6 +39,7 @@
         ],
         "import/no-cycle": "off",
         "import/prefer-default-export": "off",
+        "import/extensions": ["error", "never", { "json": "always" }],
         "@typescript-eslint/no-useless-constructor": "off",
         "@typescript-eslint/explicit-function-return-type": [
             "off",
