@@ -124,15 +124,13 @@ export class IssueResolver {
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Issue, {
-        nullable: true,
-    })
+    @Mutation(() => Boolean)
     async updateIssueProjects(
         @Ctx() ctx: AppContext,
         @Info() info: GraphQLResolveInfo,
         @Arg("where") where: FindInput,
         @Arg("data") data: UpdateIssueProjectInput
-    ): Promise<Issue> {
+    ): Promise<boolean> {
         return new IssueService(ctx, info).updateIssueProjects(where, data);
     }
 

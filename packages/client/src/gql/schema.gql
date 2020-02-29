@@ -154,3 +154,10 @@ query Templates {
         title
     }
 }
+
+mutation UpdateIssueProjects(
+    $where: FindInput!
+    $data: UpdateIssueProjectInput!
+) {
+    updateIssueProjects(where: $where, data: $data)
+}

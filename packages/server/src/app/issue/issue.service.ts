@@ -108,13 +108,13 @@ export class IssueService extends RootService {
     async updateIssueProjects(
         { _id }: FindInput,
         { projectIDs }: UpdateIssueProjectInput
-    ): Promise<Issue> {
-        return new IssueDAL({
+    ): Promise<boolean> {
+        const issue = await new IssueDAL({
             _id,
             userID: this.ID,
-        }).updateOne({
-            projectIDs,
-        });
+        }).updateOne({ projectIDs }, { select: "_id" });
+
+        return !!issue;
     }
 
     async deleteIssue({ _id }: FindInput): Promise<Issue> {

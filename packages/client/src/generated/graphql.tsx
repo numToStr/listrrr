@@ -106,7 +106,7 @@ export type Mutation = {
   signup: AuthResponse,
   rearrangeIssue: Scalars['Boolean'],
   createIssue: Issue,
-  updateIssueProjects?: Maybe<Issue>,
+  updateIssueProjects: Scalars['Boolean'],
   deleteIssue?: Maybe<Issue>,
   createProject: Project,
   rearrangeColumn: Scalars['Boolean'],
@@ -442,6 +442,14 @@ export type TemplatesQueryVariables = {};
 
 
 export type TemplatesQuery = { templates: Array<Maybe<Pick<Template, '_id' | 'title'>>> };
+
+export type UpdateIssueProjectsMutationVariables = {
+  where: FindInput,
+  data: UpdateIssueProjectInput
+};
+
+
+export type UpdateIssueProjectsMutation = Pick<Mutation, 'updateIssueProjects'>;
 
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
@@ -1000,3 +1008,34 @@ export function useTemplatesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type TemplatesQueryHookResult = ReturnType<typeof useTemplatesQuery>;
 export type TemplatesLazyQueryHookResult = ReturnType<typeof useTemplatesLazyQuery>;
 export type TemplatesQueryResult = ApolloReactCommon.QueryResult<TemplatesQuery, TemplatesQueryVariables>;
+export const UpdateIssueProjectsDocument = gql`
+    mutation UpdateIssueProjects($where: FindInput!, $data: UpdateIssueProjectInput!) {
+  updateIssueProjects(where: $where, data: $data)
+}
+    `;
+export type UpdateIssueProjectsMutationFn = ApolloReactCommon.MutationFunction<UpdateIssueProjectsMutation, UpdateIssueProjectsMutationVariables>;
+
+/**
+ * __useUpdateIssueProjectsMutation__
+ *
+ * To run a mutation, you first call `useUpdateIssueProjectsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateIssueProjectsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateIssueProjectsMutation, { data, loading, error }] = useUpdateIssueProjectsMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateIssueProjectsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateIssueProjectsMutation, UpdateIssueProjectsMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateIssueProjectsMutation, UpdateIssueProjectsMutationVariables>(UpdateIssueProjectsDocument, baseOptions);
+      }
+export type UpdateIssueProjectsMutationHookResult = ReturnType<typeof useUpdateIssueProjectsMutation>;
+export type UpdateIssueProjectsMutationResult = ApolloReactCommon.MutationResult<UpdateIssueProjectsMutation>;
+export type UpdateIssueProjectsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateIssueProjectsMutation, UpdateIssueProjectsMutationVariables>;
