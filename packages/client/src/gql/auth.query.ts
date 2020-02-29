@@ -16,7 +16,7 @@ interface IMe {
     me: AuthFragmentFragment["user"];
 }
 
-interface IAuth {
+interface IAuth extends IIsLoggedIn {
     auth: AuthFragmentFragment["auth"];
 }
 
@@ -39,6 +39,7 @@ export const useILoginMutation = () => {
                 cache.writeData<IAuth>({
                     data: {
                         auth,
+                        isLoggedIn: true,
                     },
                 });
 
@@ -72,6 +73,7 @@ export const useISignupMutation = () => {
                 cache.writeData<IAuth>({
                     data: {
                         auth,
+                        isLoggedIn: true,
                     },
                 });
 
