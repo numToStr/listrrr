@@ -35,8 +35,8 @@ export class FindEntityInput extends FindInput {
 
 export const Entity = createUnionType({
     name: "EntityUnion",
-    types: [Issue, Project],
-    resolveType(value) {
+    types: () => [Issue, Project],
+    resolveType: value => {
         if ("templateID" in value) {
             return Project;
         }

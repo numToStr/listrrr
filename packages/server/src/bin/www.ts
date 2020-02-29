@@ -14,7 +14,7 @@ setGlobalOptions({
 });
 
 import { PORT, MONGO_URI } from "../config/keys";
-import { app } from "../network/server";
+import { server } from "../network/server";
 import { db } from "../network/db";
 import debug from "../utils/fns/debug";
 
@@ -24,7 +24,7 @@ async function bootstrapApp() {
     debug.www("[MONGO] >> Connected");
 
     // When deploying to a Docker (or other type of) container using 0.0.0.0 or :: would be the easiest method for exposing the application.
-    await app.listen(Number(PORT), "::");
+    await (await server).listen(Number(PORT), "::");
     debug.www(`[SERVER]:${PORT} >> Connected`);
 
     debug.www(`[PLAYGROUND] >> http://localhost:${PORT}/playground`);

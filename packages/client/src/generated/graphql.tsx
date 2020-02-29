@@ -9,9 +9,7 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any,
-  /** Mongo object id scalar type */
   ObjectId: any,
 };
 
@@ -25,7 +23,6 @@ export type AuthResponse = {
   auth: AuthInfo,
 };
 
-/** Roles for the authenticated users */
 export enum AuthRoles {
   USER = 'USER',
   ADMIN = 'ADMIN'
@@ -44,19 +41,16 @@ export type Column = {
 export type CreateIssueInput = {
   title: Scalars['String'],
   description: Scalars['String'],
-  /** Project IDs for the issue which it belongs */
   projectIDs: Array<Maybe<Scalars['ObjectId']>>,
 };
 
 export type CreateProjectInput = {
   title: Scalars['String'],
   description: Scalars['String'],
-  /** Template ID for the project */
   templateID: Scalars['ObjectId'],
 };
 
 
-/** Roles for the authenticated users */
 export enum EntityType {
   ISSUE = 'ISSUE',
   PROJECT = 'PROJECT'
@@ -89,15 +83,26 @@ export type Issue = {
   updatedAt: Scalars['DateTime'],
 };
 
+export type IssueConnection = {
+  edges: Array<IssueEdge>,
+  pageInfo: PageInfo,
+  totalCount: Scalars['Float'],
+  closedCount: Scalars['Float'],
+  openCount: Scalars['Float'],
+};
+
+export type IssueEdge = {
+  cursor: Scalars['String'],
+  node: Issue,
+};
+
 export type LoginInput = {
   email: Scalars['String'],
   password: Scalars['String'],
 };
 
 export type Mutation = {
-  /** For logging in user */
   login: AuthResponse,
-  /** For signing up new users */
   signup: AuthResponse,
   rearrangeIssue: Scalars['Boolean'],
   createIssue: Issue,
@@ -105,9 +110,7 @@ export type Mutation = {
   deleteIssue?: Maybe<Issue>,
   createProject: Project,
   rearrangeColumn: Scalars['Boolean'],
-  /** For closing/reopening a particular issue/project */
   closeOrOpen?: Maybe<EntityUnion>,
-  /** For updating title and description of a particular issue/project */
   updateTitleAndDescription?: Maybe<EntityUnion>,
 };
 
@@ -167,6 +170,13 @@ export type MutationUpdateTitleAndDescriptionArgs = {
 };
 
 
+export type PageInfo = {
+  hasNextPage: Scalars['Boolean'],
+  hasPreviousPage: Scalars['Boolean'],
+  startCursor: Scalars['String'],
+  endCursor: Scalars['String'],
+};
+
 export type Project = {
   _id: Scalars['ID'],
   title: Scalars['String'],
@@ -178,13 +188,37 @@ export type Project = {
   updatedAt: Scalars['DateTime'],
 };
 
+export type ProjectConnection = {
+  edges: Array<ProjectEdge>,
+  pageInfo: PageInfo,
+  totalCount: Scalars['Float'],
+  closedCount: Scalars['Float'],
+  openCount: Scalars['Float'],
+};
+
+export type ProjectEdge = {
+  cursor: Scalars['String'],
+  node: Project,
+};
+
 export type Query = {
+  issueConnection: IssueConnection,
   issues: Array<Maybe<Issue>>,
   issue?: Maybe<Issue>,
+  projectConnections: ProjectConnection,
   projects: Array<Maybe<Project>>,
   project?: Maybe<Project>,
   templates: Array<Maybe<Template>>,
   me: User,
+};
+
+
+export type QueryIssueConnectionArgs = {
+  filters: Filters,
+  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Scalars['String']>,
+  first?: Maybe<Scalars['Float']>,
+  last?: Maybe<Scalars['Float']>
 };
 
 
@@ -195,6 +229,15 @@ export type QueryIssuesArgs = {
 
 export type QueryIssueArgs = {
   where: FindInput
+};
+
+
+export type QueryProjectConnectionsArgs = {
+  filters: Filters,
+  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Scalars['String']>,
+  first?: Maybe<Scalars['Float']>,
+  last?: Maybe<Scalars['Float']>
 };
 
 
@@ -234,14 +277,12 @@ export type SignupInput = {
   username: Scalars['String'],
 };
 
-/** For specifying sorting options */
 export enum Sort {
   CREATED_ASC = 'CREATED_ASC',
   CREATED_DESC = 'CREATED_DESC',
   UPDATED_DESC = 'UPDATED_DESC'
 }
 
-/** For specifying a enitity status */
 export enum Status {
   OPEN = 'OPEN',
   CLOSED = 'CLOSED'
@@ -267,7 +308,6 @@ export type User = {
   _id: Scalars['ID'],
   username: Scalars['String'],
   email: Scalars['String'],
-  role: AuthRoles,
 };
 
 export type UserFragmentFragment = Pick<User, '_id' | 'username' | 'email'>;
