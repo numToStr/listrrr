@@ -26,8 +26,8 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                         bgcolor="background.paper"
                         borderRadius="borderRadius"
                         border={isDragging ? 2 : 1}
-                        borderColor={isDragging ? "inherit" : "primary.main"}
-                        boxShadow={isDragging ? 5 : 1}
+                        borderColor={isDragging ? "grey.700" : "grey.500"}
+                        boxShadow={isDragging ? 5 : 0}
                     >
                         <Link
                             color="textPrimary"
