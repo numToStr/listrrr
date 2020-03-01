@@ -27,7 +27,8 @@ const ColumnItem: FC<Props> = ({ column, index }) => {
                             height="100%"
                             borderRadius="borderRadius"
                             boxShadow={isDragging ? 5 : 0}
-                            border={`${isDragging ? 2 : 1}px solid #aaa`}
+                            borderColor={isDragging ? "grey.700" : "grey.500"}
+                            border={isDragging ? 2 : 1}
                         >
                             <Box mb={1}>
                                 <Typography variant="subtitle2">
