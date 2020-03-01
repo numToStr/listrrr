@@ -22,16 +22,19 @@ const ColumnItem: FC<Props> = ({ column, index }) => {
                         {...provided.dragHandleProps}
                     >
                         <Box
-                            p={2}
+                            p={1.5}
                             bgcolor="background.paper"
                             height="100%"
                             borderRadius="borderRadius"
-                            boxShadow={isDragging ? 5 : 1}
-                            border={isDragging ? 2 : 0}
+                            boxShadow={isDragging ? 5 : 0}
+                            border={`${isDragging ? 2 : 1}px solid #aaa`}
                         >
-                            <Typography variant="subtitle2" paragraph>
-                                {column.title}
-                            </Typography>
+                            <Box mb={1}>
+                                <Typography variant="subtitle2">
+                                    {column.title}
+                                </Typography>
+                            </Box>
+
                             <ColumnIssueList
                                 droppableId={column._id}
                                 issues={column.issues}

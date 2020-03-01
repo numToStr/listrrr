@@ -23,7 +23,6 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                 >
                     <Box
                         p={2}
-                        mb={1}
                         bgcolor="background.paper"
                         borderRadius="borderRadius"
                         border={isDragging ? 2 : 1}
