@@ -22,12 +22,28 @@ const ProjectView = () => {
         where: { _id: projectID },
     });
 
+    const handleCloseOrOpen = () => {
+        const { closed, _id } = data?.project ?? {};
+
+        closeOrOpen({
+            variables: {
+                data: {
+                    closed: !closed,
+                },
+                where: {
+                    _id,
+                    type: EntityType.PROJECT,
+                },
+            },
+        });
+    };
+
     const renderProject = () => {
         if (loading) {
             return <BaseLoader />;
         }
 
-        if (!data || !data.project) {
+        if (!data?.project) {
             return <Typography>No Project...</Typography>;
         }
 
@@ -39,20 +55,6 @@ const ProjectView = () => {
             closed,
             columns,
         } = data.project;
-
-        const handleCloseOrOpen = () => {
-            closeOrOpen({
-                variables: {
-                    data: {
-                        closed: !closed,
-                    },
-                    where: {
-                        _id,
-                        type: EntityType.PROJECT,
-                    },
-                },
-            });
-        };
 
         return (
             <Fragment>
@@ -73,7 +75,7 @@ const ProjectView = () => {
                         <Grid container spacing={2} alignItems="center">
                             <Grid item>
                                 <Button onClick={handleCloseOrOpen}>
-                                    Close
+                                    {closed ? "Reopen" : "Close"}
                                 </Button>
                             </Grid>
                             <Grid item>
