@@ -6,7 +6,7 @@ import { Issue, IssueConnection } from "./issue.schema";
 import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
 import { AppContext } from "../../utils/schema/context";
 import { ProjectDAL } from "../project/project.dal";
-import { ColumnDAL } from "../column/column.dal";
+import { ColumnDAL, OK } from "../column/column.dal";
 import { FindInput, Filters } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 import { ConnectionArgsType } from "../../utils/schema/connection";
@@ -94,10 +94,10 @@ export class IssueService extends RootService {
             projectIDs,
         });
 
-        if (projectIDs && projectIDs.length) {
+        if (projectIDs.length) {
             const columnIDs = await ProjectDAL.columns(projectIDs);
 
-            if (columnIDs && columnIDs.length) {
+            if (columnIDs.length) {
                 await ColumnDAL.updateColumnWithIssue(columnIDs, issue._id);
             }
         }
@@ -108,13 +108,28 @@ export class IssueService extends RootService {
     async updateIssueProjects(
         { _id }: FindInput,
         { projectIDs }: UpdateIssueProjectInput
-    ): Promise<Issue> {
-        return new IssueDAL({
-            _id,
-            userID: this.ID,
-        }).updateOne({
-            projectIDs,
-        });
+    ): Promise<boolean> {
+        // First remove issue from the all projects/columns
+        // Then update with the new projects
+        const [issue] = await Promise.all<Issue, OK>([
+            new IssueDAL({
+                _id,
+                userID: this.ID,
+            }).updateOne({ projectIDs }, { select: "_id" }),
+            ColumnDAL.removeIssueFromColumns(_id),
+        ]);
+
+        // If the projectIDs array is empty, which is when user deselect from all the projects
+        // then this will not run
+        if (projectIDs.length) {
+            const columnIDs = await ProjectDAL.columns(projectIDs);
+
+            if (columnIDs.length) {
+                await ColumnDAL.updateColumnWithIssue(columnIDs, issue._id);
+            }
+        }
+
+        return !!issue;
     }
 
     async deleteIssue({ _id }: FindInput): Promise<Issue> {

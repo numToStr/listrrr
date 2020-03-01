@@ -7,7 +7,7 @@ import BaseLoader from "../components/Base/BaseLoader";
 import BaseBlockQuote from "../components/Base/BaseBlockQuote";
 import CreatedAt from "../components/Date/CreatedAt";
 import EditDetails from "../components/EditDetails";
-import { EntityType, Project, Maybe } from "../generated/graphql";
+import { EntityType } from "../generated/graphql";
 import StatusIndicator from "../components/StatusIndicator";
 import IssueCommentForm from "../components/Issue/IssueCommentForm";
 import ProjectSelection from "../components/Project/ProjectSelection";
@@ -23,16 +23,6 @@ const IssueView = () => {
             _id: issueID,
         },
     });
-
-    const renderIssueProjects = (
-        projects: Maybe<Pick<Project, "_id" | "title">>[]
-    ) => {
-        if (!projects.length) {
-            return <Typography variant="caption">No Projects...</Typography>;
-        }
-
-        return <ProjectSelection projects={projects} />;
-    };
 
     const renderIssue = useCallback(() => {
         if (loading) {
@@ -87,7 +77,7 @@ const IssueView = () => {
                     </Grid>
                     <Hidden xsDown>
                         <Grid item xs>
-                            {renderIssueProjects(projects)}
+                            <ProjectSelection projects={projects} />
                         </Grid>
                     </Hidden>
                 </Grid>

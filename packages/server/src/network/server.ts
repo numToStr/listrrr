@@ -11,7 +11,7 @@ import { AppContext } from "../utils/schema/context";
 import { authChecker } from "../utils/fns/auth.checker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
 
-export const app = fastify();
+const app = fastify();
 
 const schemaFilePath = join(__dirname, "..", "..", "schema.gql");
 
@@ -33,28 +33,33 @@ async function bootstrapSchema() {
 
     return schema;
 }
-// For securing headers
-app.register(fastifyHelmet);
-// Adding compression
-app.register(fastifyCompress);
-// Adding CORS
-app.register(fastifyCORS);
 
-app.get("/schema.gql", (_, reply) => {
-    const rawSchema = createReadStream(schemaFilePath, {
-        encoding: "utf-8",
-    });
-
-    reply.header("Content-Type", "text/plain").send(rawSchema);
-});
-
-bootstrapSchema().then(schema => {
+export const server = bootstrapSchema().then(schema => {
     app.register(fastifyGQL, {
         schema,
         routes: true,
         graphiql: "playground",
         path: "/graphql",
-        jit: 1,
+        // Disabling jit as it conflicting with type-graphql especially with Enums
+        // For replicating, change jit == 1, and use closeOrOpen mutation
+        jit: 0,
         context: (request: FastifyRequest) => new AppContext(request),
     });
+
+    // For securing headers
+    app.register(fastifyHelmet);
+    // Adding compression
+    app.register(fastifyCompress);
+    // Adding CORS
+    app.register(fastifyCORS);
+
+    app.get("/schema.gql", (_, reply) => {
+        const rawSchema = createReadStream(schemaFilePath, {
+            encoding: "utf-8",
+        });
+
+        reply.header("Content-Type", "text/plain").send(rawSchema);
+    });
+
+    return app;
 });

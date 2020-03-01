@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client";
+import produce from "immer";
 import {
     useIssuesQuery,
     useIssuesLazyQuery,
@@ -10,8 +12,11 @@ import {
     IssueQueryVariables,
     IssueQuery,
     IssueDocument,
+    useUpdateIssueProjectsMutation,
+    UpdateIssueProjectsMutationHookResult,
+    UpdateIssueProjectsMutationFn,
+    ProjectFragmentFragment,
 } from "../generated/graphql";
-import produce from "immer";
 
 export const useIIssuesQuery = (variables: IssuesQueryVariables) => {
     return useIssuesQuery({
@@ -80,4 +85,72 @@ export const useICreateIssueMutation = () => {
             });
         },
     });
+};
+
+export const useIUpdateIssueProjects = (): UpdateIssueProjectsMutationHookResult => {
+    const [mutation, data] = useUpdateIssueProjectsMutation();
+
+    const handleMutation: UpdateIssueProjectsMutationFn = options => {
+        return mutation({
+            ...options,
+            optimisticResponse: {
+                updateIssueProjects: true,
+            },
+            update(cache) {
+                if (!options) {
+                    return false;
+                }
+
+                const {
+                    data: { projectIDs },
+                    where: { _id },
+                } = options.variables!;
+
+                const t = cache.readQuery<IssueQuery, IssueQueryVariables>({
+                    query: IssueDocument,
+                    variables: {
+                        where: {
+                            _id,
+                        },
+                    },
+                });
+
+                const projects = projectIDs.map(_id => {
+                    return cache.readFragment<ProjectFragmentFragment>({
+                        fragment: gql`
+                            fragment FP on Project {
+                                _id
+                                title
+                            }
+                        `,
+                        id: `Project:${_id}`,
+                    });
+                });
+
+                if (!t) {
+                    return false;
+                }
+
+                const tt = produce(t.issue, d => {
+                    if (d) {
+                        d.projects = projects;
+                    }
+                });
+
+                cache.writeQuery<IssueQuery, IssueQueryVariables>({
+                    query: IssueDocument,
+                    variables: {
+                        where: {
+                            _id,
+                        },
+                    },
+                    data: {
+                        issue: tt,
+                    },
+                });
+            },
+        });
+    };
+
+    return [handleMutation, data];
 };

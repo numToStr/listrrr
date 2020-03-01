@@ -7,13 +7,15 @@ type Props = Omit<RoutesConfig, "private"> & {
     authorized: boolean;
 };
 
+interface LocationState {
+    from: { pathname: string };
+}
+
 const PublicRoute: FC<Props> = props => {
     const { authorized, component: C, routes, ...route } = props;
-    const { state: lState } = useLocation();
+    const { state: lState } = useLocation<LocationState | null>();
 
-    const { from } = lState || {
-        from: { pathname: "/d/project" },
-    };
+    const from = lState?.from ?? { pathname: "/d/project" };
 
     return (
         <Route {...route}>

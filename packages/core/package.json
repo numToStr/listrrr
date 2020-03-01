@@ -11,7 +11,7 @@
         "build:watch": "rimraf build && tsc --watch --build tsconfig.json"
     },
     "devDependencies": {
-        "rimraf": "^3.0.0",
-        "typescript": "^3.7.5"
+        "rimraf": "^3.0.2",
+        "typescript": "^3.8.2"
     }
 }

@@ -12,6 +12,10 @@ type Props = {
 };
 
 const ListSelected: FC<Props> = ({ list }) => {
+    if (!list.length) {
+        return <Typography variant="caption">No Projects...</Typography>;
+    }
+
     const ll = list.map(li => (
         <Typography key={li?._id} variant="caption" component="p" gutterBottom>
             - {li?.title}

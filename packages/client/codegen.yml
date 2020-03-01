@@ -1,20 +1,20 @@
 overwrite: true
-schema: "http://localhost:8000/gql"
+schema: "http://localhost:8000/graphql"
 documents: "src/**/*.{gql,graphql}"
 generates:
-  src/generated/graphql.tsx:
-    plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
-    config:
-      reactApolloVersion: 3
-      gqlImport: "@apollo/client#gql"
-      skipTypename: true
-      withHooks: true
-      withHOC: false
-      withComponent: false
-      namingConvention: 
-        typeNames: "change-case#pascalCase"
-        enumValues: "keep"
-        transformUnderscore: false
+    src/generated/graphql.tsx:
+        plugins:
+            - "typescript"
+            - "typescript-operations"
+            - "typescript-react-apollo"
+        config:
+            reactApolloVersion: 3
+            gqlImport: "@apollo/client#gql"
+            skipTypename: true
+            withHooks: true
+            withHOC: false
+            withComponent: false
+            namingConvention:
+                typeNames: "change-case#pascalCase"
+                enumValues: "keep"
+                transformUnderscore: false
