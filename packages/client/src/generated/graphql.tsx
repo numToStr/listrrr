@@ -110,7 +110,7 @@ export type Mutation = {
   deleteIssue?: Maybe<Issue>,
   createProject: Project,
   rearrangeColumn: Scalars['Boolean'],
-  closeOrOpen?: Maybe<EntityUnion>,
+  closeOrOpen?: Maybe<Scalars['Boolean']>,
   updateTitleAndDescription?: Maybe<EntityUnion>,
 };
 
@@ -436,7 +436,7 @@ export type CloseOrOpenMutationVariables = {
 };
 
 
-export type CloseOrOpenMutation = { closeOrOpen: Maybe<IssueFragmentFragment | ProjectFragmentFragment> };
+export type CloseOrOpenMutation = Pick<Mutation, 'closeOrOpen'>;
 
 export type TemplatesQueryVariables = {};
 
@@ -942,13 +942,9 @@ export type EditDetailsMutationResult = ApolloReactCommon.MutationResult<EditDet
 export type EditDetailsMutationOptions = ApolloReactCommon.BaseMutationOptions<EditDetailsMutation, EditDetailsMutationVariables>;
 export const CloseOrOpenDocument = gql`
     mutation CloseOrOpen($where: FindEntityInput!, $data: ClosedInput!) {
-  closeOrOpen(where: $where, data: $data) {
-    ...ProjectFragment
-    ...IssueFragment
-  }
+  closeOrOpen(where: $where, data: $data)
 }
-    ${ProjectFragmentFragmentDoc}
-${IssueFragmentFragmentDoc}`;
+    `;
 export type CloseOrOpenMutationFn = ApolloReactCommon.MutationFunction<CloseOrOpenMutation, CloseOrOpenMutationVariables>;
 
 /**
