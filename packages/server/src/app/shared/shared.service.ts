@@ -17,15 +17,25 @@ export class SharedService {
         return Types.ObjectId(this.ctx.USER.ID);
     }
 
-    closedOrOpen(
+    async closedOrOpen(
         { _id, type }: FindEntityInput,
         data: ClosedInput
-    ): Promise<typeof Entity> {
+    ): Promise<boolean> {
         if (type === EntityType.ISSUE) {
-            return new IssueDAL({ _id, userID: this.ID }).updateOne(data);
+            const ii = await new IssueDAL({
+                _id,
+                userID: this.ID,
+            }).updateOne(data, { select: "_id" });
+
+            return !!ii;
         }
 
-        return new ProjectDAL({ _id, userID: this.ID }).updateOne(data);
+        const pp = await new ProjectDAL({
+            _id,
+            userID: this.ID,
+        }).updateOne(data, { select: "_id" });
+
+        return !!pp;
     }
 
     updateTitleAndDescription(

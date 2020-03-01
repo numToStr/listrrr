@@ -48,7 +48,7 @@ export const Entity = createUnionType({
 @Resolver()
 export class SharedResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
-    @Mutation(() => Entity, {
+    @Mutation(() => Boolean, {
         nullable: true,
         description: "For closing/reopening a particular issue/project",
     })

@@ -142,10 +142,7 @@ mutation EditDetails(
 }
 
 mutation CloseOrOpen($where: FindEntityInput!, $data: ClosedInput!) {
-    closeOrOpen(where: $where, data: $data) {
-        ...ProjectFragment
-        ...IssueFragment
-    }
+    closeOrOpen(where: $where, data: $data)
 }
 
 query Templates {

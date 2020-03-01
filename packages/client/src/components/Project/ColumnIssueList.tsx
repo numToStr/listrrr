@@ -17,10 +17,10 @@ type P = {
 };
 
 const useStyles = makeStyles(
-    ({ palette: { secondary }, shape: { borderRadius } }) => {
+    ({ palette: { primary }, shape: { borderRadius } }) => {
         return {
             grid: ({ dragging }: P) => ({
-                background: dragging ? secondary.light : "none",
+                background: dragging ? primary.light : "none",
                 borderRadius,
                 transition: "all 0.3s ease-in-out",
             }),
