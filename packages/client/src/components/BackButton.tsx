@@ -1,12 +1,8 @@
-import React, { FC } from "react";
+import React, { memo, FC } from "react";
 import { makeStyles } from "@material-ui/core";
 import IconButton, { IconButtonProps } from "@material-ui/core/IconButton";
 import BackIcon from "@material-ui/icons/ArrowBackTwoTone";
-import BaseRouterLink from "./Base/BaseRouterLink";
-
-type Props = IconButtonProps & {
-    to: string;
-};
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(({ spacing }) => ({
     btn: {
@@ -14,19 +10,15 @@ const useStyles = makeStyles(({ spacing }) => ({
     },
 }));
 
-const BackButton: FC<Props> = ({ to }) => {
+const BackButton: FC<IconButtonProps> = () => {
+    const { goBack } = useHistory();
     const styles = useStyles();
 
     return (
-        <IconButton
-            className={styles.btn}
-            component={BaseRouterLink}
-            color="primary"
-            to={to}
-        >
+        <IconButton className={styles.btn} color="primary" onClick={goBack}>
             <BackIcon fontSize="small" />
         </IconButton>
     );
 };
 
-export default BackButton;
+export default memo(BackButton);

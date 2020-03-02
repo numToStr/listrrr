@@ -1,17 +1,8 @@
 import React, { FC, memo } from "react";
-import {
-    Box,
-    Typography,
-    Button,
-    Grid,
-    TextField,
-    InputAdornment,
-    IconButton,
-    Hidden,
-} from "@material-ui/core";
+import { Box, Typography, Button, Grid, Hidden } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import SearchIcon from "@material-ui/icons/SearchTwoTone";
 import BaseRouterLink from "./Base/BaseRouterLink";
+import SearchBar from "./SearchBar";
 
 type Props = {
     title: string;
@@ -28,23 +19,7 @@ const Header: FC<Props> = ({ title, goToCreate: goTo }) => {
                 <Grid item xs={6} md={5}>
                     <Grid container spacing={2} alignItems="center">
                         <Grid item xs>
-                            <TextField
-                                placeholder="Search"
-                                fullWidth
-                                InputProps={{
-                                    disableUnderline: true,
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                color="primary"
-                                                type="submit"
-                                            >
-                                                <SearchIcon fontSize="small" />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+                            <SearchBar />
                         </Grid>
                         <Hidden xsDown>
                             <Grid item>
