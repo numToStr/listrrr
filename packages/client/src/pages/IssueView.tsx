@@ -87,7 +87,7 @@ const IssueView = () => {
 
     return (
         <Fragment>
-            <BackButton to="/d/issue" />
+            <BackButton />
             {renderIssue()}
         </Fragment>
     );

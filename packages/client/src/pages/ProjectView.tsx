@@ -101,7 +101,7 @@ const ProjectView = () => {
 
     return (
         <Fragment>
-            <BackButton to="/d/project" />
+            <BackButton />
             {renderProject()}
         </Fragment>
     );

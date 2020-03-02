@@ -61,7 +61,7 @@ const IssueCreate = () => {
 
     return (
         <Fragment>
-            <BackButton to="/d/issue" />
+            <BackButton />
             <Typography variant="h5" paragraph>
                 New Issue
             </Typography>
