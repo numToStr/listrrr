@@ -13,13 +13,13 @@ const FormikTextField: FC<Props> = ({ name, ...props }) => {
 
     return (
         <TextField
-            {...props}
-            {...field}
             error={isError}
             helperText={isError ? `- ${error}` : null}
             variant="outlined"
             margin="dense"
             fullWidth
+            {...field}
+            {...props}
         />
     );
 };
