@@ -1,4 +1,4 @@
-import React, { FC, memo, useMemo } from "react";
+import React, { FC, memo } from "react";
 import {
     FormControl,
     InputLabel,
@@ -26,19 +26,19 @@ const FormikSelect: FC<Props> = ({ name, options, ...props }) => {
 
     const isError = touched && !!error;
 
-    const items = useMemo(() => {
-        return options.map(
-            d =>
-                d && (
-                    <MenuItem key={d._id} value={d._id} dense>
-                        {d.title}
-                    </MenuItem>
-                )
-        );
-    }, [options]);
+    const items = options.map(d => (
+        <MenuItem key={d?._id} value={d?._id} dense>
+            {d?.title}
+        </MenuItem>
+    ));
 
     return (
-        <FormControl margin="dense" fullWidth error={isError}>
+        <FormControl
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            error={isError}
+        >
             <InputLabel id={`formik-select-${name}`}>{props.label}</InputLabel>
             <Select
                 labelId={`formik-select-${name}`}
