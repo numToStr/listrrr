@@ -59,6 +59,11 @@ jobs:
             - name: Checkout
               uses: actions/checkout@master
 
+            - name: Prepare
+              id: prepare
+              run: |
+                  echo ::set-output name=gpr_image::$GPR_PKG/$USERNAME/$APP_NAME/app
+
             - name: Authenticating w/ GPR
               run: |
                   docker login $GPR_PKG --username $USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
