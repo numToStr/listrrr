@@ -5,20 +5,33 @@ on:
             - master
 env:
     # DOCKER_BUILDKIT: 1
+    GH_USERNAME: numtostr
     GPR_REPO: docker.pkg.github.com/numtostr/listrrr/app
 jobs:
     build:
         name: build
         runs-on: ubuntu-latest
-        env:
-            COMMIT_HASH: $(echo $GITHUB_SHA | cut -c 1-7)
-            # COMMIT_HASH: $(git rev-parse --short "$GITHUB_SHA")
+        # env:
+        #     COMMIT_HASH: $(echo $GITHUB_SHA | cut -c 1-7)
+        # COMMIT_HASH: $(git rev-parse --short "$GITHUB_SHA")
         steps:
-            - uses: actions/checkout@master
+            - name: Checkout
+              uses: actions/checkout@master
 
-            - name: Authenticating w/ GPR
-              run: |
-                  docker login docker.pkg.github.com --username numToStr -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+            - name: Prepare
+              id: Prepare
+              steps:
+                  run: |
+                      if [[ $GITHUB_REF == refs/tags/* ]]; then
+                          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+                      else
+                          echo ::set-output name=version::snapshot
+                      fi
+                      echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+                      echo ::set-output name=docker_username::$GH_USERNAME
+                      echo ::set-output name=docker_image::$GPR_REPO
+                  #   echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/s390x
+                  #   echo ::set-output name=docker_image::crazymax/${{ github.event.repository.name }}
 
             - name: Set up Docker Buildx
               id: buildx
@@ -26,15 +39,33 @@ jobs:
               with:
                   version: latest
 
-            - name: Building docker image
+            - name: Docker Buildx (no push)
               run: |
-                  docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --output "type=image,push=false" --file Dockerfile .
+                  docker buildx build --cache-from=$GPR_REPO:latest \
+                    --output "type=image,push=false" \
+                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
+                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+                    --file Dockerfile .
 
+            - name: Authenticating w/ GPR
+              run: |
+                  docker login docker.pkg.github.com --username $GH_USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+
+            - name: Docker buildx (Release)
+              run: |
+                  docker buildx build --cache-from=$GPR_REPO:latest \
+                    --output "type=image,push=true" \
+                    --build-arg "BUILD_INLINE_CACHE=1" \
+                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
+                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:latest \
+                    --file Dockerfile .
             # - name: Tagging docker image
             #   run: |
             #       docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
-
-            - name: Pushing docker image to GPR
-              run: |
-                  docker push $GPR_REPO:latest
-              #   docker push $GPR_REPO:$COMMIT_HASH
+            # - name: Pushing docker image to GPR
+            #   run: |
+            #       docker push $GPR_REPO:latest
+            #   docker push $GPR_REPO:$COMMIT_HASH
