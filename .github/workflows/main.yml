@@ -28,8 +28,9 @@ jobs:
 
             - name: Building docker image
               run: |
-                  docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --file Dockerfile --push .
+                  docker buildx build --tag $GPR_REPO:latest --file Dockerfile --push .
 
+              #   docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --file Dockerfile --push .
             # - name: Tagging docker image
             #   run: |
             #       docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
