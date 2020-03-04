@@ -11,8 +11,8 @@ jobs:
         name: build
         runs-on: ubuntu-latest
         env:
-            # COMMIT_HASH: $(echo $GITHUB_SHA | cut -c 1-7)
-            COMMIT_HASH: $(git rev-parse --short "$GITHUB_SHA")
+            COMMIT_HASH: $(echo $GITHUB_SHA | cut -c 1-7)
+            # COMMIT_HASH: $(git rev-parse --short "$GITHUB_SHA")
         steps:
             - uses: actions/checkout@master
 
