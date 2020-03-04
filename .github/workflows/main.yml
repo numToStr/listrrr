@@ -38,18 +38,18 @@ jobs:
               with:
                   version: latest
 
-            - name: Docker Buildx (no push)
-              run: |
-                  docker buildx build --cache-from=$GPR_REPO:latest \
-                    --output "type=image,push=false" \
-                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
-                    --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-                    --file Dockerfile .
-
             - name: Authenticating w/ GPR
               run: |
                   docker login docker.pkg.github.com --username $GH_USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+
+            # - name: Docker Buildx (no push)
+            #   run: |
+            #       docker buildx build --cache-from=$GPR_REPO:latest \
+            #         --output "type=image,push=false" \
+            #         --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
+            #         --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
+            #         --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+            #         --file Dockerfile .
 
             - name: Docker buildx (Release)
               run: |
