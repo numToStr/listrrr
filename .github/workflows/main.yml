@@ -58,5 +58,5 @@ jobs:
 
             - name: Docker push (GPR)
               run: |
-                  docker tag "${{ steps.prepare.outputs.docker_image }}:latest" $GPR_IMAGE:latest
+                  docker tag "${{ steps.prepare.outputs.docker_image }}:latest" "${{ steps.prepare.outputs.gpr_image }}:latest"
                   docker push "${{ steps.prepare.outputs.gpr_image }}:latest"
