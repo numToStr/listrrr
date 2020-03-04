@@ -5,8 +5,9 @@ on:
             - master
 env:
     # DOCKER_BUILDKIT: 1
-    GH_USERNAME: numtostr
-    GPR_REPO: docker.pkg.github.com/numtostr/listrrr/app
+    # GPR_REPO: docker.pkg.github.com/numtostr/listrrr/app
+    HUB_USERNAME: numtostr
+    APP_NAME: listrrr
 jobs:
     build:
         name: build
@@ -19,7 +20,7 @@ jobs:
               uses: actions/checkout@master
 
             - name: Prepare
-              id: Prepare
+              id: prepare
               run: |
                   if [[ $GITHUB_REF == refs/tags/* ]]; then
                       echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
@@ -27,8 +28,8 @@ jobs:
                       echo ::set-output name=version::snapshot
                   fi
                   echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-                  echo ::set-output name=docker_username::$GH_USERNAME
-                  echo ::set-output name=docker_image::$GPR_REPO
+                  echo ::set-output name=docker_username::$HUB_USERNAME
+                  echo ::set-output name=docker_image::$HUB_USERNAME/$APP_NAME
 
               #   echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/s390x
               #   echo ::set-output name=docker_image::crazymax/${{ github.event.repository.name }}
@@ -38,9 +39,14 @@ jobs:
               with:
                   version: latest
 
-            - name: Authenticating w/ GPR
+            # - name: Authenticating w/ GPR
+            #   run: |
+            #       docker login docker.pkg.github.com --username $GH_USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+            - name: Docker login
+              env:
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
               run: |
-                  docker login docker.pkg.github.com --username $GH_USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+                  echo "${DOCKER_PASSWORD}" | docker login -u ${{ steps.prepare.outputs.docker_username }} --password-stdin
 
             # - name: Docker Buildx (no push)
             #   run: |
