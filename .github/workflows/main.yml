@@ -59,7 +59,7 @@ jobs:
                     --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
                     --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
                     --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-                    --tag "${{ steps.prepare.outputs.docker_image }}:latest \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
                     --file Dockerfile .
             # - name: Tagging docker image
             #   run: |
