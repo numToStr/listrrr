@@ -1,7 +1,7 @@
 <h1 align="center">listrrr</h1>
 
 <p align="center">
-    <img src="https://github.com/vkasraj/listrrr/workflows/build-n-deploy/badge.svg" />
+    <img src="https://github.com/vkasraj/listrrr/workflows/release/badge.svg" />
 </p>
 
 ### Introduction

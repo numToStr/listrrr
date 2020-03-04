@@ -1,4 +1,4 @@
-name: build
+name: release
 on:
     push:
         branches:
@@ -7,7 +7,7 @@ env:
     HUB_USERNAME: numtostr
     APP_NAME: listrrr
 jobs:
-    build:
+    docker:
         name: build
         runs-on: ubuntu-latest
         steps:
@@ -35,21 +35,17 @@ jobs:
                   echo "${DOCKER_PASSWORD}" | docker login -u ${{ steps.prepare.outputs.docker_username }} --password-stdin
 
             - name: Docker buildx (Release)
-              id: release
+              id: buildx
               run: |
                   docker buildx build --cache-from="${{ steps.prepare.outputs.docker_image }}:latest" \
-                    --output "type=image,push=true" \
+                    --output "type=image,push=false" \
                     --build-arg "BUILD_INLINE_CACHE=1" \
                     --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
                     --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
                     --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
                     --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
                     --file Dockerfile .
-    deploy:
-        name: deploy
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@master
+
             - name: Heroku Login
               uses: actions/heroku@master
               with:
