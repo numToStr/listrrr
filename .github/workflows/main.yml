@@ -1,10 +1,16 @@
+# POINTS TO BE NOTED:
+# - This file is just for future reference
+# - `buildx` doesn't work or not compatible with GPR, especially --cache-from and BUILD_INLINE_CACHE. IDK if that's the case.
+# - `buildx` can't be used with heroku cli
+
 name: release
 on:
     push:
         branches:
             - master
 env:
-    HUB_USERNAME: numtostr
+    GPR_PKG: docker.pkg.github.com
+    USERNAME: numtostr
     APP_NAME: listrrr
 jobs:
     docker:
@@ -19,8 +25,8 @@ jobs:
               run: |
                   echo ::set-output name=version::$(echo $GITHUB_SHA | cut -c 1-7)
                   echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-                  echo ::set-output name=docker_username::$HUB_USERNAME
-                  echo ::set-output name=docker_image::$HUB_USERNAME/$APP_NAME
+                  echo ::set-output name=docker_username::$USERNAME
+                  echo ::set-output name=docker_image::$USERNAME/$APP_NAME
 
             - name: Set up Docker Buildx
               uses: crazy-max/ghaction-docker-buildx@v1
@@ -37,7 +43,7 @@ jobs:
               id: buildx
               run: |
                   docker buildx build --cache-from="${{ steps.prepare.outputs.docker_image }}:latest" \
-                    --output "type=image,push=false" \
+                    --output "type=image,push=true" \
                     --build-arg "BUILD_INLINE_CACHE=1" \
                     --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
                     --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
@@ -45,21 +51,13 @@ jobs:
                     --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
                     --file Dockerfile .
 
-            - name: Heroku Login
-              uses: actions/heroku@master
-              with:
-                  args: container:login
+            - name: Authenticating w/ GPR
+              run: |
+                  docker login $GPR_PKG --username $USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+
+            - name: Docker push (GPR)
               env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Heroku push
-              uses: actions/heroku@master
-              with:
-                  args: container:push web -a $APP_NAME
-              env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Heroku Release
-              uses: actions/heroku@master
-              with:
-                  args: container:release web -a $APP_NAME
-              env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                  GPR_IMAGE: $GPR_PKG/$USERNAME/$APP_NAME/app
+              run: |
+                  docker tag "${{ steps.prepare.outputs.docker_image }}:latest" $GPR_IMAGE:latest
+                  docker push $GPR_IMAGE:latest
