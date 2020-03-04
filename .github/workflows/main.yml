@@ -53,8 +53,7 @@ jobs:
 
             - name: Docker buildx (Release)
               run: |
-                  docker buildx build --cache-from="${{ steps.prepare.outputs.docker_image }}:latest" \
-                    --output "type=image,push=true" \
+                  docker buildx build --output "type=image,push=true" \
                     --build-arg "BUILD_INLINE_CACHE=1" \
                     --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
                     --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
