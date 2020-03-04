@@ -16,26 +16,25 @@ jobs:
         steps:
             - uses: actions/checkout@master
 
-            - name: authentication
+            - name: Authenticating w/ GPR
               run: |
                   docker login docker.pkg.github.com --username numToStr -p ${{ secrets.LISTRRR_GPR_TOKEN }}
 
-            # - name: Set up Docker Buildx
-            #   id: buildx
-            #   uses: crazy-max/ghaction-docker-buildx@v1
-            #   with:
-            #       version: latest
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: crazy-max/ghaction-docker-buildx@v1
+              with:
+                  version: latest
 
             - name: Building docker image
               run: |
-                  docker build --tag $GPR_REPO:latest --file Dockerfile .
+                  docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --output "type=image,push=false" --file Dockerfile .
 
-              #   docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --file Dockerfile --push .
-            # - name: Tagging docker image
-            #   run: |
-            #       docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
+            - name: Tagging docker image
+              run: |
+                  docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
 
             - name: Pushing docker image to GPR
               run: |
                   docker push $GPR_REPO:latest
-              #   docker push $GPR_REPO:$COMMIT_HASH
+                  docker push $GPR_REPO:$COMMIT_HASH
