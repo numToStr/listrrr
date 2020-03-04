@@ -40,23 +40,23 @@ jobs:
               run: |
                   echo "${DOCKER_PASSWORD}" | docker login -u ${{ steps.prepare.outputs.docker_username }} --password-stdin
 
+            - name: Docker buildx (Release)
+              id: buildx
+              run: |
+                  docker buildx build --cache-from="${{ steps.prepare.outputs.docker_image }}:latest" \
+                    --output "type=image,push=false" \
+                    --build-arg "BUILD_INLINE_CACHE=1" \
+                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
+                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+                    --file Dockerfile .
+
             - name: Authenticating w/ GPR
               run: |
                   docker login $GPR_PKG --username $USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
 
-            - name: Docker buildx (Release)
-              id: buildx
+            - name: Docker push (GPR)
               run: |
-                  docker buildx build --cache-from="${{ steps.prepare.outputs.gpr_image }}:latest" \
-                    --output "type=image,push=true" \
-                    --build-arg "BUILD_INLINE_CACHE=1" \
-                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
-                    --tag "${{ steps.prepare.outputs.gpr_image }}:latest"
-                    --file Dockerfile .
-              # --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-              # --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
-            # - name: Docker push (GPR)
-            #   run: |
-            #       docker tag "${{ steps.prepare.outputs.docker_image }}:latest" "${{ steps.prepare.outputs.gpr_image }}:latest"
-            #       docker push "${{ steps.prepare.outputs.gpr_image }}:latest"
+                  docker tag "${{ steps.prepare.outputs.docker_image }}:latest" "${{ steps.prepare.outputs.gpr_image }}:latest"
+                  docker push "${{ steps.prepare.outputs.gpr_image }}:latest"
