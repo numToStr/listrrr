@@ -26,7 +26,7 @@ jobs:
               run: |
                   docker buildx build \
                   --cache-from=$GPR_REPO:latest \
-                  --build-args BUILD_INLINE_CACHE=1 \
+                  --build-arg BUILD_INLINE_CACHE=1 \
                   --tag $GPR_REPO:latest \
                   --file Dockerfile .
 
