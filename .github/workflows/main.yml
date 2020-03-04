@@ -30,11 +30,11 @@ jobs:
               run: |
                   docker buildx build --cache-from=$GPR_REPO:latest --build-arg BUILD_INLINE_CACHE=1 --tag $GPR_REPO:latest --file Dockerfile --push .
 
-            - name: Tagging docker image
-              run: |
-                  docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
+            # - name: Tagging docker image
+            #   run: |
+            #       docker tag $GPR_REPO:latest $GPR_REPO:$COMMIT_HASH
 
             - name: Pushing docker image to GPR
               run: |
                   docker push $GPR_REPO:latest
-                  docker push $GPR_REPO:$COMMIT_HASH
+              #   docker push $GPR_REPO:$COMMIT_HASH
