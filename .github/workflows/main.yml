@@ -1,6 +1,6 @@
 # POINTS TO BE NOTED:
 # - This file is just for future reference
-# - `buildx` doesn't work or not compatible with GPR, especially --cache-from and BUILD_INLINE_CACHE. IDK if that's the case.
+# - `buildx` doesn't work or not compatible with GPR. So don't use `buildx` with GPR
 # - `buildx` can't be used with heroku cli
 
 name: release
@@ -51,12 +51,22 @@ jobs:
                     --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
                     --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
                     --file Dockerfile .
+    gpr:
+        needs: [docker]
+        name: gpr
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
 
             - name: Authenticating w/ GPR
               run: |
                   docker login $GPR_PKG --username $USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
 
+            - name: Docker build (GPR)
+              run: |
+                  docker build --rm --file Dockerfile --tag "${{ steps.prepare.outputs.gpr_image }}:latest" .
+
             - name: Docker push (GPR)
               run: |
-                  docker tag "${{ steps.prepare.outputs.docker_image }}:latest" "${{ steps.prepare.outputs.gpr_image }}:latest"
                   docker push "${{ steps.prepare.outputs.gpr_image }}:latest"
