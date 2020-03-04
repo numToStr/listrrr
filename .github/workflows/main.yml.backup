@@ -1,83 +1,75 @@
-name: build-n-deploy
+# POINTS TO BE NOTED:
+# - This file is just for future reference
+# - `buildx` doesn't work or not compatible with GPR. So don't use `buildx` with GPR
+# - `buildx` can't be used with heroku cli
+
+name: release
 on:
     push:
         branches:
             - master
-    # pull_request:
-    #     branches:
-    #         - master
 env:
-    LISTRRR_GPR_IMAGE: docker.pkg.github.com/vkasraj/listrrr/app:latest
-    LISTRRR_HEROKU_IMAGE: registry.heroku.com/listrrr/web
-    HEROKU_APP: listrrr
+    GPR_PKG: docker.pkg.github.com
+    USERNAME: numtostr
+    APP_NAME: listrrr
 jobs:
-    # installation:
-    #     name: install-n-build-client
-    #     runs-on: ubuntu-latest
-    #     strategy:
-    #         matrix:
-    #             node-version: [10.x]
-    #     steps:
-    #         - uses: actions/checkout@master
-    #         - name: Using Node.js ${{ matrix.node-version }}
-    #           uses: actions/setup-node@master
-    #           with:
-    #               node-version: ${{ matrix.node-version }}
-    #         - name: npm install & build
-    #           run: |
-    #               npm i --no-package-lock --prefix client
-    #               npm run build --prefix client
-    # build:
-    # needs: [installation]
-    # name: build-docker
-    # runs-on: ubuntu-latest
-    # steps:
-    #     - uses: actions/checkout@master
-    #     - name: Build the Docker image
-    #       run: docker build --rm --file Dockerfile --tag $LISTRRR_GPR_IMAGE .
-    #     - name: Push Image to Github Package Registery (GPR)
-    #       run: |
-    #           docker login docker.pkg.github.com --username vkasraj -p ${{ secrets.LISTRRR_GPR_TOKEN }}
-    #           docker push $LISTRRR_GPR_IMAGE
-    deploy:
-        # needs: [build]
-        name: deployment-heroku
+    docker:
+        name: build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
-            - name: Heroku Login
-              uses: actions/heroku@master
-              with:
-                  args: container:login
-              env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Heroku push
-              uses: actions/heroku@master
-              with:
-                  args: container:push web -a $HEROKU_APP
-              env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            - name: Heroku Release
-              uses: actions/heroku@master
-              with:
-                  args: container:release web -a $HEROKU_APP
-              env:
-                  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            - name: Checkout
+              uses: actions/checkout@master
 
+            - name: Prepare
+              id: prepare
+              run: |
+                  echo ::set-output name=version::$(echo $GITHUB_SHA | cut -c 1-7)
+                  echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+                  echo ::set-output name=docker_username::$USERNAME
+                  echo ::set-output name=docker_image::$USERNAME/$APP_NAME
 
+            - name: Set up Docker Buildx
+              uses: crazy-max/ghaction-docker-buildx@v1
+              with:
+                  version: latest
 
-# name: pr-status
-# on:
-#     pull_request:
-#         branches:
-#             - master
-# env:
-#     APP_NAME: listrrr
-# jobs:
-#     build:
-#         name: build-docker
-#         runs-on: ubuntu-latest
-#         steps:
-#             - uses: actions/checkout@master
-#             - name: Build the Docker image
-#               run: docker build --rm --file Dockerfile --tag $APP_NAME .
+            - name: Docker login
+              env:
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+              run: |
+                  echo "${DOCKER_PASSWORD}" | docker login -u ${{ steps.prepare.outputs.docker_username }} --password-stdin
+
+            - name: Docker buildx (Release)
+              id: buildx
+              run: |
+                  docker buildx build --cache-from="${{ steps.prepare.outputs.docker_image }}:latest" \
+                    --output "type=image,push=false" \
+                    --build-arg "BUILD_INLINE_CACHE=1" \
+                    --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
+                    --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+                    --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+                    --file Dockerfile .
+    gpr:
+        name: gpr
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
+
+            - name: Prepare
+              id: prepare
+              run: |
+                  echo ::set-output name=gpr_image::$GPR_PKG/$USERNAME/$APP_NAME/app
+
+            - name: Authenticating w/ GPR
+              run: |
+                  docker login $GPR_PKG --username $USERNAME -p ${{ secrets.LISTRRR_GPR_TOKEN }}
+
+            - name: Docker build (GPR)
+              run: |
+                  docker build --rm --file Dockerfile --tag "${{ steps.prepare.outputs.gpr_image }}:latest" .
+
+            - name: Docker push (GPR)
+              run: |
+                  docker push "${{ steps.prepare.outputs.gpr_image }}:latest"
