@@ -4,7 +4,7 @@ on:
         branches:
             - master
 env:
-    DOCKER_BUILDKIT: 1
+    # DOCKER_BUILDKIT: 1
     GPR_REPO: docker.pkg.github.com/numToStr/listrrr/app
 jobs:
     build:
@@ -16,9 +16,19 @@ jobs:
         steps:
             - uses: actions/checkout@master
 
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: crazy-max/ghaction-docker-buildx@v1
+              with:
+                  version: latest
+
             - name: Building docker image
               run: |
-                  docker build --cache-from=$GPR_REPO:latest --build-args BUILD_INLINE_CACHE=1 -f Dockerfile -t $GPR_REPO:latest .
+                  docker buildx build \
+                  --cache-from=$GPR_REPO:latest \
+                  --build-args BUILD_INLINE_CACHE=1 \
+                  --tag $GPR_REPO:latest \
+                  --file Dockerfile .
 
             - name: Tagging docker image
               run: |
