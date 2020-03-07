@@ -1,0 +1,2 @@
+# Redirect default Netlify subdomain to primary domain
+https://listrrr.netlify.com/* https://listrrr.vikasraj.dev/:splat 301!
