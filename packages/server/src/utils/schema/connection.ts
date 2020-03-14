@@ -1,4 +1,4 @@
-import { Field, ObjectType, ArgsType } from "type-graphql";
+import { Field, ObjectType, ArgsType, ClassType } from "type-graphql";
 import {
     PageInfo,
     ConnectionCursor,
@@ -48,7 +48,7 @@ export class PageInfoType implements PageInfo {
     endCursor?: ConnectionCursor;
 }
 
-export function RawEdgeType<T extends object>(NodeType: T) {
+export function RawEdgeType<T extends object>(NodeType: T): ClassType<Edge<T>> {
     @ObjectType({ isAbstract: true })
     class EdgeType implements Edge<T> {
         @Field(() => String)
@@ -61,7 +61,9 @@ export function RawEdgeType<T extends object>(NodeType: T) {
     return EdgeType;
 }
 
-export function RawConnectionType<T extends object>(EdgeType: T) {
+export function RawConnectionType<T extends object>(
+    EdgeType: T
+): ClassType<Connection<T>> {
     @ObjectType({ isAbstract: true })
     class ConnectionType implements Connection<T> {
         @Field(() => [EdgeType])
@@ -74,10 +76,15 @@ export function RawConnectionType<T extends object>(EdgeType: T) {
     return ConnectionType;
 }
 
+type IConnectionDefinition = {
+    EdgeType: ClassType;
+    ConnectionType: ClassType;
+};
+
 export function ConnectionDefinition<T extends object>(
     name: string,
     NodeType: T
-) {
+): IConnectionDefinition {
     @ObjectType(`${name}Edge`)
     class EdgeType extends RawEdgeType(NodeType) {}
 
