@@ -3,7 +3,7 @@
     "description": "GraphQl server for the listrrr app",
     "private": false,
     "version": "1.0.0",
-    "main": "src/bin/www.ts",
+    "main": "src/bin/www",
     "engines": {
         "node": "^12.13.0 || ^10.15.0",
         "npm": "^6.10.0",
@@ -12,7 +12,7 @@
     "scripts": {
         "start": "NODE_ENV=production NODE_DEBUG=www node src/bin/www.js",
         "dev": "NODE_ENV=development NODE_DEBUG=www nodemon -T -P tsconfig.json -r dotenv/config src/bin/www.ts",
-        "build": "NODE_ENV=production rimraf build && tsc --build tsconfig.json",
+        "build": "NODE_ENV=production tsc --build tsconfig.json",
         "lint": "eslint --ext .js,.ts --fix --fix-type suggestion .",
         "start:build": "yarn build && yarn prod",
         "format": "prettier --write \"./**/*.ts\""
@@ -57,7 +57,6 @@
         "eslint-plugin-prettier": "^3.1.2",
         "nodemon": "^2.0.2",
         "prettier": "^1.19.1",
-        "rimraf": "^3.0.2",
         "ts-node": "^8.6.2",
         "typescript": "^3.8.3"
     }

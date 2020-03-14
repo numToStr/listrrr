@@ -10,13 +10,13 @@
         "yarn": "^1.9.0"
     },
     "scripts": {
-        "start": "yarn --cwd packages/server start",
-        "client": "yarn --cwd packages/client start",
-        "server": "yarn --cwd packages/server dev",
-        "build:core": "yarn --cwd packages/core build",
-        "build:client": "yarn --cwd packages/client build",
-        "build:server": "yarn --cwd packages/server build",
-        "build": "yarn build:server && yarn build:client",
+        "rm": "rimraf build",
+        "prebuild": "yarn rm",
+        "client": "yarn workspace @listrrr/client start",
+        "server": "yarn workspace @listrrr/server dev",
+        "server:prod": "yarn workspace @listrrr/server start",
+        "build:client": "yarn workspace @listrrr/client build",
+        "build": "yarn workspace @listrrr/server build",
         "gql:gen": "yarn --cwd packages/client gql:gen"
     },
     "homepage": "https://listrrr.vikasraj.dev",
@@ -25,5 +25,8 @@
     "license": "MIT",
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "devDependencies": {
+        "rimraf": "^3.0.2"
+    }
 }
