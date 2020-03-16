@@ -18,7 +18,7 @@ const RouteRenderer: FC<Props> = ({ routes, defaultRedirect: redirect }) => {
         return <BaseLoader />;
     }
 
-    const authorized = !!data?.isLoggedIn;
+    const authorized = !!data?.me;
 
     const allRoutes = routes.map(route => {
         return route.private ? (
