@@ -1,10 +1,11 @@
 *
+node_modules
 
 !./package.json
+!./yarn.lock
+!./tsconfig.json
 
-!./packages/core/src
-!./packages/core/package.json
-!./packages/core/tsconfig.json
+!./packages/core/*
 
 !./packages/server/src
 !./packages/server/package.json

@@ -1,6 +1,10 @@
 import { FormikHelpers } from "formik";
 import { Color } from "@material-ui/core";
 
+export interface RequestHeaders {
+    authorization?: string;
+}
+
 export type SubmitHandler<Values> = (
     values: Values,
     bag: FormikHelpers<Values>

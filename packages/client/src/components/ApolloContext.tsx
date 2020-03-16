@@ -12,16 +12,12 @@ import {
     ApolloProvider,
 } from "@apollo/client";
 import StorageUtil from "../utils/storage";
-import { MeDocument } from "../generated/graphql";
+import { RequestHeaders } from "../@types/types";
 
 const URI = [process.env.REACT_APP_BASE_URI, "/graphql"].join("");
 
-interface Header {
-    authorization?: string;
-}
-
 interface ContextValue {
-    setHeaders?: Dispatch<Header>;
+    setHeaders?: Dispatch<RequestHeaders>;
     client?: ApolloClient<{}>;
 }
 
@@ -32,7 +28,7 @@ const cache = new InMemoryCache();
 export const MyApolloContext: FC = ({ children }) => {
     const t = StorageUtil.getToken() || "";
 
-    const [headers, setHeaders] = useState<Header>({
+    const [headers, setHeaders] = useState<RequestHeaders>({
         authorization: t,
     });
 
@@ -43,17 +39,6 @@ export const MyApolloContext: FC = ({ children }) => {
         }),
         cache,
         connectToDevTools: true,
-        resolvers: {
-            Query: {
-                isLoggedIn(_r, _a, { cache }) {
-                    const d = cache.readQuery({
-                        query: MeDocument,
-                    });
-
-                    return !!d?.me;
-                },
-            },
-        },
     });
 
     return (
