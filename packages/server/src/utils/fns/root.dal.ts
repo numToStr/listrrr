@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { QueryFindOneAndUpdateOptions, Types, Document } from "mongoose";
+import {
+    QueryFindOneAndUpdateOptions,
+    Types,
+    Document,
+    FilterQuery,
+} from "mongoose";
 import { deleteProps } from "./object.util";
 import { DALOptions } from "../../@types/types";
 
@@ -24,7 +30,7 @@ export abstract class RootDAL<SchemaType extends object> {
 
     constructor(
         private readonly Model: ModelType<SchemaType>,
-        private readonly ctx: Partial<SchemaType> = {}
+        private readonly ctx: FilterQuery<SchemaType> = {}
     ) {}
 
     async create(data: Partial<SchemaType>): Promise<SchemaType> {
@@ -46,6 +52,7 @@ export abstract class RootDAL<SchemaType extends object> {
             ...options,
         };
 
+        // @ts-ignore
         return this.Model.findOne(this.ctx)
             .select(select)
             .lean()
@@ -58,6 +65,7 @@ export abstract class RootDAL<SchemaType extends object> {
             ...options,
         };
 
+        // @ts-ignore
         return this.Model.find(this.ctx)
             .select(select)
             .sort(sort)
@@ -76,6 +84,7 @@ export abstract class RootDAL<SchemaType extends object> {
             ...options,
         };
 
+        // @ts-ignore
         return this.Model.findOneAndUpdate(this.ctx, data, {
             new: true,
             upsert,
@@ -87,6 +96,7 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     updateMany(data: Partial<SchemaType>) {
+        // @ts-ignore
         return this.Model.updateMany(this.ctx, data, { multi: true })
             .lean()
             .exec();
@@ -98,6 +108,7 @@ export abstract class RootDAL<SchemaType extends object> {
             ...options,
         };
 
+        // @ts-ignore
         return this.Model.findOneAndDelete(this.ctx)
             .select(select)
             .lean()
@@ -105,6 +116,7 @@ export abstract class RootDAL<SchemaType extends object> {
     }
 
     count() {
+        // @ts-ignore
         return this.Model.countDocuments(this.ctx);
     }
 
