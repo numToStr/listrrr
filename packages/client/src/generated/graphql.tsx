@@ -4,23 +4,23 @@ import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string,
-  String: string,
-  Boolean: boolean,
-  Int: number,
-  Float: number,
-  DateTime: any,
-  ObjectId: any,
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  DateTime: any;
+  ObjectId: any;
 };
 
 export type AuthInfo = {
-  token: Scalars['String'],
-  role: AuthRoles,
+  token: Scalars['String'];
+  role: AuthRoles;
 };
 
 export type AuthResponse = {
-  user: User,
-  auth: AuthInfo,
+  user: User;
+  auth: AuthInfo;
 };
 
 export enum AuthRoles {
@@ -29,25 +29,25 @@ export enum AuthRoles {
 }
 
 export type ClosedInput = {
-  closed: Scalars['Boolean'],
+  closed: Scalars['Boolean'];
 };
 
 export type Column = {
-  _id: Scalars['ID'],
-  title: Scalars['String'],
-  issues: Array<Maybe<Issue>>,
+  _id: Scalars['ID'];
+  title: Scalars['String'];
+  issues: Array<Maybe<Issue>>;
 };
 
 export type CreateIssueInput = {
-  title: Scalars['String'],
-  description: Scalars['String'],
-  projectIDs: Array<Maybe<Scalars['ObjectId']>>,
+  title: Scalars['String'];
+  description: Scalars['String'];
+  projectIDs: Array<Maybe<Scalars['ObjectId']>>;
 };
 
 export type CreateProjectInput = {
-  title: Scalars['String'],
-  description: Scalars['String'],
-  templateID: Scalars['ObjectId'],
+  title: Scalars['String'];
+  description: Scalars['String'];
+  templateID: Scalars['ObjectId'];
 };
 
 
@@ -59,222 +59,230 @@ export enum EntityType {
 export type EntityUnion = Issue | Project;
 
 export type Filters = {
-  sort?: Maybe<Sort>,
-  status?: Maybe<Status>,
+  sort?: Maybe<Sort>;
+  status?: Maybe<Status>;
 };
 
 export type FindEntityInput = {
-  _id: Scalars['ObjectId'],
-  type: EntityType,
+  _id: Scalars['ObjectId'];
+  type: EntityType;
 };
 
 export type FindInput = {
-  _id: Scalars['ObjectId'],
+  _id: Scalars['ObjectId'];
 };
 
 export type Issue = {
-  _id: Scalars['ID'],
-  title: Scalars['String'],
-  description: Scalars['String'],
-  closed: Scalars['Boolean'],
-  createdBy: User,
-  projects: Array<Maybe<Project>>,
-  createdAt: Scalars['DateTime'],
-  updatedAt: Scalars['DateTime'],
+  _id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  closed: Scalars['Boolean'];
+  createdBy: User;
+  projects: Array<Maybe<Project>>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type IssueConnection = {
-  edges: Array<IssueEdge>,
-  pageInfo: PageInfo,
-  totalCount: Scalars['Float'],
-  closedCount: Scalars['Float'],
-  openCount: Scalars['Float'],
+  edges: Array<IssueEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float'];
+  closedCount: Scalars['Float'];
+  openCount: Scalars['Float'];
 };
 
 export type IssueEdge = {
-  cursor: Scalars['String'],
-  node: Issue,
+  cursor: Scalars['String'];
+  node: Issue;
+};
+
+export type Label = {
+  _id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  color: Scalars['String'];
 };
 
 export type LoginInput = {
-  email: Scalars['String'],
-  password: Scalars['String'],
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Mutation = {
-  login: AuthResponse,
-  signup: AuthResponse,
-  rearrangeIssue: Scalars['Boolean'],
-  createIssue: Issue,
-  updateIssueProjects: Scalars['Boolean'],
-  deleteIssue?: Maybe<Issue>,
-  createProject: Project,
-  rearrangeColumn: Scalars['Boolean'],
-  closeOrOpen?: Maybe<Scalars['Boolean']>,
-  updateTitleAndDescription?: Maybe<EntityUnion>,
+  login: AuthResponse;
+  signup: AuthResponse;
+  rearrangeIssue: Scalars['Boolean'];
+  createIssue: Issue;
+  updateIssueProjects: Scalars['Boolean'];
+  deleteIssue?: Maybe<Issue>;
+  createProject: Project;
+  rearrangeColumn: Scalars['Boolean'];
+  closeOrOpen?: Maybe<Scalars['Boolean']>;
+  updateTitleAndDescription?: Maybe<EntityUnion>;
 };
 
 
 export type MutationLoginArgs = {
-  data: LoginInput
+  data: LoginInput;
 };
 
 
 export type MutationSignupArgs = {
-  data: SignupInput
+  data: SignupInput;
 };
 
 
 export type MutationRearrangeIssueArgs = {
-  data: RearrangeIssueInput,
-  where: RearrangeIssueFindInput
+  data: RearrangeIssueInput;
+  where: RearrangeIssueFindInput;
 };
 
 
 export type MutationCreateIssueArgs = {
-  data: CreateIssueInput
+  data: CreateIssueInput;
 };
 
 
 export type MutationUpdateIssueProjectsArgs = {
-  data: UpdateIssueProjectInput,
-  where: FindInput
+  data: UpdateIssueProjectInput;
+  where: FindInput;
 };
 
 
 export type MutationDeleteIssueArgs = {
-  where: FindInput
+  where: FindInput;
 };
 
 
 export type MutationCreateProjectArgs = {
-  data: CreateProjectInput
+  data: CreateProjectInput;
 };
 
 
 export type MutationRearrangeColumnArgs = {
-  data: RearrangeColumnInput,
-  where: RearrangeColumnFindInput
+  data: RearrangeColumnInput;
+  where: RearrangeColumnFindInput;
 };
 
 
 export type MutationCloseOrOpenArgs = {
-  data: ClosedInput,
-  where: FindEntityInput
+  data: ClosedInput;
+  where: FindEntityInput;
 };
 
 
 export type MutationUpdateTitleAndDescriptionArgs = {
-  data: TitleAndDescriptionInput,
-  where: FindEntityInput
+  data: TitleAndDescriptionInput;
+  where: FindEntityInput;
 };
 
 
 export type PageInfo = {
-  hasNextPage: Scalars['Boolean'],
-  hasPreviousPage: Scalars['Boolean'],
-  startCursor: Scalars['String'],
-  endCursor: Scalars['String'],
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor: Scalars['String'];
+  endCursor: Scalars['String'];
 };
 
 export type Project = {
-  _id: Scalars['ID'],
-  title: Scalars['String'],
-  description: Scalars['String'],
-  closed: Scalars['Boolean'],
-  createdBy: User,
-  columns: Array<Column>,
-  createdAt: Scalars['DateTime'],
-  updatedAt: Scalars['DateTime'],
+  _id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  closed: Scalars['Boolean'];
+  createdBy: User;
+  columns: Array<Column>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type ProjectConnection = {
-  edges: Array<ProjectEdge>,
-  pageInfo: PageInfo,
-  totalCount: Scalars['Float'],
-  closedCount: Scalars['Float'],
-  openCount: Scalars['Float'],
+  edges: Array<ProjectEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float'];
+  closedCount: Scalars['Float'];
+  openCount: Scalars['Float'];
 };
 
 export type ProjectEdge = {
-  cursor: Scalars['String'],
-  node: Project,
+  cursor: Scalars['String'];
+  node: Project;
 };
 
 export type Query = {
-  issueConnection: IssueConnection,
-  issues: Array<Maybe<Issue>>,
-  issue?: Maybe<Issue>,
-  projectConnections: ProjectConnection,
-  projects: Array<Maybe<Project>>,
-  project?: Maybe<Project>,
-  templates: Array<Maybe<Template>>,
-  me: User,
+  issueConnection: IssueConnection;
+  issues: Array<Maybe<Issue>>;
+  issue?: Maybe<Issue>;
+  labels: Array<Maybe<Label>>;
+  projectConnections: ProjectConnection;
+  projects: Array<Maybe<Project>>;
+  project?: Maybe<Project>;
+  templates: Array<Maybe<Template>>;
+  me: User;
 };
 
 
 export type QueryIssueConnectionArgs = {
-  filters: Filters,
-  before?: Maybe<Scalars['String']>,
-  after?: Maybe<Scalars['String']>,
-  first?: Maybe<Scalars['Float']>,
-  last?: Maybe<Scalars['Float']>
+  filters: Filters;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
 };
 
 
 export type QueryIssuesArgs = {
-  filters: Filters
+  filters: Filters;
 };
 
 
 export type QueryIssueArgs = {
-  where: FindInput
+  where: FindInput;
 };
 
 
 export type QueryProjectConnectionsArgs = {
-  filters: Filters,
-  before?: Maybe<Scalars['String']>,
-  after?: Maybe<Scalars['String']>,
-  first?: Maybe<Scalars['Float']>,
-  last?: Maybe<Scalars['Float']>
+  filters: Filters;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
 };
 
 
 export type QueryProjectsArgs = {
-  filters: Filters
+  filters: Filters;
 };
 
 
 export type QueryProjectArgs = {
-  where: FindInput
+  where: FindInput;
 };
 
 export type RearrangeColumnFindInput = {
-  columnID: Scalars['ObjectId'],
-  projectID: Scalars['ObjectId'],
+  columnID: Scalars['ObjectId'];
+  projectID: Scalars['ObjectId'];
 };
 
 export type RearrangeColumnInput = {
-  initialPosition: Scalars['Float'],
-  finalPosition: Scalars['Float'],
+  initialPosition: Scalars['Float'];
+  finalPosition: Scalars['Float'];
 };
 
 export type RearrangeIssueFindInput = {
-  columnID: Scalars['ObjectId'],
-  issueID: Scalars['ObjectId'],
+  columnID: Scalars['ObjectId'];
+  issueID: Scalars['ObjectId'];
 };
 
 export type RearrangeIssueInput = {
-  initialPosition: Scalars['Float'],
-  finalPosition: Scalars['Float'],
-  destinationColumnID: Scalars['ObjectId'],
+  initialPosition: Scalars['Float'];
+  finalPosition: Scalars['Float'];
+  destinationColumnID: Scalars['ObjectId'];
 };
 
 export type SignupInput = {
-  email: Scalars['String'],
-  password: Scalars['String'],
-  username: Scalars['String'],
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export enum Sort {
@@ -289,25 +297,25 @@ export enum Status {
 }
 
 export type Template = {
-  _id: Scalars['ID'],
-  title: Scalars['String'],
-  description: Scalars['String'],
-  columns: Array<Column>,
+  _id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  columns: Array<Column>;
 };
 
 export type TitleAndDescriptionInput = {
-  title: Scalars['String'],
-  description: Scalars['String'],
+  title: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export type UpdateIssueProjectInput = {
-  projectIDs: Array<Maybe<Scalars['ObjectId']>>,
+  projectIDs: Array<Maybe<Scalars['ObjectId']>>;
 };
 
 export type User = {
-  _id: Scalars['ID'],
-  username: Scalars['String'],
-  email: Scalars['String'],
+  _id: Scalars['ID'];
+  username: Scalars['String'];
+  email: Scalars['String'];
 };
 
 export type UserFragmentFragment = Pick<User, '_id' | 'username' | 'email'>;
@@ -315,14 +323,14 @@ export type UserFragmentFragment = Pick<User, '_id' | 'username' | 'email'>;
 export type AuthFragmentFragment = { user: UserFragmentFragment, auth: Pick<AuthInfo, 'token' | 'role'> };
 
 export type LoginMutationVariables = {
-  data: LoginInput
+  data: LoginInput;
 };
 
 
 export type LoginMutation = { login: AuthFragmentFragment };
 
 export type SignupMutationVariables = {
-  data: SignupInput
+  data: SignupInput;
 };
 
 
@@ -336,14 +344,14 @@ export type MeQuery = { me: UserFragmentFragment };
 export type IssueFragmentFragment = Pick<Issue, '_id' | 'title' | 'description' | 'closed' | 'createdAt' | 'updatedAt'>;
 
 export type IssuesQueryVariables = {
-  filters: Filters
+  filters: Filters;
 };
 
 
 export type IssuesQuery = { issues: Array<Maybe<IssueFragmentFragment>> };
 
 export type IssueQueryVariables = {
-  where: FindInput
+  where: FindInput;
 };
 
 
@@ -353,7 +361,7 @@ export type IssueQuery = { issue: Maybe<(
   )> };
 
 export type CreateIssueMutationVariables = {
-  data: CreateIssueInput
+  data: CreateIssueInput;
 };
 
 
@@ -370,14 +378,14 @@ export type ColumnFragmentFragment = (
 );
 
 export type ProjectsQueryVariables = {
-  filters: Filters
+  filters: Filters;
 };
 
 
 export type ProjectsQuery = { projects: Array<Maybe<ProjectFragmentFragment>> };
 
 export type ProjectsFilterQueryVariables = {
-  filters: Filters
+  filters: Filters;
 };
 
 
@@ -387,7 +395,7 @@ export type ProjectsFilterQuery = { projects: Array<Maybe<(
   )>> };
 
 export type ProjectQueryVariables = {
-  where: FindInput
+  where: FindInput;
 };
 
 
@@ -397,7 +405,7 @@ export type ProjectQuery = { project: Maybe<(
   )> };
 
 export type CreateProjectMutationVariables = {
-  data: CreateProjectInput
+  data: CreateProjectInput;
 };
 
 
@@ -407,32 +415,32 @@ export type CreateProjectMutation = { createProject: (
   ) };
 
 export type RearrangeColumnMutationVariables = {
-  where: RearrangeColumnFindInput,
-  data: RearrangeColumnInput
+  where: RearrangeColumnFindInput;
+  data: RearrangeColumnInput;
 };
 
 
 export type RearrangeColumnMutation = Pick<Mutation, 'rearrangeColumn'>;
 
 export type RearrangeIssueMutationVariables = {
-  where: RearrangeIssueFindInput,
-  data: RearrangeIssueInput
+  where: RearrangeIssueFindInput;
+  data: RearrangeIssueInput;
 };
 
 
 export type RearrangeIssueMutation = Pick<Mutation, 'rearrangeIssue'>;
 
 export type EditDetailsMutationVariables = {
-  where: FindEntityInput,
-  data: TitleAndDescriptionInput
+  where: FindEntityInput;
+  data: TitleAndDescriptionInput;
 };
 
 
 export type EditDetailsMutation = { updateTitleAndDescription: Maybe<IssueFragmentFragment | ProjectFragmentFragment> };
 
 export type CloseOrOpenMutationVariables = {
-  where: FindEntityInput,
-  data: ClosedInput
+  where: FindEntityInput;
+  data: ClosedInput;
 };
 
 
@@ -444,8 +452,8 @@ export type TemplatesQueryVariables = {};
 export type TemplatesQuery = { templates: Array<Maybe<Pick<Template, '_id' | 'title'>>> };
 
 export type UpdateIssueProjectsMutationVariables = {
-  where: FindInput,
-  data: UpdateIssueProjectInput
+  where: FindInput;
+  data: UpdateIssueProjectInput;
 };
 
 
