@@ -17,7 +17,7 @@ const schemaFilePath = join(__dirname, "..", "..", "schema.gql");
 
 async function bootstrapSchema() {
     const schema = await buildSchema({
-        resolvers: [join(__dirname, "..", "app/**/*.resolver.*")],
+        resolvers: [join(__dirname, "..", "app/**/*.resolver.{ts,js}")],
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,
