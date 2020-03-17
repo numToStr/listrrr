@@ -51,9 +51,9 @@ export const useICloseOrOpenMutation = (): CloseOrOpenMutationHookResult => {
                         // If the closed item is in the list
                         // then remove it from that list
                         if (found >= 0) {
-                            return refs.filter(
-                                ref => readField("_id", ref) !== _id
-                            );
+                            return produce(refs, d => {
+                                d.splice(found, 1);
+                            });
                         }
 
                         // If the item is not in the list
