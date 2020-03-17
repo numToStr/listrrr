@@ -159,3 +159,12 @@ mutation UpdateIssueProjects(
 ) {
     updateIssueProjects(where: $where, data: $data)
 }
+
+query Labels {
+    labels {
+        _id
+        title
+        color
+        value: _id
+    }
+}

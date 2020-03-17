@@ -459,6 +459,14 @@ export type UpdateIssueProjectsMutationVariables = {
 
 export type UpdateIssueProjectsMutation = Pick<Mutation, 'updateIssueProjects'>;
 
+export type LabelsQueryVariables = {};
+
+
+export type LabelsQuery = { labels: Array<Maybe<(
+    Pick<Label, '_id' | 'title' | 'color'>
+    & { value: Label['_id'] }
+  )>> };
+
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
   _id
@@ -1044,3 +1052,38 @@ export function useUpdateIssueProjectsMutation(baseOptions?: ApolloReactHooks.Mu
 export type UpdateIssueProjectsMutationHookResult = ReturnType<typeof useUpdateIssueProjectsMutation>;
 export type UpdateIssueProjectsMutationResult = ApolloReactCommon.MutationResult<UpdateIssueProjectsMutation>;
 export type UpdateIssueProjectsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateIssueProjectsMutation, UpdateIssueProjectsMutationVariables>;
+export const LabelsDocument = gql`
+    query Labels {
+  labels {
+    _id
+    title
+    color
+    value: _id
+  }
+}
+    `;
+
+/**
+ * __useLabelsQuery__
+ *
+ * To run a query within a React component, call `useLabelsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLabelsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLabelsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLabelsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<LabelsQuery, LabelsQueryVariables>) {
+        return ApolloReactHooks.useQuery<LabelsQuery, LabelsQueryVariables>(LabelsDocument, baseOptions);
+      }
+export function useLabelsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<LabelsQuery, LabelsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<LabelsQuery, LabelsQueryVariables>(LabelsDocument, baseOptions);
+        }
+export type LabelsQueryHookResult = ReturnType<typeof useLabelsQuery>;
+export type LabelsLazyQueryHookResult = ReturnType<typeof useLabelsLazyQuery>;
+export type LabelsQueryResult = ApolloReactCommon.QueryResult<LabelsQuery, LabelsQueryVariables>;

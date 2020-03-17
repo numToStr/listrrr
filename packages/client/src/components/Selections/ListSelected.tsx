@@ -9,11 +9,12 @@ type II = {
 
 type Props = {
     list: Maybe<II>[];
+    emptyText: string;
 };
 
-const ListSelected: FC<Props> = ({ list }) => {
+const ListSelected: FC<Props> = ({ list, emptyText }) => {
     if (!list.length) {
-        return <Typography variant="caption">No Projects...</Typography>;
+        return <Typography variant="caption">{emptyText}</Typography>;
     }
 
     const ll = list.map(li => (
