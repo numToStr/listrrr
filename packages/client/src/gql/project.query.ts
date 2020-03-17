@@ -1,4 +1,5 @@
 import produce from "immer";
+import { Reference } from "@apollo/client";
 import {
     useProjectsQuery,
     useProjectsLazyQuery,
@@ -7,18 +8,13 @@ import {
     useProjectQuery,
     ProjectQueryVariables,
     useCreateProjectMutation,
-    Status,
-    ProjectsQuery,
-    ProjectsDocument,
     ProjectQuery,
     ProjectDocument,
     useRearrangeColumnMutation,
     RearrangeColumnMutationFn,
+    RearrangeColumnMutationHookResult,
     useRearrangeIssueMutation,
     RearrangeIssueMutationFn,
-    ColumnFragmentFragment,
-    ColumnFragmentFragmentDoc,
-    RearrangeColumnMutationHookResult,
     RearrangeIssueMutationHookResult,
 } from "../generated/graphql";
 
@@ -52,37 +48,6 @@ export const useICreateProjectMutation = () => {
 
             const { createProject: p } = data;
 
-            const variables = {
-                filters: {
-                    status: Status.OPEN,
-                },
-            };
-
-            const cached = cache.readQuery<
-                ProjectsQuery,
-                ProjectsQueryVariables
-            >({
-                query: ProjectsDocument,
-                variables,
-            });
-
-            if (!cached) {
-                return;
-            }
-
-            const projects = produce(cached.projects, draft => {
-                draft.unshift(p);
-            });
-
-            // Pushing to project list
-            cache.writeQuery<ProjectsQuery, ProjectsQueryVariables>({
-                query: ProjectsDocument,
-                data: {
-                    projects,
-                },
-                variables,
-            });
-
             // Creating new cached query for the created project
             cache.writeQuery<ProjectQuery, ProjectQueryVariables>({
                 query: ProjectDocument,
@@ -93,6 +58,24 @@ export const useICreateProjectMutation = () => {
                 },
                 data: {
                     project: p,
+                },
+            });
+
+            // Updating the projects list
+            cache.modify("ROOT_QUERY", {
+                projects: (refs: Reference[], { readField }) => {
+                    const [ref] = refs;
+                    const isClosed = readField("closed", ref);
+
+                    if (isClosed) {
+                        return refs;
+                    }
+
+                    return produce(refs, d => {
+                        d.unshift({
+                            __ref: `Project:${p._id}`,
+                        });
+                    });
                 },
             });
         },
@@ -115,35 +98,21 @@ export const useIRearrangeColumnMutation = (): RearrangeColumnMutationHookResult
                 }
 
                 const {
-                    where: { projectID },
+                    where: { projectID, columnID },
                     data: { initialPosition, finalPosition },
                 } = options.variables!;
 
-                const projectQuery = cache.readQuery<ProjectQuery>({
-                    query: ProjectDocument,
-                    variables: {
-                        where: {
-                            _id: projectID,
-                        },
+                cache.modify(`Project:${projectID}`, {
+                    columns: (refs: Reference[]) => {
+                        return produce(refs, d => {
+                            d.splice(initialPosition, 1);
+
+                            d.splice(finalPosition, 0, {
+                                __ref: `Column:${columnID}`,
+                            });
+                        });
                     },
                 });
-
-                if (projectQuery) {
-                    const project = produce(projectQuery.project, draft => {
-                        const [f] = draft!.columns.splice(initialPosition, 1);
-                        draft!.columns.splice(finalPosition, 0, f);
-                    });
-
-                    cache.writeQuery<ProjectQuery>({
-                        query: ProjectDocument,
-                        variables: {
-                            where: {
-                                _id: projectID,
-                            },
-                        },
-                        data: { project },
-                    });
-                }
             },
         });
     };
@@ -177,7 +146,7 @@ export const useIRearrangeIssueMutation = (): RearrangeIssueMutationHookResult =
                 }
 
                 const {
-                    where: { columnID },
+                    where: { columnID, issueID },
                     data: {
                         destinationColumnID,
                         initialPosition,
@@ -185,63 +154,38 @@ export const useIRearrangeIssueMutation = (): RearrangeIssueMutationHookResult =
                     },
                 } = options.variables!;
 
-                const initColumn = cache.readFragment<ColumnFragmentFragment>({
-                    fragment: ColumnFragmentFragmentDoc,
-                    id: `Column:${columnID}`,
+                const __ref = `Issue:${issueID}`;
+
+                cache.modify(`Column:${columnID}`, {
+                    issues: (refs: Reference[]) => {
+                        // If the issue changes its column
+                        // Remove the issue from the initial column
+                        if (columnID !== destinationColumnID) {
+                            return produce(refs, d => {
+                                d.splice(initialPosition, 1);
+                            });
+                        }
+
+                        // If the issue changes its position in the same column
+                        return produce(refs, d => {
+                            d.splice(initialPosition, 1);
+
+                            d.splice(finalPosition, 0, { __ref });
+                        });
+                    },
                 });
 
-                if (!initColumn) {
-                    return false;
-                }
-
+                // If the column is changed then update the destination column
+                // relative to the final index
                 if (columnID !== destinationColumnID) {
-                    const destColumn = cache.readFragment<
-                        ColumnFragmentFragment
-                    >({
-                        fragment: ColumnFragmentFragmentDoc,
-                        id: `Column:${destinationColumnID}`,
+                    cache.modify(`Column:${destinationColumnID}`, {
+                        issues: (refs: Reference[]) => {
+                            return produce(refs, d => {
+                                d.splice(finalPosition, 0, { __ref });
+                            });
+                        },
                     });
-
-                    const updatedInitColumn = produce(initColumn, draft => {
-                        draft.issues.splice(initialPosition, 1);
-                    });
-
-                    const updatedDestColumn = produce(destColumn, draft => {
-                        const f = initColumn.issues[initialPosition];
-                        draft!.issues.splice(finalPosition, 0, f);
-                    });
-
-                    cache.writeFragment<ColumnFragmentFragment>({
-                        fragment: ColumnFragmentFragmentDoc,
-                        id: `Column:${columnID}`,
-                        data: updatedInitColumn,
-                    });
-
-                    cache.writeFragment<ColumnFragmentFragment>({
-                        fragment: ColumnFragmentFragmentDoc,
-                        id: `Column:${destinationColumnID}`,
-                        data: updatedDestColumn!,
-                    });
-
-                    return true;
                 }
-
-                if (initialPosition !== finalPosition) {
-                    const updatedColumn = produce(initColumn, draft => {
-                        const [f] = draft.issues.splice(initialPosition, 1);
-                        draft.issues.splice(finalPosition, 0, f);
-                    });
-
-                    cache.writeFragment<ColumnFragmentFragment>({
-                        fragment: ColumnFragmentFragmentDoc,
-                        id: `Column:${columnID}`,
-                        data: updatedColumn,
-                    });
-
-                    return true;
-                }
-
-                return false;
             },
         });
     };

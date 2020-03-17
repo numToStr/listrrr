@@ -1,21 +1,17 @@
-import { gql } from "@apollo/client";
 import produce from "immer";
+import { Reference } from "@apollo/client";
 import {
     useIssuesQuery,
     useIssuesLazyQuery,
     useIssueQuery,
     useCreateIssueMutation,
-    Status,
-    IssuesQuery,
     IssuesQueryVariables,
-    IssuesDocument,
     IssueQueryVariables,
     IssueQuery,
     IssueDocument,
     useUpdateIssueProjectsMutation,
     UpdateIssueProjectsMutationHookResult,
     UpdateIssueProjectsMutationFn,
-    ProjectFragmentFragment,
 } from "../generated/graphql";
 
 export const useIIssuesQuery = (variables: IssuesQueryVariables) => {
@@ -43,34 +39,6 @@ export const useICreateIssueMutation = () => {
 
             const { createIssue: i } = data;
 
-            const variables = {
-                filters: {
-                    status: Status.OPEN,
-                },
-            };
-
-            const cached = cache.readQuery<IssuesQuery, IssuesQueryVariables>({
-                query: IssuesDocument,
-                variables,
-            });
-
-            if (!cached) {
-                return;
-            }
-
-            const issues = produce(cached.issues, draft => {
-                draft.unshift(i);
-            });
-
-            // Pushing to project list
-            cache.writeQuery<IssuesQuery, IssuesQueryVariables>({
-                query: IssuesDocument,
-                data: {
-                    issues,
-                },
-                variables,
-            });
-
             // Creating new cached query for the created project
             cache.writeQuery<IssueQuery, IssueQueryVariables>({
                 query: IssueDocument,
@@ -81,6 +49,28 @@ export const useICreateIssueMutation = () => {
                 },
                 data: {
                     issue: i,
+                },
+            });
+
+            cache.modify("ROOT_QUERY", {
+                issues: (refs: Reference[], { readField }) => {
+                    const [ref] = refs;
+
+                    const isClosed = readField("closed", ref);
+
+                    // Checking if the list is for closed or open items
+                    // If closed then return
+                    // If opened then update
+
+                    if (isClosed) {
+                        return refs;
+                    }
+
+                    return produce(refs, d => {
+                        d.unshift({
+                            __ref: `Issue:${i._id}`,
+                        });
+                    });
                 },
             });
         },
@@ -106,46 +96,9 @@ export const useIUpdateIssueProjects = (): UpdateIssueProjectsMutationHookResult
                     where: { _id },
                 } = options.variables!;
 
-                const t = cache.readQuery<IssueQuery, IssueQueryVariables>({
-                    query: IssueDocument,
-                    variables: {
-                        where: {
-                            _id,
-                        },
-                    },
-                });
-
-                const projects = projectIDs.map(_id => {
-                    return cache.readFragment<ProjectFragmentFragment>({
-                        fragment: gql`
-                            fragment FP on Project {
-                                _id
-                                title
-                            }
-                        `,
-                        id: `Project:${_id}`,
-                    });
-                });
-
-                if (!t) {
-                    return false;
-                }
-
-                const tt = produce(t.issue, d => {
-                    if (d) {
-                        d.projects = projects;
-                    }
-                });
-
-                cache.writeQuery<IssueQuery, IssueQueryVariables>({
-                    query: IssueDocument,
-                    variables: {
-                        where: {
-                            _id,
-                        },
-                    },
-                    data: {
-                        issue: tt,
+                cache.modify(`Issue:${_id}`, {
+                    projects: () => {
+                        return projectIDs.map(p => ({ __ref: `Project:${p}` }));
                     },
                 });
             },
