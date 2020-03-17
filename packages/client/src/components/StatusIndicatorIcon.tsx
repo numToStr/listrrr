@@ -3,20 +3,21 @@ import { SvgIconProps, makeStyles, Theme } from "@material-ui/core";
 import OpenIcon from "@material-ui/icons/ErrorOutline";
 import ClosedIcon from "@material-ui/icons/CheckCircleOutline";
 import { StatusColors } from "../@types/types";
+import { useStatusColor } from "../utils/hooks/useStatusColor";
 
 type Props = SvgIconProps & {
     closed: boolean;
 };
 
 type StyleProps = {
-    closed: boolean;
+    color: StatusColors;
 };
 
 const useStyles = makeStyles(({ spacing }: Theme) => {
     const d = spacing(0.5);
     return {
-        icon: ({ closed }: StyleProps) => ({
-            fill: closed ? StatusColors.CLOSED : StatusColors.OPEN,
+        icon: ({ color }: StyleProps) => ({
+            fill: color,
             paddingLeft: d,
             paddingRight: d,
         }),
@@ -24,7 +25,8 @@ const useStyles = makeStyles(({ spacing }: Theme) => {
 });
 
 const StatusIndicator: FC<Props> = ({ closed, ...props }) => {
-    const classes = useStyles({ closed });
+    const color = useStatusColor(closed);
+    const classes = useStyles({ color });
 
     return closed ? (
         <ClosedIcon className={classes.icon} {...props} />
