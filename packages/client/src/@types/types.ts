@@ -1,6 +1,10 @@
 import { FormikHelpers } from "formik";
 import { Color } from "@material-ui/core";
 
+export enum StatusColors {
+    OPEN = "#269f42",
+    CLOSED = "#f00c1d",
+}
 export interface RequestHeaders {
     authorization?: string;
 }

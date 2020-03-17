@@ -81,6 +81,7 @@ fragment ColumnFragment on Column {
     issues {
         _id
         title
+        closed
         updatedAt
     }
 }

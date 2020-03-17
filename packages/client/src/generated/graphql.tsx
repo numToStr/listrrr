@@ -374,7 +374,7 @@ export type ProjectFragmentFragment = Pick<Project, '_id' | 'title' | 'descripti
 
 export type ColumnFragmentFragment = (
   Pick<Column, '_id' | 'title'>
-  & { issues: Array<Maybe<Pick<Issue, '_id' | 'title' | 'updatedAt'>>> }
+  & { issues: Array<Maybe<Pick<Issue, '_id' | 'title' | 'closed' | 'updatedAt'>>> }
 );
 
 export type ProjectsQueryVariables = {
@@ -504,6 +504,7 @@ export const ColumnFragmentFragmentDoc = gql`
   issues {
     _id
     title
+    closed
     updatedAt
   }
 }
