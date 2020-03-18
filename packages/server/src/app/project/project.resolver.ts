@@ -28,6 +28,11 @@ import { ProjectService } from "./project.service";
 import { Selections } from "../../utils/decorator/selections.decorator";
 import { MongoSelectionSet } from "../../@types/types";
 
+const aliases = {
+    createdBy: "userID",
+    columns: "columnIDs",
+};
+
 @InputType()
 export class CreateProjectInput extends TitleAndDescSchema {
     @Field({
@@ -60,8 +65,8 @@ export class ProjectConnectionResolver {
     // Resolvers ==========================================================
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => ProjectConnection)
-    async projectConnections(
-        @Selections() select: MongoSelectionSet,
+    projectConnections(
+        @Selections(aliases) select: MongoSelectionSet,
         @Args() args: ConnectionArgsType,
         @Arg("filters") filters: Filters
     ) {
@@ -75,7 +80,7 @@ export class ProjectResolver {
 
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
-    async createdBy(
+    createdBy(
         @Ctx() ctx: AppContext,
         @Root() { userID }: Project
     ): Promise<User> {
@@ -83,7 +88,7 @@ export class ProjectResolver {
     }
 
     @FieldResolver(() => [Column])
-    async columns(
+    columns(
         @Ctx() ctx: AppContext,
         @Root() { columnIDs }: Project
     ): Promise<(Column | Error)[]> {
@@ -96,7 +101,7 @@ export class ProjectResolver {
         nullable: "items",
     })
     projects(
-        @Selections() select: MongoSelectionSet,
+        @Selections(aliases) select: MongoSelectionSet,
         @Arg("filters") filters: Filters
     ): Promise<Project[]> {
         return this.projectSerive.projects(select, filters);
@@ -106,8 +111,8 @@ export class ProjectResolver {
     @Query(() => Project, {
         nullable: true,
     })
-    async project(
-        @Selections() select: MongoSelectionSet,
+    project(
+        @Selections(aliases) select: MongoSelectionSet,
         @Arg("where") { _id }: FindInput
     ): Promise<Project> {
         return this.projectSerive.project(_id, select);
@@ -115,15 +120,13 @@ export class ProjectResolver {
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Project)
-    async createProject(
-        @Arg("data") data: CreateProjectInput
-    ): Promise<Project> {
+    createProject(@Arg("data") data: CreateProjectInput): Promise<Project> {
         return this.projectSerive.createProject(data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
-    async rearrangeColumn(
+    rearrangeColumn(
         @Arg("where") where: RearrangeColumnFindInput,
         @Arg("data") data: RearrangeColumnInput
     ): Promise<boolean> {
