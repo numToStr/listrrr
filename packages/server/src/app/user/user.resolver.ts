@@ -1,17 +1,16 @@
-import { Resolver, Query, Ctx, Authorized, Info } from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import { Resolver, Query, Authorized } from "type-graphql";
 import { User, AuthRolesEnum } from "./user.schema";
-import { AppContext } from "../../utils/schema/context";
 import { UserService } from "./user.service";
+import { Selections } from "../../utils/decorator/selections.decorator";
+import { MongoSelectionSet } from "../../@types/types";
 
 @Resolver()
 export class UserResolver {
+    constructor(private userService: UserService) {}
+
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER, AuthRolesEnum.ADMIN])
     @Query(() => User)
-    me(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo
-    ): Promise<User> {
-        return new UserService(ctx, info).me();
+    me(@Selections() select: MongoSelectionSet): Promise<User> {
+        return this.userService.me(select);
     }
 }

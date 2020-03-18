@@ -1,26 +1,16 @@
-import { GraphQLResolveInfo } from "graphql";
-import { Types } from "mongoose";
-import { AppContext } from "../../utils/schema/context";
+import { Service, Inject } from "typedi";
 import { UserDAL } from "./user.dal";
 import { User } from "./user.schema";
-import { RootService } from "../../utils/fns/root.service";
+import { TokenPayload, MongoSelectionSet } from "../../@types/types";
 
-export class UserService extends RootService {
-    constructor(ctx: AppContext, info: GraphQLResolveInfo) {
-        super(ctx, info);
-    }
+@Service()
+export class UserService {
+    @Inject("USER")
+    private user: TokenPayload;
 
-    me(): Promise<User> {
-        return new UserDAL({ _id: this.ID }).findOne({
-            select: this.selections(),
-        });
-    }
-
-    createdBy(_id: Types.ObjectId): Promise<User> {
-        return new UserDAL({
-            _id,
-        }).findOne({
-            select: this.selections(),
+    me(select: MongoSelectionSet): Promise<User> {
+        return new UserDAL({ _id: this.user.ID }).findOne({
+            select,
         });
     }
 }
