@@ -1,92 +1,49 @@
 import { Types } from "mongoose";
+import { Service, Inject } from "typedi";
 import { UserInputError } from "apollo-server-errors";
-import { GraphQLResolveInfo } from "graphql";
-import { connectionFromArraySlice, Connection } from "graphql-relay";
-import { ProjectDAL } from "./project.dal";
+import { Connection, connectionFromArraySlice } from "graphql-relay";
+import { TokenPayload, MongoSelectionSet } from "../../@types/types";
 import { Project, ProjectConnection } from "./project.schema";
+import { Filters, RearrangeColumnInput } from "../shared/shared.schema";
+import { parseQueryFilters } from "../../utils/fns/object.util";
+import { ProjectDAL } from "./project.dal";
 import {
     CreateProjectInput,
     RearrangeColumnFindInput,
 } from "./project.resolver";
-import { AppContext } from "../../utils/schema/context";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
-import { RearrangeColumnInput, Filters } from "../shared/shared.schema";
-import { parseQueryFilters } from "../../utils/fns/object.util";
 import { ConnectionArgsType } from "../../utils/schema/connection";
-import { RootService } from "../../utils/fns/root.service";
 
-export class ProjectService extends RootService {
-    constructor(ctx: AppContext, info: GraphQLResolveInfo) {
-        super(ctx, info);
+@Service()
+export class ProjectService {
+    @Inject("USER")
+    private user: TokenPayload;
+
+    private parseFilters(f: Filters) {
+        return parseQueryFilters(f);
     }
 
-    private fltr: Filters;
+    projects(select: MongoSelectionSet, filters: Filters): Promise<Project[]> {
+        const { sort, closed } = this.parseFilters(filters);
 
-    private readonly aliases = {
-        createdBy: "userID",
-        columns: "columnIDs",
-    };
-
-    private parseF() {
-        return parseQueryFilters(this.fltr);
-    }
-
-    filters(f: Filters) {
-        this.fltr = f;
-
-        return this;
-    }
-
-    async paginated(
-        args: ConnectionArgsType
-    ): Promise<Connection<Project> | ProjectConnection> {
-        const { offset, limit } = args.pagingParams();
-        const { sort, closed } = this.parseF();
-
-        const dal = new ProjectDAL({ userID: this.ID, closed });
-
-        const [data, count] = await Promise.all([
-            dal.findAll({
-                sort,
-                limit,
-                skip: offset,
-                select: this.selections(this.aliases),
-            }),
-            dal.count(),
-        ]);
-
-        const pages = connectionFromArraySlice(data, args, {
-            arrayLength: count,
-            sliceStart: offset,
-        });
-
-        return {
-            ...pages,
-            totalCount: count,
-        };
-    }
-
-    projects(): Promise<Project[]> {
-        const { sort, closed } = this.parseF();
-
-        return new ProjectDAL({ userID: this.ID, closed }).findAll({
-            select: this.selections(this.aliases),
+        return new ProjectDAL({ userID: this.user.ID, closed }).findAll({
+            select,
             sort,
         });
     }
 
-    project(_id: Types.ObjectId): Promise<Project> {
-        return new ProjectDAL({ _id, userID: this.ID }).findOne({
-            select: this.selections(this.aliases),
+    project(_id: Types.ObjectId, select: MongoSelectionSet): Promise<Project> {
+        return new ProjectDAL({ _id, userID: this.user.ID }).findOne({
+            select,
         });
     }
 
-    async createProject({
-        title,
-        description,
-        templateID,
-    }: Omit<CreateProjectInput, "_id">): Promise<Project> {
+    async createProject(
+        createProjectDTO: Omit<CreateProjectInput, "_id">
+    ): Promise<Project> {
+        const { title, description, templateID } = createProjectDTO;
+
         const template = await new TemplateDAL({
             _id: templateID,
         }).findOne({
@@ -97,9 +54,11 @@ export class ProjectService extends RootService {
             throw new Error("Template not found");
         }
 
+        const userID = Types.ObjectId(this.user.ID);
+
         const newColumns = template.columns.map(col => ({
             ...col,
-            userID: this.ID,
+            userID,
         }));
 
         const { insertedIds } = await new ColumnDAL().createMany(newColumns);
@@ -107,16 +66,19 @@ export class ProjectService extends RootService {
         return new ProjectDAL().create({
             title,
             description,
-            userID: this.ID,
+            userID,
             templateID,
             columnIDs: Object.values(insertedIds),
         });
     }
 
     async rearrangeColumn(
-        { projectID, columnID }: RearrangeColumnFindInput,
-        { initialPosition, finalPosition }: RearrangeColumnInput
+        where: RearrangeColumnFindInput,
+        data: RearrangeColumnInput
     ): Promise<boolean> {
+        const { projectID, columnID } = where;
+        const { initialPosition, finalPosition } = data;
+
         if (initialPosition === finalPosition) {
             throw new UserInputError("Initial and Final position are equal :/");
         }
@@ -131,7 +93,7 @@ export class ProjectService extends RootService {
 
         const dal = new ProjectDAL({
             _id: projectID,
-            userID: this.ID,
+            userID: this.user.ID,
         });
 
         // Removing the columnId from the columnIDs[]
@@ -161,10 +123,41 @@ export class ProjectService extends RootService {
     }
 
     closedCount() {
-        return new ProjectDAL({ userID: this.ID, closed: true }).count();
+        return new ProjectDAL({ userID: this.user.ID, closed: true }).count();
     }
 
     openCount() {
-        return new ProjectDAL({ userID: this.ID, closed: false }).count();
+        return new ProjectDAL({ userID: this.user.ID, closed: false }).count();
+    }
+
+    async paginated(
+        args: ConnectionArgsType,
+        select: MongoSelectionSet,
+        filters: Filters
+    ): Promise<Connection<Project> | ProjectConnection> {
+        const { offset, limit } = args.pagingParams();
+        const { sort, closed } = this.parseFilters(filters);
+
+        const dal = new ProjectDAL({ userID: this.user.ID, closed });
+
+        const [data, count] = await Promise.all([
+            dal.findAll({
+                sort,
+                limit,
+                skip: offset,
+                select,
+            }),
+            dal.count(),
+        ]);
+
+        const pages = connectionFromArraySlice(data, args, {
+            arrayLength: count,
+            sliceStart: offset,
+        });
+
+        return {
+            ...pages,
+            totalCount: count,
+        };
     }
 }
