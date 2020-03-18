@@ -1,96 +1,47 @@
 import { Types } from "mongoose";
-import { GraphQLResolveInfo } from "graphql";
-import { Connection, connectionFromArraySlice } from "graphql-relay";
-import { IssueDAL } from "./issue.dal";
+import { Inject, Service } from "typedi";
+import { connectionFromArraySlice, Connection } from "graphql-relay";
 import { Issue, IssueConnection } from "./issue.schema";
+import { IssueDAL } from "./issue.dal";
+import { TokenPayload, MongoSelectionSet } from "../../@types/types";
+import { parseQueryFilters } from "../../utils/fns/object.util";
+import { Filters, FindInput } from "../shared/shared.schema";
 import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
-import { AppContext } from "../../utils/schema/context";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL, OK } from "../column/column.dal";
-import { FindInput, Filters } from "../shared/shared.schema";
-import { parseQueryFilters } from "../../utils/fns/object.util";
 import { ConnectionArgsType } from "../../utils/schema/connection";
-import { RootService } from "../../utils/fns/root.service";
 
-export class IssueService extends RootService {
-    constructor(ctx: AppContext, info: GraphQLResolveInfo) {
-        super(ctx, info);
+@Service()
+export class IssueService {
+    @Inject("USER")
+    private readonly user: TokenPayload;
+
+    private parseFilters(f: Filters) {
+        return parseQueryFilters(f);
     }
 
-    private fltr: Filters;
+    issues(select: MongoSelectionSet, filters: Filters): Promise<Issue[]> {
+        const { closed, sort } = this.parseFilters(filters);
 
-    private readonly aliases = {
-        createdBy: "userID",
-        projects: "projectIDs",
-    };
-
-    private parseF() {
-        return parseQueryFilters(this.fltr);
-    }
-
-    private s() {
-        return this.selections(this.aliases);
-    }
-
-    filters(f: Filters) {
-        this.fltr = f;
-
-        return this;
-    }
-
-    async paginated(
-        args: ConnectionArgsType
-    ): Promise<Connection<Issue> | IssueConnection> {
-        const { offset, limit } = args.pagingParams();
-        const { sort, closed } = this.parseF();
-
-        const dal = new IssueDAL({ userID: this.ID, closed });
-
-        const [data, count] = await Promise.all([
-            dal.findAll({
-                sort,
-                limit,
-                skip: offset,
-                select: this.s(),
-            }),
-            dal.count(),
-        ]);
-
-        const pages = connectionFromArraySlice(data, args, {
-            arrayLength: count,
-            sliceStart: offset,
-        });
-
-        return {
-            ...pages,
-            totalCount: count,
-        };
-    }
-
-    async issues(): Promise<Issue[]> {
-        const { closed, sort } = this.parseF();
-
-        return new IssueDAL({ userID: this.ID, closed }).findAll({
+        return new IssueDAL({ userID: this.user.ID, closed }).findAll({
             sort,
-            select: this.s(),
+            select,
         });
     }
 
-    async issue(_id: Types.ObjectId): Promise<Issue> {
-        return new IssueDAL({ _id, userID: this.ID }).findOne({
-            select: this.s(),
+    issue(_id: Types.ObjectId, select: MongoSelectionSet): Promise<Issue> {
+        return new IssueDAL({ _id, userID: this.user.ID }).findOne({
+            select,
         });
     }
 
-    async createIssue({
-        projectIDs,
-        title,
-        description,
-    }: CreateIssueInput): Promise<Issue> {
+    async createIssue(createIssueDTO: CreateIssueInput): Promise<Issue> {
+        const { projectIDs, title, description } = createIssueDTO;
+
         const issue = await new IssueDAL().create({
             title,
             description,
-            userID: this.ID,
+            userID: Types.ObjectId(this.user.ID),
             projectIDs,
         });
 
@@ -114,7 +65,7 @@ export class IssueService extends RootService {
         const [issue] = await Promise.all<Issue, OK>([
             new IssueDAL({
                 _id,
-                userID: this.ID,
+                userID: this.user.ID,
             }).updateOne({ projectIDs }, { select: "_id" }),
             ColumnDAL.removeIssueFromColumns(_id),
         ]);
@@ -135,7 +86,7 @@ export class IssueService extends RootService {
     async deleteIssue({ _id }: FindInput): Promise<Issue> {
         const isDeleted = await new IssueDAL({
             _id,
-            userID: this.ID,
+            userID: this.user.ID,
         }).deleteOne();
 
         if (isDeleted) {
@@ -147,10 +98,41 @@ export class IssueService extends RootService {
     }
 
     closedCount() {
-        return new IssueDAL({ userID: this.ID, closed: true }).count();
+        return new IssueDAL({ userID: this.user.ID, closed: true }).count();
     }
 
     openCount() {
-        return new IssueDAL({ userID: this.ID, closed: false }).count();
+        return new IssueDAL({ userID: this.user.ID, closed: false }).count();
+    }
+
+    async paginated(
+        args: ConnectionArgsType,
+        select: MongoSelectionSet,
+        filters: Filters
+    ): Promise<Connection<Issue> | IssueConnection> {
+        const { offset, limit } = args.pagingParams();
+        const { sort, closed } = this.parseFilters(filters);
+
+        const dal = new IssueDAL({ userID: this.user.ID, closed });
+
+        const [data, count] = await Promise.all([
+            dal.findAll({
+                sort,
+                limit,
+                skip: offset,
+                select,
+            }),
+            dal.count(),
+        ]);
+
+        const pages = connectionFromArraySlice(data, args, {
+            arrayLength: count,
+            sliceStart: offset,
+        });
+
+        return {
+            ...pages,
+            totalCount: count,
+        };
     }
 }
