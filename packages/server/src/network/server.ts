@@ -7,6 +7,7 @@ import fastifyCORS from "fastify-cors";
 import fastifyCompress from "fastify-compress";
 import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
 import { Types } from "mongoose";
+import { Container } from "typedi";
 import { AppContext } from "../utils/schema/context";
 import { authChecker } from "../utils/fns/auth.checker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
@@ -21,6 +22,7 @@ async function bootstrapSchema() {
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,
+        container: Container,
         scalarsMap: [
             {
                 type: Types.ObjectId,

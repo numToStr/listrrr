@@ -48,17 +48,19 @@ export class AuthResponse {
 
 @Resolver()
 export class AuthResolver {
+    constructor(private authService: AuthService) {}
+
     @Mutation(() => AuthResponse, {
         description: "For logging in user",
     })
     async login(@Arg("data") data: LoginInput): Promise<AuthResponse> {
-        return AuthService.login(data);
+        return this.authService.login(data);
     }
 
     @Mutation(() => AuthResponse, {
         description: "For signing up new users",
     })
     async signup(@Arg("data") data: SignupInput): Promise<AuthResponse> {
-        return AuthService.signup(data);
+        return this.authService.signup(data);
     }
 }
