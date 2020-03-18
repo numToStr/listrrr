@@ -31,6 +31,8 @@ export class RearrangeIssueInput extends RearrangeColumnInput {
 
 @Resolver(() => Column)
 export class ColumnResolver {
+    constructor(private columnService: ColumnService) {}
+
     @FieldResolver(() => [Issue], {
         nullable: "items",
     })
@@ -44,10 +46,9 @@ export class ColumnResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async rearrangeIssue(
-        @Ctx() ctx: AppContext,
         @Arg("where") where: RearrangeIssueFindInput,
         @Arg("data") data: RearrangeIssueInput
     ): Promise<boolean> {
-        return new ColumnService(ctx).rearrangeIssue(where, data);
+        return this.columnService.rearrangeIssue(where, data);
     }
 }

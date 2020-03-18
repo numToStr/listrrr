@@ -1,26 +1,27 @@
-import { Types } from "mongoose";
-import { AppContext } from "../../utils/schema/context";
+import { Service, Inject } from "typedi";
 import {
     RearrangeIssueFindInput,
     RearrangeIssueInput,
 } from "./column.resolver";
 import { ColumnDAL } from "./column.dal";
+import { TokenPayload } from "../../@types/types";
 
+@Service()
 export class ColumnService {
-    constructor(private ctx: AppContext) {}
-
-    private get ID() {
-        return Types.ObjectId(this.ctx.USER.ID);
-    }
+    @Inject("USER")
+    private user: TokenPayload;
 
     async rearrangeIssue(
-        { columnID, issueID }: RearrangeIssueFindInput,
-        {
+        findDTO: RearrangeIssueFindInput,
+        rearrageIssueDTO: RearrangeIssueInput
+    ): Promise<boolean> {
+        const { columnID, issueID } = findDTO;
+        const {
             destinationColumnID,
             initialPosition,
             finalPosition,
-        }: RearrangeIssueInput
-    ): Promise<boolean> {
+        } = rearrageIssueDTO;
+
         /**
          * Cases:
          *
@@ -34,7 +35,7 @@ export class ColumnService {
 
         const dal = new ColumnDAL({
             _id: columnID,
-            userID: this.ID,
+            userID: this.user.ID,
         });
 
         // When issue changes its columns
@@ -52,7 +53,7 @@ export class ColumnService {
 
             const isUpdated = await new ColumnDAL({
                 _id: destinationColumnID,
-                userID: this.ID,
+                userID: this.user.ID,
             }).updateOne(
                 {
                     $push: {
