@@ -70,9 +70,9 @@ export class IssueConnectionResolver {
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => IssueConnection)
     issueConnection(
+        @Selections(aliases) select: MongoSelectionSet,
         @Args() args: ConnectionArgsType,
-        @Arg("filters") filters: Filters,
-        @Selections() select: MongoSelectionSet
+        @Arg("filters") filters: Filters
     ) {
         return this.issueService.paginated(args, select, filters);
     }
@@ -84,7 +84,7 @@ export class IssueResolver {
 
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
-    async createdBy(
+    createdBy(
         @Ctx() ctx: AppContext,
         @Root() { userID }: Project
     ): Promise<User> {
@@ -92,7 +92,7 @@ export class IssueResolver {
     }
 
     @FieldResolver(() => Project)
-    async projects(
+    projects(
         @Root() { projectIDs }: Issue,
         @Ctx() ctx: AppContext
     ): Promise<(Project | Error)[]> {
@@ -130,7 +130,7 @@ export class IssueResolver {
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
-    async updateIssueProjects(
+    updateIssueProjects(
         @Arg("where") where: FindInput,
         @Arg("data") data: UpdateIssueProjectInput
     ): Promise<boolean> {
@@ -141,7 +141,7 @@ export class IssueResolver {
     @Mutation(() => Issue, {
         nullable: true,
     })
-    async deleteIssue(@Arg("where") where: FindInput): Promise<Issue> {
+    deleteIssue(@Arg("where") where: FindInput): Promise<Issue> {
         return this.issueService.deleteIssue(where);
     }
 }
