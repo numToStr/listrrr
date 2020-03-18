@@ -50,10 +50,10 @@
         ]
     },
     "devDependencies": {
-        "@graphql-codegen/cli": "^1.13.0",
-        "@graphql-codegen/typescript": "^1.13.0",
-        "@graphql-codegen/typescript-operations": "^1.13.0",
-        "@graphql-codegen/typescript-react-apollo": "^1.13.0",
+        "@graphql-codegen/cli": "^1.13.1",
+        "@graphql-codegen/typescript": "^1.13.1",
+        "@graphql-codegen/typescript-operations": "^1.13.1",
+        "@graphql-codegen/typescript-react-apollo": "^1.13.1",
         "customize-cra": "^0.9.1",
         "customize-cra-react-refresh": "^1.0.1",
         "react-app-rewired": "^2.1.5"

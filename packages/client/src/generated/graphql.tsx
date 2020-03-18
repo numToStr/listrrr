@@ -355,7 +355,7 @@ export type IssueQueryVariables = {
 };
 
 
-export type IssueQuery = { issue: Maybe<(
+export type IssueQuery = { issue?: Maybe<(
     { projects: Array<Maybe<Pick<Project, '_id' | 'title'>>> }
     & IssueFragmentFragment
   )> };
@@ -399,7 +399,7 @@ export type ProjectQueryVariables = {
 };
 
 
-export type ProjectQuery = { project: Maybe<(
+export type ProjectQuery = { project?: Maybe<(
     { columns: Array<ColumnFragmentFragment> }
     & ProjectFragmentFragment
   )> };
@@ -436,7 +436,7 @@ export type EditDetailsMutationVariables = {
 };
 
 
-export type EditDetailsMutation = { updateTitleAndDescription: Maybe<IssueFragmentFragment | ProjectFragmentFragment> };
+export type EditDetailsMutation = { updateTitleAndDescription?: Maybe<IssueFragmentFragment | ProjectFragmentFragment> };
 
 export type CloseOrOpenMutationVariables = {
   where: FindEntityInput;
