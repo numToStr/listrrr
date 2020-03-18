@@ -5,7 +5,11 @@ import fastifyGQL from "fastify-gql";
 import fastifyHelmet from "fastify-helmet";
 import fastifyCORS from "fastify-cors";
 import fastifyCompress from "fastify-compress";
-import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
+import {
+    buildSchema,
+    emitSchemaDefinitionFile,
+    ResolverData,
+} from "type-graphql";
 import { Types } from "mongoose";
 import { Container } from "typedi";
 import { AppContext } from "../utils/schema/context";
@@ -22,7 +26,7 @@ async function bootstrapSchema() {
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,
-        container: Container,
+        container: ({ context }: ResolverData<AppContext>) => context.container,
         scalarsMap: [
             {
                 type: Types.ObjectId,
@@ -37,6 +41,13 @@ async function bootstrapSchema() {
 }
 
 export const server = bootstrapSchema().then(schema => {
+    app.addHook("onResponse", (req, _res, done) => {
+        // Just reseting the DI container which is initialized in the AppContext
+        Container.reset(req.id);
+
+        done();
+    });
+
     app.register(fastifyGQL, {
         schema,
         routes: true,
