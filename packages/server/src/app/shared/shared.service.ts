@@ -1,5 +1,4 @@
-import { Types } from "mongoose";
-import { AppContext } from "../../utils/schema/context";
+import { Inject, Service } from "typedi";
 import {
     FindEntityInput,
     ClosedInput,
@@ -9,22 +8,23 @@ import {
 import { IssueDAL } from "../issue/issue.dal";
 import { ProjectDAL } from "../project/project.dal";
 import { TitleAndDescSchema } from "./shared.schema";
+import { TokenPayload } from "../../@types/types";
 
+@Service()
 export class SharedService {
-    constructor(private ctx: AppContext) {}
-
-    private get ID() {
-        return Types.ObjectId(this.ctx.USER.ID);
-    }
+    @Inject("USER")
+    private user: TokenPayload;
 
     async closedOrOpen(
-        { _id, type }: FindEntityInput,
+        where: FindEntityInput,
         data: ClosedInput
     ): Promise<boolean> {
+        const { _id, type } = where;
+
         if (type === EntityType.ISSUE) {
             const ii = await new IssueDAL({
                 _id,
-                userID: this.ID,
+                userID: this.user.ID,
             }).updateOne(data, { select: "_id" });
 
             return !!ii;
@@ -32,20 +32,22 @@ export class SharedService {
 
         const pp = await new ProjectDAL({
             _id,
-            userID: this.ID,
+            userID: this.user.ID,
         }).updateOne(data, { select: "_id" });
 
         return !!pp;
     }
 
     updateTitleAndDescription(
-        { _id, type }: FindEntityInput,
+        where: FindEntityInput,
         data: TitleAndDescSchema
     ): Promise<typeof Entity> {
+        const { _id, type } = where;
+
         if (type === EntityType.ISSUE) {
-            return new IssueDAL({ _id, userID: this.ID }).updateOne(data);
+            return new IssueDAL({ _id, userID: this.user.ID }).updateOne(data);
         }
 
-        return new ProjectDAL({ _id, userID: this.ID }).updateOne(data);
+        return new ProjectDAL({ _id, userID: this.user.ID }).updateOne(data);
     }
 }
