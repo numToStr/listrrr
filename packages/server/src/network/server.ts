@@ -19,10 +19,11 @@ import { ObjectIdScalar } from "../utils/schema/scalars";
 const app = fastify();
 
 const schemaFilePath = join(__dirname, "..", "..", "schema.gql");
+const resolversPath = join(__dirname, "..", "app/**/*.resolver.{ts,js}");
 
 async function bootstrapSchema() {
     const schema = await buildSchema({
-        resolvers: [join(__dirname, "..", "app/**/*.resolver.{ts,js}")],
+        resolvers: [resolversPath],
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,
