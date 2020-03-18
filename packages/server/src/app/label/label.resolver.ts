@@ -5,11 +5,13 @@ import { AuthRolesEnum } from "../user/user.schema";
 
 @Resolver()
 export class LabelResolver {
+    constructor(private labelService: LabelService) {}
+
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => [Label], {
         nullable: "items",
     })
     labels(): Promise<Label[]> {
-        return new LabelService().labels();
+        return this.labelService.labels();
     }
 }

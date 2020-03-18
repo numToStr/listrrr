@@ -1,6 +1,8 @@
+import { Service } from "typedi";
 import { LableDAL } from "./label.dal";
 import { Label } from "./label.schema";
 
+@Service()
 export class LabelService {
     // constructor(private ctx: AppContext) {}
 
