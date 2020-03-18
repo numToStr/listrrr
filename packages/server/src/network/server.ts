@@ -5,8 +5,13 @@ import fastifyGQL from "fastify-gql";
 import fastifyHelmet from "fastify-helmet";
 import fastifyCORS from "fastify-cors";
 import fastifyCompress from "fastify-compress";
-import { buildSchema, emitSchemaDefinitionFile } from "type-graphql";
+import {
+    buildSchema,
+    emitSchemaDefinitionFile,
+    ResolverData,
+} from "type-graphql";
 import { Types } from "mongoose";
+import { Container } from "typedi";
 import { AppContext } from "../utils/schema/context";
 import { authChecker } from "../utils/fns/auth.checker";
 import { ObjectIdScalar } from "../utils/schema/scalars";
@@ -14,13 +19,15 @@ import { ObjectIdScalar } from "../utils/schema/scalars";
 const app = fastify();
 
 const schemaFilePath = join(__dirname, "..", "..", "schema.gql");
+const resolversPath = join(__dirname, "..", "app/**/*.resolver.{ts,js}");
 
 async function bootstrapSchema() {
     const schema = await buildSchema({
-        resolvers: [join(__dirname, "..", "app/**/*.resolver.{ts,js}")],
+        resolvers: [resolversPath],
         dateScalarMode: "isoDate",
         validate: false,
         authChecker,
+        container: ({ context }: ResolverData<AppContext>) => context.container,
         scalarsMap: [
             {
                 type: Types.ObjectId,
@@ -35,6 +42,13 @@ async function bootstrapSchema() {
 }
 
 export const server = bootstrapSchema().then(schema => {
+    app.addHook("onResponse", (req, _res, done) => {
+        // Just reseting the DI container which is initialized in the AppContext
+        Container.reset(req.id);
+
+        done();
+    });
+
     app.register(fastifyGQL, {
         schema,
         routes: true,

@@ -4,9 +4,10 @@ import { Draggable } from "react-beautiful-dnd";
 import { Issue } from "../../generated/graphql";
 import UpdatedAt from "../Date/UpdatedAt";
 import BaseRouterLink from "../Base/BaseRouterLink";
+import StatusIndicatorIcon from "../StatusIndicatorIcon";
 
 type Props = {
-    issue: Pick<Issue, "_id" | "title" | "updatedAt">;
+    issue: Pick<Issue, "_id" | "title" | "updatedAt" | "closed">;
     index: number;
 };
 
@@ -29,14 +30,17 @@ const ColumnIssueItem: FC<Props> = ({ issue, index }) => {
                         borderColor={isDragging ? "grey.700" : "grey.500"}
                         boxShadow={isDragging ? 5 : 0}
                     >
-                        <Link
-                            color="textPrimary"
-                            component={BaseRouterLink}
-                            to={`/d/issue/${issue._id}`}
-                            variant="body1"
-                        >
-                            {issue.title}
-                        </Link>
+                        <Box display="flex" alignItems="center">
+                            <Link
+                                color="textPrimary"
+                                component={BaseRouterLink}
+                                to={`/d/issue/${issue._id}`}
+                                variant="body1"
+                            >
+                                {issue.title}
+                            </Link>
+                            <StatusIndicatorIcon closed={issue.closed} />
+                        </Box>
                         <UpdatedAt date={issue.updatedAt} />
                     </Box>
                 </Grid>

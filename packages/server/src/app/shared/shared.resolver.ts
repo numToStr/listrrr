@@ -4,14 +4,12 @@ import {
     Mutation,
     InputType,
     Field,
-    Ctx,
     Arg,
     createUnionType,
     registerEnumType,
 } from "type-graphql";
 import { AuthRolesEnum } from "../user/user.schema";
 import { Issue } from "../issue/issue.schema";
-import { AppContext } from "../../utils/schema/context";
 import { FindInput, TitleAndDescSchema } from "./shared.schema";
 import { Project } from "../project/project.schema";
 import { SharedService } from "./shared.service";
@@ -47,17 +45,18 @@ export const Entity = createUnionType({
 
 @Resolver()
 export class SharedResolver {
+    constructor(private sharedService: SharedService) {}
+
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean, {
         nullable: true,
         description: "For closing/reopening a particular issue/project",
     })
     closeOrOpen(
-        @Ctx() ctx: AppContext,
         @Arg("where") where: FindEntityInput,
         @Arg("data") data: ClosedInput
     ) {
-        return new SharedService(ctx).closedOrOpen(where, data);
+        return this.sharedService.closedOrOpen(where, data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
@@ -67,11 +66,10 @@ export class SharedResolver {
             "For updating title and description of a particular issue/project",
     })
     updateTitleAndDescription(
-        @Ctx() ctx: AppContext,
         @Arg("where") where: FindEntityInput,
         @Arg("data") data: TitleAndDescSchema
     ) {
-        return new SharedService(ctx).updateTitleAndDescription(where, data);
+        return this.sharedService.updateTitleAndDescription(where, data);
     }
 }
 

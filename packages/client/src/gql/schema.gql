@@ -81,6 +81,7 @@ fragment ColumnFragment on Column {
     issues {
         _id
         title
+        closed
         updatedAt
     }
 }
@@ -157,4 +158,13 @@ mutation UpdateIssueProjects(
     $data: UpdateIssueProjectInput!
 ) {
     updateIssueProjects(where: $where, data: $data)
+}
+
+query Labels {
+    labels {
+        _id
+        title
+        color
+        value: _id
+    }
 }

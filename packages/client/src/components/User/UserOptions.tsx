@@ -1,7 +1,6 @@
 import React, {
     Fragment,
     useState,
-    ComponentType,
     lazy,
     useMemo,
     useCallback,
@@ -16,8 +15,9 @@ import {
     ListItemIcon,
     ListItemText,
     styled,
-    IconProps,
+    SvgIconTypeMap,
 } from "@material-ui/core";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import MenuIcon from "@material-ui/icons/MoreVertTwoTone";
 import SettingsIcon from "@material-ui/icons/SettingsTwoTone";
 import ThemeIcon from "@material-ui/icons/ColorLensTwoTone";
@@ -30,7 +30,7 @@ const ThemeDailog = lazy(() =>
 
 interface MenuList {
     title: string;
-    icon: ComponentType<IconProps>;
+    icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
     onClick(): void;
 }
 

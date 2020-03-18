@@ -11,6 +11,7 @@ import { EntityType } from "../generated/graphql";
 import StatusIndicator from "../components/StatusIndicator";
 import IssueCommentForm from "../components/Issue/IssueCommentForm";
 import ProjectSelection from "../components/Project/ProjectSelection";
+import LabelSelection from "../components/Project/LabelSelection";
 
 type Params = {
     issueID: string;
@@ -77,7 +78,14 @@ const IssueView = () => {
                     </Grid>
                     <Hidden xsDown>
                         <Grid item xs>
-                            <ProjectSelection projects={projects} />
+                            <Grid container spacing={2} direction="column">
+                                <Grid item>
+                                    <ProjectSelection projects={projects} />
+                                </Grid>
+                                <Grid item>
+                                    <LabelSelection />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Hidden>
                 </Grid>

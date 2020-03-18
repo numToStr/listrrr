@@ -9,13 +9,10 @@ import {
     InputType,
     Field,
     Mutation,
-    Info,
     Args,
 } from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
 import { Types } from "mongoose";
 import { Issue, IssueConnection } from "./issue.schema";
-import { IssueService } from "./issue.service";
 import { Project } from "../project/project.schema";
 import {
     FindInput,
@@ -25,6 +22,17 @@ import {
 import { AppContext } from "../../utils/schema/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
+import { IssueService } from "./issue.service";
+import { Selections } from "../../utils/decorator/selections.decorator";
+import { MongoSelectionSet } from "../../@types/types";
+
+// Used for getting mongo select
+// by parsing GQL AST
+const aliases = {
+    // Graphql Field : Database Field
+    createdBy: "userID",
+    projects: "projectIDs",
+};
 
 @InputType()
 export class CreateIssueInput extends TitleAndDescSchema {
@@ -45,32 +53,35 @@ export class UpdateIssueProjectInput {
 
 @Resolver(() => IssueConnection)
 export class IssueConnectionResolver {
+    constructor(private issueService: IssueService) {}
+
     // Field Resolvers ==========================================================
     @FieldResolver(() => Number)
-    closedCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
-        return new IssueService(ctx, info).closedCount();
+    closedCount() {
+        return this.issueService.closedCount();
     }
 
     @FieldResolver(() => Number)
-    openCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
-        return new IssueService(ctx, info).openCount();
+    openCount() {
+        return this.issueService.openCount();
     }
 
     // Resolvers ==========================================================
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => IssueConnection)
-    async issueConnection(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+    issueConnection(
         @Args() args: ConnectionArgsType,
-        @Arg("filters") filters: Filters
+        @Arg("filters") filters: Filters,
+        @Selections() select: MongoSelectionSet
     ) {
-        return new IssueService(ctx, info).filters(filters).paginated(args);
+        return this.issueService.paginated(args, select, filters);
     }
 }
 
 @Resolver(() => Issue)
 export class IssueResolver {
+    constructor(private issueService: IssueService) {}
+
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
     async createdBy(
@@ -93,56 +104,44 @@ export class IssueResolver {
     @Query(() => [Issue], {
         nullable: "items",
     })
-    async issues(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+    issues(
+        @Selections(aliases) select: MongoSelectionSet,
         @Arg("filters") filters: Filters
     ): Promise<Issue[]> {
-        return new IssueService(ctx, info).filters(filters).issues();
+        return this.issueService.issues(select, filters);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => Issue, {
         nullable: true,
     })
-    async issue(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+    issue(
+        @Selections(aliases) select: MongoSelectionSet,
         @Arg("where") { _id }: FindInput
     ): Promise<Issue> {
-        return new IssueService(ctx, info).issue(_id);
+        return this.issueService.issue(_id, select);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Issue)
-    async createIssue(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
-        @Arg("data") data: CreateIssueInput
-    ): Promise<Issue> {
-        return new IssueService(ctx, info).createIssue(data);
+    createIssue(@Arg("data") data: CreateIssueInput): Promise<Issue> {
+        return this.issueService.createIssue(data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async updateIssueProjects(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
         @Arg("where") where: FindInput,
         @Arg("data") data: UpdateIssueProjectInput
     ): Promise<boolean> {
-        return new IssueService(ctx, info).updateIssueProjects(where, data);
+        return this.issueService.updateIssueProjects(where, data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Issue, {
         nullable: true,
     })
-    async deleteIssue(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
-        @Arg("where") where: FindInput
-    ): Promise<Issue> {
-        return new IssueService(ctx, info).deleteIssue(where);
+    async deleteIssue(@Arg("where") where: FindInput): Promise<Issue> {
+        return this.issueService.deleteIssue(where);
     }
 }

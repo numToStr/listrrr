@@ -10,12 +10,9 @@ import {
     InputType,
     Authorized,
     Args,
-    Info,
 } from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
 import { Types } from "mongoose";
 import { Project, ProjectConnection } from "./project.schema";
-import { ProjectService } from "./project.service";
 import { User, AuthRolesEnum } from "../user/user.schema";
 import { AppContext } from "../../utils/schema/context";
 import { Column } from "../column/column.schema";
@@ -27,6 +24,9 @@ import {
     Filters,
 } from "../shared/shared.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
+import { ProjectService } from "./project.service";
+import { Selections } from "../../utils/decorator/selections.decorator";
+import { MongoSelectionSet } from "../../@types/types";
 
 @InputType()
 export class CreateProjectInput extends TitleAndDescSchema {
@@ -44,32 +44,35 @@ export class RearrangeColumnFindInput extends ColumnIDInput {
 
 @Resolver(() => ProjectConnection)
 export class ProjectConnectionResolver {
+    constructor(private projectService: ProjectService) {}
+
     // Field Resolvers ==========================================================
     @FieldResolver(() => Number)
-    closedCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
-        return new ProjectService(ctx, info).closedCount();
+    closedCount() {
+        return this.projectService.closedCount();
     }
 
     @FieldResolver(() => Number)
-    openCount(@Ctx() ctx: AppContext, @Info() info: GraphQLResolveInfo) {
-        return new ProjectService(ctx, info).openCount();
+    openCount() {
+        return this.projectService.openCount();
     }
 
     // Resolvers ==========================================================
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Query(() => ProjectConnection)
     async projectConnections(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+        @Selections() select: MongoSelectionSet,
         @Args() args: ConnectionArgsType,
         @Arg("filters") filters: Filters
     ) {
-        return new ProjectService(ctx, info).filters(filters).paginated(args);
+        return this.projectService.paginated(args, select, filters);
     }
 }
 
 @Resolver(() => Project)
 export class ProjectResolver {
+    constructor(private projectSerive: ProjectService) {}
+
     // Field Resolvers ==========================================================
     @FieldResolver(() => User)
     async createdBy(
@@ -92,12 +95,11 @@ export class ProjectResolver {
     @Query(() => [Project], {
         nullable: "items",
     })
-    async projects(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+    projects(
+        @Selections() select: MongoSelectionSet,
         @Arg("filters") filters: Filters
     ): Promise<Project[]> {
-        return new ProjectService(ctx, info).filters(filters).projects();
+        return this.projectSerive.projects(select, filters);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
@@ -105,31 +107,26 @@ export class ProjectResolver {
         nullable: true,
     })
     async project(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
+        @Selections() select: MongoSelectionSet,
         @Arg("where") { _id }: FindInput
     ): Promise<Project> {
-        return new ProjectService(ctx, info).project(_id);
+        return this.projectSerive.project(_id, select);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Project)
     async createProject(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
         @Arg("data") data: CreateProjectInput
     ): Promise<Project> {
-        return new ProjectService(ctx, info).createProject(data);
+        return this.projectSerive.createProject(data);
     }
 
     @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
     @Mutation(() => Boolean)
     async rearrangeColumn(
-        @Ctx() ctx: AppContext,
-        @Info() info: GraphQLResolveInfo,
         @Arg("where") where: RearrangeColumnFindInput,
         @Arg("data") data: RearrangeColumnInput
     ): Promise<boolean> {
-        return new ProjectService(ctx, info).rearrangeColumn(where, data);
+        return this.projectSerive.rearrangeColumn(where, data);
     }
 }

@@ -1,3 +1,4 @@
+import { Service } from "typedi";
 import { LoginInput, AuthResponse, SignupInput } from "./auth.resolver";
 import PasswordUtil from "../../utils/fns/password.util";
 import { deleteProps } from "../../utils/fns/object.util";
@@ -5,8 +6,9 @@ import TokenUtil from "../../utils/fns/token.util";
 import { UserDAL } from "../user/user.dal";
 import { AuthRolesEnum } from "../user/user.schema";
 
+@Service()
 export class AuthService {
-    static async login(data: LoginInput): Promise<AuthResponse> {
+    async login(data: LoginInput): Promise<AuthResponse> {
         const { email, password } = data;
 
         const isUserExists = await new UserDAL({ email }).findOne({
@@ -43,7 +45,7 @@ export class AuthService {
         };
     }
 
-    static async signup(data: SignupInput): Promise<AuthResponse> {
+    async signup(data: SignupInput): Promise<AuthResponse> {
         const { username, email, password } = data;
 
         const isUserExists = await new UserDAL({

@@ -3,13 +3,13 @@ import { Droppable } from "react-beautiful-dnd";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { GridProps } from "@material-ui/core/Grid";
-import { Issue, Maybe } from "../../generated/graphql";
+import { ColumnFragmentFragment } from "../../generated/graphql";
 import ColumnIssueItem from "./ColumnIssueItem";
 import { RearrangeType } from "../../@types/types";
 
 type Props = {
     droppableId: string;
-    issues: Maybe<Pick<Issue, "_id" | "title" | "updatedAt">>[];
+    issues: ColumnFragmentFragment["issues"];
 };
 
 type P = {

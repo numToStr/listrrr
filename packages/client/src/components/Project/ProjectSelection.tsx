@@ -56,7 +56,7 @@ const ProjectSelection: FC<Props> = ({ projects }) => {
                     />
                 </ListPopupContext>
             </ListSelectWrapper>
-            <ListSelected list={projects} />
+            <ListSelected list={projects} emptyText="No projects..." />
         </Fragment>
     );
 };

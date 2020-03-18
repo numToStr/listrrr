@@ -1,26 +1,8 @@
 import { useMemo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { StatusColors } from "../../@types/types";
 
-type StyleProps = {
-    color: string;
-};
-
-const useStyles = makeStyles({
-    bgColor: ({ color }: StyleProps) => ({
-        backgroundColor: color,
-        color: "#fff",
-    }),
-    color: ({ color }: StyleProps) => ({
-        color,
-    }),
-});
-
-export const useStatusColor = (closed: boolean) => {
-    return useMemo(() => (closed ? "#f00c1d" : "#269f42"), [closed]);
-};
-
-export const useStatusClasses = (boolean: boolean) => {
-    const color = useStatusColor(boolean);
-
-    return useStyles({ color });
+export const useStatusColor = (closed: boolean): StatusColors => {
+    return useMemo(() => {
+        return closed ? StatusColors.CLOSED : StatusColors.OPEN;
+    }, [closed]);
 };
