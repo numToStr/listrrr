@@ -1,5 +1,5 @@
 import { ObjectType, Field, registerEnumType } from "type-graphql";
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass } from "@typegoose/typegoose";
 import { IDSchema } from "../shared/shared.schema";
 
 // don't extract this enum from this file
@@ -11,7 +11,6 @@ export enum AuthRolesEnum {
 @ObjectType({
     simpleResolvers: true,
 })
-@modelOptions({})
 export class User extends IDSchema {
     @Field()
     @prop({

@@ -1,11 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import {
-    prop,
-    getModelForClass,
-    modelOptions,
-    Ref,
-    arrayProp,
-} from "@typegoose/typegoose";
+import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { TitleSchema } from "../shared/shared.schema";
 import { Issue } from "../issue/issue.schema";
@@ -14,7 +8,6 @@ import { User } from "../user/user.schema";
 @ObjectType({
     simpleResolvers: true,
 })
-@modelOptions({})
 export class Column extends TitleSchema {
     @prop({
         required: true,

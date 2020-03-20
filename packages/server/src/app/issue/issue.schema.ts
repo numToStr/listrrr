@@ -1,11 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import {
-    prop,
-    getModelForClass,
-    Ref,
-    arrayProp,
-    modelOptions,
-} from "@typegoose/typegoose";
+import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
@@ -15,7 +9,6 @@ import { RawEdgeType, RawConnectionType } from "../../utils/schema/connection";
 @ObjectType({
     simpleResolvers: true,
 })
-@modelOptions({})
 export class Issue extends TitleAndDescSchema {
     @Field()
     @prop({
