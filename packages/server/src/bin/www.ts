@@ -1,21 +1,9 @@
 /* eslint-disable import/first */
 import "reflect-metadata";
-import { setGlobalOptions } from "@typegoose/typegoose";
-
-setGlobalOptions({
-    schemaOptions: {
-        timestamps: true,
-        minimize: true,
-        id: false,
-    },
-    globalOptions: {
-        useNewEnum: true,
-    },
-});
-
 import { PORT, MONGO_URI } from "../config/keys";
-import { server } from "../network/server";
+// db should be imported before server
 import { db } from "../network/db";
+import { server } from "../network/server";
 import debug from "../utils/fns/debug";
 
 // Responsible for bootstrapping the server and db connections
@@ -24,11 +12,14 @@ async function bootstrapApp() {
     debug.www("[MONGO] >> Connected");
 
     // When deploying to a Docker (or other type of) container using 0.0.0.0 or :: would be the easiest method for exposing the application.
-    await (await server).listen(Number(PORT), "::");
+    await server.listen(Number(PORT), "::");
     debug.www(`[SERVER]:${PORT} >> Connected`);
 
     debug.www(`[PLAYGROUND] >> http://localhost:${PORT}/playground`);
 }
+
+// This will connect to db and start-up the server
+bootstrapApp();
 
 // Common Error handler for common interruptions
 function errorHandler(error: Error | null, event: string) {
@@ -38,9 +29,6 @@ function errorHandler(error: Error | null, event: string) {
 
     throw new Error(`${event} caught`);
 }
-
-// This will connect to db and start-up the server
-bootstrapApp();
 
 process.on("beforeExit", () => errorHandler(null, "beforeExit"));
 process.on("exit", () => errorHandler(null, "exit"));
