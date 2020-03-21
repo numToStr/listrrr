@@ -12,7 +12,7 @@ async function bootstrapApp() {
     debug.www("[MONGO] >> Connected");
 
     // When deploying to a Docker (or other type of) container using 0.0.0.0 or :: would be the easiest method for exposing the application.
-    await (await server).listen(Number(PORT), "::");
+    await server.listen(Number(PORT), "::");
     debug.www(`[SERVER]:${PORT} >> Connected`);
 
     debug.www(`[PLAYGROUND] >> http://localhost:${PORT}/playground`);
