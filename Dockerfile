@@ -16,7 +16,6 @@ USER node
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
 COPY --chown=node:node tsconfig.json .
-COPY --chown=node:node packages/core/package.json packages/core/
 COPY --chown=node:node packages/server/package.json packages/server/
 
 RUN yarn install --production
@@ -38,7 +37,6 @@ FROM development-env AS build-env
 
 ENV NODE_ENV=production
 
-COPY --chown=node:node packages/core packages/core
 COPY --chown=node:node packages/server packages/server
 
 # This will build server and core, as server and core are referenced project

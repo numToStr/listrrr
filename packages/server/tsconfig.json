@@ -3,11 +3,6 @@
     "compilerOptions": {
         "outDir": "../../build/packages/server"
     },
-    "references": [
-        {
-            "path": "../core"
-        }
-    ],
     "include": ["src", "package.json"],
     "exclude": ["node_modules", "./**/*.spec.ts", "build"]
 }

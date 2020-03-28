@@ -19,7 +19,6 @@
     },
     "license": "MIT",
     "dependencies": {
-        "@listrrr/core": "^1.0.0",
         "@typegoose/typegoose": "^6.4.0",
         "apollo-server-errors": "^2.4.0",
         "bcrypt": "^4.0.1",
