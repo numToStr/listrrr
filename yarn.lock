@@ -4286,6 +4286,15 @@ class-validator@>=0.9.1:
     google-libphonenumber "^3.1.6"
     validator "12.0.0"
 
+class-validator@^0.12.0-rc.0:
+  version "0.12.0-rc.0"
+  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.12.0-rc.0.tgz#5a17ca44f215df9558b0ffe6e82fe63341485e54"
+  integrity sha512-juMzKxJbk3rkUzMFYqwrZwYFWAVWxGz6JQjLY3Mixs/H4jQxaxsMzEqzYQboo9KWaX2+qMSA1aG/cRlmUFYX/Q==
+  dependencies:
+    "@types/validator" "10.11.3"
+    google-libphonenumber "^3.1.6"
+    validator "12.0.0"
+
 clean-css@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.2.3.tgz#507b5de7d97b48ee53d84adb0160ff6216380f78"
