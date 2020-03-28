@@ -1,16 +1,16 @@
 import { ConnectionArguments, fromGlobalId } from "graphql-relay";
 
-export interface IPagingMeta {
+export interface RelayPagingMeta {
     isForwardPaging: boolean;
     isBackwardPaging: boolean;
 }
 
-export interface IPagingParameters {
+export interface RelayPagingParameter {
     offset: number;
     limit: number;
 }
 
-function checkPagingSanity(args: ConnectionArguments): IPagingMeta {
+function checkPagingSanity(args: ConnectionArguments): RelayPagingMeta {
     const { first, last, after, before } = args;
     const isForwardPaging = !!first || !!after;
     const isBackwardPaging = !!last || !!before;
@@ -51,7 +51,7 @@ function checkPagingSanity(args: ConnectionArguments): IPagingMeta {
  */
 export function getPagingParameters(
     args: ConnectionArguments
-): IPagingParameters {
+): RelayPagingParameter {
     const { isForwardPaging, isBackwardPaging } = checkPagingSanity(args);
     const { first, last, after, before } = args;
 

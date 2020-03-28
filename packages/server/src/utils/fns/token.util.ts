@@ -7,7 +7,7 @@ const secretBuffer = (): Buffer => {
     return Buffer.from(TOKEN_KEY, "base64");
 };
 
-export default class TokenUtil {
+export class TokenUtil {
     constructor(private ctx: TokenPayload) {}
 
     // For generating access token

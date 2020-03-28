@@ -1,7 +1,7 @@
 import { Service } from "typedi";
-import PasswordUtil from "../../utils/fns/password.util";
+import { PasswordUtil } from "../../utils/fns/password.util";
 import { deleteProps } from "../../utils/fns/object.util";
-import TokenUtil from "../../utils/fns/token.util";
+import { TokenUtil } from "../../utils/fns/token.util";
 import { UserDAL } from "../user/user.dal";
 import { AuthRolesEnum } from "../user/user.schema";
 import { LoginInput, AuthResponse, SignupInput } from "./auth.dto";

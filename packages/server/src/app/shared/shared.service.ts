@@ -1,14 +1,9 @@
 import { Inject, Service } from "typedi";
-import {
-    FindEntityInput,
-    ClosedInput,
-    EntityType,
-    Entity,
-} from "./shared.resolver";
 import { IssueDAL } from "../issue/issue.dal";
 import { ProjectDAL } from "../project/project.dal";
 import { TitleAndDescSchema } from "./shared.schema";
 import { TokenPayload } from "../../@types/types";
+import { FindEntityInput, ClosedInput, EntityType, Entity } from "./shared.dto";
 
 @Service()
 export class SharedService {

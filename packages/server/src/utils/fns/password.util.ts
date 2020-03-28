@@ -1,6 +1,6 @@
 import { genSaltSync, hashSync, compare } from "bcryptjs";
 
-export default class PasswordUtil {
+export class PasswordUtil {
     constructor(private password: string) {}
 
     // For hashing a password

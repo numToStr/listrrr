@@ -4,18 +4,18 @@ import { PORT, MONGO_URI } from "../config/keys";
 // db should be imported before server
 import { db } from "../network/db";
 import { server } from "../network/server";
-import debug from "../utils/fns/debug";
+import { DebugUtil } from "../utils/fns/debug";
 
 // Responsible for bootstrapping the server and db connections
 async function bootstrapApp() {
     await db(MONGO_URI);
-    debug.www("[MONGO] >> Connected");
+    DebugUtil.www("[MONGO] >> Connected");
 
     // When deploying to a Docker (or other type of) container using 0.0.0.0 or :: would be the easiest method for exposing the application.
     await server.listen(Number(PORT), "::");
-    debug.www(`[SERVER]:${PORT} >> Connected`);
+    DebugUtil.www(`[SERVER]:${PORT} >> Connected`);
 
-    debug.www(`[PLAYGROUND] >> http://localhost:${PORT}/playground`);
+    DebugUtil.www(`[PLAYGROUND] >> http://localhost:${PORT}/playground`);
 }
 
 // This will connect to db and start-up the server

@@ -8,4 +8,4 @@ class Debug {
     }
 }
 
-export default new Debug();
+export const DebugUtil = new Debug();
