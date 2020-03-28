@@ -3,7 +3,6 @@ import { PasswordUtil } from "../../utils/fns/password.util";
 import { deleteProps } from "../../utils/fns/object.util";
 import { TokenUtil } from "../../utils/fns/token.util";
 import { UserDAL } from "../user/user.dal";
-import { AuthRolesEnum } from "../user/user.schema";
 import { LoginInput, AuthResponse, SignupInput } from "./auth.dto";
 
 @Service()
@@ -30,18 +29,14 @@ export class AuthService {
 
         deleteProps(isUserExists, ["password"]);
 
-        const role = AuthRolesEnum.USER;
-
         const token = TokenUtil.generate({
             ID: isUserExists._id.toHexString(),
-            ROLE: role,
         });
 
         return {
             user: isUserExists,
             auth: {
                 token,
-                role,
             },
         };
     }
@@ -69,25 +64,20 @@ export class AuthService {
 
         const hashed = await PasswordUtil.hash(password);
 
-        const role = AuthRolesEnum.USER;
-
         const user = await new UserDAL().create({
             username,
             email,
             password: hashed,
-            role,
         });
 
         const token = TokenUtil.generate({
             ID: user._id.toHexString(),
-            ROLE: role,
         });
 
         return {
             user,
             auth: {
                 token,
-                role,
             },
         };
     }

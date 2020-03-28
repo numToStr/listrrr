@@ -1,5 +1,4 @@
 import { Resolver, Authorized, Mutation, Arg } from "type-graphql";
-import { AuthRolesEnum } from "../user/user.schema";
 import { TitleAndDescSchema } from "./shared.schema";
 import { SharedService } from "./shared.service";
 import { FindEntityInput, ClosedInput, Entity } from "./shared.dto";
@@ -8,7 +7,7 @@ import { FindEntityInput, ClosedInput, Entity } from "./shared.dto";
 export class SharedResolver {
     constructor(private sharedService: SharedService) {}
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Boolean, {
         nullable: true,
         description: "For closing/reopening a particular issue/project",
@@ -20,7 +19,7 @@ export class SharedResolver {
         return this.sharedService.closedOrOpen(where, data);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Entity, {
         nullable: true,
         description:

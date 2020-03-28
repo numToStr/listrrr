@@ -15,18 +15,12 @@ export type Scalars = {
 
 export type AuthInfo = {
   token: Scalars['String'];
-  role: AuthRoles;
 };
 
 export type AuthResponse = {
   user: User;
   auth: AuthInfo;
 };
-
-export enum AuthRoles {
-  USER = 'USER',
-  ADMIN = 'ADMIN'
-}
 
 export type ClosedInput = {
   closed: Scalars['Boolean'];
@@ -320,7 +314,7 @@ export type User = {
 
 export type UserFragmentFragment = Pick<User, '_id' | 'username' | 'email'>;
 
-export type AuthFragmentFragment = { user: UserFragmentFragment, auth: Pick<AuthInfo, 'token' | 'role'> };
+export type AuthFragmentFragment = { user: UserFragmentFragment, auth: Pick<AuthInfo, 'token'> };
 
 export type LoginMutationVariables = {
   data: LoginInput;
@@ -481,7 +475,6 @@ export const AuthFragmentFragmentDoc = gql`
   }
   auth {
     token
-    role
   }
 }
     ${UserFragmentFragmentDoc}`;

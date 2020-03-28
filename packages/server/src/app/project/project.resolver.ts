@@ -11,7 +11,7 @@ import {
 } from "type-graphql";
 import { Types } from "mongoose";
 import { Project, ProjectConnection } from "./project.schema";
-import { User, AuthRolesEnum } from "../user/user.schema";
+import { User } from "../user/user.schema";
 import { AppContext } from "../../utils/schema/context";
 import { Column } from "../column/column.schema";
 import {
@@ -46,7 +46,7 @@ export class ProjectConnectionResolver {
     }
 
     // Resolvers ==========================================================
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => ProjectConnection)
     projectConnections(
         @Selections(aliases) select: MongoSelectionSet,
@@ -79,7 +79,7 @@ export class ProjectResolver {
     }
 
     // Resolvers ==========================================================
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => [Project], {
         nullable: "items",
     })
@@ -90,7 +90,7 @@ export class ProjectResolver {
         return this.projectSerive.projects(select, filters);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => Project, {
         nullable: true,
     })
@@ -101,13 +101,13 @@ export class ProjectResolver {
         return this.projectSerive.project(_id, select);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Project)
     createProject(@Arg("data") data: CreateProjectInput): Promise<Project> {
         return this.projectSerive.createProject(data);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Boolean)
     rearrangeColumn(
         @Arg("where") where: RearrangeColumnFindInput,

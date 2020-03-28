@@ -14,7 +14,7 @@ import { Issue, IssueConnection } from "./issue.schema";
 import { Project } from "../project/project.schema";
 import { FindInput, Filters } from "../shared/shared.schema";
 import { AppContext } from "../../utils/schema/context";
-import { AuthRolesEnum, User } from "../user/user.schema";
+import { User } from "../user/user.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
 import { IssueService } from "./issue.service";
 import { Selections } from "../../utils/decorator/selections.decorator";
@@ -45,7 +45,7 @@ export class IssueConnectionResolver {
     }
 
     // Resolvers ==========================================================
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => IssueConnection)
     issueConnection(
         @Selections(aliases) select: MongoSelectionSet,
@@ -78,7 +78,7 @@ export class IssueResolver {
     }
 
     // Resolvers ==========================================================
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => [Issue], {
         nullable: "items",
     })
@@ -89,7 +89,7 @@ export class IssueResolver {
         return this.issueService.issues(select, filters);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => Issue, {
         nullable: true,
     })
@@ -100,13 +100,13 @@ export class IssueResolver {
         return this.issueService.issue(_id, select);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Issue)
     createIssue(@Arg("data") data: CreateIssueInput): Promise<Issue> {
         return this.issueService.createIssue(data);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Boolean)
     updateIssueProjects(
         @Arg("where") where: FindInput,
@@ -115,7 +115,7 @@ export class IssueResolver {
         return this.issueService.updateIssueProjects(where, data);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Issue, {
         nullable: true,
     })

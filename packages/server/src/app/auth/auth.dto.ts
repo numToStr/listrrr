@@ -1,5 +1,5 @@
 import { InputType, Field, ObjectType } from "type-graphql";
-import { User, AuthRolesEnum } from "../user/user.schema";
+import { User } from "../user/user.schema";
 
 // Input Types
 
@@ -26,9 +26,6 @@ export class SignupInput extends LoginInput implements Partial<User> {
 class AuthInfo {
     @Field()
     token: string;
-
-    @Field(() => AuthRolesEnum)
-    role: AuthRolesEnum;
 }
 
 @ObjectType({

@@ -11,7 +11,6 @@ import { Types } from "mongoose";
 import { Column } from "./column.schema";
 import { Issue } from "../issue/issue.schema";
 import { AppContext } from "../../utils/schema/context";
-import { AuthRolesEnum } from "../user/user.schema";
 import { ColumnService } from "./column.service";
 import { RearrangeIssueFindInput, RearrangeIssueInput } from "./column.dto";
 
@@ -29,7 +28,7 @@ export class ColumnResolver {
         return ctx.issueLoader.loadMany(issueIDs as Types.ObjectId[]);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Boolean)
     rearrangeIssue(
         @Arg("where") where: RearrangeIssueFindInput,

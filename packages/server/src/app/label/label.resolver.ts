@@ -1,13 +1,12 @@
 import { Resolver, Query, Authorized } from "type-graphql";
 import { Label } from "./label.schema";
 import { LabelService } from "./label.service";
-import { AuthRolesEnum } from "../user/user.schema";
 
 @Resolver()
 export class LabelResolver {
     constructor(private labelService: LabelService) {}
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => [Label], {
         nullable: "items",
     })

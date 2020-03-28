@@ -6,7 +6,6 @@ import {
     GraphQLResolveInfo,
     FragmentSpreadNode,
 } from "graphql";
-import { AuthRolesEnum } from "../app/user/user.schema";
 
 export type ErrorHandler = (error: Error | null, event: string) => never;
 
@@ -40,7 +39,6 @@ export interface DALOptions {
 
 export interface TokenPayload {
     ID: string;
-    ROLE: AuthRolesEnum;
 }
 
 export type DALQuery = {
