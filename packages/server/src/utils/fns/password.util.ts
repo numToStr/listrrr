@@ -1,24 +1,17 @@
-import { genSaltSync, hashSync, compare } from "bcryptjs";
+import { genSalt, hash, compare } from "bcrypt";
 
-export class PasswordUtil {
-    constructor(private password: string) {}
-
+class PasswordUtil$ {
     // For hashing a password
-    hash(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            try {
-                const salt = genSaltSync(10);
-                const hash = hashSync(this.password, salt);
+    async hash(password: string): Promise<string> {
+        const salt = await genSalt(10);
 
-                resolve(hash);
-            } catch (err) {
-                reject(err);
-            }
-        });
+        return hash(password, salt);
     }
 
     // For verifying password
-    verify(hash: string) {
-        return compare(this.password, hash);
+    verify(password: string, hashed: string): Promise<boolean> {
+        return compare(password, hashed);
     }
 }
+
+export const PasswordUtil = new PasswordUtil$();

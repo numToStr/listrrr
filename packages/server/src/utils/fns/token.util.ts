@@ -7,19 +7,17 @@ const secretBuffer = (): Buffer => {
     return Buffer.from(TOKEN_KEY, "base64");
 };
 
-export class TokenUtil {
-    constructor(private ctx: TokenPayload) {}
-
+class TokenUtil$ {
     // For generating access token
-    generate(): string {
+    generate(ctx: TokenPayload): string {
         const $secret = secretBuffer();
 
-        return jwt.sign(this.ctx, $secret, {
+        return jwt.sign(ctx, $secret, {
             expiresIn: TOKEN_EXP,
         });
     }
 
-    static verify(token: string): TokenPayload {
+    verify(token: string): TokenPayload {
         try {
             const $secret = secretBuffer();
 
@@ -31,3 +29,5 @@ export class TokenUtil {
         }
     }
 }
+
+export const TokenUtil = new TokenUtil$();

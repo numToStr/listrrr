@@ -19,7 +19,8 @@ export class AuthService {
             throw new Error("Invalid email or password");
         }
 
-        const isPwMatched = await new PasswordUtil(password).verify(
+        const isPwMatched = await PasswordUtil.verify(
+            password,
             isUserExists.password
         );
 
@@ -31,10 +32,10 @@ export class AuthService {
 
         const role = AuthRolesEnum.USER;
 
-        const token = new TokenUtil({
+        const token = TokenUtil.generate({
             ID: isUserExists._id.toHexString(),
             ROLE: role,
-        }).generate();
+        });
 
         return {
             user: isUserExists,
@@ -66,7 +67,7 @@ export class AuthService {
             throw new Error(msg("username"));
         }
 
-        const hashed = await new PasswordUtil(password).hash();
+        const hashed = await PasswordUtil.hash(password);
 
         const role = AuthRolesEnum.USER;
 
@@ -77,10 +78,10 @@ export class AuthService {
             role,
         });
 
-        const token = new TokenUtil({
+        const token = TokenUtil.generate({
             ID: user._id.toHexString(),
             ROLE: role,
-        }).generate();
+        });
 
         return {
             user,
