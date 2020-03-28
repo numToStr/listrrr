@@ -6,25 +6,20 @@ import {
     Arg,
     Ctx,
     Authorized,
-    InputType,
-    Field,
     Mutation,
     Args,
 } from "type-graphql";
 import { Types } from "mongoose";
 import { Issue, IssueConnection } from "./issue.schema";
 import { Project } from "../project/project.schema";
-import {
-    FindInput,
-    TitleAndDescSchema,
-    Filters,
-} from "../shared/shared.schema";
+import { FindInput, Filters } from "../shared/shared.schema";
 import { AppContext } from "../../utils/schema/context";
 import { AuthRolesEnum, User } from "../user/user.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
 import { IssueService } from "./issue.service";
 import { Selections } from "../../utils/decorator/selections.decorator";
 import { MongoSelectionSet } from "../../@types/types";
+import { UpdateIssueProjectInput, CreateIssueInput } from "./issue.dto";
 
 // Used for getting mongo select
 // by parsing GQL AST
@@ -33,23 +28,6 @@ const aliases = {
     createdBy: "userID",
     projects: "projectIDs",
 };
-
-@InputType()
-export class CreateIssueInput extends TitleAndDescSchema {
-    @Field(() => [Types.ObjectId], {
-        nullable: "items",
-        description: `Project IDs for the issue which it belongs`,
-    })
-    projectIDs: Array<Types.ObjectId>;
-}
-
-@InputType()
-export class UpdateIssueProjectInput {
-    @Field(() => [Types.ObjectId], {
-        nullable: "items",
-    })
-    projectIDs: Array<Types.ObjectId>;
-}
 
 @Resolver(() => IssueConnection)
 export class IssueConnectionResolver {

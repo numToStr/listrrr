@@ -6,8 +6,6 @@ import {
     Root,
     Arg,
     Mutation,
-    Field,
-    InputType,
     Authorized,
     Args,
 } from "type-graphql";
@@ -18,34 +16,19 @@ import { AppContext } from "../../utils/schema/context";
 import { Column } from "../column/column.schema";
 import {
     FindInput,
-    TitleAndDescSchema,
     RearrangeColumnInput,
-    ColumnIDInput,
     Filters,
 } from "../shared/shared.schema";
 import { ConnectionArgsType } from "../../utils/schema/connection";
 import { ProjectService } from "./project.service";
 import { Selections } from "../../utils/decorator/selections.decorator";
 import { MongoSelectionSet } from "../../@types/types";
+import { RearrangeColumnFindInput, CreateProjectInput } from "./project.dto";
 
 const aliases = {
     createdBy: "userID",
     columns: "columnIDs",
 };
-
-@InputType()
-export class CreateProjectInput extends TitleAndDescSchema {
-    @Field({
-        description: `Template ID for the project`,
-    })
-    templateID: Types.ObjectId;
-}
-
-@InputType()
-export class RearrangeColumnFindInput extends ColumnIDInput {
-    @Field()
-    projectID: Types.ObjectId;
-}
 
 @Resolver(() => ProjectConnection)
 export class ProjectConnectionResolver {

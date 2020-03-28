@@ -6,7 +6,7 @@ import { IssueDAL } from "./issue.dal";
 import { TokenPayload, MongoSelectionSet } from "../../@types/types";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 import { Filters, FindInput } from "../shared/shared.schema";
-import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.resolver";
+import { CreateIssueInput, UpdateIssueProjectInput } from "./issue.dto";
 import { ProjectDAL } from "../project/project.dal";
 import { ColumnDAL, OK } from "../column/column.dal";
 import { ConnectionArgsType } from "../../utils/schema/connection";

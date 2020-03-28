@@ -1,47 +1,8 @@
-import {
-    Resolver,
-    Authorized,
-    Mutation,
-    InputType,
-    Field,
-    Arg,
-    createUnionType,
-    registerEnumType,
-} from "type-graphql";
+import { Resolver, Authorized, Mutation, Arg } from "type-graphql";
 import { AuthRolesEnum } from "../user/user.schema";
-import { Issue } from "../issue/issue.schema";
-import { FindInput, TitleAndDescSchema } from "./shared.schema";
-import { Project } from "../project/project.schema";
+import { TitleAndDescSchema } from "./shared.schema";
 import { SharedService } from "./shared.service";
-
-export enum EntityType {
-    ISSUE = "ISSUE",
-    PROJECT = "PROJECT",
-}
-
-@InputType()
-export class ClosedInput {
-    @Field()
-    closed: boolean;
-}
-
-@InputType()
-export class FindEntityInput extends FindInput {
-    @Field(() => EntityType)
-    type: EntityType;
-}
-
-export const Entity = createUnionType({
-    name: "EntityUnion",
-    types: () => [Issue, Project],
-    resolveType: value => {
-        if ("templateID" in value) {
-            return Project;
-        }
-
-        return Issue;
-    },
-});
+import { FindEntityInput, ClosedInput, Entity } from "./shared.dto";
 
 @Resolver()
 export class SharedResolver {
@@ -72,8 +33,3 @@ export class SharedResolver {
         return this.sharedService.updateTitleAndDescription(where, data);
     }
 }
-
-registerEnumType(EntityType, {
-    name: "EntityType",
-    description: "Roles for the authenticated users",
-});

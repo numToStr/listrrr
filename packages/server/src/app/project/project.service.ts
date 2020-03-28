@@ -7,10 +7,7 @@ import { Project, ProjectConnection } from "./project.schema";
 import { Filters, RearrangeColumnInput } from "../shared/shared.schema";
 import { parseQueryFilters } from "../../utils/fns/object.util";
 import { ProjectDAL } from "./project.dal";
-import {
-    CreateProjectInput,
-    RearrangeColumnFindInput,
-} from "./project.resolver";
+import { CreateProjectInput, RearrangeColumnFindInput } from "./project.dto";
 import { TemplateDAL } from "../template/template.dal";
 import { ColumnDAL } from "../column/column.dal";
 import { ConnectionArgsType } from "../../utils/schema/connection";
