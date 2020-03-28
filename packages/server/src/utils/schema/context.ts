@@ -29,7 +29,6 @@ export class AppContext {
             this.USER = decoded;
         }
 
-        this.container.set("Context", this);
         this.container.set("USER", this.USER);
     }
 }
