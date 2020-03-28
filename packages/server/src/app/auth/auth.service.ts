@@ -1,10 +1,9 @@
 import { Service } from "typedi";
-import { LoginInput, AuthResponse, SignupInput } from "./auth.resolver";
-import PasswordUtil from "../../utils/fns/password.util";
+import { PasswordUtil } from "../../utils/fns/password.util";
 import { deleteProps } from "../../utils/fns/object.util";
-import TokenUtil from "../../utils/fns/token.util";
+import { TokenUtil } from "../../utils/fns/token.util";
 import { UserDAL } from "../user/user.dal";
-import { AuthRolesEnum } from "../user/user.schema";
+import { LoginInput, AuthResponse, SignupInput } from "./auth.dto";
 
 @Service()
 export class AuthService {
@@ -19,7 +18,8 @@ export class AuthService {
             throw new Error("Invalid email or password");
         }
 
-        const isPwMatched = await new PasswordUtil(password).verify(
+        const isPwMatched = await PasswordUtil.verify(
+            password,
             isUserExists.password
         );
 
@@ -29,18 +29,14 @@ export class AuthService {
 
         deleteProps(isUserExists, ["password"]);
 
-        const role = AuthRolesEnum.USER;
-
-        const token = new TokenUtil({
+        const token = TokenUtil.generate({
             ID: isUserExists._id.toHexString(),
-            ROLE: role,
-        }).generate();
+        });
 
         return {
             user: isUserExists,
             auth: {
                 token,
-                role,
             },
         };
     }
@@ -66,27 +62,22 @@ export class AuthService {
             throw new Error(msg("username"));
         }
 
-        const hashed = await new PasswordUtil(password).hash();
-
-        const role = AuthRolesEnum.USER;
+        const hashed = await PasswordUtil.hash(password);
 
         const user = await new UserDAL().create({
             username,
             email,
             password: hashed,
-            role,
         });
 
-        const token = new TokenUtil({
+        const token = TokenUtil.generate({
             ID: user._id.toHexString(),
-            ROLE: role,
-        }).generate();
+        });
 
         return {
             user,
             auth: {
                 token,
-                role,
             },
         };
     }

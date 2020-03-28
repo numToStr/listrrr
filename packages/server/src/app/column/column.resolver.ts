@@ -5,29 +5,14 @@ import {
     Ctx,
     Mutation,
     Authorized,
-    InputType,
-    Field,
     Arg,
 } from "type-graphql";
 import { Types } from "mongoose";
 import { Column } from "./column.schema";
 import { Issue } from "../issue/issue.schema";
 import { AppContext } from "../../utils/schema/context";
-import { AuthRolesEnum } from "../user/user.schema";
 import { ColumnService } from "./column.service";
-import { ColumnIDInput, RearrangeColumnInput } from "../shared/shared.schema";
-
-@InputType()
-export class RearrangeIssueFindInput extends ColumnIDInput {
-    @Field()
-    issueID: Types.ObjectId;
-}
-
-@InputType()
-export class RearrangeIssueInput extends RearrangeColumnInput {
-    @Field()
-    destinationColumnID: Types.ObjectId;
-}
+import { RearrangeIssueFindInput, RearrangeIssueInput } from "./column.dto";
 
 @Resolver(() => Column)
 export class ColumnResolver {
@@ -36,16 +21,16 @@ export class ColumnResolver {
     @FieldResolver(() => [Issue], {
         nullable: "items",
     })
-    async issues(
+    issues(
         @Ctx() ctx: AppContext,
         @Root() { issueIDs = [] }: Column
     ): Promise<(Issue | Error)[]> {
         return ctx.issueLoader.loadMany(issueIDs as Types.ObjectId[]);
     }
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Mutation(() => Boolean)
-    async rearrangeIssue(
+    rearrangeIssue(
         @Arg("where") where: RearrangeIssueFindInput,
         @Arg("data") data: RearrangeIssueInput
     ): Promise<boolean> {

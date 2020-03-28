@@ -16,7 +16,7 @@
         "server": "yarn workspace @listrrr/server dev",
         "server:prod": "yarn workspace @listrrr/server start",
         "build:client": "yarn workspace @listrrr/client build",
-        "build": "yarn workspace @listrrr/server build",
+        "build:server": "yarn workspace @listrrr/server build",
         "gql:gen": "yarn --cwd packages/client gql:gen"
     },
     "homepage": "https://listrrr.vikasraj.dev",

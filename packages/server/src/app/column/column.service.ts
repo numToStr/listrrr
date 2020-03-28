@@ -1,10 +1,7 @@
 import { Service, Inject } from "typedi";
-import {
-    RearrangeIssueFindInput,
-    RearrangeIssueInput,
-} from "./column.resolver";
 import { ColumnDAL } from "./column.dal";
 import { TokenPayload } from "../../@types/types";
+import { RearrangeIssueFindInput, RearrangeIssueInput } from "./column.dto";
 
 @Service()
 export class ColumnService {

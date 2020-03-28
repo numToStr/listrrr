@@ -5,8 +5,6 @@ node_modules
 !./yarn.lock
 !./tsconfig.json
 
-!./packages/core/*
-
 !./packages/server/src
 !./packages/server/package.json
 !./packages/server/tsconfig.json

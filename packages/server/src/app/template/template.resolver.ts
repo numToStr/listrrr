@@ -1,7 +1,6 @@
 import { Query, Resolver, Authorized } from "type-graphql";
 import { Template } from "./template.schema";
 import { TemplateService } from "./template.service";
-import { AuthRolesEnum } from "../user/user.schema";
 import { Selections } from "../../utils/decorator/selections.decorator";
 import { MongoSelectionSet } from "../../@types/types";
 
@@ -9,7 +8,7 @@ import { MongoSelectionSet } from "../../@types/types";
 export class TemplateResolver {
     constructor(private templateService: TemplateService) {}
 
-    @Authorized<AuthRolesEnum[]>([AuthRolesEnum.USER])
+    @Authorized()
     @Query(() => [Template], {
         nullable: "items",
     })
