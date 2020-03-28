@@ -40,7 +40,7 @@ ENV NODE_ENV=production
 COPY --chown=node:node packages/server packages/server
 
 # This will build server and core, as server and core are referenced project
-RUN yarn build
+RUN yarn build:server
 
 # ---------------------------------------------
 # This stage is the final app which will be run on our server
