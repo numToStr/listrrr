@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -9,9 +9,8 @@ import {
 } from "@material-ui/core";
 import ThemeColorList from "./ThemeColorList";
 import ThemeBgColorList from "./ThemeBgColorList";
-import { memo } from "react";
 
-type Props = DialogProps;
+type Props = Omit<DialogProps, "children">;
 
 const ThemeDailog: FC<Props> = props => {
     return (
