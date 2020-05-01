@@ -9,7 +9,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** Mongo object id scalar type */
   ObjectId: any;
 };
 
@@ -35,16 +37,19 @@ export type Column = {
 export type CreateIssueInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  /** Project IDs for the issue which it belongs */
   projectIDs: Array<Maybe<Scalars['ObjectId']>>;
 };
 
 export type CreateProjectInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  /** Template ID for the project */
   templateID: Scalars['ObjectId'];
 };
 
 
+/** Roles for the authenticated users */
 export enum EntityType {
   ISSUE = 'ISSUE',
   PROJECT = 'PROJECT'
@@ -103,7 +108,9 @@ export type LoginInput = {
 };
 
 export type Mutation = {
+  /** For logging in user */
   login: AuthResponse;
+  /** For signing up new users */
   signup: AuthResponse;
   rearrangeIssue: Scalars['Boolean'];
   createIssue: Issue;
@@ -111,7 +118,9 @@ export type Mutation = {
   deleteIssue?: Maybe<Issue>;
   createProject: Project;
   rearrangeColumn: Scalars['Boolean'];
+  /** For closing/reopening a particular issue/project */
   closeOrOpen?: Maybe<Scalars['Boolean']>;
+  /** For updating title and description of a particular issue/project */
   updateTitleAndDescription?: Maybe<EntityUnion>;
 };
 
@@ -279,12 +288,14 @@ export type SignupInput = {
   username: Scalars['String'];
 };
 
+/** For specifying sorting options */
 export enum Sort {
   CREATED_ASC = 'CREATED_ASC',
   CREATED_DESC = 'CREATED_DESC',
   UPDATED_DESC = 'UPDATED_DESC'
 }
 
+/** For specifying a enitity status */
 export enum Status {
   OPEN = 'OPEN',
   CLOSED = 'CLOSED'
@@ -586,7 +597,7 @@ export const MeDocument = gql`
  * __useMeQuery__
  *
  * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -618,7 +629,7 @@ export const IssuesDocument = gql`
  * __useIssuesQuery__
  *
  * To run a query within a React component, call `useIssuesQuery` and pass it any options that fit your needs.
- * When your component renders, `useIssuesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useIssuesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -655,7 +666,7 @@ export const IssueDocument = gql`
  * __useIssueQuery__
  *
  * To run a query within a React component, call `useIssueQuery` and pass it any options that fit your needs.
- * When your component renders, `useIssueQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useIssueQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -724,7 +735,7 @@ export const ProjectsDocument = gql`
  * __useProjectsQuery__
  *
  * To run a query within a React component, call `useProjectsQuery` and pass it any options that fit your needs.
- * When your component renders, `useProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -759,7 +770,7 @@ export const ProjectsFilterDocument = gql`
  * __useProjectsFilterQuery__
  *
  * To run a query within a React component, call `useProjectsFilterQuery` and pass it any options that fit your needs.
- * When your component renders, `useProjectsFilterQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useProjectsFilterQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -796,7 +807,7 @@ ${ColumnFragmentFragmentDoc}`;
  * __useProjectQuery__
  *
  * To run a query within a React component, call `useProjectQuery` and pass it any options that fit your needs.
- * When your component renders, `useProjectQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useProjectQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -994,7 +1005,7 @@ export const TemplatesDocument = gql`
  * __useTemplatesQuery__
  *
  * To run a query within a React component, call `useTemplatesQuery` and pass it any options that fit your needs.
- * When your component renders, `useTemplatesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useTemplatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1060,7 +1071,7 @@ export const LabelsDocument = gql`
  * __useLabelsQuery__
  *
  * To run a query within a React component, call `useLabelsQuery` and pass it any options that fit your needs.
- * When your component renders, `useLabelsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useLabelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
