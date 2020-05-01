@@ -23,8 +23,6 @@ export class Column extends TitleSchema {
 
     @arrayProp({
         items: Types.ObjectId,
-    })
-    @prop({
         // ref is `string` to prevent circular dependencies
         ref: "Issue",
     })

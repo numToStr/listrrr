@@ -28,8 +28,6 @@ export class Issue extends TitleAndDescSchema {
 
     @arrayProp({
         items: Types.ObjectId,
-    })
-    @prop({
         ref: "Project",
     })
     projectIDs?: Ref<Project>[];
