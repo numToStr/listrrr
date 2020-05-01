@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 import { useDark } from "../utils/hooks/useDark";
 import FaviconDark from "../assets/images/favicon-dark.png";
 import FaviconLight from "../assets/images/favicon-light.png";
