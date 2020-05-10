@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { useQuery, gql, ApolloCache } from "@apollo/client";
+import { useQuery, ApolloCache } from "@apollo/client";
 import {
     useLoginMutation,
     AuthFragmentFragment,
@@ -71,16 +71,17 @@ export const useISignupMutation = () => {
     });
 };
 
-const IsLoggedIn = gql`
-    query IsLoggedIn {
-        me @client {
-            _id
-        }
-    }
-`;
+// TODO: Need to fix this
+// const IsLoggedIn = gql`
+//     query IsLoggedIn {
+//         me @client {
+//             _id
+//         }
+//     }
+// `;
 
 export const useIsLoggedIn = () => {
-    return useQuery<MeQuery>(IsLoggedIn);
+    return useQuery<MeQuery>(MeDocument);
 };
 
 export const useILogout = () => {

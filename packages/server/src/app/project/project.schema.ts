@@ -35,8 +35,6 @@ export class Project extends TitleAndDescSchema {
 
     @arrayProp({
         items: Types.ObjectId,
-    })
-    @prop({
         required: true,
         ref: "Column",
     })
