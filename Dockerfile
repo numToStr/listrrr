@@ -3,15 +3,17 @@
 # This stage responsible for installing core and server packages
 # Only PROUDUCTION package will be installed
 # As it will be used as a base image to run our production app
-FROM node:lts-slim AS production-env
+FROM node:12.16.1 AS base-env
 
-LABEL maintainer="vkasraj"
-LABEL twitter="@numToStr"
+LABEL maintainer="numToStr" twitter="@numToStr"
 
 RUN mkdir -p /usr/src/app && chown -R node:node /usr/src/app
 WORKDIR /usr/src/app
 
 USER node
+
+# ---------------------------------------------
+FROM base-env AS prod-env
 
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
@@ -22,7 +24,7 @@ RUN yarn install --production
 
 # ---------------------------------------------
 # This stage is responsible for install development deps on top of production deps 
-FROM production-env AS development-env
+FROM prod-env AS dev-env
 
 RUN yarn install
 
@@ -33,7 +35,7 @@ RUN yarn install
 
 # ---------------------------------------------
 # This stage is responsible for building our core, server
-FROM development-env AS build-env
+FROM dev-env AS build-env
 
 ENV NODE_ENV=production
 
@@ -44,7 +46,7 @@ RUN yarn build:server
 
 # ---------------------------------------------
 # This stage is the final app which will be run on our server
-FROM production-env AS final-env
+FROM prod-env AS final-env
 
 ENV NODE_ENV=production
 ENV NODE_DEBUG=www
