@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
+import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { TitleSchema } from "../shared/shared.schema";
 import { Issue } from "../issue/issue.schema";
@@ -21,8 +21,8 @@ export class Column extends TitleSchema {
     })
     issues: Issue[];
 
-    @arrayProp({
-        items: Types.ObjectId,
+    @prop({
+        type: Types.ObjectId,
         // ref is `string` to prevent circular dependencies
         ref: "Issue",
     })

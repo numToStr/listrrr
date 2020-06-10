@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
+import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Project } from "../project/project.schema";
@@ -26,8 +26,8 @@ export class Issue extends TitleAndDescSchema {
     @Field(() => User)
     createdBy: User;
 
-    @arrayProp({
-        items: Types.ObjectId,
+    @prop({
+        type: Types.ObjectId,
         ref: "Project",
     })
     projectIDs?: Ref<Project>[];

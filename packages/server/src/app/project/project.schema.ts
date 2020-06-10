@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { prop, getModelForClass, Ref, arrayProp } from "@typegoose/typegoose";
+import { prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { User } from "../user/user.schema";
 import { Template } from "../template/template.schema";
@@ -33,8 +33,8 @@ export class Project extends TitleAndDescSchema {
     })
     templateID: Ref<Template>;
 
-    @arrayProp({
-        items: Types.ObjectId,
+    @prop({
+        type: Types.ObjectId,
         required: true,
         ref: "Column",
     })
