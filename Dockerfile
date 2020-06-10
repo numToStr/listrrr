@@ -3,7 +3,7 @@
 # This stage responsible for installing core and server packages
 # Only PROUDUCTION package will be installed
 # As it will be used as a base image to run our production app
-FROM node:12.16.1 AS base-env
+FROM node:12.17.0 AS base-env
 
 LABEL maintainer="numToStr" twitter="@numToStr"
 
