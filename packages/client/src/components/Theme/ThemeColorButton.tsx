@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ palette: { getContrastText } }) => ({
     },
 }));
 
-type Props = FabProps & P;
+type Props = Omit<FabProps, "children"> & P;
 
 const ThemeColorButton: FC<Props> = ({ themeColor, ...props }) => {
     const isMobile = useMediaQuery<Theme>(({ breakpoints: b }) => b.down("xs"));
