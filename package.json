@@ -28,5 +28,8 @@
     ],
     "devDependencies": {
         "rimraf": "^3.0.2"
+    },
+    "resolutions": {
+        "graphql": "^15.3.0"
     }
 }
